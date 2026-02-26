@@ -61,8 +61,8 @@ export default function Navbar() {
                         <Link href="/contact" className="hover:text-black transition-colors hidden sm:block">
                             Contact
                         </Link>
-                        <Link href="/sign-up" className="px-4 py-2 bg-yellow-500 text-black rounded-full font-bold hover:bg-gray-800 transition-colors hidden sm:inline-block">
-                            Join Now
+                        <Link href="https://member.strangermingle.com/login" className="px-4 py-2 bg-yellow-500 text-black rounded-full font-bold hover:bg-gray-800 transition-colors hidden sm:inline-block">
+                            Member Login
                         </Link>
                     </div>
 

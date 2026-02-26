@@ -5,13 +5,13 @@ import EventCard from "@/components/EventCard";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Stranger Meetups & Social Networking Events in Pune, Hyderabad & Bengaluru | Stranger Mingle",
+    title: "Stranger Meetups & Weekend Events in Pune, Hyderabad & Bengaluru | Stranger Mingle",
     description: "Join authentic offline weekend stranger meetups for meaningful friendships and real conversations. Community-driven social networking events across India. Safe, verified, curated experiences every weekend. No dating. No selling. Build genuine connections through in-person meetups.",
     keywords: "Stranger Meetups & Social Networking Events, weekend social networking Pune, stranger meetup Hyderabad, community events Bengaluru, make friends offline Mumbai, real-life networking events, authentic social gatherings India, young professionals meetup, offline friendship events, verified social events India, community building meetups, weekend networking events, offline stranger meetup India, in-person social events, meaningful connections India",
     authors: [{ name: "Stranger Mingle Team" }],
     creator: "Stranger Mingle",
     publisher: "Stranger Mingle",
-    category: "Social Events & Offline Networking",
+    category: "Weekend Events & Offline Meetups",
     classification: "Offline Community Events and Social Networking",
 
     openGraph: {
@@ -26,14 +26,14 @@ export const metadata: Metadata = {
                 url: 'https://www.strangermingle.com/og-events-image.jpg',
                 width: 1200,
                 height: 630,
-                alt: 'Stranger Mingle - Offline Weekend Meetup Events & Social Networking Across India',
+                alt: 'Stranger Mingle - Offline Weekend Events & Meetups Across India',
             }
         ],
     },
 
     twitter: {
         card: 'summary_large_image',
-        title: "Offline Weekend Meetup Events: Authentic Social Networking & Community Building | India",
+        title: "Weekend Events: Authentic Social Meetups & Community Building | India",
         description: "Join authentic offline weekend meetups for meaningful friendships and real conversations. Community-driven social networking events across India. Safe, verified experiences every weekend.",
         images: ['https://www.strangermingle.com/twitter-events-card.jpg'],
         site: '@StrangerMingle',
@@ -77,13 +77,13 @@ export default async function EventsPage() {
 
                 <div className="relative max-w-7xl mx-auto text-center">
                     <div className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 mb-6">
-                        <span className="text-white/90 text-sm font-semibold">🎉 Authentic Offline Meetup Events Every Weekend</span>
+                        <span className="text-white/90 text-sm font-semibold">🎉 Weekend Events and Meetups</span>
                     </div>
                     <h1 className="text-4xl sm:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
-                        Offline Weekend Meetup Events & Social Networking Across India
+                        Weekend Events and Meetups Across India
                     </h1>
                     <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed mb-4">
-                        Join authentic in-person meetups this weekend. Build meaningful friendships through verified offline social networking events in your city.
+                        Join authentic in-person meetups this weekend. Build meaningful friendships through verified weekend events in your city.
                     </p>
                     <p className="text-lg text-white/80 max-w-2xl mx-auto">
                         Community-driven gatherings for real conversations. No dating. No selling. Just genuine human connections.
@@ -119,10 +119,10 @@ export default async function EventsPage() {
             <main className="w-full max-w-7xl mx-auto px-4 py-8">
                 <div className="mb-8 text-center">
                     <h2 className="text-3xl font-bold text-gray-900 mb-3 text-center">
-                        Upcoming Stranger Meetup & Social Networking Events
+                        Upcoming Weekend Events and Stranger Meetups
                     </h2>
                     <p className="text-lg text-gray-600 max-w-3xl mx-auto text-center">
-                        Discover authentic offline weekend stranger meetups in Pune, Hyderabad, Bengaluru, and Mumbai. Join verified social networking events designed for meaningful connections and genuine friendships.
+                        Discover authentic offline weekend stranger meetups in Pune, Hyderabad, Bengaluru, and Mumbai. Join verified weekend events designed for meaningful connections and genuine friendships.
                     </p>
                 </div>
 
@@ -139,7 +139,7 @@ export default async function EventsPage() {
                         {/* Stats Bar */}
                         <div className="mt-16 mb-12">
                             <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                                Why Join Our Offline Social Networking Events?
+                                Why Join Our Offline Weekend Events?
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center hover:shadow-md transition-shadow">
