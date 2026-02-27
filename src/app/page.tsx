@@ -12,6 +12,9 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: "Weekend Events & Stranger Meetups in Pune, Hyderabad, Bengaluru",
   description: "Join weekend events, stranger meetups and friendship groups in Pune, Hyderabad & Bengaluru. Small groups. Safe.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default async function Home() {
@@ -147,7 +150,7 @@ export default async function Home() {
                     Pick Your Event
                   </h4>
                   <p className="text-gray-700 leading-relaxed">
-                    Browse weekend events—casual meetups, treks, cultural walks. Choose what excites you. Events are priced fairly to keep things sustainable.
+                    Browse weekend events on our portal. Choose what excites you. Events are priced fairly to keep things sustainable.
                   </p>
                 </div>
 

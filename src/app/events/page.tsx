@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     },
 
     alternates: {
-        canonical: 'https://www.strangermingle.com/events',
+        canonical: '/events',
     },
 
     robots: {

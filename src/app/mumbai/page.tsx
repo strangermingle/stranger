@@ -15,13 +15,13 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Stranger Mingle Mumbai - Make Real Friends at Curated Meetups",
         description: "Join safe, curated stranger meetups across Mumbai. Small groups. Verified members. Real friendships.",
-        url: "https://www.strangermingle.com/mumbai",
+        url: "/mumbai",
         siteName: "Stranger Mingle",
         locale: "en_IN",
         type: "website",
     },
     alternates: {
-        canonical: "https://www.strangermingle.com/mumbai",
+        canonical: "/mumbai",
     }
 };
 

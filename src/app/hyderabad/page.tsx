@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Stranger Mingle Hyderabad - Meetups, Events & Making Friends in Hyderabad",
     description: "Join curated stranger meetups and events in Hyderabad. Meet new people in Jubilee Hills, Hitech City, Gachibowli, and Banjara Hills. Small groups. Safe. Fun.",
     alternates: {
-        canonical: "https://www.strangermingle.com/hyderabad",
+        canonical: "/hyderabad",
     }
 };
 

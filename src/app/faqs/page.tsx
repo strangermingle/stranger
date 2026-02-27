@@ -1,3 +1,13 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Frequently Asked Questions | Stranger Mingle",
+    description: "Find answers to common questions about Stranger Mingle events, registration, safety, and community guidelines.",
+    alternates: {
+        canonical: "/faqs",
+    },
+};
+
 export default function FAQs() {
     const faqs = [
         {
@@ -12,8 +22,8 @@ export default function FAQs() {
                     a: "Stranger Mingle is not free, but it's not expensive either. We charge reasonable fees (typically ₹299-₹599 per event) purely to maintain the platform, book venues, and run activities smoothly. This is not for profit – it's to ensure quality experiences and sustainable operations. The fees cover venue bookings, organizer support, safety measures, and platform maintenance."
                 },
                 {
-                    q: "Do I need to register or create an account?",
-                    a: "Yes, you need to create an account to attend events. Registration includes basic verification (name, age, phone number, email) to ensure community safety. This helps us maintain a verified, trustworthy community where everyone feels secure."
+                    q: "Do I need to join or create an account?",
+                    a: "Yes, you need to join our member community to attend events. Joining includes basic verification (name, age, phone number, email) through our Member Portal to ensure community safety. This helps us maintain a verified, trustworthy community where everyone feels secure."
                 },
                 {
                     q: "Which cities does Stranger Mingle operate in?",
@@ -29,8 +39,8 @@ export default function FAQs() {
             category: "Events and Registration",
             questions: [
                 {
-                    q: "How do I register for an event?",
-                    a: "Visit our Events page, browse upcoming activities, select an event that interests you, and click 'Register'. Complete the payment through our secure payment gateway, and you'll receive a confirmation email with event details, venue address, and organizer contact information."
+                    q: "How do I join an event?",
+                    a: "Visit our Events page, browse upcoming activities, select an event that interests you, and click 'Join / Book'. You will be directed to our Member Portal to complete the payment through our secure payment gateway. Once done, you'll receive a confirmation email with event details, venue address, and organizer contact information."
                 },
                 {
                     q: "What types of events do you organise?",
@@ -134,7 +144,7 @@ export default function FAQs() {
                 },
                 {
                     q: "I forgot my password. How do I reset it?",
-                    a: "Click 'Forgot Password' on the login page. Enter your registered email address, and we'll send you a password reset link. Follow the instructions in the email to set a new password."
+                    a: "Go to the Member Portal login page and click 'Forgot Password'. Enter your registered email address, and we'll send you a password reset link. Follow the instructions in the email to set a new password."
                 },
                 {
                     q: "Can I delete my account?",

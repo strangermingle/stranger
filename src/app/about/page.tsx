@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import { ArrowRight, Users, Heart, Shield, MapPin, Calendar, Star, CheckCircle2, UserPlus, Coffee, Mountain, Palette, HandHeart } from "lucide-react";
+
+export const metadata: Metadata = {
+    title: "About Us | Stranger Mingle",
+    description: "Learn more about Stranger Mingle mission to build safe communities across India through organized weekend events and meetups.",
+    alternates: {
+        canonical: "/about",
+    },
+};
 import Link from 'next/link';
 
 export default function About() {
@@ -156,9 +165,9 @@ export default function About() {
                         <div className="flex gap-6 items-start">
                             <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center shrink-0 text-xl font-bold text-purple-600">2</div>
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">Register</h3>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">Login / Join</h3>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Book your spot for the event that interests you. Complete basic verification to ensure community safety and quality.
+                                    Book your spot through our Member Portal. Complete basic verification to ensure community safety and quality.
                                 </p>
                             </div>
                         </div>

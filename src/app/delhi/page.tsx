@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Stranger Mingle Delhi - Meetups, Events & Making Friends in Delhi",
     description: "Join curated stranger meetups and events in Delhi. Meet new people in Connaught Place, Hauz Khas, Saket, and Vasant Kunj. Small groups. Safe. Fun.",
     alternates: {
-        canonical: "https://www.strangermingle.com/delhi",
+        canonical: "/delhi",
     }
 };
 

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Weekend Meetups, Events for Making Friends Instantly",
     description: "Weekend stranger meetups and events in Bengaluru. Meet new people in Viman Nagar, Baner, Hinjewadi, and Koregaon Park. Small groups. Safe. Fun.",
     alternates: {
-        canonical: "https://www.strangermingle.com/Bengaluru",
+        canonical: "/bangalore",
     }
 };
 
@@ -270,7 +270,7 @@ export default async function bangaloreCityPage() {
                             "@type": "WebPage",
                             "name": "Stranger Mingle Bengaluru",
                             "description": "City homepage for Stranger Mingle Bengaluru events and community.",
-                            "url": "https://www.strangermingle.com/Bengaluru"
+                            "url": "https://www.strangermingle.com/bangalore"
                         },
                         {
                             "@context": "https://schema.org",
@@ -286,7 +286,7 @@ export default async function bangaloreCityPage() {
                                     "@type": "ListItem",
                                     "position": 2,
                                     "name": "Bengaluru",
-                                    "item": "https://www.strangermingle.com/Bengaluru"
+                                    "item": "https://www.strangermingle.com/bangalore"
                                 }
                             ]
                         }

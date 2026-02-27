@@ -27,13 +27,9 @@ export const metadata: Metadata = {
   creator: "Stranger Mingle",
   publisher: "Stranger Mingle",
   metadataBase: new URL('https://www.strangermingle.com'),
-  alternates: {
-    canonical: 'https://www.strangermingle.com',
-  },
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://www.strangermingle.com',
     siteName: 'Stranger Mingle',
     title: 'Stranger Mingle - Weekend Stranger Meetups & Local Events for Making new Friends',
     description: "Join India's most active community for weekend stranger meetups and local events. Make new friends instantly.",

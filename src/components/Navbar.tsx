@@ -172,11 +172,11 @@ export default function Navbar() {
                     </div>
                     <div className="pt-4 border-t border-gray-200">
                         <Link
-                            href="/sign-up"
+                            href="https://member.strangermingle.com/login"
                             className="block w-full px-4 py-3 bg-black text-white text-center rounded-full font-bold hover:bg-gray-800 transition-colors"
                             onClick={closeMobileMenu}
                         >
-                            Join Now
+                            Join Now / Login
                         </Link>
                     </div>
                 </div>

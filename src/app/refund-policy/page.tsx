@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
     RefreshCcw,
     CalendarX,
@@ -13,6 +14,14 @@ import {
     Gift,
     ArrowRightLeft
 } from "lucide-react";
+
+export const metadata: Metadata = {
+    title: "Refund and Cancellation Policy | Stranger Mingle",
+    description: "Understand the terms for refunds and cancellations of Stranger Mingle events and memberships.",
+    alternates: {
+        canonical: "/refund-policy",
+    },
+};
 
 export default function RefundPolicy() {
     return (

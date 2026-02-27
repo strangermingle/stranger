@@ -18,6 +18,15 @@ import {
     Bell,
     HeartHandshake
 } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Disclaimer | Stranger Mingle",
+    description: "Legal disclaimer and terms for participating in Stranger Mingle events and using our community platform.",
+    alternates: {
+        canonical: "/disclaimer",
+    }
+};
 
 export default function Disclaimer() {
     return (

@@ -6,6 +6,9 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Authors | Stranger Mingle Blog',
     description: 'Meet the authors behind Stranger Mingle blog posts.',
+    alternates: {
+        canonical: '/authors',
+    }
 };
 
 export default function AuthorsPage() {

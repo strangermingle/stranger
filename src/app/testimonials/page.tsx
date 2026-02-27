@@ -1,4 +1,15 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "User Stories & Testimonials | Stranger Mingle",
+    description: "Read real stories and experiences from community members who found friendship and connection through Stranger Mingle meetups.",
+    alternates: {
+        canonical: "/testimonials",
+    }
+};
+
 export default function Testimonials() {
+
     const testimonials = [
         {
             name: "Suraj Bhan Singh",

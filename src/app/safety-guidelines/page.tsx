@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
     Shield,
     ClipboardCheck,
@@ -19,6 +20,14 @@ import {
     IndianRupee,
     HeartHandshake
 } from "lucide-react";
+
+export const metadata: Metadata = {
+    title: "Safety Guidelines | Stranger Mingle",
+    description: "Your safety is our priority. Read our comprehensive safety guidelines for attending events and interacting with community members.",
+    alternates: {
+        canonical: "/safety-guidelines",
+    },
+};
 
 export default function SafetyGuidelines() {
     return (

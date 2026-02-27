@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
     Shield,
     Lock,
@@ -15,6 +16,14 @@ import {
     AlertTriangle,
     Baby
 } from "lucide-react";
+
+export const metadata: Metadata = {
+    title: "Privacy Policy | Stranger Mingle",
+    description: "Our commitment to your privacy. Learn how Stranger Mingle collects, uses, and protects your personal information.",
+    alternates: {
+        canonical: "/privacy-policy",
+    },
+};
 
 export default function PrivacyPolicy() {
     return (

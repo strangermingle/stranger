@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Twitter, Linkedin, Github, Mail, ShieldCheck, Zap, Heart, Palette, ShieldAlert } from 'lucide-react';
+import type { Metadata } from 'next';
 
 const teamMembers = [
     {
@@ -29,7 +30,16 @@ const teamMembers = [
     }
 ];
 
+export const metadata: Metadata = {
+    title: "Meet the Team | Stranger Mingle",
+    description: "Meet the passionate team behind Stranger Mingle, building a more connected world through shared experiences and genuine friendships.",
+    alternates: {
+        canonical: "/team",
+    }
+};
+
 export default function TeamPage() {
+
     return (
         <div className="min-h-screen bg-gray-50/50">
             {/* Hero Section */}

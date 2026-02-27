@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
     ScrollText,
     CheckCircle,
@@ -14,6 +15,14 @@ import {
     FileText,
     Mail
 } from "lucide-react";
+
+export const metadata: Metadata = {
+    title: "Terms of Service | Stranger Mingle",
+    description: "The rules and guidelines for using Stranger Mingle. Understand your rights and responsibilities as a community member.",
+    alternates: {
+        canonical: "/terms",
+    },
+};
 
 export default function Terms() {
     return (

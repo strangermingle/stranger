@@ -1,5 +1,6 @@
 import { ArrowRight, Trophy, Users, Zap, Search, Joystick } from "lucide-react";
 import Link from 'next/link';
+import type { Metadata } from "next";
 
 const games = [
     {
@@ -31,7 +32,16 @@ const games = [
     }
 ];
 
+export const metadata: Metadata = {
+    title: "Live Online Games Hub | Play & Connect - Stranger Mingle",
+    description: "Play classic online games like Chess, Ludo, and Mafia with strangers. Connect through interactive gameplay right in your browser.",
+    alternates: {
+        canonical: "/live-online-games",
+    }
+};
+
 export default function LiveOnlineGames() {
+
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Section */}

@@ -7,6 +7,9 @@ import BlogSidebar from '@/components/BlogSidebar';
 export const metadata: Metadata = {
     title: 'Stranger Mingle Blog | Friendship, Community, and Connection',
     description: 'Read stories about making friends, community building, and overcoming loneliness in the modern world.',
+    alternates: {
+        canonical: '/blog',
+    },
 };
 
 export default function BlogIndex() {
