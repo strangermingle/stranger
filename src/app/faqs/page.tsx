@@ -15,7 +15,7 @@ export default function FAQs() {
             questions: [
                 {
                     q: "What is Stranger Mingle and how does it work?",
-                    a: "Stranger Mingle is a community platform that helps people make real friends through organized weekend events across Indian cities. We host meetups, treks, cultural activities, and social gatherings where strangers meet and genuine friendships form. Simply browse our events, register for ones that interest you, and show up – we handle the introductions and ice-breakers."
+                    a: "Stranger Mingle is a flagship brand of Salty Media Production (opc) Pvt Ltd. It is a community platform that helps people make real friends through organized weekend events across Indian cities. We host meetups, treks, cultural activities, and social gatherings where strangers meet and genuine friendships form. Simply browse our events, register for ones that interest you, and show up – we handle the introductions and ice-breakers."
                 },
                 {
                     q: "Is Stranger Mingle free to use?",

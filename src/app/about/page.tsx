@@ -35,7 +35,8 @@ export default function About() {
                 <div className="text-center max-w-3xl mx-auto">
                     <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
                     <p className="text-xl text-gray-600 leading-relaxed mb-6">
-                        Stranger Mingle is built to help people make real connections locally, not online. We create safe spaces where strangers meet and friendships begin through organized weekend events across Indian cities.
+                        Stranger Mingle is a brand of <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                        We are built to help people make real connections locally, not online. We create safe spaces where strangers meet and friendships begin through organized weekend events across Indian cities.
                     </p>
                     <p className="text-lg text-gray-500 leading-relaxed mb-8">
                         Whether you&apos;re new in town, an introvert, or simply don&apos;t know how to make new friends as an adult – we&apos;re here to help. Our mission goes beyond just making friends. We aim to improve your quality of life through meaningful events, a disciplined approach, and a safe environment.

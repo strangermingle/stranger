@@ -42,7 +42,8 @@ export default function RefundPolicy() {
                         <div className="relative z-10">
                             <p className="font-semibold text-lg mb-2 text-blue-100">Last updated: {new Date().toLocaleDateString()}</p>
                             <p className="leading-relaxed text-lg text-blue-50">
-                                At Stranger Mingle, we understand that plans change. This policy outlines our refund and cancellation terms for event registrations. Please read carefully before registering for events.
+                                <strong>Stranger Mingle</strong> is a brand owned and operated by <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                                This policy outlines our refund and cancellation terms. Please read carefully before registering for events.
                             </p>
                         </div>
                     </div>
@@ -272,10 +273,18 @@ export default function RefundPolicy() {
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">5. Refund Processing and Timeline</h2>
 
                                 <div className="space-y-6">
+                                    <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100 mb-6">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Legal Entity & Billing</h3>
+                                        <p className="leading-relaxed text-gray-700">
+                                            All event payments, invoices, and refunds are processed by the parent company <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                                            On your bank statement or payment notification, the transaction may appear under the name <strong>Salty Media Production</strong>.
+                                        </p>
+                                    </div>
+
                                     <div>
                                         <h3 className="text-lg font-bold text-gray-900 mb-2">Processing Time</h3>
                                         <ul className="space-y-1 text-gray-600 text-sm ml-6 list-disc">
-                                            <li>Refunds are processed within <strong>5-7 business days</strong> after approval</li>
+                                            <li>Refunds are processed by our team within <strong>5-7 business days</strong> after approval</li>
                                             <li>Depending on your bank or payment provider, it may take an additional 3-5 business days to reflect in your account</li>
                                             <li>Total timeline: 7-12 business days from cancellation to money in your account</li>
                                         </ul>

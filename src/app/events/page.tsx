@@ -91,39 +91,12 @@ export default async function EventsPage() {
                 </div>
             </section>
 
-            {/* Trust Signals Section */}
-            <section className="w-full max-w-7xl mx-auto px-4 mt-12 mb-8">
-                <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        <div className="p-4">
-                            <div className="text-2xl font-bold text-blue-600 mb-1">100% Offline</div>
-                            <div className="text-sm text-gray-600">In-Person Meetups</div>
-                        </div>
-                        <div className="p-4">
-                            <div className="text-2xl font-bold text-purple-600 mb-1">Verified</div>
-                            <div className="text-sm text-gray-600">Safe & Curated</div>
-                        </div>
-                        <div className="p-4">
-                            <div className="text-2xl font-bold text-green-600 mb-1">Community-Led</div>
-                            <div className="text-sm text-gray-600">Real Connections</div>
-                        </div>
-                        <div className="p-4">
-                            <div className="text-2xl font-bold text-orange-600 mb-1">Weekend</div>
-                            <div className="text-sm text-gray-600">Regular Events</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* Events Grid */}
             <main className="w-full max-w-7xl mx-auto px-4 py-8">
                 <div className="mb-8 text-center">
                     <h2 className="text-3xl font-bold text-gray-900 mb-3 text-center">
                         Upcoming Weekend Events and Stranger Meetups
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-3xl mx-auto text-center">
-                        Discover authentic offline weekend stranger meetups in Pune, Hyderabad, Bengaluru, and Mumbai. Join verified weekend events designed for meaningful connections and genuine friendships.
-                    </p>
                 </div>
 
                 {events.length > 0 ? (
@@ -164,6 +137,29 @@ export default async function EventsPage() {
                             </div>
                         </div>
 
+                        {/* Trust Signals Section */}
+                        <section className="w-full max-w-7xl mx-auto px-4 mt-12 mb-8">
+                            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                    <div className="p-4">
+                                        <div className="text-2xl font-bold text-blue-600 mb-1">100% Offline</div>
+                                        <div className="text-sm text-gray-600">In-Person Meetups</div>
+                                    </div>
+                                    <div className="p-4">
+                                        <div className="text-2xl font-bold text-purple-600 mb-1">Verified</div>
+                                        <div className="text-sm text-gray-600">Safe & Curated</div>
+                                    </div>
+                                    <div className="p-4">
+                                        <div className="text-2xl font-bold text-green-600 mb-1">Community-Led</div>
+                                        <div className="text-sm text-gray-600">Real Connections</div>
+                                    </div>
+                                    <div className="p-4">
+                                        <div className="text-2xl font-bold text-orange-600 mb-1">Weekend</div>
+                                        <div className="text-sm text-gray-600">Regular Events</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                         {/* Benefits Section */}
                         <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 border border-blue-100">
                             <h3 className="text-2xl font-bold text-gray-900 mb-6">

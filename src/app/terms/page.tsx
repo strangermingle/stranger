@@ -43,7 +43,8 @@ export default function Terms() {
                         <div className="relative z-10">
                             <p className="font-semibold text-lg mb-2 text-blue-100">Last updated: {new Date().toLocaleDateString()}</p>
                             <p className="leading-relaxed text-lg text-blue-50">
-                                Welcome to Stranger Mingle. These Terms of Service govern your use of our platform, website, and events. By accessing or using our services, you agree to be bound by these terms. Please read them carefully.
+                                <strong>Stranger Mingle</strong> is a brand owned and operated by <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                                These Terms of Service govern your use of our platform, website, and events. By accessing or using our services, you agree to be bound by these terms. Please read them carefully.
                             </p>
                         </div>
                     </div>
@@ -60,7 +61,7 @@ export default function Terms() {
                                     By accessing and using the Stranger Mingle website (strangermingle.com), mobile applications, or attending our events, you accept and agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree to these terms, you must not use our services.
                                 </p>
                                 <p className="mb-4 leading-relaxed text-gray-600">
-                                    These terms constitute a legally binding agreement between you and Stranger Mingle. Your continued use of our services signifies your ongoing agreement to these terms.
+                                    These terms constitute a legally binding agreement between you and <strong>Salty Media Production (opc) Pvt Ltd</strong> (doing business as &quot;Stranger Mingle&quot;). Your continued use of our services signifies your ongoing agreement to these terms.
                                 </p>
                                 <p className="leading-relaxed text-gray-600">
                                     We reserve the right to modify these terms at any time. Material changes will be communicated via email or prominent notice on our website. Your continued use after such modifications constitutes acceptance of the updated terms.

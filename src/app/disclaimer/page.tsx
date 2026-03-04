@@ -50,10 +50,12 @@ export default function Disclaimer() {
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">General Information</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
-                                    The information provided by Stranger Mingle (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) on strangermingle.com and through our events is for general informational and social connection purposes only. All information on the site and at our events is provided in good faith to facilitate meaningful friendships and community building.
+                                    <strong>Stranger Mingle</strong> is a brand owned and operated by <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                                    The information provided by us on <strong>strangermingle.com</strong> and through our events is for general informational and social connection purposes only.
+                                    All information on the site and at our events is provided in good faith to facilitate meaningful friendships and community building.
                                 </p>
                                 <p className="leading-relaxed text-gray-600">
-                                    However, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the site or shared during events.
+                                    However, <strong>Salty Media Production (opc) Pvt Ltd</strong> makes no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the site or shared during events.
                                 </p>
                             </div>
                         </div>

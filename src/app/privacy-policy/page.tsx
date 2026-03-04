@@ -44,7 +44,8 @@ export default function PrivacyPolicy() {
                         <div className="relative z-10">
                             <p className="font-semibold text-lg mb-2 text-blue-100">Last updated: {new Date().toLocaleDateString()}</p>
                             <p className="leading-relaxed text-lg text-blue-50">
-                                At Stranger Mingle, we take your privacy seriously. This Privacy Policy explains how we collect, use, store, and protect your personal information when you use our platform and attend our events.
+                                <strong>Stranger Mingle</strong> is a brand owned and operated by <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                                This Privacy Policy explains how we collect, use, store, and protect your personal information when you use our platform and attend our events.
                             </p>
                         </div>
                     </div>
@@ -58,10 +59,11 @@ export default function PrivacyPolicy() {
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Commitment to Privacy</h2>
                                 <p className="leading-relaxed mb-4 text-gray-600">
-                                    We believe in transparency and respect for your personal information. We collect only the data necessary to provide you with safe, high-quality events and community experiences. We do not sell, rent, or trade your personal information to third parties for marketing purposes.
+                                    We believe in transparency and respect for your personal information.
+                                    <strong>Salty Media Production (opc) Pvt Ltd</strong> collects only the data necessary to provide you with safe, high-quality events and community experiences. We do not sell, rent, or trade your personal information to third parties for marketing purposes.
                                 </p>
                                 <p className="leading-relaxed text-gray-600">
-                                    By using Stranger Mingle&apos;s services, you agree to the collection and use of information in accordance with this policy.
+                                    By using services provided by <strong>Salty Media Production (opc) Pvt Ltd</strong> through its brand <strong>Stranger Mingle</strong>, you agree to the collection and use of information in accordance with this policy.
                                 </p>
                             </div>
                         </div>

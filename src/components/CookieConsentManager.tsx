@@ -96,7 +96,7 @@ export default function CookieConsentManager() {
                 <div className="relative z-10">
                     <p className="font-semibold text-lg mb-2 text-blue-100">Last updated: {new Date().toLocaleDateString()}</p>
                     <p className="leading-relaxed text-lg text-blue-50">
-                        This Cookie Policy explains how Stranger Mingle uses cookies and similar tracking technologies on our website.
+                        This Cookie Policy explains how <strong>Stranger Mingle</strong> (a brand of <strong>Salty Media Production (opc) Pvt Ltd</strong>) uses cookies and similar tracking technologies on our website.
                         We respect your privacy and give you control over how cookies are used to enhance your browsing experience.
                     </p>
                 </div>

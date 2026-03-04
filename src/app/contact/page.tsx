@@ -20,7 +20,7 @@ export default function Contact() {
                         Get in Touch
                     </h1>
                     <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                        Have questions, suggestions, or need assistance? We're here to help! Reach out to us and we'll get back to you as soon as possible.
+                        Have questions, suggestions, or need assistance? Reach out to the <strong>Stranger Mingle</strong> team (a brand of <strong>Salty Media Production (opc) Pvt Ltd</strong>) and we'll get back to you as soon as possible.
                     </p>
                 </div>
 

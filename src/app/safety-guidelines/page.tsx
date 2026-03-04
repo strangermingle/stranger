@@ -52,7 +52,9 @@ export default function SafetyGuidelines() {
                             <div>
                                 <p className="font-bold text-xl mb-3 text-blue-50">Your Safety is Our Priority</p>
                                 <p className="leading-relaxed text-lg text-blue-100">
-                                    Stranger Mingle is built on creating safe spaces for genuine friendships. These safety guidelines help protect you during events and in all interactions with our community. Please read them carefully and follow them at all times.
+                                    <strong>Stranger Mingle</strong> is a brand of <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                                    Our platform is built on creating safe spaces for genuine friendships. These safety guidelines help protect you during events and in all interactions with our community.
+                                    Please read them carefully and follow them at all times.
                                 </p>
                             </div>
                         </div>
