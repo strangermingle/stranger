@@ -1,21 +1,17 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.strangermingle.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.strangermingle.com'
 
-    return {
-        rules: [
-            {
-                userAgent: '*',
-                allow: '/',
-                disallow: [
-                    '/api/',
-                ],
-            },
-        ],
-        sitemap: [
-            `${baseUrl}/sitemap.xml`,
-            `${baseUrl}/sitemap-events.xml`,
-        ],
-    };
+  return {
+    rules: [
+      {
+        userAgent: '*',
+        allow: ['/', '/events/', '/category/', '/city/'],
+        disallow: ['/members/', '/admin/', '/auth/', '/api/'],
+      },
+    ],
+    sitemap: `${baseUrl}/sitemap.xml`,
+  }
 }
+

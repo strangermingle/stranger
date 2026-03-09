@@ -8,6 +8,9 @@ import PaymentModal from './PaymentModal';
 import ContactOrganizerModal from './ContactOrganizerModal';
 import SocialLinks from './SocialLinks';
 import { sendGAEvent } from '@/lib/gtag';
+import { DiscussionSection } from './events/DiscussionSection';
+import { createClient } from '@/lib/supabase/client';
+import { useEffect } from 'react';
 
 interface EventDetailsPageProps {
     event: Event;
@@ -16,6 +19,14 @@ interface EventDetailsPageProps {
 export default function EventDetailsPage({ event }: EventDetailsPageProps) {
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
+    const [currentUser, setCurrentUser] = useState<any>(null);
+    const supabase = createClient();
+
+    useEffect(() => {
+        supabase.auth.getUser().then(({ data }) => {
+            setCurrentUser(data.user);
+        });
+    }, [supabase]);
 
     const price = formatEventPrice(event);
     const date = formatEventDate(event.start_date, event.end_date);
@@ -208,6 +219,12 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                                     </div>
                                 </section>
                             )}
+
+                            {/* Discussion Section */}
+                            <DiscussionSection 
+                                eventId={event.id} 
+                                currentUserId={currentUser?.id} 
+                            />
 
                             {/* Location Section with Google Maps */}
                             {googleMapsUrl && (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
+import Script from "next/script";
 import Navbar from "@/components/Navbar";
 import ConsentBanner from "@/components/ConsentBanner";
 import GoogleTagManager from "@/components/GoogleTagManager";
@@ -18,15 +19,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Stranger Mingle - Weekend Events & Meetups for Making Friends",
-    template: "%s | Stranger Mingle"
+    default: "StrangerMingle — Discover Events & Experiences Near You",
+    template: "%s | StrangerMingle"
   },
-  description: "Join India's most active community for making friends. Weekly offline events including treks, board game nights, chai circles, and heritage walks. No apps, just real connection.",
-  keywords: ["stranger meetup", "local events", "making friends", "offline events", "community events", "pune events", "mumbai events", "delhi events", "bangalore events", "social events", "weekend meetups"],
-  authors: [{ name: "Stranger Mingle" }],
-  creator: "Stranger Mingle",
-  publisher: "Stranger Mingle",
-  metadataBase: new URL('https://www.strangermingle.com'),
+  description: "Join the most active community for making friends through unique offline events, workshops, and experiences.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.strangermingle.com'),
   openGraph: {
     type: 'website',
     locale: 'en_IN',
@@ -75,11 +72,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="en" className="overflow-x-hidden">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col overflow-x-hidden`}
       >
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
         <GoogleTagManager />
         <Navbar />
         {children}
@@ -89,9 +104,9 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Stranger Mingle",
-              "url": "https://www.strangermingle.com",
-              "logo": "https://www.strangermingle.com/logo.png",
+              "name": "StrangerMingle",
+              "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.strangermingle.com",
+              "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.strangermingle.com"}/logo.png`,
               "sameAs": [
                 "https://www.instagram.com/strangermingle/",
                 "https://www.youtube.com/@strangermingle",

@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Event, formatEventPrice, formatEventDate, formatEventTime, getSpotsLabel } from "@/lib/events";
 import Image from "next/image";
 import Link from "next/link";
 import PaymentModal from "./PaymentModal";
 import ContactOrganizerModal from "./ContactOrganizerModal";
+import { ReportModal } from "./modals/ReportModal";
 import { sendGAEvent } from "@/lib/gtag";
+import { MoreVertical, Flag } from 'lucide-react';
 
 interface EventCardProps {
     event: Event;
@@ -15,6 +17,19 @@ interface EventCardProps {
 export default function EventCard({ event }: EventCardProps) {
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
+    const [showReportModal, setShowReportModal] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent) {
+            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+                setShowMenu(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
     const price = formatEventPrice(event);
     const date = formatEventDate(event.start_date, event.end_date);
     const time = formatEventTime(event.start_time, event.end_time);
@@ -58,6 +73,31 @@ export default function EventCard({ event }: EventCardProps) {
                     ) : (
                         <div className="absolute inset-0 bg-linear-to-br opacity-80" />
                     )}
+
+                    {/* Report Menu */}
+                    <div className="absolute top-4 right-4 z-20" ref={menuRef}>
+                        <button 
+                            onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu); }}
+                            className="p-1.5 bg-white/90 backdrop-blur text-gray-700 rounded-full hover:bg-white shadow-sm transition flex items-center justify-center"
+                        >
+                            <MoreVertical className="w-5 h-5" />
+                        </button>
+                        {showMenu && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-1 flex flex-col pointer-events-auto">
+                                <button 
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setShowMenu(false);
+                                        setShowReportModal(true);
+                                    }}
+                                    className="px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                                >
+                                    <Flag className="w-4 h-4" />
+                                    Report this event
+                                </button>
+                            </div>
+                        )}
+                    </div>
 
                     {/* Badges */}
                     <div className="absolute top-4 left-4 right-4 flex flex-wrap gap-2 z-10">
@@ -238,6 +278,14 @@ export default function EventCard({ event }: EventCardProps) {
             <ContactOrganizerModal
                 isOpen={showContactModal}
                 onClose={() => setShowContactModal(false)}
+            />
+
+            {/* Report Modal */}
+            <ReportModal
+                isOpen={showReportModal}
+                onClose={() => setShowReportModal(false)}
+                reportedType="event"
+                reportedId={event.id}
             />
         </>
     );

@@ -1,0 +1,28 @@
+import { z } from 'zod'
+
+export const createHostProfileSchema = z.object({
+  host_type: z.enum(['individual', 'organisation'], {
+    required_error: 'Please select a host type',
+  }),
+  display_name: z
+    .string()
+    .min(2, 'Display name must be at least 2 characters')
+    .max(255, 'Display name cannot exceed 255 characters'),
+  tagline: z
+    .string()
+    .max(300, 'Tagline cannot exceed 300 characters')
+    .optional()
+    .or(z.literal('')),
+  description: z.string().optional(),
+  website_url: z
+    .string()
+    .url('Please enter a valid URL')
+    .optional()
+    .or(z.literal('')),
+  instagram_handle: z
+    .string()
+    .optional()
+    .or(z.literal('')),
+})
+
+export type CreateHostProfileInput = z.infer<typeof createHostProfileSchema>
