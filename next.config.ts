@@ -39,9 +39,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  experimental: {
-    serverComponentsExternalPackages: ['razorpay'],
-  },
+  serverExternalPackages: ['razorpay'],
 };
 
 export default nextConfig;

@@ -20,11 +20,40 @@ export type PaginatedResponse<T> = ApiResponse<{
   pageSize: number
 }>
 
+/**
+ * EventWithDetails combines the non-nullable base Event table columns
+ * with the view-computed fields from v_events_public (which are nullable).
+ * This ensures core fields like title, slug, start_datetime remain non-null
+ * while aggregated/joined fields like min_price, category_name are nullable.
+ */
 export type EventWithDetails = Event & {
-  category: Category
-  location: Location | null
-  host: User & { profile: HostProfile | null }
-  ticket_tiers: TicketTier[]
+  // View-computed fields from v_events_public
+  min_price?: number | null
+  max_price?: number | null
+  category_name?: string | null
+  category_slug?: string | null
+  category_color?: string | null
+  host_display_name?: string | null
+  host_logo?: string | null
+  host_username?: string | null
+  venue_name?: string | null
+  city?: string | null
+  country?: string | null
+  state?: string | null
+
+  // Flattened location fields
+  address_line_1?: string | null
+  address_line_2?: string | null
+  postal_code?: string | null
+  google_maps_url?: string | null
+  latitude?: number | null
+  longitude?: number | null
+
+  // Joined relations
+  category?: Category | null
+  location?: Location | null
+  host?: (User & { profile: HostProfile | null }) | null
+  ticket_tiers?: TicketTier[]
 }
 
 export type BookingWithItems = Booking & {

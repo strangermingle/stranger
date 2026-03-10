@@ -19,8 +19,8 @@ export default async function BookingsHistoryPage() {
   }
 
   // 2. Fetch all bookings for user
-  const { data: bookings, error } = await supabase
-    .from('bookings')
+  const { data: bookings, error } = await (supabase
+    .from('bookings') as any)
     .select(`
       id,
       booking_ref,
@@ -39,7 +39,9 @@ export default async function BookingsHistoryPage() {
       )
     `)
     .eq('user_id', user.id)
-    .order('created_at', { ascending: false }) as any
+    .order('created_at', { ascending: false })
+
+  const safeBookings = (bookings || []) as any[]
 
   if (error) {
     console.error('Fetch Bookings Error:', error)

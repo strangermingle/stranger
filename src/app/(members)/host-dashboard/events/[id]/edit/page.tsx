@@ -1,14 +1,16 @@
-import { Metadata, redirect } from 'next'
+import { Metadata } from 'next'
+import { redirect, notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Database } from '@/types/database.types'
-import EditEventForm from '@/components/host/EditEventForm'
+import { EditEventForm } from '@/components/host/EditEventForm'
 
-export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
+export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> => {
+  const { id } = await params
   const supabase = await createClient()
-  const { data: event } = await supabase
-    .from('events')
+  const { data: event } = await (supabase
+    .from('events') as any)
     .select('title')
-    .eq('id', params.id)
+    .eq('id', id)
     .single()
 
   const title = event?.title ?? 'Edit Event'
@@ -18,15 +20,16 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
   }
 }
 
-export default async function EditEventPage({ params }: { params: { id: string } }) {
+export default async function EditEventPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return null
 
-  const { data: event, error } = await supabase
-    .from('events')
+  const { data: event, error } = await (supabase
+    .from('events') as any)
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .single()
 
   if (error || !event) {
@@ -34,9 +37,19 @@ export default async function EditEventPage({ params }: { params: { id: string }
   }
 
   // Verify ownership
-  if (event.host_id !== user.id) {
+  if ((event as any).host_id !== user.id) {
     redirect('/members/host-dashboard/events')
   }
 
-  return <EditEventForm event={event as Database['public']['Tables']['events']['Row']} />
+  // Fetch categories for the form
+  const { data: categories } = await (supabase
+    .from('categories') as any)
+    .select('id, name, slug')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true })
+
+  return <EditEventForm 
+    event={event as any} 
+    categories={categories || []} 
+  />
 }

@@ -21,8 +21,8 @@ export default async function AdminHostsPage({
   const p = await searchParams
   const status = p.status || 'all'
 
-  let query = supabase
-    .from('host_profiles')
+  let query = (supabase
+    .from('host_profiles') as any)
     .select('*, users(email)')
     .order('created_at', { ascending: false })
 

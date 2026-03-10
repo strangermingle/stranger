@@ -32,8 +32,8 @@ export async function GET(request: Request) {
     // For this boilerplate phase, we will just log it out and return success
     
     // Example partial logic:
-    const { data: searches, error } = await supabaseAdmin
-      .from('saved_searches')
+    const { data: searches, error } = await (supabaseAdmin
+      .from('saved_searches') as any)
       .select('*')
       // .lt('last_run_at', yesterday) // pseudo code
       

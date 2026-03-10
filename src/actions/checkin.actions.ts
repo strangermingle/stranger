@@ -55,8 +55,8 @@ export async function verifyTicketAction(qrCodeData: string, expectedEventId: st
     }
 
     // Fetch ticket and verify ownership and event match
-    const { data: ticketResult, error: ticketError } = await supabase
-      .from('tickets')
+    const { data: ticketResult, error: ticketError } = await (supabase
+      .from('tickets') as any)
       .select(`
         id, 
         ticket_number, 
@@ -104,13 +104,13 @@ export async function verifyTicketAction(qrCodeData: string, expectedEventId: st
       checked_in_by: user.id
     } as unknown as TicketUpdate
 
-    const { error: updateError } = await supabase
-      .from('tickets')
+    const { error: updateError } = await (supabase
+      .from('tickets') as any)
       .update({
         is_checked_in: true,
         checked_in_at: new Date().toISOString(),
         checked_in_by: user.id
-      } as never)
+      })
       .eq('id', ticketId)
 
     if (updateError) {
@@ -138,8 +138,8 @@ export async function checkInByTicketNumberAction(ticketNumber: string, expected
     }
 
     // Fetch ticket by ticket_number
-    const { data: ticketResult, error: ticketError } = await supabase
-      .from('tickets')
+    const { data: ticketResult, error: ticketError } = await (supabase
+      .from('tickets') as any)
       .select(`
         id, 
         ticket_number, 
@@ -185,13 +185,13 @@ export async function checkInByTicketNumberAction(ticketNumber: string, expected
       checked_in_by: user.id
     } as unknown as TicketUpdate
 
-    const { error: updateError } = await supabase
-      .from('tickets')
+    const { error: updateError } = await (supabase
+      .from('tickets') as any)
       .update({
         is_checked_in: true,
         checked_in_at: new Date().toISOString(),
         checked_in_by: user.id
-      } as never)
+      })
       .eq('id', ticket.id)
 
     if (updateError) {
@@ -214,15 +214,15 @@ export async function getEventCheckInStatsAction(eventId: string) {
     const supabase = await createClient()
     
     // Get total tickets (confirm/checked in)
-    const { count: total, error: totalError } = await supabase
-      .from('tickets')
+    const { count: total, error: totalError } = await (supabase
+      .from('tickets') as any)
       .select('*', { count: 'exact', head: true })
       .eq('event_id', eventId)
       .eq('is_void', false)
 
     // Get checked in count
-    const { count: checkedIn, error: checkedInError } = await supabase
-      .from('tickets')
+    const { count: checkedIn, error: checkedInError } = await (supabase
+      .from('tickets') as any)
       .select('*', { count: 'exact', head: true })
       .eq('event_id', eventId)
       .eq('is_checked_in', true)

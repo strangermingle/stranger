@@ -1,0 +1,592 @@
+
+> stranger@0.1.0 dev
+> next dev
+
+⚠ Invalid next.config.ts options detected: 
+⚠     Unrecognized key(s) in object: 'serverComponentsExternalPackages' at "experimental"
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+⚠ `experimental.serverComponentsExternalPackages` has been moved to `serverExternalPackages`. Please update your next.config.ts file accordingly.
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.32.97.59:3000
+- Environments: .env.local
+- Experiments (use with caution):
+  ? serverComponentsExternalPackages (invalid experimental key)
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 1068ms
+⨯ ./src/app/(members)
+You cannot have two parallel pages that resolve to the same path. Please check /(admin)/dashboard and /(members).
+
+ GET / 500 in 370ms (compile: 242ms, proxy.ts: 64ms, render: 63ms)
+⨯ ./src/app/(members)
+You cannot have two parallel pages that resolve to the same path. Please check /(admin)/dashboard and /(members).
+
+ HEAD / 500 in 14ms (compile: 4ms, proxy.ts: 4ms, render: 7ms)
+✓ Compiled in 861ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload when ./node_modules/next/dist/shared/lib/router/router.js changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 417ms (compile: 228ms, proxy.ts: 3ms, render: 186ms)
+Error fetching all live events: {
+  code: '42703',
+  details: null,
+  hint: null,
+  message: 'column events.start_date does not exist'
+}
+Error fetching all live events: {
+  code: '42703',
+  details: null,
+  hint: null,
+  message: 'column events.start_date does not exist'
+}
+Error fetching all live events: {
+  code: '42703',
+  details: null,
+  hint: null,
+  message: 'column events.start_date does not exist'
+}
+ GET / 200 in 2.9s (compile: 2ms, proxy.ts: 1173µs, render: 2.9s)
+ GET /api/events/search?page=1&pageSize=12 200 in 1585ms (compile: 894ms, proxy.ts: 11ms, render: 681ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 308ms (compile: 3ms, proxy.ts: 2ms, render: 303ms)
+Error fetching all live events: {
+  code: '42703',
+  details: null,
+  hint: null,
+  message: 'column events.start_date does not exist'
+}
+ HEAD / 200 in 3.6s (compile: 33ms, proxy.ts: 19ms, render: 3.5s)
+✓ Finished filesystem cache database compaction in 11.5s
+○ Compiling /api/events/search/popular ...
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+ GET /api/events/search/popular 200 in 6.7s (compile: 4.0s, proxy.ts: 104ms, render: 2.6s)
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+ GET /events 200 in 6.7s (compile: 5.5s, proxy.ts: 15ms, render: 1218ms)
+ GET /events 200 in 1609ms (compile: 40ms, proxy.ts: 6ms, render: 1562ms)
+ GET /login 200 in 3.1s (compile: 2.8s, proxy.ts: 8ms, render: 304ms)
+ GET /login 200 in 140ms (compile: 33ms, proxy.ts: 15ms, render: 91ms)
+ GET /login/google 302 in 5.0s (compile: 2.5s, proxy.ts: 747ms, render: 1694ms)
+✓ Finished filesystem cache database compaction in 11.8s
+ GET /login 200 in 342ms (compile: 37ms, proxy.ts: 16ms, render: 289ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 1507ms (compile: 6ms, proxy.ts: 6ms, render: 1495ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 396ms (compile: 13ms, proxy.ts: 8ms, render: 375ms)
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+○ Compiling /pune ...
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error fetching events by city: {
+  code: '42703',
+  details: null,
+  hint: null,
+  message: 'column events.city does not exist'
+}
+ GET /login 200 in 1273ms (compile: 775ms, proxy.ts: 19ms, render: 479ms)
+ GET /login 200 in 429ms (compile: 146ms, proxy.ts: 7ms, render: 277ms)
+ GET /pune 200 in 11.2s (compile: 9.4s, proxy.ts: 3ms, render: 1859ms)
+ GET /events 200 in 7.6s (compile: 5.1s, proxy.ts: 62ms, render: 2.5s)
+ GET /events 200 in 3.9s (compile: 304ms, proxy.ts: 222ms, render: 3.4s)
+ GET /login 200 in 1824ms (compile: 16ms, proxy.ts: 5ms, render: 1803ms)
+ GET /login 200 in 1388ms (compile: 634ms, proxy.ts: 7ms, render: 747ms)
+✓ Finished filesystem cache database compaction in 21.7s
+○ Compiling /register ...
+ GET /register 200 in 13.3s (compile: 10.9s, proxy.ts: 109ms, render: 2.3s)
+ GET /register 200 in 479ms (compile: 121ms, proxy.ts: 186ms, render: 171ms)
+ GET /register 200 in 104ms (compile: 17ms, proxy.ts: 11ms, render: 75ms)
+✓ Finished writing to filesystem cache in 10.1s
+✓ Finished filesystem cache database compaction in 16.5s
+ POST /register 200 in 20.9s (compile: 2.8s, proxy.ts: 916ms, render: 17.2s)
+ POST /register 200 in 20.1s (compile: 2.4s, proxy.ts: 9ms, render: 17.7s)
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+⚠ Invalid next.config.ts options detected: 
+⚠     Unrecognized key(s) in object: 'serverExternalPackages' at "experimental"
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.103:3000
+- Environments: .env.local
+- Experiments (use with caution):
+  ? serverExternalPackages (invalid experimental key)
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 1336ms
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in '/Users/trishul/Documents'
+    [2m[at finishWithoutResolve (/Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:565:18)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:657:14][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at /Users/trishul/Documents/stranger-mingle copy/node_modules/enhanced-resolve/lib/Resolver.js:718:5][0m
+    [2m[at eval (eval at create (/Users/trishul/Documents/stranger-mingle copy/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m {
+  details: "resolve 'tailwindcss' in '/Users/trishul/Documents'\n" +
+    '  Parsed request is a module\n' +
+    '  No description file found in /Users/trishul/Documents or above\n' +
+    '  resolve as module\n' +
+    "    /Users/trishul/Documents/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/trishul/node_modules doesn't exist or is not a directory\n" +
+    "    /Users/node_modules doesn't exist or is not a directory\n" +
+    "    /node_modules doesn't exist or is not a directory"
+}
+○ Compiling /authors ...
+ GET /authors 200 in 3.8s (compile: 3.5s, proxy.ts: 53ms, render: 218ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 1524ms (compile: 123ms, proxy.ts: 12ms, render: 1389ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 269ms (compile: 12ms, proxy.ts: 5ms, render: 251ms)
+ GET /authors 200 in 131ms (compile: 6ms, proxy.ts: 12ms, render: 114ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 578ms (compile: 7ms, proxy.ts: 10ms, render: 561ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 172ms (compile: 7ms, proxy.ts: 5ms, render: 159ms)
+Error: Route "/" used `searchParams.category`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at HomePage (src/app/(www)/page.tsx:72:44)
+  70 |
+  71 |   // Parse category query parameter
+> 72 |   const categorySlug = typeof searchParams.category === 'string' ? searchParams.category : undefined
+     |                                            ^
+  73 |
+  74 |   // 1. Fetch Categories (Cached)
+  75 |   const categories = await getCachedCategories()
+⨯ Error: Route / used `cookies()` inside a function cached with `unstable_cache()`. Accessing Dynamic data sources inside a cache scope is not supported. If you need this data inside a cached function use `cookies()` outside of the cached function and pass the required dynamic data in as an argument. See more info here: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
+    at createClient (src/lib/supabase/server.ts:7:36)
+    at <unknown> (src/lib/repositories/categories.repository.ts:6:38)
+    at getCachedCategories.revalidate (src/app/(www)/page.tsx:59:31)
+    at async HomePage (src/app/(www)/page.tsx:75:22)
+   5 |
+   6 | export async function createClient(): Promise<SupabaseClient<Database>> {
+>  7 |   const cookieStore = await cookies()
+     |                                    ^
+   8 |
+   9 |   return createServerClient<Database>(
+  10 |     process.env.NEXT_PUBLIC_SUPABASE_URL!, {
+  digest: '1609956970@E846'
+}
+ GET / 200 in 3.3s (compile: 1740ms, proxy.ts: 7ms, render: 1549ms)
+ GET /login 200 in 325ms (compile: 39ms, proxy.ts: 11ms, render: 275ms)
+ GET /login 200 in 205ms (compile: 116ms, proxy.ts: 16ms, render: 73ms)
+ GET /events 200 in 827ms (compile: 177ms, proxy.ts: 11ms, render: 638ms)
+✓ Compiled in 22s
+✓ Compiled in 31s
+✓ Compiled in 1458ms
+✓ Compiled in 13.8s
+✓ Compiled in 142.8s
+✓ Compiled in 36.1s
+✓ Finished filesystem cache database compaction in 18.5s
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.103:3000
+- Environments: .env.local
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 3.3s
+ GET /login 200 in 1272ms (compile: 924ms, proxy.ts: 54ms, render: 294ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 1215ms (compile: 270ms, proxy.ts: 10ms, render: 935ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 192ms (compile: 56ms, proxy.ts: 8ms, render: 129ms)
+Error: Route "/" used `searchParams.category`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at HomePage (src/app/(www)/page.tsx:72:44)
+  70 |
+  71 |   // Parse category query parameter
+> 72 |   const categorySlug = typeof searchParams.category === 'string' ? searchParams.category : undefined
+     |                                            ^
+  73 |
+  74 |   // 1. Fetch Categories (Cached)
+  75 |   const categories = await getCachedCategories()
+⨯ Error: Route / used `cookies()` inside a function cached with `unstable_cache()`. Accessing Dynamic data sources inside a cache scope is not supported. If you need this data inside a cached function use `cookies()` outside of the cached function and pass the required dynamic data in as an argument. See more info here: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
+    at createClient (src/lib/supabase/server.ts:7:36)
+    at <unknown> (src/lib/repositories/categories.repository.ts:6:38)
+    at getCachedCategories.revalidate (src/app/(www)/page.tsx:59:31)
+    at async HomePage (src/app/(www)/page.tsx:75:22)
+   5 |
+   6 | export async function createClient(): Promise<SupabaseClient<Database>> {
+>  7 |   const cookieStore = await cookies()
+     |                                    ^
+   8 |
+   9 |   return createServerClient<Database>(
+  10 |     process.env.NEXT_PUBLIC_SUPABASE_URL!, {
+  digest: '1609956970@E846'
+}
+ GET / 200 in 1506ms (compile: 205ms, proxy.ts: 91ms, render: 1209ms)
+Error: Route "/" used `searchParams.category`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at HomePage (src/app/(www)/page.tsx:72:44)
+  70 |
+  71 |   // Parse category query parameter
+> 72 |   const categorySlug = typeof searchParams.category === 'string' ? searchParams.category : undefined
+     |                                            ^
+  73 |
+  74 |   // 1. Fetch Categories (Cached)
+  75 |   const categories = await getCachedCategories()
+⨯ Error: Route / used `cookies()` inside a function cached with `unstable_cache()`. Accessing Dynamic data sources inside a cache scope is not supported. If you need this data inside a cached function use `cookies()` outside of the cached function and pass the required dynamic data in as an argument. See more info here: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
+    at createClient (src/lib/supabase/server.ts:7:36)
+    at <unknown> (src/lib/repositories/categories.repository.ts:6:38)
+    at getCachedCategories.revalidate (src/app/(www)/page.tsx:59:31)
+    at async HomePage (src/app/(www)/page.tsx:75:22)
+   5 |
+   6 | export async function createClient(): Promise<SupabaseClient<Database>> {
+>  7 |   const cookieStore = await cookies()
+     |                                    ^
+   8 |
+   9 |   return createServerClient<Database>(
+  10 |     process.env.NEXT_PUBLIC_SUPABASE_URL!, {
+  digest: '1609956970@E846'
+}
+✓ Compiled in 169.4s
+ GET / 200 in 1660ms (compile: 103ms, proxy.ts: 41ms, render: 1517ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 834ms (compile: 13ms, proxy.ts: 6ms, render: 816ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 242ms (compile: 8ms, proxy.ts: 6ms, render: 227ms)
+Error: Route "/" used `searchParams.category`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at HomePage (src/app/(www)/page.tsx:72:44)
+  70 |
+  71 |   // Parse category query parameter
+> 72 |   const categorySlug = typeof searchParams.category === 'string' ? searchParams.category : undefined
+     |                                            ^
+  73 |
+  74 |   // 1. Fetch Categories (Cached)
+  75 |   const categories = await getCachedCategories()
+⨯ Error: Route / used `cookies()` inside a function cached with `unstable_cache()`. Accessing Dynamic data sources inside a cache scope is not supported. If you need this data inside a cached function use `cookies()` outside of the cached function and pass the required dynamic data in as an argument. See more info here: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
+    at createClient (src/lib/supabase/server.ts:7:36)
+    at <unknown> (src/lib/repositories/categories.repository.ts:6:38)
+    at getCachedCategories.revalidate (src/app/(www)/page.tsx:59:31)
+    at async HomePage (src/app/(www)/page.tsx:75:22)
+   5 |
+   6 | export async function createClient(): Promise<SupabaseClient<Database>> {
+>  7 |   const cookieStore = await cookies()
+     |                                    ^
+   8 |
+   9 |   return createServerClient<Database>(
+  10 |     process.env.NEXT_PUBLIC_SUPABASE_URL!, {
+  digest: '1609956970@E846'
+}
+ GET / 200 in 1274ms (compile: 24ms, proxy.ts: 23ms, render: 1227ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 747ms (compile: 14ms, proxy.ts: 14ms, render: 718ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 236ms (compile: 5ms, proxy.ts: 7ms, render: 225ms)
+Error: Route "/" used `searchParams.category`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at HomePage (src/app/(www)/page.tsx:72:44)
+  70 |
+  71 |   // Parse category query parameter
+> 72 |   const categorySlug = typeof searchParams.category === 'string' ? searchParams.category : undefined
+     |                                            ^
+  73 |
+  74 |   // 1. Fetch Categories (Cached)
+  75 |   const categories = await getCachedCategories()
+⨯ Error: Route / used `cookies()` inside a function cached with `unstable_cache()`. Accessing Dynamic data sources inside a cache scope is not supported. If you need this data inside a cached function use `cookies()` outside of the cached function and pass the required dynamic data in as an argument. See more info here: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
+    at createClient (src/lib/supabase/server.ts:7:36)
+    at <unknown> (src/lib/repositories/categories.repository.ts:6:38)
+    at getCachedCategories.revalidate (src/app/(www)/page.tsx:59:31)
+    at async HomePage (src/app/(www)/page.tsx:75:22)
+   5 |
+   6 | export async function createClient(): Promise<SupabaseClient<Database>> {
+>  7 |   const cookieStore = await cookies()
+     |                                    ^
+   8 |
+   9 |   return createServerClient<Database>(
+  10 |     process.env.NEXT_PUBLIC_SUPABASE_URL!, {
+  digest: '1609956970@E846'
+}
+ GET / 200 in 2.3s (compile: 14ms, proxy.ts: 28ms, render: 2.2s)
+ GET /api/events/search?page=1&pageSize=12 200 in 705ms (compile: 62ms, proxy.ts: 26ms, render: 617ms)
+ GET /api/events/search?page=1&pageSize=12 200 in 310ms (compile: 35ms, proxy.ts: 72ms, render: 203ms)
+
+-----
+[1m[31mFATAL[39m[0m: An unexpected Turbopack error occurred. A panic log has been written to /var/folders/c8/m640dx1j0jx27hwjwrcrzcs40000gn/T/next-panic-b57ce58fe7220ccf60ad3efc6edeb9f9.log.
+
+To help make Turbopack better, report this error by ]8;;https://github.com/vercel/next.js/discussions/new?category=turbopack-error-report&title=Turbopack%20Error%3A%20failed%20to%20write%20to%20%2FUsers%2Ftrishul%2FDocuments%2Fstranger-mingle%20copy%2F.next%2Fdev%2Fstatic%2Fchunks%2F%5Broot-of-the-server%5D__0f0ba101._.css.map&body=Turbopack%20version%3A%20%60v16.1.0-canary.19-84-g3aa53984e%60%0ANext.js%20version%3A%20%600.0.0%60%0A%0AError%20message%3A%0A%60%60%60%0Afailed%20to%20write%20to%20%2FUsers%2Ftrishul%2FDocuments%2Fstranger-mingle%20copy%2F.next%2Fdev%2Fstatic%2Fchunks%2F%5Broot-of-the-server%5D__0f0ba101._.css.map%0A%0ACaused%20by%3A%0A-%20No%20such%20file%20or%20directory%20%28os%20error%202%29%0A%60%60%60&labels=Turbopack,Turbopack%20Panic%20Backtrace\clicking here.]8;;\
+-----
+
+[?25h

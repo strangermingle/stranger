@@ -85,8 +85,8 @@ export async function POST(request: NextRequest) {
 
         const supabase = createServerClient();
         
-        const { data, error } = await supabase
-            .from('contact_submissions')
+        const { data, error } = await (supabase
+            .from('contact_submissions') as any)
             .insert({
                 name: sanitize(name),
                 email: email.toLowerCase().trim(),

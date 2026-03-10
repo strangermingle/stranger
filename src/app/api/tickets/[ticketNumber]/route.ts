@@ -15,8 +15,8 @@ export async function GET(
 
     const { ticketNumber } = await params
 
-    const { data: ticketResult, error } = await supabase
-      .from('tickets')
+    const { data: ticketResult, error } = await (supabase
+      .from('tickets') as any)
       .select(`
         ticket_number,
         holder_name,

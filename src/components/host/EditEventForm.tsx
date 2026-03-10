@@ -29,15 +29,15 @@ export function EditEventForm({ event, categories }: EditEventFormProps) {
   const [formData, setFormData] = useState<Partial<CreateEventInput>>({
     title: event.title ?? '',
     category_id: event.category_id ?? '',
-    event_type: event.event_type ?? 'in_person',
-    ticketing_mode: event.ticketing_mode ?? 'platform',
+    event_type: (event.event_type ?? 'in_person') as 'in_person' | 'online' | 'hybrid',
+    ticketing_mode: (event.ticketing_mode ?? 'platform') as 'platform' | 'external' | 'free' | 'rsvp' | 'none',
     start_datetime: event.start_datetime ?? '',
     end_datetime: event.end_datetime ?? '',
     timezone: event.timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
     is_recurring: event.is_recurring ?? false,
     short_description: event.short_description ?? '',
     description: event.description ?? '',
-    status: event.status ?? 'draft',
+    status: (event.status ?? 'draft') as 'draft' | 'published' | 'cancelled' | 'completed',
     ticket_tiers: [], // will be fetched separately if needed
   })
 
@@ -95,7 +95,7 @@ export function EditEventForm({ event, categories }: EditEventFormProps) {
     const file = e.target.files?.[0]
     if (!file) return
     setIsSubmitting(true)
-    const res = await uploadEventImageAction(event.id as string, file)
+    const res = await uploadEventImageAction(event.id as string, file) as any
     if (res?.error) {
       setErrorMsg(res.error)
     } else if (res?.image) {

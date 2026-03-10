@@ -29,55 +29,55 @@ export default async function AdminDashboardPage() {
   const todayISO = today.toISOString()
 
   // 1. Total users
-  const { count: totalUsers } = await supabase
-    .from('users')
+  const { count: totalUsers } = await (supabase
+    .from('users') as any)
     .select('*', { count: 'exact', head: true })
     .eq('is_active', true)
 
   // 2. Total events
-  const { count: totalEvents } = await supabase
-    .from('events')
+  const { count: totalEvents } = await (supabase
+    .from('events') as any)
     .select('*', { count: 'exact', head: true })
     .eq('status', 'published')
 
   // 3. Bookings today
-  const { count: bookingsToday } = await supabase
-    .from('bookings')
+  const { count: bookingsToday } = await (supabase
+    .from('bookings') as any)
     .select('*', { count: 'exact', head: true })
     .gte('created_at', todayISO)
 
   // 4. Revenue today (platform_fee)
-  const { data: revenueData } = await supabase
-    .from('bookings')
+  const { data: revenueData } = await (supabase
+    .from('bookings') as any)
     .select('platform_fee')
     .gte('paid_at', todayISO)
   
-  const revenueToday = revenueData?.reduce((acc, curr) => acc + Number(curr.platform_fee), 0) || 0
+  const revenueToday = (revenueData as any[])?.reduce((acc: number, curr: any) => acc + Number(curr.platform_fee), 0) || 0
 
   // Recent activity
   // Last 10 bookings
-  const { data: recentBookings } = await supabase
-    .from('bookings')
+  const { data: recentBookings } = await (supabase
+    .from('bookings') as any)
     .select('booking_ref, total_amount, created_at, event:events(title)')
     .order('created_at', { ascending: false })
     .limit(10)
 
   // Last 5 new users
-  const { data: recentUsers } = await supabase
-    .from('users')
+  const { data: recentUsers } = await (supabase
+    .from('users') as any)
     .select('username, created_at')
     .order('created_at', { ascending: false })
     .limit(5)
 
   // Pending host approvals count
-  const { count: pendingHosts } = await supabase
-    .from('host_profiles')
+  const { count: pendingHosts } = await (supabase
+    .from('host_profiles') as any)
     .select('*', { count: 'exact', head: true })
     .eq('is_approved', false)
 
   // Pending reports count
-  const { count: pendingReports } = await supabase
-    .from('reports')
+  const { count: pendingReports } = await (supabase
+    .from('reports') as any)
     .select('*', { count: 'exact', head: true })
     .eq('status', 'pending')
 
@@ -174,7 +174,7 @@ export default async function AdminDashboardPage() {
             </div>
             <div className="divide-y divide-gray-100 dark:divide-zinc-800">
               {recentUsers && recentUsers.length > 0 ? (
-                recentUsers.map((user) => (
+                recentUsers.map((user: any) => (
                   <div key={user.username} className="p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-700 dark:text-indigo-400 text-xs font-bold uppercase">

@@ -25,8 +25,8 @@ export default async function AuditLogsPage({
   const currentPage = parseInt(p.page || '1')
   const pageSize = 50
 
-  let query = supabase
-    .from('audit_logs')
+  let query = (supabase
+    .from('audit_logs') as any)
     .select('*, actor:users!actor_id(username)')
     .order('created_at', { ascending: false })
     .range((currentPage - 1) * pageSize, currentPage * pageSize - 1)

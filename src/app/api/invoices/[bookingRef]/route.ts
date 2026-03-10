@@ -15,8 +15,8 @@ export async function GET(
 
     const { bookingRef } = await params
 
-    const { data: booking, error: bookingError } = await supabase
-      .from('bookings')
+    const { data: booking, error: bookingError } = await (supabase
+      .from('bookings') as any)
       .select(`
         *,
         events (

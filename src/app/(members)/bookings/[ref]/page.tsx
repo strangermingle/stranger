@@ -13,10 +13,11 @@ export const metadata: Metadata = {
 }
 
 interface BookingDetailPageProps {
-  params: { ref: string }
+  params: Promise<{ ref: string }>
 }
 
 export default async function BookingDetailPage({ params }: BookingDetailPageProps) {
+  const { ref } = await params
   const supabase = await createClient()
 
   // 1. Fetch current user
@@ -26,8 +27,8 @@ export default async function BookingDetailPage({ params }: BookingDetailPagePro
   }
 
   // 2. Fetch booking with items and tickets
-  const { data: booking, error } = await supabase
-    .from('bookings')
+  const { data: booking, error } = await (supabase
+    .from('bookings') as any)
     .select(`
       *,
       events (
@@ -61,8 +62,8 @@ export default async function BookingDetailPage({ params }: BookingDetailPagePro
         is_void
       )
     `)
-    .eq('booking_ref', params.ref)
-    .single() as any
+    .eq('booking_ref', ref)
+    .single()
 
   if (error || !booking) {
     notFound()
@@ -73,9 +74,9 @@ export default async function BookingDetailPage({ params }: BookingDetailPagePro
     redirect('/bookings')
   }
 
-  const event = booking.events
-  const items = booking.booking_items
-  const tickets = booking.tickets
+  const event = booking.events as any
+  const items = (booking.booking_items || []) as any[]
+  const tickets = (booking.tickets || []) as any[]
 
   const isCancellable = booking.status === 'confirmed' && 
     new Date() < new Date(new Date(event.start_datetime).getTime() - (event.refund_cutoff_hours || 0) * 60 * 60 * 1000)

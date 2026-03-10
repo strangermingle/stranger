@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    const { data: waitlistUsers, error: fetchError } = await supabaseAdmin
-      .from('event_waitlist')
+    const { data: waitlistUsers, error: fetchError } = await (supabaseAdmin
+      .from('event_waitlist') as any)
       .select('id, user_id, position')
       .eq('event_id', eventId)
       .eq('ticket_tier_id', ticketTierId)
@@ -25,8 +25,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ offeredCount: 0 })
     }
 
-    const { data: event } = await supabaseAdmin
-      .from('events')
+    const { data: event } = await (supabaseAdmin
+      .from('events') as any)
       .select('title')
       .eq('id', eventId)
       .single()
@@ -37,8 +37,8 @@ export async function POST(request: NextRequest) {
       const expiresAt = new Date()
       expiresAt.setHours(expiresAt.getHours() + 4) // 4 hours limit
 
-      await supabaseAdmin
-        .from('event_waitlist')
+      await (supabaseAdmin
+        .from('event_waitlist') as any)
         .update({
           status: 'offered',
           notified_at: new Date().toISOString(),
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
         })
         .eq('id', waitlister.id)
 
-      await supabaseAdmin.from('notifications').insert({
+      await (supabaseAdmin.from('notifications') as any).insert({
         user_id: waitlister.user_id,
         type: 'waitlist_offer',
         title: `A ticket is available for ${eventTitle}`,

@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const createHostProfileSchema = z.object({
   host_type: z.enum(['individual', 'organisation'], {
-    required_error: 'Please select a host type',
+    message: 'Please select a host type',
   }),
   display_name: z
     .string()

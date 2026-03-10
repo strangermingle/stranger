@@ -1,14 +1,14 @@
 import { createClient } from '../supabase/server'
-import { Database } from '../../../types/database.types'
+import { Database } from '@/types/database.types'
 import {
   PaginatedResponse,
   EventWithDetails,
-} from '../../../types/api.types'
+} from '@/types/api.types'
 import {
   EventInsert,
   EventUpdate,
   Event,
-} from '../../../types'
+} from '@/types'
 
 export interface EventFilters {
   city?: string
@@ -184,7 +184,7 @@ export async function getEventById(id: string): Promise<Event | null> {
     throw new Error(error.message)
   }
 
-  return data
+  return data as unknown as Event
 }
 
 export async function createEvent(eventData: EventInsert): Promise<Event> {
@@ -215,7 +215,7 @@ export async function createEvent(eventData: EventInsert): Promise<Event> {
     throw new Error(error.message)
   }
 
-  return data
+  return data as unknown as Event
 }
 
 export async function updateEvent(
@@ -250,7 +250,7 @@ export async function updateEvent(
     throw new Error(error.message)
   }
 
-  return data
+  return data as unknown as Event
 }
 
 export async function incrementViewCount(id: string): Promise<void> {

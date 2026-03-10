@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
 
   const supabase = await createClient()
 
-  let query = supabase
-    .from('v_events_public')
+  let query = (supabase
+    .from('v_events_public') as any)
     .select('*', { count: 'exact' })
     .eq('status', 'published')
 

@@ -10,8 +10,8 @@ export async function GET(request: NextRequest) {
 
   try {
     // Fetch expired offers
-    const { data: expiredOffers, error } = await supabaseAdmin
-      .from('event_waitlist')
+    const { data: expiredOffers, error } = await (supabaseAdmin
+      .from('event_waitlist') as any)
       .select('id, event_id, ticket_tier_id')
       .eq('status', 'offered')
       .lt('offer_expires_at', new Date().toISOString())
@@ -26,8 +26,8 @@ export async function GET(request: NextRequest) {
 
     for (const offer of expiredOffers) {
       // 1. Mark as expired
-      await supabaseAdmin
-        .from('event_waitlist')
+      await (supabaseAdmin
+        .from('event_waitlist') as any)
         .update({ status: 'expired' })
         .eq('id', offer.id)
 

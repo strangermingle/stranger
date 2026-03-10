@@ -25,8 +25,8 @@ export async function updateProfileAction(formData: FormData) {
   }
 
   // Check username uniqueness if they are changing it
-  const { data: existingUser, error: checkError } = await supabase
-    .from('users')
+  const { data: existingUser, error: checkError } = await (supabase
+    .from('users') as any)
     .select('id')
     .eq('username', username)
     .neq('id', user.id)
@@ -37,7 +37,7 @@ export async function updateProfileAction(formData: FormData) {
   }
 
   const { error: updateError } = await (supabase
-    .from('users')
+    .from('users') as any)
     .update({
       username,
       bio: bio || null,
@@ -45,8 +45,8 @@ export async function updateProfileAction(formData: FormData) {
       preferred_currency: preferred_currency || null,
       timezone: timezone || null,
       updated_at: new Date().toISOString()
-    } as never)
-    .eq('id', user.id) as unknown as Promise<{ error: any }>)
+    })
+    .eq('id', user.id)
 
   if (updateError) {
     return { error: updateError.message }
@@ -89,11 +89,11 @@ export async function updateNotificationPrefsAction(prefs: Record<string, any>) 
   }
 
   // Fetch current prefs to merge
-  const { data: currentUser, error: fetchError } = await supabase
-    .from('users')
+  const { data: currentUser, error: fetchError } = await (supabase
+    .from('users') as any)
     .select('notification_prefs')
     .eq('id', user.id)
-    .single();
+    .single()
 
   if (fetchError) {
     return { error: 'Failed to fetch current preferences' };
@@ -111,12 +111,12 @@ export async function updateNotificationPrefsAction(prefs: Record<string, any>) 
   }
 
   const { error: updateError } = await (supabase
-    .from('users')
+    .from('users') as any)
     .update({
       notification_prefs: mergedPrefs,
       updated_at: new Date().toISOString()
-    } as never)
-    .eq('id', user.id) as unknown as Promise<{ error: any }>)
+    })
+    .eq('id', user.id)
 
   if (updateError) {
     return { error: updateError.message }

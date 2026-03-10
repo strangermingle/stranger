@@ -156,13 +156,13 @@ export function ChatWindow({
           messages.map((msg, index) => {
             const isMe = msg.sender_id === currentUserId
             const showTime = index === 0 || 
-                             new Date(msg.created_at).getTime() - new Date(messages[index - 1].created_at).getTime() > 1000 * 60 * 5
+                             new Date(msg.created_at || 0).getTime() - new Date(messages[index - 1].created_at || 0).getTime() > 1000 * 60 * 5
                              
             return (
               <div key={msg.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
                 {showTime && (
                   <span className="text-[10px] text-gray-400 my-2 px-1">
-                    {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
+                    {formatDistanceToNow(new Date(msg.created_at || 0), { addSuffix: true })}
                   </span>
                 )}
                 <div className={`flex items-center group gap-2 ${isMe ? 'flex-row-reverse' : 'flex-row'}`}>

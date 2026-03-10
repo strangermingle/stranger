@@ -26,7 +26,7 @@ export function ConversationList({ userId, initialConversations, activeConversat
         
         // Re-sort so newest is at the top
         return [...prev.filter(c => c.id !== payload.id), updated].sort(
-          (a, b) => new Date(b.last_message_at || b.created_at).getTime() - new Date(a.last_message_at || a.created_at).getTime()
+          (a, b) => new Date(b.last_message_at || b.created_at || 0).getTime() - new Date(a.last_message_at || a.created_at || 0).getTime()
         )
       } else {
         // If it's a completely new conversation we don't have the participant alias,
@@ -38,7 +38,7 @@ export function ConversationList({ userId, initialConversations, activeConversat
             newConv.other_participant = { anonymous_alias: 'New User' }
         }
         return [newConv, ...prev].sort(
-          (a, b) => new Date(b.last_message_at || b.created_at).getTime() - new Date(a.last_message_at || a.created_at).getTime()
+          (a, b) => new Date(b.last_message_at || b.created_at || 0).getTime() - new Date(a.last_message_at || a.created_at || 0).getTime()
         )
       }
     })

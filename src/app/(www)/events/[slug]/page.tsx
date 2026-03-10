@@ -12,8 +12,9 @@ interface PageProps {
   params: { slug: string }
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const event = await getEventBySlug(params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const event = await getEventBySlug(slug)
 
   if (!event || event.status !== 'published') {
     return { title: 'Event Not Found' }
@@ -22,28 +23,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return generateEventMetadata(event)
 }
 
-export async function generateStaticParams() {
-  const supabase = await createClient()
-  const { data: events } = await supabase
-    .from('events')
-    .select('slug')
-    .eq('status', 'published') as any
+export const dynamic = 'force-dynamic'
 
-  return (events || []).map((event: any) => ({
-    slug: event.slug,
-  }))
-}
 
-export default async function EventDetailPage({ params }: PageProps) {
+export default async function EventDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const supabase = await createClient()
-  const event = await getEventBySlug(params.slug)
+  const event = await getEventBySlug(slug)
 
   if (!event || event.status !== 'published') {
     notFound()
   }
 
   // Fire and forget view count
-  supabase.rpc('increment_event_views', { event_id: event.id }).then()
+  (supabase as any).rpc('increment_event_views', { event_id: event.id }).then()
 
   // Parallel fetches
   const [
@@ -53,11 +46,11 @@ export default async function EventDetailPage({ params }: PageProps) {
     { data: faqs },
     { data: host },
   ] = await Promise.all([
-    supabase.from('v_ticket_availability').select('*').eq('event_id', event.id) as any,
-    supabase.from('event_images').select('*').eq('event_id', event.id).order('sort_order') as any,
-    supabase.from('event_agenda').select('*').eq('event_id', event.id).order('sort_order') as any,
-    supabase.from('event_faqs').select('*').eq('event_id', event.id).order('sort_order') as any,
-    supabase.from('host_profiles').select('*').eq('user_id', event.host_id).single() as any
+    (supabase.from('v_ticket_availability') as any).select('*').eq('event_id', event.id),
+    (supabase.from('event_images') as any).select('*').eq('event_id', event.id).order('sort_order'),
+    (supabase.from('event_agenda') as any).select('*').eq('event_id', event.id).order('sort_order'),
+    (supabase.from('event_faqs') as any).select('*').eq('event_id', event.id).order('sort_order'),
+    (supabase.from('host_profiles') as any).select('*').eq('user_id', event.host_id).single()
   ])
 
   // JSON-LD structured data

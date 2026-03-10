@@ -5,8 +5,9 @@ export const runtime = 'edge'
 
 export async function GET(
   request: Request,
-  { params }: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
+  const { username } = await params
   try {
     const supabase = await createClient()
     const { data: host } = await supabase
@@ -19,7 +20,7 @@ export async function GET(
         follower_count,
         user:users!host_profiles_user_id_fkey ( avatar_url )
       `)
-      .eq('user:users!host_profiles_user_id_fkey(username)', params.username)
+      .eq('user:users!host_profiles_user_id_fkey(username)', username)
       .single() as any
 
     if (!host) {

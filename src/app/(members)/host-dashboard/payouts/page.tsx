@@ -12,8 +12,8 @@ export default async function PayoutsPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: payouts } = await supabase
-    .from('payouts')
+  const { data: payouts } = await (supabase
+    .from('payouts') as any)
     .select(`
       *,
       events ( title )
@@ -23,17 +23,17 @@ export default async function PayoutsPage() {
 
   const safePayouts = payouts || []
 
-  const totalEarned = safePayouts
-    .filter(p => p.status === 'paid')
-    .reduce((sum, p) => sum + Number(p.net_amount), 0)
+  const totalEarned = (safePayouts as any[])
+    .filter((p: any) => p.status === 'paid')
+    .reduce((sum: number, p: any) => sum + Number(p.net_amount), 0)
 
-  const pendingPayout = safePayouts
-    .filter(p => ['pending', 'processing'].includes(p.status))
-    .reduce((sum, p) => sum + Number(p.net_amount), 0)
+  const pendingPayout = (safePayouts as any[])
+    .filter((p: any) => ['pending', 'processing'].includes(p.status))
+    .reduce((sum: number, p: any) => sum + Number(p.net_amount), 0)
 
-  const platformFeesPaid = safePayouts
-    .filter(p => p.status === 'paid')
-    .reduce((sum, p) => sum + Number(p.platform_fee) + Number(p.gst_on_fee), 0)
+  const platformFeesPaid = (safePayouts as any[])
+    .filter((p: any) => p.status === 'paid')
+    .reduce((sum: number, p: any) => sum + Number(p.platform_fee) + Number(p.gst_on_fee), 0)
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -98,7 +98,7 @@ export default async function PayoutsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-zinc-800">
-                {safePayouts.map((payout) => (
+                {safePayouts.map((payout: any) => (
                   <tr key={payout.id} className="bg-white hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800/50">
                     <td className="px-6 py-4 text-gray-900 dark:text-white">
                       {(payout.events as { title?: string } | null)?.title || 'Unknown Event'}

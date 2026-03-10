@@ -15,13 +15,13 @@ export default async function HostEventsPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return null
 
-  const { data: events } = await supabase
-    .from('events')
+  const { data: events } = await (supabase
+    .from('events') as any)
     .select('id, title, status, start_datetime, booking_count, views_count')
     .eq('host_id', user.id)
     .order('start_datetime', { ascending: true })
 
-  const hostEvents = (events ?? []) as Database['public']['Tables']['events']['Row'][]
+  const hostEvents = (events ?? []) as any[]
 
   return (
     <div className="space-y-6">

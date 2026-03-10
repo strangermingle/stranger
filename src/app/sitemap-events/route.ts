@@ -20,9 +20,9 @@ ${events.map((event) => {
             const url = `${BASE_URL}/events/${eventSlug}`;
 
             // Use updated_at if available, otherwise use created_at
-            const lastmod = event.updated_at
-                ? new Date(event.updated_at).toISOString().split('T')[0]
-                : new Date(event.created_at).toISOString().split('T')[0];
+            const lastmod = (event as any).updated_at
+                ? new Date((event as any).updated_at).toISOString().split('T')[0]
+                : new Date((event as any).created_at).toISOString().split('T')[0];
 
             return `  <url>
     <loc>${escapeXml(url)}</loc>

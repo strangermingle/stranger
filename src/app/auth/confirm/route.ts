@@ -18,8 +18,8 @@ export async function GET(request: Request) {
 
     if (!error && data.user) {
       // Upon successful verification, update DB field
-      await supabase
-        .from('users')
+      await (supabase
+        .from('users') as any)
         .update({ email_verified_at: new Date().toISOString() })
         .eq('id', data.user.id)
         

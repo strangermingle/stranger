@@ -15,34 +15,34 @@ export async function GET(req: Request) {
   
   // Calculate yesterday's metrics
   // 1. New Users
-  const { count: newUsers } = await supabaseAdmin
-    .from('users')
+  const { count: newUsers } = await (supabaseAdmin
+    .from('users') as any)
     .select('*', { count: 'exact', head: true })
     .gte('created_at', yesterdayStr + 'T00:00:00Z')
     .lt('created_at', yesterdayStr + 'T23:59:59Z')
 
   // 2. New Events
-  const { count: newEvents } = await supabaseAdmin
-    .from('events')
+  const { count: newEvents } = await (supabaseAdmin
+    .from('events') as any)
     .select('*', { count: 'exact', head: true })
     .gte('created_at', yesterdayStr + 'T00:00:00Z')
     .lt('created_at', yesterdayStr + 'T23:59:59Z')
 
   // 3. Bookings & Revenue
-  const { data: bookingStats } = await supabaseAdmin
-    .from('bookings')
+  const { data: bookingStats } = await (supabaseAdmin
+    .from('bookings') as any)
     .select('platform_fee, total_amount')
     .eq('status', 'confirmed')
     .gte('paid_at', yesterdayStr + 'T00:00:00Z')
     .lt('paid_at', yesterdayStr + 'T23:59:59Z')
   
   const totalBookings = bookingStats?.length || 0
-  const totalRevenue = bookingStats?.reduce((acc, curr) => acc + Number(curr.total_amount), 0) || 0
-  const totalPlatformFee = bookingStats?.reduce((acc, curr) => acc + Number(curr.platform_fee), 0) || 0
+  const totalRevenue = (bookingStats as any[])?.reduce((acc: number, curr: any) => acc + Number(curr.total_amount), 0) || 0
+  const totalPlatformFee = (bookingStats as any[])?.reduce((acc: number, curr: any) => acc + Number(curr.platform_fee), 0) || 0
 
   // Insert into analytics_daily
-  const { error } = await supabaseAdmin
-    .from('analytics_daily')
+  const { error } = await (supabaseAdmin
+    .from('analytics_daily') as any)
     .insert({
       snapshot_date: yesterdayStr,
       metric_type: 'platform',
@@ -52,7 +52,7 @@ export async function GET(req: Request) {
       total_revenue: totalRevenue,
       total_platform_fee: totalPlatformFee,
       page_views: 0
-    } as never)
+    })
 
   if (error) {
     console.error('[Cron] Analytics Snapshot failed:', error)

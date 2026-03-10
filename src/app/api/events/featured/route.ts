@@ -4,8 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 export async function GET() {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from('v_events_public')
+  const { data, error } = await (supabase
+    .from('v_events_public') as any)
     .select('*')
     .eq('status', 'published')
     .eq('is_featured', true)

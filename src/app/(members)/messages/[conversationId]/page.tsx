@@ -8,14 +8,13 @@ export const metadata = {
   title: 'Chat | StrangerMingle',
 }
 
-export default async function ConversationPage({ params }: { params: { conversationId: string } }) {
+export default async function ConversationPage({ params }: { params: Promise<{ conversationId: string }> }) {
+  const { conversationId } = await params
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) redirect('/login')
 
-  const { conversationId } = params
-  
   try {
     const [conversations, initialMessages] = await Promise.all([
       getConversations(user.id),
@@ -25,7 +24,7 @@ export default async function ConversationPage({ params }: { params: { conversat
     const activeConv = conversations.find(c => c.id === conversationId)
     if (!activeConv) throw new Error('Conversation not found')
 
-    const isBlockedMode = activeConv.is_blocked_by_p1 || activeConv.is_blocked_by_p2
+    const isBlockedMode = !!(activeConv.is_blocked_by_p1 || activeConv.is_blocked_by_p2)
     const otherParticipantAlias = activeConv.other_participant?.anonymous_alias || 'Unknown'
     const otherParticipantId = activeConv.participant_1_id === user.id 
       ? activeConv.participant_2_id 

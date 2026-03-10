@@ -23,8 +23,8 @@ export async function createPromoCodeAction(input: CreatePromoInput) {
 
     // Validate ownership if event_id is provided
     if (input.event_id) {
-      const { data: event } = await supabase
-        .from('events')
+      const { data: event } = await (supabase
+        .from('events') as any)
         .select('host_id')
         .eq('id', input.event_id)
         .single()
@@ -35,8 +35,8 @@ export async function createPromoCodeAction(input: CreatePromoInput) {
     }
 
     // Ensure code is somewhat unique for this host
-    const { data: existingCode } = await supabase
-      .from('promo_codes')
+    const { data: existingCode } = await (supabase
+      .from('promo_codes') as any)
       .select('id')
       .eq('host_id', user.id)
       .ilike('code', input.code)
@@ -47,8 +47,8 @@ export async function createPromoCodeAction(input: CreatePromoInput) {
       return { error: 'An active promo code with this name already exists.' }
     }
 
-    const { data: promo, error: insertError } = await supabase
-      .from('promo_codes')
+    const { data: promo, error: insertError } = await (supabase
+      .from('promo_codes') as any)
       .insert({
         host_id: user.id,
         event_id: input.event_id || null,
@@ -83,8 +83,8 @@ export async function togglePromoCodeAction(id: string, isActive: boolean) {
     if (!user) return { error: 'Not authenticated' }
 
     // Verify ownership
-    const { data: promo } = await supabase
-      .from('promo_codes')
+    const { data: promo } = await (supabase
+      .from('promo_codes') as any)
       .select('host_id')
       .eq('id', id)
       .single()
@@ -93,8 +93,8 @@ export async function togglePromoCodeAction(id: string, isActive: boolean) {
       return { error: 'Unauthorized' }
     }
 
-    const { error: updateError } = await supabase
-      .from('promo_codes')
+    const { error: updateError } = await (supabase
+      .from('promo_codes') as any)
       .update({ is_active: isActive })
       .eq('id', id)
 
@@ -114,8 +114,8 @@ export async function validatePromoCodeAction(code: string, eventId: string, sub
     // If user is not logged in, we reject code if it requires tracking.
     // Assuming mostly logged in users book.
 
-    const { data: promo, error: promoError } = await supabase
-      .from('promo_codes')
+    const { data: promo, error: promoError } = await (supabase
+      .from('promo_codes') as any)
       .select('*')
       .ilike('code', code)
       .eq('is_active', true)
@@ -147,10 +147,10 @@ export async function validatePromoCodeAction(code: string, eventId: string, sub
 
     // Check per user limit
     if (user && promo.uses_per_user !== null) {
-      const { count } = await supabase
-        .from('promo_code_uses')
+      const { count } = await (supabase
+        .from('promo_code_uses') as any)
         .select('*', { count: 'exact', head: true })
-        .eq('promo_code_id', promo.id)
+        .eq('promo_code_id', (promo as any).id)
         .eq('user_id', user.id)
 
       if (count !== null && count >= promo.uses_per_user) {

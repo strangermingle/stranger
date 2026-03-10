@@ -27,8 +27,8 @@ export default async function AdminEventsPage({
   const status = p.status || 'all'
   const reportedOnly = p.reported === 'true'
 
-  let query = supabase
-    .from('events')
+  let query = (supabase
+    .from('events') as any)
     .select('*, host:users(username)')
     .order('created_at', { ascending: false })
 
@@ -37,20 +37,20 @@ export default async function AdminEventsPage({
   const { data: allEvents } = await query
 
   // Client-side filtering for reports (for now) and fetching counts
-  const eventIds = allEvents?.map(e => e.id) || []
-  const { data: reportsData } = await supabase
-    .from('reports')
+  const eventIds = (allEvents as any[])?.map((e: any) => e.id) || []
+  const { data: reportsData } = await (supabase
+    .from('reports') as any)
     .select('reported_id')
     .in('reported_id', eventIds)
     .eq('reported_type', 'event')
   
-  const reportCounts = reportsData?.reduce((acc: any, curr: any) => {
+  const reportCounts = (reportsData as any[])?.reduce((acc: any, curr: any) => {
     acc[curr.reported_id] = (acc[curr.reported_id] || 0) + 1
     return acc
   }, {}) || {}
 
   const events = reportedOnly 
-    ? allEvents?.filter(e => reportCounts[e.id] > 0)
+    ? allEvents?.filter((e: any) => reportCounts[e.id] > 0)
     : allEvents
 
   return (

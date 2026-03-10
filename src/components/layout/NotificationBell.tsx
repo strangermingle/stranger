@@ -19,7 +19,7 @@ export function NotificationBell({ userId }: { userId: string }) {
     setLoading(true)
     const supabase = createClient()
     const { data } = await supabase
-      .from('notifications')
+      .from('notifications' as any)
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })

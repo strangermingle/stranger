@@ -10,19 +10,20 @@ interface PageProps {
   params: { username: string }
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ username: string }> }): Promise<Metadata> {
+  const { username } = await params
   const supabase = await createClient()
-  const { data: host } = await supabase
-    .from('host_profiles')
+  const { data: host } = await (supabase
+    .from('host_profiles') as any)
     .select('display_name, tagline')
-    .eq('user:users!host_profiles_user_id_fkey(username)', params.username)
-    .single() as any
+    .eq('user:users!host_profiles_user_id_fkey(username)', username)
+    .single()
 
   if (!host) return { title: 'Host Not Found' }
 
   const title = `${host.display_name} — Host Profile | StrangerMingle`
   const description = host.tagline || `Check out upcoming events by ${host.display_name} on StrangerMingle.`
-  const ogImage = `${process.env.NEXT_PUBLIC_SITE_URL}/api/og/host/${params.username}`
+  const ogImage = `${process.env.NEXT_PUBLIC_SITE_URL}/api/og/host/${username}`
 
   return {
     title,
@@ -49,12 +50,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-export default async function HostProfilePage({ params }: PageProps) {
+export default async function HostProfilePage({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params
   const supabase = await createClient()
 
   // 1. Fetch host profile with user details and stats
-  const { data: host, error } = await supabase
-    .from('host_profiles')
+  const { data: host, error } = await (supabase
+    .from('host_profiles') as any)
     .select(`
       *,
       user:users!host_profiles_user_id_fkey (
@@ -63,33 +65,33 @@ export default async function HostProfilePage({ params }: PageProps) {
         created_at
       )
     `)
-    .eq('user.username', params.username)
-    .single() as any
+    .eq('user.username', username)
+    .single()
 
   if (!host || error) notFound()
 
   // 2. Fetch upcoming events
-  const { data: upcomingEventsData } = await supabase
+  const { data: upcomingEventsData } = await (supabase
     .from('v_events_public')
     .select('*')
-    .eq('host_username', params.username)
+    .eq('host_username', username)
     .eq('status', 'published')
     .gte('start_datetime', new Date().toISOString())
-    .order('start_datetime', { ascending: true }) as any
+    .order('start_datetime', { ascending: true }) as any)
 
   // 3. Fetch past events (last 3)
-  const { data: pastEventsData } = await supabase
+  const { data: pastEventsData } = await (supabase
     .from('v_events_public')
     .select('*')
-    .eq('host_username', params.username)
+    .eq('host_username', username)
     .eq('status', 'published')
     .lt('start_datetime', new Date().toISOString())
     .order('start_datetime', { ascending: false })
-    .limit(3) as any
+    .limit(3) as any)
 
   // 4. Fetch reviews
-  const { data: reviews } = await supabase
-    .from('event_reviews')
+  const { data: reviews } = await (supabase
+    .from('event_reviews') as any)
     .select(`
       id,
       rating,
@@ -100,7 +102,7 @@ export default async function HostProfilePage({ params }: PageProps) {
     `)
     .eq('event.host_id', host.user_id)
     .order('created_at', { ascending: false })
-    .limit(5) as any
+    .limit(5)
 
   const upcomingEvents = (upcomingEventsData || []) as unknown as EventWithDetails[]
   const pastEvents = (pastEventsData || []) as unknown as EventWithDetails[]
@@ -246,7 +248,7 @@ export default async function HostProfilePage({ params }: PageProps) {
             "@type": host.host_type === 'organisation' ? 'Organization' : 'Person',
             "name": host.display_name,
             "description": host.description,
-            "url": `${process.env.NEXT_PUBLIC_SITE_URL}/hosts/${host.user.username}`,
+            "url": `${process.env.NEXT_PUBLIC_SITE_URL}/hosts/${username}`,
             "image": host.logo_url || host.user.avatar_url,
             "aggregateRating": {
               "@type": "AggregateRating",

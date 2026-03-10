@@ -86,12 +86,12 @@ export default async function CityEventsPage({ cityName }: CityEventsPageProps) 
                                 "position": index + 1,
                                 "item": {
                                     "@type": "Event",
-                                    "name": event.event_name,
-                                    "startDate": event.start_date,
-                                    "endDate": event.end_date,
+                                    "name": (event as any).event_name,
+                                    "startDate": (event as any).start_date,
+                                    "endDate": (event as any).end_date,
                                     "location": {
                                         "@type": "Place",
-                                        "name": event.short_address,
+                                        "name": (event as any).short_address,
                                         "address": {
                                             "@type": "PostalAddress",
                                             "addressLocality": cityName,
@@ -100,7 +100,7 @@ export default async function CityEventsPage({ cityName }: CityEventsPageProps) 
                                     },
                                     "offers": {
                                         "@type": "Offer",
-                                        "price": event.regular_price === 0 ? "0" : (event.discounted_price || event.regular_price).toString(),
+                                        "price": (event as any).regular_price === 0 ? "0" : ((event as any).discounted_price || (event as any).regular_price).toString(),
                                         "priceCurrency": "INR"
                                     }
                                 }

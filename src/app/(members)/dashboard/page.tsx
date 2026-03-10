@@ -15,8 +15,8 @@ export default async function DashboardPage() {
 
   // Fetch upcoming bookings
   // Note: Since joined tables might be complex, we can use standard relational fetching
-  const { data: bookingsData } = await supabase
-    .from('bookings')
+  const { data: bookingsData } = await (supabase
+    .from('bookings') as any)
     .select(`
       id,
       booking_ref,
@@ -36,14 +36,14 @@ export default async function DashboardPage() {
     .limit(5)
 
   // Fetch saved events count
-  const { count: savesCount } = await supabase
-    .from('event_saves')
+  const { count: savesCount } = await (supabase
+    .from('event_saves') as any)
     .select('*', { count: 'exact', head: true })
     .eq('user_id', user.id)
 
   // Fetch upcoming saved events
-  const { data: savedEventsData } = await supabase
-    .from('event_saves')
+  const { data: savedEventsData } = await (supabase
+    .from('event_saves') as any)
     .select(`
       event_id,
       events (
@@ -57,8 +57,8 @@ export default async function DashboardPage() {
     .gte('events.start_datetime', new Date().toISOString())
     .limit(3)
 
-  const upcomingBookings = bookingsData || []
-  const upcomingSaved = savedEventsData || []
+  const upcomingBookings = (bookingsData || []) as any[]
+  const upcomingSaved = (savedEventsData || []) as any[]
 
   return (
     <div className="space-y-6">
@@ -96,7 +96,7 @@ export default async function DashboardPage() {
           </div>
           <div className="divide-y divide-gray-200 dark:divide-zinc-800">
             {upcomingBookings.length > 0 ? (
-              upcomingBookings.map((b) => {
+              upcomingBookings.map((b: any) => {
                 // Supabase typing inference handle
                 const event = (b.events as any)
                 if(!event) return null 

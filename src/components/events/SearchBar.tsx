@@ -129,7 +129,7 @@ export default function SearchBar() {
                           {event.cover_image_url ? (
                             <Image
                               src={event.cover_image_url}
-                              alt={event.title}
+                              alt={event.title || 'Event'}
                               fill
                               className="object-cover"
                               sizes="48px"
@@ -148,7 +148,7 @@ export default function SearchBar() {
                             <MapPin className="h-3 w-3" />
                             <span>{event.city}</span>
                             <span>•</span>
-                            <span>{new Date(event.start_datetime).toLocaleDateString()}</span>
+                            <span>{event.start_datetime ? new Date(event.start_datetime).toLocaleDateString() : ''}</span>
                           </div>
                         </div>
                       </Link>

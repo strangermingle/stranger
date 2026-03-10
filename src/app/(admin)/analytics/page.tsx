@@ -28,16 +28,16 @@ export default async function AnalyticsPage({
   startDate.setDate(startDate.getDate() - days)
 
   // 1. Fetch historical data from analytics_daily
-  const { data: history } = await supabase
-    .from('analytics_daily')
+  const { data: history } = await (supabase
+    .from('analytics_daily') as any)
     .select('*')
     .eq('metric_type', 'platform')
     .gte('snapshot_date', startDate.toISOString().split('T')[0])
     .order('snapshot_date', { ascending: true })
 
   // 2. Fetch Category breakdown (Current)
-  const { data: eventsByCategory } = await supabase
-    .from('events')
+  const { data: eventsByCategory } = await (supabase
+    .from('events') as any)
     .select('category_id, categories(name)')
   
   const categoryCounts = eventsByCategory?.reduce((acc: any, curr: any) => {
@@ -52,19 +52,19 @@ export default async function AnalyticsPage({
     .slice(0, 5)
 
   // 3. Live Counts
-  const { count: activeEvents } = await supabase
-    .from('events')
+  const { count: activeEvents } = await (supabase
+    .from('events') as any)
     .select('*', { count: 'exact', head: true })
     .eq('status', 'published')
     .lte('start_datetime', new Date().toISOString())
     .gte('end_datetime', new Date().toISOString())
 
-  const { data: pendingPayoutsData } = await supabase
-    .from('payouts')
+  const { data: pendingPayoutsData } = await (supabase
+    .from('payouts') as any)
     .select('net_amount')
     .eq('status', 'pending')
   
-  const pendingPayoutsTotal = pendingPayoutsData?.reduce((acc, curr) => acc + Number(curr.net_amount), 0) || 0
+  const pendingPayoutsTotal = (pendingPayoutsData as any[])?.reduce((acc: number, curr: any) => acc + Number(curr.net_amount), 0) || 0
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">

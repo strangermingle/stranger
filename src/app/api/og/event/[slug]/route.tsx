@@ -5,21 +5,22 @@ export const runtime = 'edge'
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
+  const { slug } = await params
   try {
     const supabase = await createClient()
-    const { data: event } = await supabase
-      .from('v_events_public')
+    const { data: event } = await (supabase
+      .from('v_events_public') as any)
       .select('title, start_datetime, city, cover_image_url, category_name, host_display_name')
-      .eq('slug', params.slug)
+      .eq('slug', slug)
       .single()
 
     if (!event) {
       return new Response('Not Found', { status: 404 })
     }
 
-    const date = new Date(event.start_datetime).toLocaleDateString('en-IN', {
+    const date = new Date((event as any).start_datetime).toLocaleDateString('en-IN', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
@@ -55,7 +56,7 @@ export async function GET(
             {/* Left side: Image or Accent */}
             <div style={{ display: 'flex', flex: 1, position: 'relative' }}>
               <img
-                src={event.cover_image_url || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1200'}
+                src={(event as any).cover_image_url || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1200'}
                 style={{
                   width: '100%',
                   height: '100%',
@@ -76,7 +77,7 @@ export async function GET(
                   backdropFilter: 'blur(10px)',
                 }}
               >
-                {event.category_name}
+                {(event as any).category_name}
               </div>
             </div>
 
@@ -95,7 +96,7 @@ export async function GET(
                 </div>
                 <div style={{ fontSize: '24px', color: '#9ca3af' }}>•</div>
                 <div style={{ fontSize: '24px', color: '#4b5563', fontWeight: '600' }}>
-                  {event.city}
+                  {(event as any).city}
                 </div>
               </div>
               <div
@@ -107,12 +108,12 @@ export async function GET(
                   marginBottom: '20px',
                 }}
               >
-                {event.title}
+                {(event as any).title}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ fontSize: '20px', color: '#6b7280' }}>Hosted by</div>
                 <div style={{ fontSize: '22px', color: '#111827', fontWeight: '700' }}>
-                   {event.host_display_name}
+                {(event as any).host_display_name}
                 </div>
               </div>
             </div>

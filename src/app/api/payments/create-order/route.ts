@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Check if event is sold out
-        if (event.available_seats <= event.booked_spots) {
+        if ((event as any).available_seats <= (event as any).booked_spots) {
             return NextResponse.json(
                 { error: 'Event is sold out' },
                 { status: 400 }
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Check if event is live
-        if (event.status !== 'live') {
+        if ((event as any).status !== 'live') {
             return NextResponse.json(
                 { error: 'Event is not available for booking' },
                 { status: 400 }
@@ -124,9 +124,9 @@ export async function POST(request: NextRequest) {
         }
 
         // Calculate price (discounted_price if available, else regular_price)
-        const price = event.discounted_price && event.discounted_price < event.regular_price
-            ? event.discounted_price
-            : event.regular_price;
+        const price = (event as any).discounted_price && (event as any).discounted_price < (event as any).regular_price
+            ? (event as any).discounted_price
+            : (event as any).regular_price;
 
         // Get current user session if available
         const supabase = createServerClient();
@@ -192,7 +192,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Create Instamojo payment request for paid events
-        const purpose = event.event_name.substring(0, 40) || 'Event Booking';
+        const purpose = (event as any).event_name?.substring(0, 40) || 'Event Booking';
         const redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.strangermingle.com'}/booking-confirmed`;
         const webhookUrl = process.env.INSTAMOJO_WEBHOOK_URL || 'https://www.strangermingle.com/api/payments/webhook';
 
@@ -211,7 +211,7 @@ export async function POST(request: NextRequest) {
                 send_sms: true,
                 metadata: {
                     event_id: eventId,
-                    event_name: event.event_name,
+                    event_name: (event as any).event_name,
                 },
             });
         } catch (instaError: any) {

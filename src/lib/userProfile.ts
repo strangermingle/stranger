@@ -24,16 +24,16 @@ export async function createOrUpdateUserProfile(data: {
     const supabase = createServerClient();
 
     // Check if profile exists by phone
-    const { data: existingProfile } = await supabase
-        .from('user_profile')
+    const { data: existingProfile } = await (supabase
+        .from('user_profile') as any)
         .select('*')
         .eq('phone', data.phone)
         .single();
 
     if (existingProfile) {
         // Update existing profile
-        const { data: updatedProfile, error } = await supabase
-            .from('user_profile')
+        const { data: updatedProfile, error } = await (supabase
+            .from('user_profile') as any)
             .update({
                 name: data.name,
                 email: data.email || existingProfile.email,
@@ -52,8 +52,8 @@ export async function createOrUpdateUserProfile(data: {
         return updatedProfile;
     } else {
         // Create new profile
-        const { data: newProfile, error } = await supabase
-            .from('user_profile')
+        const { data: newProfile, error } = await (supabase
+            .from('user_profile') as any)
             .insert({
                 phone: data.phone,
                 name: data.name,
@@ -78,8 +78,8 @@ export async function createOrUpdateUserProfile(data: {
 export async function getUserProfileByPhone(phone: string): Promise<UserProfile | null> {
     const supabase = createServerClient();
 
-    const { data, error } = await supabase
-        .from('user_profile')
+    const { data, error } = await (supabase
+        .from('user_profile') as any)
         .select('*')
         .eq('phone', phone)
         .single();
@@ -102,8 +102,8 @@ export async function getUserProfileByPhone(phone: string): Promise<UserProfile 
 export async function getUserProfileByUserId(userId: string): Promise<UserProfile | null> {
     const supabase = createServerClient();
 
-    const { data, error } = await supabase
-        .from('user_profile')
+    const { data, error } = await (supabase
+        .from('user_profile') as any)
         .select('*')
         .eq('user_id', userId)
         .single();

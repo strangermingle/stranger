@@ -18,8 +18,8 @@ export default async function CreateEventPage() {
   }
 
   // Double check host status from server
-  const { data: hostProfile } = await supabase
-    .from('host_profiles')
+  const { data: hostProfile } = await (supabase
+    .from('host_profiles') as any)
     .select('is_approved')
     .eq('user_id', session.user.id)
     .single()
@@ -29,8 +29,8 @@ export default async function CreateEventPage() {
   }
 
   // Fetch reference data for the form
-  const { data: categories } = await supabase
-    .from('categories')
+  const { data: categories } = await (supabase
+    .from('categories') as any)
     .select('id, name, slug')
     .eq('is_active', true)
     .order('sort_order', { ascending: true })

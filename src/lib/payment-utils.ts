@@ -66,7 +66,7 @@ export async function processPaymentSuccess({
         }
 
         // Check availability before incrementing
-        if (event.available_seats <= event.booked_spots) {
+        if ((event.available_seats || 0) <= (event.booked_spots || 0)) {
             console.error('Event sold out, cannot complete payment:', paymentDetail.event_id);
             // Update payment status to failed
             await supabase

@@ -114,8 +114,8 @@ export async function POST(request: NextRequest) {
         // Handle payment failure/refund
         if (normalizedStatus === 'failed' || normalizedStatus === 'failure' || normalizedStatus === 'refunded') {
             // Update payment_details status to failed
-            const { error: updateError } = await supabase
-                .from('payment_details')
+            const { error: updateError } = await (supabase
+                .from('payment_details') as any)
                 .update({
                     payment_status: normalizedStatus === 'refunded' ? 'refunded' : 'failed',
                     instamojo_payment_id: paymentId || null,

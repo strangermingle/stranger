@@ -11,8 +11,8 @@ export async function requestRefundAction(bookingRef: string, reason: string) {
     if (!user) return { error: 'Not authenticated' }
 
     // Fetch booking
-    const { data: booking, error: bookingError } = await supabase
-      .from('bookings')
+    const { data: booking, error: bookingError } = await (supabase
+      .from('bookings') as any)
       .select('*, events(start_datetime, refund_policy, refund_cutoff_hours)')
       .eq('booking_ref', bookingRef)
       .single()
@@ -72,8 +72,8 @@ export async function requestRefundAction(bookingRef: string, reason: string) {
     }
 
     // Update bookings
-    const { error: updateError } = await supabaseAdmin
-      .from('bookings')
+    const { error: updateError } = await (supabaseAdmin
+      .from('bookings') as any)
       .update({
         status: 'refunded',
         payment_status: 'refunded',
@@ -88,36 +88,36 @@ export async function requestRefundAction(bookingRef: string, reason: string) {
     }
 
     // Void tickets
-    await supabaseAdmin
-      .from('tickets')
+    await (supabaseAdmin
+      .from('tickets') as any)
       .update({ is_void: true, voided_reason: 'Refund requested: ' + reason })
       .eq('booking_id', booking.id)
 
     // Re-release inventory
-    const { data: items } = await supabaseAdmin
-      .from('booking_items')
+    const { data: items } = await (supabaseAdmin
+      .from('booking_items') as any)
       .select('ticket_tier_id, quantity')
       .eq('booking_id', booking.id)
 
     if (items) {
       for (const item of items) {
-        const { data: tier } = await supabaseAdmin
-          .from('ticket_tiers')
+        const { data: tier } = await (supabaseAdmin
+          .from('ticket_tiers') as any)
           .select('sold_count')
           .eq('id', item.ticket_tier_id)
           .single()
           
         if (tier) {
-          await supabaseAdmin
-            .from('ticket_tiers')
-            .update({ sold_count: Math.max(0, tier.sold_count - item.quantity) })
+          await (supabaseAdmin
+            .from('ticket_tiers') as any)
+            .update({ sold_count: Math.max(0, (tier as any).sold_count - item.quantity) })
             .eq('id', item.ticket_tier_id)
         }
       }
     }
 
     // Audit log
-    await supabaseAdmin.from('audit_logs').insert({
+    await (supabaseAdmin.from('audit_logs') as any).insert({
       actor_id: user.id,
       action: 'booking.refunded',
       entity_type: 'booking',

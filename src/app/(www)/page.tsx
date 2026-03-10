@@ -75,8 +75,8 @@ export default async function HomePage({
   const categories = await getCachedCategories()
 
   // 2. Fetch Events from v_events_public
-  let query = supabase
-    .from('v_events_public')
+  let query = (supabase
+    .from('v_events_public') as any)
     .select('*')
     .eq('status', 'published')
     .gte('start_datetime', new Date().toISOString())
@@ -95,7 +95,7 @@ export default async function HomePage({
   const featuredOnly = events.filter(e => e.is_featured)
 
   // 3. Recommended Events (Simplified: just some upcoming ones not in the main list)
-  const recommendations = events.filter(e => !e.is_featured).slice(0, 3)
+  const recommendations = events.filter((e: any) => !e.is_featured).slice(0, 3)
 
   return (
     <div className="flex flex-col min-h-screen">

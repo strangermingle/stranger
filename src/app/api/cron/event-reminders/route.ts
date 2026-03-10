@@ -17,8 +17,8 @@ export async function GET(request: Request) {
 
   try {
     // 2. Fetch events starting in 24 hours (23h to 25h range)
-    const { data: reminder24hEvents, error: err24h } = await supabase
-      .from('events')
+    const { data: reminder24hEvents, error: err24h } = await (supabase
+      .from('events') as any)
       .select('id, title, start_datetime, locations(venue_name)')
       .filter('start_datetime', 'gte', new Date(Date.now() + 23 * 60 * 60 * 1000).toISOString())
       .filter('start_datetime', 'lte', new Date(Date.now() + 25 * 60 * 60 * 1000).toISOString());
@@ -26,8 +26,8 @@ export async function GET(request: Request) {
     if (err24h) throw err24h;
 
     // 3. Fetch events starting in 1 hour (0h to 2h range)
-    const { data: reminder1hEvents, error: err1h } = await supabase
-      .from('events')
+    const { data: reminder1hEvents, error: err1h } = await (supabase
+      .from('events') as any)
       .select('id, title, start_datetime, locations(venue_name)')
       .filter('start_datetime', 'gte', new Date(Date.now() + 0 * 60 * 60 * 1000).toISOString())
       .filter('start_datetime', 'lte', new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString());
@@ -51,7 +51,7 @@ export async function GET(request: Request) {
           .eq('status', 'confirmed');
 
         if (bookings) {
-          for (const booking of bookings) {
+          for (const booking of (bookings as any[])) {
             const res = await sendNotification(booking.user_id, 'event_reminder_24h', {
               event_title: event.title,
               event_location: venue
@@ -73,7 +73,7 @@ export async function GET(request: Request) {
           .eq('status', 'confirmed');
 
         if (bookings) {
-          for (const booking of bookings) {
+          for (const booking of (bookings as any[])) {
             const res = await sendNotification(booking.user_id, 'event_reminder_1h', {
               event_title: event.title
             });

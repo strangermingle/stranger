@@ -15,12 +15,13 @@ interface BookingConfirmationProps {
   params: { ref: string }
 }
 
-export default async function BookingConfirmationPage({ params }: BookingConfirmationProps) {
+export default async function BookingConfirmationPage({ params }: { params: Promise<{ ref: string }> }) {
+  const { ref } = await params
   const supabase = await createClient()
 
   // 1. Fetch booking with detailed joins
-  const { data: booking, error } = await supabase
-    .from('bookings')
+  const { data: booking, error } = await (supabase
+    .from('bookings') as any)
     .select(`
       id,
       booking_ref,
@@ -52,8 +53,8 @@ export default async function BookingConfirmationPage({ params }: BookingConfirm
         )
       )
     `)
-    .eq('booking_ref', params.ref)
-    .single() as any
+    .eq('booking_ref', ref)
+    .single()
 
   if (error || !booking) {
     notFound()

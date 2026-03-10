@@ -4,8 +4,8 @@ import { toggleFeaturedEvent, toggleSponsoredEvent } from '@/actions/admin.actio
 export default async function AdminFeaturedPage() {
   const supabase = await createClient()
 
-  const { data: events } = await supabase
-    .from('events')
+  const { data: events } = await (supabase
+    .from('events') as any)
     .select('id, title, is_featured, is_sponsored, start_datetime, city')
     .order('start_datetime', { ascending: false })
     .limit(50)
@@ -25,7 +25,7 @@ export default async function AdminFeaturedPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-zinc-800">
-            {events?.map((event) => (
+            {(events as any[])?.map((event: any) => (
               <tr key={event.id} className="hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="font-bold text-gray-900 dark:text-white">{event.title}</div>

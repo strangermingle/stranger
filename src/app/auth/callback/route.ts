@@ -16,8 +16,8 @@ export async function GET(request: Request) {
       const u = session.user
       
       // 1. Check if user exists in our users table
-      const { data: dbUser } = await supabase
-        .from('users')
+      const { data: dbUser } = await (supabase
+        .from('users') as any)
         .select('id')
         .eq('id', u.id)
         .single()
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
         const animal = animals[Math.floor(Math.random() * animals.length)]
         const alias = `${adj}${animal}${rnd}`
         
-        const { error: insertError } = await supabase.from('users').insert({
+        const { error: insertError } = await (supabase.from('users') as any).insert({
           id: u.id,
           email: u.email,
           username,

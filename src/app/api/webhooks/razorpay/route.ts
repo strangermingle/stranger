@@ -29,12 +29,12 @@ export async function POST(request: NextRequest) {
 
   try {
     // 2. Log entry in audit_logs
-    await supabaseAdmin.from('audit_logs').insert({
+    await (supabaseAdmin.from('audit_logs') as any).insert({
       action: 'webhook.razorpay.received',
       entity_type: 'razorpay_event',
       entity_id: payload.account_id || 'system',
       metadata: { event, payload: { id: payload.id, created_at: payload.created_at } }
-    } as any)
+    })
 
     // 3. Route Event
     switch (event) {
@@ -59,12 +59,12 @@ export async function POST(request: NextRequest) {
     console.error(`Error processing Razorpay webhook (${event}):`, error)
     
     // Log error to audit_logs
-    await supabaseAdmin.from('audit_logs').insert({
+    await (supabaseAdmin.from('audit_logs') as any).insert({
       action: 'webhook.razorpay.error',
       entity_type: 'razorpay_event',
       entity_id: payload.id || 'system',
       metadata: { event, error: error.message || 'Unknown error', payload_id: payload.id }
-    } as any)
+    })
 
     // ALWAYS return 200 to Razorpay as per requirements
     return NextResponse.json({ received: true, error: 'Internal processing error' }, { status: 200 })

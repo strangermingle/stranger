@@ -25,8 +25,8 @@ export default async function AdminUsersPage({
   const queryParam = p.q || ''
   const roleParam = p.role || 'all'
 
-  let query = supabase
-    .from('users')
+  let query = (supabase
+    .from('users') as any)
     .select('*')
     .order('created_at', { ascending: false })
 

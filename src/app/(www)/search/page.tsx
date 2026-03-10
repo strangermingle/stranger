@@ -4,7 +4,7 @@ import { EventGrid } from '@/components/events/EventGrid'
 import { SearchFilters } from '@/components/events/SearchFilters'
 import { EventWithDetails } from '@/types/api.types'
 import Link from 'next/link'
-import SaveSearchButton from '@/components/events/SaveSearchButton'
+import { SaveSearchButton } from '@/components/events/SaveSearchButton'
 
 export async function generateMetadata({
   searchParams,
@@ -56,17 +56,17 @@ export default async function SearchPage({
     { data: citiesData },
     { data: categoriesData }
   ] = await Promise.all([
-    supabase.from('locations').select('city').order('city') as any,
-    supabase.from('categories').select('slug, name').eq('is_active', true).order('sort_order') as any
+    (supabase.from('locations') as any).select('city').order('city'),
+    (supabase.from('categories') as any).select('slug, name').eq('is_active', true).order('sort_order')
   ])
 
   // Get unique valid cities
-  const uniqueCities = Array.from(new Set(citiesData?.map(c => c.city).filter(Boolean))) as string[]
+  const uniqueCities = Array.from(new Set(citiesData?.map((c: any) => c.city).filter(Boolean))) as string[]
   const categories = categoriesData || []
 
   // 2. Build Query on v_events_public
-  let query = supabase
-    .from('v_events_public')
+  let query = (supabase
+    .from('v_events_public') as any)
     .select('*', { count: 'exact' })
     .eq('status', 'published')
     .gte('start_datetime', new Date().toISOString())

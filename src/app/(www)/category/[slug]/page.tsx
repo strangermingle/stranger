@@ -9,9 +9,10 @@ interface PageProps {
   params: { slug: string }
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
   const supabase = await createClient()
-  const { data: category } = await supabase.from('categories').select('name, description').eq('slug', params.slug).single() as any
+  const { data: category } = await (supabase.from('categories') as any).select('name, description').eq('slug', slug).single()
 
   if (!category) return { title: 'Category Not Found' }
   
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: {
-      canonical: `${SITE_URL}/category/${params.slug}`
+      canonical: `${SITE_URL}/category/${slug}`
     },
     openGraph: {
       title,
@@ -33,25 +34,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-export async function generateStaticParams() {
-  const supabase = await createClient()
-  const { data } = await supabase.from('categories').select('slug').eq('is_active', true) as any
-  return (data || []).map((cat: any) => ({ slug: cat.slug }))
-}
+export const dynamic = 'force-dynamic'
 
-export default async function CategoryPage({ params }: PageProps) {
+
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const supabase = await createClient()
 
   // 1. Fetch category
-  const { data: category } = await supabase.from('categories').select('*').eq('slug', params.slug).single() as any
+  const { data: category } = await (supabase.from('categories') as any).select('*').eq('slug', slug).single()
   if (!category) notFound()
 
   // 2. Fetch events
-  const { data: eventsData } = await supabase
-    .from('v_events_public')
+  const { data: eventsData } = await (supabase
+    .from('v_events_public') as any)
     .select('*')
     .eq('status', 'published')
-    .eq('category_slug', params.slug)
+    .eq('category_slug', slug)
     .gte('start_datetime', new Date().toISOString())
     .order('start_datetime', { ascending: true })
 
@@ -133,7 +132,7 @@ export default async function CategoryPage({ params }: PageProps) {
             <div className="lg:w-80 shrink-0">
                <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-8">Top Hosts</h2>
                <div className="space-y-6">
-                 {hostsData.map((host: any) => (
+                  {hostsData?.map((host: any) => (
                    <Link 
                     key={host.id} 
                     href={`/hosts/${host.user.username}`}
@@ -172,7 +171,7 @@ export default async function CategoryPage({ params }: PageProps) {
                 "@type": "ListItem",
                 "position": 2,
                 "name": category.name,
-                "item": `${process.env.NEXT_PUBLIC_SITE_URL}/category/${params.slug}`
+                "item": `${process.env.NEXT_PUBLIC_SITE_URL}/category/${slug}`
               }
             ]
           }),

@@ -1,37 +1,59 @@
 import { createServerClient } from './supabaseClient';
 
-// Database Event interface matching the database schema
 export interface Event {
     id: string;
-    city: 'pune' | 'mumbai' | 'delhi' | 'bangalore' | 'hyderabad';
-    event_name: string;
-    start_date: string; // ISO date string
-    end_date: string; // ISO date string
-    start_time: string; // HH:MM:SS format
-    end_time: string; // HH:MM:SS format
-    available_seats: number;
-    booked_spots: number;
-    regular_price: number;
-    discounted_price: number | null;
-    discount_rate: number | null;
-    full_address: string;
-    short_address: string;
-    category: string;
-    sub_category: string | null;
-    image_url: string | null;
-    event_type: 'online' | 'in-person';
-    status: 'live' | 'closed' | 'cancelled';
-    description: string | null;
-    google_map_link: string | null;
-    organizer_name: string | null;
-    organizer_email: string | null;
-    organizer_phone: string | null;
-    whatsapp_link: string | null;
+    host_id: string;
+    category_id: string;
+    location_id: string | null;
+    title: string;
     slug: string | null;
-    created_at: string;
-    updated_at: string;
-    meeting_link: string | null;
-    ticket_sale_start: string | null;
+    description: string | null;
+    short_description: string | null;
+    cover_image_url: string | null;
+    event_type: 'in_person' | 'online' | 'hybrid';
+    status: 'draft' | 'published' | 'cancelled' | 'completed' | 'suspended' | 'under_review';
+    start_datetime: string;
+    end_datetime: string;
+    timezone: string;
+    max_capacity: number | null;
+    booking_count: number;
+    // Joined location fields
+    city?: string;
+    venue_name?: string;
+    full_address?: string;
+    min_price?: number;
+    max_price?: number;
+    category_name?: string;
+    category_color?: string;
+    // Legacy fields used by PaymentModal & EventDetailsPage
+    event_name?: string;
+    discounted_price?: number;
+    regular_price?: number;
+    discount_rate?: number;
+    image_url?: string;
+    short_address?: string;
+    start_date?: string;
+    end_date?: string;
+    start_time?: string;
+    end_time?: string;
+    available_seats?: number;
+    booked_spots?: number;
+    about?: string;
+    google_map_link?: string;
+    organizer_name?: string;
+    organizer_email?: string;
+    organizer_phone?: string;
+    whatsapp_link?: string;
+    country?: string;
+    host_display_name?: string;
+    host_logo?: string;
+    host_username?: string;
+    category_slug?: string;
+    likes_count?: number;
+    interests_count?: number;
+    views_count?: number;
+    is_featured?: boolean | null;
+    is_sponsored?: boolean | null;
 }
 
 // PaymentDetail interface (renamed from Booking)
@@ -54,40 +76,30 @@ export interface PaymentDetail {
 export type Booking = PaymentDetail;
 
 // Event status suggestion based on dates and capacity
-export function calculateEventStatus(event: Event): 'live' | 'closed' | 'cancelled' {
-    // If manually set to cancelled, keep it
+export function calculateEventStatus(event: Event): string {
     if (event.status === 'cancelled') {
         return 'cancelled';
     }
 
     const now = new Date();
-    const endDate = new Date(`${event.end_date}T${event.end_time}`);
+    const endDate = new Date(event.end_datetime);
 
-    // If event has passed, suggest closed
     if (endDate < now) {
-        return 'closed';
+        return 'completed';
     }
 
-    // If fully booked, suggest closed
-    if (event.booked_spots >= event.available_seats) {
-        return 'closed';
+    if (event.max_capacity && event.booking_count >= event.max_capacity) {
+        return 'completed'; // or 'sold_out' if we had that status
     }
 
-    // Otherwise, suggest live
-    return 'live';
+    return event.status;
 }
 
-// Format event for display (helper functions)
-export function formatEventPrice(event: Event): string {
-    if (event.regular_price === 0) {
+export function formatEventPrice(minPrice?: number): string {
+    if (!minPrice || minPrice === 0) {
         return 'Free';
     }
-
-    if (event.discounted_price && event.discounted_price < event.regular_price) {
-        return `₹${event.discounted_price.toFixed(0)}`;
-    }
-
-    return `₹${event.regular_price.toFixed(0)}`;
+    return `₹${minPrice.toFixed(0)}`;
 }
 
 export function formatEventDate(startDate: string, endDate: string): string {
@@ -120,9 +132,11 @@ export function formatEventTime(startTime: string, endTime: string): string {
 }
 
 export function getSpotsLabel(event: Event): string {
-    const remaining = event.available_seats - event.booked_spots;
+    if (!event.max_capacity) return 'Open';
+    
+    const remaining = event.max_capacity - event.booking_count;
 
-    if (remaining === 0) {
+    if (remaining <= 0) {
         return 'Sold Out';
     }
 
@@ -130,11 +144,11 @@ export function getSpotsLabel(event: Event): string {
         return 'Few Left';
     }
 
-    if (remaining <= event.available_seats * 0.2) {
+    if (remaining <= event.max_capacity * 0.2) {
         return 'Filling Fast';
     }
 
-    if (remaining <= event.available_seats * 0.5) {
+    if (remaining <= event.max_capacity * 0.5) {
         return 'Limited Spots';
     }
 
@@ -146,37 +160,45 @@ export async function getEventsByCity(city: string): Promise<Event[]> {
     const supabase = createServerClient();
 
     const { data, error } = await supabase
-        .from('events')
+        .from('v_events_public')
         .select('*')
-        .eq('city', city.toLowerCase())
-        .eq('status', 'live')
-        .order('start_date', { ascending: true })
-        .order('start_time', { ascending: true });
+        .eq('city', city)
+        .order('start_datetime', { ascending: true });
 
     if (error) {
         console.error('Error fetching events by city:', error);
         return [];
     }
 
-    return data || [];
+    // Flatten location fields for easier usage in legacy components
+    return (data || []).map(event => ({
+        ...event,
+        city: (event.location as any)?.city,
+        venue_name: (event.location as any)?.venue_name,
+        full_address: `${(event.location as any)?.address_line1 || ''} ${(event.location as any)?.address_line2 || ''}`.trim()
+    })) as unknown as Event[];
 }
 
 export async function getAllLiveEvents(): Promise<Event[]> {
     const supabase = createServerClient();
 
     const { data, error } = await supabase
-        .from('events')
+        .from('v_events_public')
         .select('*')
-        .eq('status', 'live')
-        .order('start_date', { ascending: true })
-        .order('start_time', { ascending: true });
+        .order('start_datetime', { ascending: true });
 
     if (error) {
         console.error('Error fetching all live events:', error);
         return [];
     }
 
-    return data || [];
+    // Flatten location fields
+    return (data || []).map(event => ({
+        ...event,
+        city: (event.location as any)?.city,
+        venue_name: (event.location as any)?.venue_name,
+        full_address: `${(event.location as any)?.address_line1 || ''} ${(event.location as any)?.address_line2 || ''}`.trim()
+    })) as unknown as Event[];
 }
 
 export async function getEventById(id: string): Promise<Event | null> {
@@ -184,7 +206,15 @@ export async function getEventById(id: string): Promise<Event | null> {
 
     const { data, error } = await supabase
         .from('events')
-        .select('*')
+        .select(`
+            *,
+            location:locations (
+                city,
+                venue_name,
+                address_line1,
+                address_line2
+            )
+        `)
         .eq('id', id)
         .single();
 
@@ -193,7 +223,14 @@ export async function getEventById(id: string): Promise<Event | null> {
         return null;
     }
 
-    return data;
+    if (!data) return null;
+
+    return {
+        ...data,
+        city: (data.location as any)?.city,
+        venue_name: (data.location as any)?.venue_name,
+        full_address: `${(data.location as any)?.address_line1 || ''} ${(data.location as any)?.address_line2 || ''}`.trim()
+    } as unknown as Event;
 }
 
 // Public event query - only returns 'live' or 'closed' events (not 'cancelled')
@@ -202,10 +239,9 @@ export async function getPublicEventById(id: string): Promise<Event | null> {
     const supabase = createServerClient();
 
     const { data, error } = await supabase
-        .from('events')
+        .from('v_events_public')
         .select('*')
         .eq('id', id)
-        .in('status', ['live', 'closed'])
         .single();
 
     if (error) {
@@ -213,7 +249,14 @@ export async function getPublicEventById(id: string): Promise<Event | null> {
         return null;
     }
 
-    return data;
+    if (!data) return null;
+
+    return {
+        ...data,
+        city: (data.location as any)?.city,
+        venue_name: (data.location as any)?.venue_name,
+        full_address: `${(data.location as any)?.address_line1 || ''} ${(data.location as any)?.address_line2 || ''}`.trim()
+    } as unknown as Event;
 }
 
 // Public event query by slug - only returns 'live' or 'closed' events (not 'cancelled')
@@ -227,58 +270,27 @@ export async function getPublicEventBySlug(slug: string): Promise<Event | null> 
         return null;
     }
 
-    // Check if slug looks like a UUID (backward compatibility)
-    // UUID format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    const isUuid = uuidPattern.test(slug);
-
-    // If it's a UUID, query by id directly (matching the working getPublicEventById pattern)
-    if (isUuid) {
-        const { data, error } = await supabase
-            .from('events')
-            .select('*')
-            .eq('id', slug)
-            .in('status', ['live', 'closed'])
-            .single();
-
-        if (error) {
-            // PGRST116 means no rows found - that's OK, just return null
-            if (error.code !== 'PGRST116') {
-                console.error('Error fetching public event by id:', {
-                    id: slug,
-                    error: error.message,
-                    code: error.code,
-                    details: error.details
-                });
-            }
-            return null;
-        }
-
-        return data || null;
-    }
-
-    // Otherwise, try to find by slug
     const { data, error } = await supabase
-        .from('events')
+        .from('v_events_public')
         .select('*')
         .eq('slug', slug)
-        .in('status', ['live', 'closed'])
         .single();
 
     if (error) {
-        // PGRST116 means no rows found - that's OK, just return null
         if (error.code !== 'PGRST116') {
-            console.error('Error fetching public event by slug:', {
-                slug,
-                error: error.message,
-                code: error.code,
-                details: error.details
-            });
+            console.error('Error fetching public event by slug:', error);
         }
         return null;
     }
 
-    return data || null;
+    if (!data) return null;
+
+    return {
+        ...data,
+        city: (data.location as any)?.city,
+        venue_name: (data.location as any)?.venue_name,
+        full_address: `${(data.location as any)?.address_line1 || ''} ${(data.location as any)?.address_line2 || ''}`.trim()
+    } as unknown as Event;
 }
 
 export async function createBooking(bookingData: {

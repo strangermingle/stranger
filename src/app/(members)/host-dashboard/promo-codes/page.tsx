@@ -22,8 +22,8 @@ export default async function PromoCodesPage() {
     .order('start_datetime', { ascending: false })
 
   // Fetch host's promo codes
-  const { data: promoCodes } = await supabase
-    .from('promo_codes')
+  const { data: promoCodes } = await (supabase
+    .from('promo_codes') as any)
     .select(`
       *,
       events ( title )
@@ -31,7 +31,7 @@ export default async function PromoCodesPage() {
     .eq('host_id', user.id)
     .order('created_at', { ascending: false })
 
-  const safePromoCodes = promoCodes || []
+  const safePromoCodes = (promoCodes || []) as any[]
   const safeEvents = events || []
 
   return (

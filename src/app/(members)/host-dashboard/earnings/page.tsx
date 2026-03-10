@@ -14,8 +14,8 @@ export default async function EarningsPage() {
   if (!user) redirect('/login')
 
   // Fetch host's events
-  const { data: events } = await supabase
-    .from('events')
+  const { data: events } = await (supabase
+    .from('events') as any)
     .select('id, title, start_datetime')
     .eq('host_id', user.id)
     .order('start_datetime', { ascending: false })
@@ -35,11 +35,11 @@ export default async function EarningsPage() {
     )
   }
 
-  const eventIds = events.map(e => e.id)
+  const eventIds = events.map((e: any) => e.id)
 
   // Fetch confirmed bookings for these events
-  const { data: bookings } = await supabase
-    .from('bookings')
+  const { data: bookings } = await (supabase
+    .from('bookings') as any)
     .select('event_id, total_amount, host_payout')
     .in('event_id', eventIds)
     .eq('status', 'confirmed')
@@ -47,10 +47,10 @@ export default async function EarningsPage() {
   const safeBookings = bookings || []
 
   // Group by event
-  const eventStats = events.map(evt => {
-    const eventBookings = safeBookings.filter(b => b.event_id === evt.id)
-    const totalAmount = eventBookings.reduce((sum, b) => sum + Number(b.total_amount), 0)
-    const hostPayout = eventBookings.reduce((sum, b) => sum + Number(b.host_payout), 0)
+  const eventStats = events.map((evt: any) => {
+    const eventBookings = safeBookings.filter((b: any) => b.event_id === evt.id)
+    const totalAmount = eventBookings.reduce((sum: number, b: any) => sum + Number(b.total_amount || 0), 0)
+    const hostPayout = eventBookings.reduce((sum: number, b: any) => sum + Number(b.host_payout || 0), 0)
     
     return {
       eventId: evt.id,
@@ -63,9 +63,9 @@ export default async function EarningsPage() {
   })
 
   // Filter out events with no bookings to declutter
-  const activeEvents = eventStats.filter(e => e.bookingsCount > 0)
+  const activeEvents = eventStats.filter((e: any) => e.bookingsCount > 0)
 
-  const chartData = eventStats.map(e => ({
+  const chartData = eventStats.map((e: any) => ({
     title: e.title.length > 20 ? e.title.substring(0, 20) + '...' : e.title,
     revenue: e.totalAmount,
     payout: e.hostPayout
@@ -105,7 +105,7 @@ export default async function EarningsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-zinc-800">
-                {activeEvents.map((stat) => (
+                {activeEvents.map((stat: any) => (
                   <tr key={stat.eventId} className="bg-white hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800/50">
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
                       {stat.title}

@@ -11,8 +11,8 @@ export async function GET() {
   // Since I can't easily create an RPC without migration, I'll use a direct SQL query via execute if possible, 
   // but let's assume we can fetch recent ones and count.
   
-  const { data, error } = await supabase
-    .from('saved_searches')
+  const { data, error } = await (supabase
+    .from('saved_searches') as any)
     .select('keyword')
     .not('keyword', 'is', null)
     .limit(100)
@@ -23,12 +23,15 @@ export async function GET() {
 
   // Simple frequency count
   const counts: Record<string, number> = {}
-  data.forEach((item) => {
-    const k = item.keyword?.toLowerCase() || ''
-    if (k) counts[k] = (counts[k] || 0) + 1
-  })
+  if (data) {
+    const records = data as any[]
+    for (const item of records) {
+      const k = item.keyword?.toLowerCase() || ''
+      if (k) counts[k] = (counts[k] || 0) + 1
+    }
+  }
 
-  const popular = Object.entries(counts)
+  const popular = Object.entries(counts as Record<string, number>)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
     .map(([keyword]) => keyword)

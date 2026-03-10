@@ -25,9 +25,9 @@ export default function PaymentModal({ isOpen, onClose, event }: PaymentModalPro
     const [error, setError] = useState<string | null>(null);
     const [instamojoLoaded, setInstamojoLoaded] = useState(false);
 
-    const price = event.discounted_price && event.discounted_price < event.regular_price
+    const price = event.discounted_price && event.discounted_price < (event.regular_price || 0)
         ? event.discounted_price
-        : event.regular_price;
+        : (event.regular_price || 0);
 
     // Load Instamojo script only for paid events
     useEffect(() => {
@@ -179,7 +179,7 @@ export default function PaymentModal({ isOpen, onClose, event }: PaymentModalPro
                                 <div className="relative w-24 h-24 rounded-xl overflow-hidden shrink-0">
                                     <Image
                                         src={event.image_url}
-                                        alt={event.event_name}
+                                        alt={event.event_name || event.title || 'Event'}
                                         fill
                                         className="object-cover"
                                     />
@@ -194,7 +194,7 @@ export default function PaymentModal({ isOpen, onClose, event }: PaymentModalPro
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
-                                        <span>{formatEventDate(event.start_date, event.end_date)}</span>
+                                        <span>{formatEventDate(event.start_date || event.start_datetime, event.end_date || event.end_datetime)}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,11 +206,11 @@ export default function PaymentModal({ isOpen, onClose, event }: PaymentModalPro
                             </div>
                             <div className="text-right">
                                 <div className="text-2xl font-bold text-gray-900">
-                                    {formatEventPrice(event)}
+                                    {formatEventPrice(event.min_price || event.discounted_price || event.regular_price)}
                                 </div>
-                                {event.discounted_price && event.discounted_price < event.regular_price && (
+                                {event.discounted_price && event.discounted_price < (event.regular_price || 0) && (
                                     <div className="text-sm text-gray-400 line-through">
-                                        ₹{event.regular_price.toFixed(0)}
+                                        ₹{(event.regular_price || 0).toFixed(0)}
                                     </div>
                                 )}
                             </div>
@@ -277,7 +277,7 @@ export default function PaymentModal({ isOpen, onClose, event }: PaymentModalPro
                                 disabled={loading || (price > 0 && !instamojoLoaded)}
                                 className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-semibold text-lg transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {loading ? 'Processing...' : (price === 0 ? 'Confirm Booking' : `Pay ${formatEventPrice(event)}`)}
+                                {loading ? 'Processing...' : (price === 0 ? 'Confirm Booking' : `Pay ${formatEventPrice(event.min_price || event.discounted_price || event.regular_price)}`)}
                             </button>
                         </div>
 

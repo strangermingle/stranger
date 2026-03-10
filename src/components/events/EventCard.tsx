@@ -9,7 +9,7 @@ interface EventCardProps {
 
 export function EventCard({ event }: EventCardProps) {
   // Parsing date roughly
-  const startDate = new Date(event.start_datetime)
+  const startDate = new Date(event.start_datetime || new Date())
   const month = startDate.toLocaleString('default', { month: 'short' })
   const day = startDate.getDate()
 
@@ -27,7 +27,7 @@ export function EventCard({ event }: EventCardProps) {
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100 dark:bg-zinc-800">
         <Image
           src={imgUrl}
-          alt={event.title}
+          alt={event.title || 'Event'}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-300 group-hover:scale-105"

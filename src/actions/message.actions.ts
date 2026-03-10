@@ -16,8 +16,8 @@ export async function startConversationAction(recipientId: string, contextEventI
   const currentUserId = user.id
 
   // Verify not blocked by recipient
-  const { data: blockCheck } = await supabase
-    .from('user_blocks')
+  const { data: blockCheck } = await (supabase
+    .from('user_blocks') as any)
     .select('id')
     .eq('blocker_id', recipientId)
     .eq('blocked_id', currentUserId)
@@ -33,20 +33,20 @@ export async function startConversationAction(recipientId: string, contextEventI
 
   // Check if conversation exists
   // First, we can simply attempt an insert and catch error, or query first
-  const { data: existing } = await supabase
-    .from('conversations')
+  const { data: existing } = await (supabase
+    .from('conversations') as any)
     .select('id')
     .eq('participant_1_id', p1)
     .eq('participant_2_id', p2)
     .single()
 
   if (existing) {
-    return { success: true, conversationId: existing.id }
+    return { success: true, conversationId: (existing as any).id }
   }
 
   // Insert new conversation
-  const { data: newConv, error } = await supabase
-    .from('conversations')
+  const { data: newConv, error } = await (supabase
+    .from('conversations') as any)
     .insert({
       participant_1_id: p1,
       participant_2_id: p2,
@@ -59,7 +59,7 @@ export async function startConversationAction(recipientId: string, contextEventI
     throw new Error(`Failed to start conversation: ${error.message}`)
   }
 
-  return { success: true, conversationId: newConv.id }
+  return { success: true, conversationId: (newConv as any).id }
 }
 
 export async function sendMessageAction(conversationId: string, content: string) {
@@ -70,8 +70,8 @@ export async function sendMessageAction(conversationId: string, content: string)
   const currentUserId = user.id
 
   // Verify conversation and participation
-  const { data: conv, error: convError } = await supabase
-    .from('conversations')
+  const { data: conv, error: convError } = await (supabase
+    .from('conversations') as any)
     .select('*')
     .eq('id', conversationId)
     .single()
@@ -80,12 +80,12 @@ export async function sendMessageAction(conversationId: string, content: string)
     throw new Error('Conversation not found')
   }
 
-  if (conv.participant_1_id !== currentUserId && conv.participant_2_id !== currentUserId) {
+  if ((conv as any).participant_1_id !== currentUserId && (conv as any).participant_2_id !== currentUserId) {
     throw new Error('Unauthorized for this conversation')
   }
 
   // Check blocked status
-  if (conv.is_blocked_by_p1 || conv.is_blocked_by_p2) {
+  if ((conv as any).is_blocked_by_p1 || (conv as any).is_blocked_by_p2) {
     throw new Error('Cannot send messages in this conversation. A participant has blocked the other.')
   }
 
@@ -100,8 +100,8 @@ export async function sendMessageAction(conversationId: string, content: string)
   }
 
   // Insert message
-  const { error: msgError } = await supabase
-    .from('messages')
+  const { error: msgError } = await (supabase
+    .from('messages') as any)
     .insert({
       conversation_id: conversationId,
       sender_id: currentUserId,
@@ -115,8 +115,8 @@ export async function sendMessageAction(conversationId: string, content: string)
 
   // Update conversation
   const preview = cleanContent.substring(0, 200)
-  await supabase
-    .from('conversations')
+  await (supabase
+    .from('conversations') as any)
     .update({
       last_message_at: new Date().toISOString(),
       last_message_preview: preview,
@@ -124,21 +124,21 @@ export async function sendMessageAction(conversationId: string, content: string)
     .eq('id', conversationId)
 
   // Insert notification for recipient
-  const recipientId = conv.participant_1_id === currentUserId ? conv.participant_2_id : conv.participant_1_id
+  const recipientId = (conv as any).participant_1_id === currentUserId ? (conv as any).participant_2_id : (conv as any).participant_1_id
   
   // Get current user's alias or display name
-  const { data: senderAlias } = await supabase
-    .from('users')
+  const { data: senderAlias } = await (supabase
+    .from('users') as any)
     .select('anonymous_alias')
     .eq('id', currentUserId)
     .single()
 
-  await supabase
-    .from('notifications')
+  await (supabase
+    .from('notifications') as any)
     .insert({
       user_id: recipientId,
       type: 'new_message',
-      title: `New message from ${senderAlias?.anonymous_alias || 'Unknown'}`,
+      title: `New message from ${(senderAlias as any)?.anonymous_alias || 'Unknown'}`,
       body: preview,
       action_url: `/messages/${conversationId}`,
       channel: 'in_app',
@@ -155,8 +155,8 @@ export async function markConversationReadAction(conversationId: string) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Unauthorized')
 
-  const { error } = await supabase
-    .from('messages')
+  const { error } = await (supabase
+    .from('messages') as any)
     .update({
       is_read: true,
       read_at: new Date().toISOString(),
@@ -180,8 +180,8 @@ export async function blockUserAction(blockedUserId: string) {
   const currentUserId = user.id
 
   // Insert into user_blocks
-  const { error: blockError } = await supabase
-    .from('user_blocks')
+  const { error: blockError } = await (supabase
+    .from('user_blocks') as any)
     .insert({
       blocker_id: currentUserId,
       blocked_id: blockedUserId,
@@ -202,8 +202,8 @@ export async function blockUserAction(blockedUserId: string) {
     ? { is_blocked_by_p1: true }
     : { is_blocked_by_p2: true }
 
-  await supabase
-    .from('conversations')
+  await (supabase
+    .from('conversations') as any)
     .update(updatePayload)
     .eq('participant_1_id', p1)
     .eq('participant_2_id', p2)

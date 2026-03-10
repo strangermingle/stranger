@@ -13,7 +13,7 @@ export default async function PublicLayout({
   // Best effort grab of role/avatar if logged in
   let dbUser = null
   if (user) {
-    const { data } = await supabase.from('users').select('username, avatar_url, role').eq('id', user.id).single()
+    const { data } = await (supabase.from('users') as any).select('username, avatar_url, role').eq('id', user.id).single()
     dbUser = data
   }
 

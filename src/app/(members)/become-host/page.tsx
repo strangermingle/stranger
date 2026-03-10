@@ -14,8 +14,8 @@ export default async function BecomeHostPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: hostProfile } = await supabase
-    .from('host_profiles')
+  const { data: hostProfile } = await (supabase
+    .from('host_profiles') as any)
     .select('id, is_approved, kyc_status')
     .eq('user_id', user.id)
     .single()

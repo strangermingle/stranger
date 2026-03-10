@@ -16,8 +16,8 @@ export default async function NotificationSettingsPage() {
   }
 
   // Fetch full user record for notification_prefs
-  const { data: userData, error: userError } = await supabase
-    .from('users')
+  const { data: userData, error: userError } = await (supabase
+    .from('users') as any)
     .select('notification_prefs')
     .eq('id', user.id)
     .single();
@@ -31,7 +31,7 @@ export default async function NotificationSettingsPage() {
     );
   }
 
-  const prefs = (userData.notification_prefs as Record<string, any>) || {};
+  const prefs = ((userData as any).notification_prefs as Record<string, any>) || {};
 
   return (
     <div className="container max-w-4xl mx-auto py-10 px-4">

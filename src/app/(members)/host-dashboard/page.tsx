@@ -15,11 +15,13 @@ export default async function HostDashboardPage() {
   if (!user) redirect('/login')
 
   // Verify host profile and approval
-  const { data: hostProfile } = await supabase
-    .from('host_profiles')
+  const { data: hostProfileData } = await (supabase
+    .from('host_profiles') as any)
     .select('*')
     .eq('user_id', user.id)
     .single()
+  
+  const hostProfile = hostProfileData as any
 
   if (!hostProfile) {
     redirect('/members/become-host')
@@ -41,8 +43,8 @@ export default async function HostDashboardPage() {
   }
 
   // Fetch host's events
-  const { data: events } = await supabase
-    .from('events')
+  const { data: events } = await (supabase
+    .from('events') as any)
     .select('id, title, slug, status, start_datetime, booking_count, views_count')
     .eq('host_id', user.id)
     .order('start_datetime', { ascending: false })
@@ -76,7 +78,7 @@ export default async function HostDashboardPage() {
          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
             <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Bookings</h3>
             <p className="mt-2 text-3xl font-semibold text-gray-900 dark:text-gray-50">
-               {hostEvents.reduce((acc, curr) => acc + (curr.booking_count || 0), 0)}
+               {(hostEvents as any[]).reduce((acc: number, curr: any) => acc + (curr.booking_count || 0), 0)}
             </p>
          </div>
          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
@@ -106,7 +108,7 @@ export default async function HostDashboardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-zinc-800">
-                {hostEvents.map((evt) => (
+                {hostEvents.map((evt: any) => (
                   <tr key={evt.id} className="bg-white hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800/50">
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
                       {evt.title}

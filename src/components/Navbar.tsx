@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import SearchBar from './events/SearchBar';
 
 export default function Navbar() {
@@ -35,7 +35,7 @@ export default function Navbar() {
 
                     {/* Search Bar - Hidden on very small screens, visible on md+ */}
                     <div className="hidden md:flex flex-1 justify-center px-4 max-w-lg mx-auto">
-                        <SearchBar />
+                        <Suspense fallback={null}><SearchBar /></Suspense>
                     </div>
 
                     {/* Desktop Menu */}
@@ -113,7 +113,7 @@ export default function Navbar() {
                 <div className="flex flex-col h-full py-6 px-6 overflow-y-auto">
                     {/* Mobile Search Bar */}
                     <div className="mb-6 sm:hidden">
-                        <SearchBar />
+                        <Suspense fallback={null}><SearchBar /></Suspense>
                     </div>
                     
                     <div className="flex flex-col gap-2 mb-6">

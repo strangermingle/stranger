@@ -25,8 +25,8 @@ export default async function AdminPayoutsPage({
   const p = await searchParams
   const currentStatus = p.status || 'pending'
 
-  const { data: payouts } = await supabase
-    .from('payouts')
+  const { data: payouts } = await (supabase
+    .from('payouts') as any)
     .select('*, host:users(username, email), event:events(title)')
     .eq('status', currentStatus)
     .order('created_at', { ascending: false })

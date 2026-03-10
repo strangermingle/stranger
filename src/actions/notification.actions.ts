@@ -12,13 +12,13 @@ export async function markAsReadAction(notificationId: string) {
   }
 
   const { error: updateError } = await (supabase
-    .from('notifications')
+    .from('notifications') as any)
     .update({ 
       is_read: true,
       read_at: new Date().toISOString()
-    } as never)
+    })
     .eq('id', notificationId)
-    .eq('user_id', user.id) as unknown as Promise<{ error: any }>)
+    .eq('user_id', user.id)
 
   if (updateError) {
     return { error: updateError.message }
@@ -36,13 +36,13 @@ export async function markAllReadAction() {
   }
 
   const { error: updateError } = await (supabase
-    .from('notifications')
+    .from('notifications') as any)
     .update({ 
       is_read: true,
       read_at: new Date().toISOString()
-    } as never)
+    })
     .eq('user_id', user.id)
-    .eq('is_read', false) as unknown as Promise<{ error: any }>)
+    .eq('is_read', false)
 
   if (updateError) {
     return { error: updateError.message }

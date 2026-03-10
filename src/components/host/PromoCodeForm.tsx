@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm } from 'react-form' // wait, using react-hook-form
+
 import { createPromoCodeAction } from '@/actions/promo.actions'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'

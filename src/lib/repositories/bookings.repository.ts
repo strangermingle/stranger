@@ -1,6 +1,6 @@
 import { createClient } from '../supabase/server'
-import { BookingWithItems } from '../../../types/api.types'
-import { BookingInsert, Booking } from '../../../types'
+import { BookingWithItems } from '@/types/api.types'
+import { BookingInsert, Booking } from '@/types'
 
 export async function createBooking(
   bookingData: BookingInsert

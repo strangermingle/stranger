@@ -21,8 +21,8 @@ export async function reportContentAction(
   }
 
   // Insert into reports table
-  const { error } = await supabase
-    .from('reports')
+  const { error } = await (supabase
+    .from('reports') as any)
     .insert({
       reporter_id: user.id,
       reported_type: reportedType as 'event' | 'user' | 'review' | 'discussion' | 'message',

@@ -20,7 +20,7 @@ export function DiscussionSection({ eventId, currentUserId }: Props) {
   useEffect(() => {
     async function fetchPosts() {
       const { data, error } = await supabase
-        .from('event_discussions')
+        .from('event_discussions' as any)
         .select('*, user:users(username, anonymous_alias)')
         .eq('event_id', eventId)
         .eq('is_deleted', false)
@@ -48,7 +48,7 @@ export function DiscussionSection({ eventId, currentUserId }: Props) {
         async (payload) => {
           // Fetch the user data for the new post
           const { data: newUserPost } = await supabase
-            .from('event_discussions')
+            .from('event_discussions' as any)
             .select('*, user:users(username, anonymous_alias)')
             .eq('id', payload.new.id)
             .single()
@@ -72,13 +72,13 @@ export function DiscussionSection({ eventId, currentUserId }: Props) {
     setIsSending(true)
     try {
       const { error } = await supabase
-        .from('event_discussions')
+        .from('event_discussions' as any)
         .insert({
           event_id: eventId,
           user_id: currentUserId,
           message: message.trim(),
           is_anonymous: false // Default to false for now, can be toggled
-        })
+        } as any)
 
       if (error) throw error
       setMessage('')

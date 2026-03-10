@@ -22,9 +22,8 @@ export default async function AdminReportsPage({
   const p = await searchParams
   const currentStatus = p.status || 'pending'
 
-  // Fetch reports with reporter username
-  const { data: reports } = await supabase
-    .from('reports')
+  const { data: reports } = await (supabase
+    .from('reports') as any)
     .select('*, reporter:users!reporter_id(username)')
     .eq('status', currentStatus)
     .order('created_at', { ascending: false })

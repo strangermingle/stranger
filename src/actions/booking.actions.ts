@@ -35,11 +35,11 @@ export async function initiateBookingAction(input: CreateBookingInput): Promise<
     }
 
     // c. Fetch event
-    const { data: event, error: eventError } = await supabase
-      .from('events')
+    const { data: event, error: eventError } = await (supabase
+      .from('events') as any)
       .select('id, ticketing_mode, status')
       .eq('id', validated.event_id)
-      .single() as any;
+      .single()
 
     if (eventError || !event) {
       return { success: false, error: 'Event not found' };
@@ -55,10 +55,10 @@ export async function initiateBookingAction(input: CreateBookingInput): Promise<
 
     // d. Fetch requested ticket_tiers
     const tierIds = validated.items.map(item => item.ticket_tier_id);
-    const { data: tiers, error: tiersError } = await supabase
-      .from('ticket_tiers')
+    const { data: tiers, error: tiersError } = await (supabase
+      .from('ticket_tiers') as any)
       .select('id, event_id, price, currency, total_quantity, sold_count, reserved_count, max_per_booking, is_active, sale_end_at')
-      .in('id', tierIds) as any;
+      .in('id', tierIds)
 
     if (tiersError || !tiers || tiers.length !== tierIds.length) {
       return { success: false, error: 'One or more ticket tiers are invalid' };
@@ -95,12 +95,12 @@ export async function initiateBookingAction(input: CreateBookingInput): Promise<
     let discountAmount = 0;
 
     if (validated.promo_code) {
-      const { data: promo, error: promoError } = await supabase
-        .from('promo_codes')
+      const { data: promo, error: promoError } = await (supabase
+        .from('promo_codes') as any)
         .select('*')
         .eq('code', validated.promo_code)
         .eq('is_active', true)
-        .single() as any;
+        .single()
 
       if (promoError || !promo) {
         return { success: false, error: 'Invalid or inactive promo code' };
@@ -141,7 +141,7 @@ export async function initiateBookingAction(input: CreateBookingInput): Promise<
 
     // Re-calculate discount if promo code exists
     if (promoCodeId) {
-      const { data: promo } = await supabase.from('promo_codes').select('*').eq('id', promoCodeId).single() as any;
+      const { data: promo } = await (supabase.from('promo_codes') as any).select('*').eq('id', promoCodeId).single()
       if (promo.discount_type === 'percentage') {
         discountAmount = (subtotal * Number(promo.discount_value)) / 100;
       } else {
@@ -167,7 +167,7 @@ export async function initiateBookingAction(input: CreateBookingInput): Promise<
       receipt: bookingRef
     });
 
-    const bookingData: Database['public']['Tables']['bookings']['Insert'] = {
+    const bookingData: any = {
       booking_ref: bookingRef,
       user_id: user.id,
       event_id: validated.event_id,
@@ -190,10 +190,10 @@ export async function initiateBookingAction(input: CreateBookingInput): Promise<
     };
 
     const { data: booking, error: bookingError } = await (supabase
-      .from('bookings')
+      .from('bookings') as any)
       .insert(bookingData as any)
       .select()
-      .single() as any);
+      .single()
 
     if (bookingError || !booking) {
       console.error('Booking Insert Error:', bookingError);
@@ -210,8 +210,8 @@ export async function initiateBookingAction(input: CreateBookingInput): Promise<
     }));
 
     const { error: itemsError } = await (supabase
-      .from('booking_items')
-      .insert(itemsData as any) as any);
+      .from('booking_items') as any)
+      .insert(itemsData as any)
 
     if (itemsError) {
        console.error('Booking items insertion error:', itemsError);
@@ -227,12 +227,12 @@ export async function initiateBookingAction(input: CreateBookingInput): Promise<
       if (updateError) {
         // Fallback if RPC doesn't exist
         const tier = (tiers as Database['public']['Tables']['ticket_tiers']['Row'][]).find(t => t.id === item.ticket_tier_id)!;
-        await supabase
-          .from('ticket_tiers')
+        await (supabase
+          .from('ticket_tiers') as any)
           .update({ 
             reserved_count: (tier.reserved_count || 0) + item.quantity,
             updated_at: new Date().toISOString()
-          } as any)
+          })
           .eq('id', item.ticket_tier_id);
       }
     }
@@ -277,11 +277,11 @@ export async function verifyPaymentAction(input: {
   
   try {
     // 2. Fetch booking
-    const { data: booking, error: fetchError } = await supabase
-      .from('bookings')
+    const { data: booking, error: fetchError } = await (supabase
+      .from('bookings') as any)
       .select('id, user_id, razorpay_order_id')
       .eq('booking_ref', input.bookingRef)
-      .single<Database['public']['Tables']['bookings']['Row']>();
+      .single()
 
     if (fetchError || !booking) {
       return { success: false, error: 'Booking record not found' };
@@ -321,7 +321,7 @@ export async function verifyPaymentAction(input: {
       const qrContent = JSON.stringify(ticketData);
       const signedQr = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!).update(qrContent).digest('hex');
       
-      const updateData: Database['public']['Tables']['tickets']['Update'] = {
+      const updateData: any = {
         qr_code_data: `${qrContent}|${signedQr}`
       };
 
@@ -331,13 +331,13 @@ export async function verifyPaymentAction(input: {
     }
 
     // 7. Audit Log
-    await supabase.from('audit_logs').insert({
+    await (supabase.from('audit_logs') as any).insert({
       actor_id: user.id,
       action: 'payment_verified',
       entity_type: 'booking',
       entity_id: booking.id,
       new_values: { payment_id: input.razorpay_payment_id, status: 'confirmed' }
-    } as Database['public']['Tables']['audit_logs']['Insert']);
+    })
 
     return { success: true };
   } catch (error: any) {
@@ -356,8 +356,8 @@ export async function cancelBookingAction(bookingRef: string): Promise<{ success
       return { success: false, error: 'Authorization required' };
     }
     // 2. Fetch booking and associated event
-    const { data: booking, error: fetchError } = await supabase
-      .from('bookings')
+    const { data: booking, error: fetchError } = await (supabase
+      .from('bookings') as any)
       .select(`
         id, 
         user_id, 
@@ -372,7 +372,7 @@ export async function cancelBookingAction(bookingRef: string): Promise<{ success
         )
       `)
       .eq('booking_ref', bookingRef)
-      .single();
+      .single()
 
     type BookingWithEvent = {
       id: string;
@@ -436,7 +436,7 @@ export async function cancelBookingAction(bookingRef: string): Promise<{ success
 
     // 8. Update refund details if applicable
     if (refundId) {
-      const updateData: Database['public']['Tables']['bookings']['Update'] = {
+      const updateData: any = {
         refund_amount: Number(typedBooking.total_amount),
         refunded_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
@@ -474,7 +474,7 @@ export async function cancelBookingAction(bookingRef: string): Promise<{ success
     }
 
     // 10. Audit Log
-    await supabase.from('audit_logs').insert({
+    await (supabase.from('audit_logs') as any).insert({
       actor_id: user.id,
       action: 'booking_cancelled',
       entity_type: 'booking',
@@ -482,7 +482,7 @@ export async function cancelBookingAction(bookingRef: string): Promise<{ success
       old_values: { status: typedBooking.status, payment_status: typedBooking.payment_status },
       new_values: { status: 'cancelled', refund_id: refundId },
       metadata: { booking_ref: bookingRef }
-    } as Database['public']['Tables']['audit_logs']['Insert']);
+    })
 
     revalidatePath('/bookings');
     return { success: true };

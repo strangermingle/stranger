@@ -50,7 +50,7 @@ export default function EarningsChart({ data }: { data: ChartData[] }) {
             width={80}
           />
           <Tooltip 
-            formatter={(value: number) => [`₹${value.toFixed(2)}`, 'Amount']}
+            formatter={(value) => [`₹${Number(value).toFixed(2)}`, 'Amount']}
             labelStyle={{ color: '#111827' }}
             cursor={{ fill: 'rgba(107, 114, 128, 0.1)' }}
           />
