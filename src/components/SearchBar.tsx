@@ -111,7 +111,7 @@ export default function SearchBar({ hideSearchOnMobile = false, locationOnly = f
                 )}
             </div>
 
-            <style jsx>{`
+            <style dangerouslySetInnerHTML={{ __html: `
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 4px;
                 }
@@ -125,7 +125,7 @@ export default function SearchBar({ hideSearchOnMobile = false, locationOnly = f
                 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
                     background: #e5e7eb;
                 }
-            `}</style>
+            ` }} />
         </div>
     );
 }

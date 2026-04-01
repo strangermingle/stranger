@@ -701,7 +701,7 @@ export default function ChessGame() {
             </div>
 
             {/* Custom Scrollbar Styles */}
-            <style jsx global>{`
+            <style dangerouslySetInnerHTML={{ __html: `
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 8px;
                 }
@@ -716,7 +716,7 @@ export default function ChessGame() {
                 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
                     background-image: linear-gradient(to bottom, #4f46e5, #7c3aed);
                 }
-            `}</style>
+            ` }} />
         </>
     );
 }

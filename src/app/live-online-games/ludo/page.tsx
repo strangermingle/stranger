@@ -1020,7 +1020,7 @@ export default function LudoGame() {
             </div>
 
             {/* Custom Scrollbar Styles */}
-            <style jsx global>{`
+            <style dangerouslySetInnerHTML={{ __html: `
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 8px;
                 }
@@ -1035,7 +1035,7 @@ export default function LudoGame() {
                 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
                     background-image: linear-gradient(to bottom, #16a34a, #15803d);
                 }
-            `}</style>
+            ` }} />
         </>
     );
 }
