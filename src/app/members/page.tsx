@@ -177,9 +177,7 @@ export default function MembersPage() {
 
             // 2. Open Razorpay Checkout
             const options = {
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '', // We need a public key ideally. Let's hope it's not required or we fetch from an endpoint. 
-                // Alternatively, we let the backend return the key? 
-                // Let's assume the user has NEXT_PUBLIC_RAZORPAY_KEY... if not we must fetch it.
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                 subscription_id: data.subscriptionId,
                 name: "Stranger Mingle",
                 description: "Premium Community Membership",
@@ -198,9 +196,9 @@ export default function MembersPage() {
 
             // Temporary fetch of public key if missing
             if (!options.key) {
-                // If the user hasn't set NEXT_PUBLIC_..., Razorpay requires a key. 
-                // Assuming it's in their env setup.
-                options.key = 'rzp_test_STXkafCTgSb7JZ'; // From the backend .env file snippet in my memory
+                // We fallback to checking window or a specific global if needed, 
+                // but environment variables are preferred.
+                console.warn("Razorpay Public Key missing in environment.");
             }
 
             const rzp = new (window as any).Razorpay(options);
