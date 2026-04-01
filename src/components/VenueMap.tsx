@@ -166,8 +166,10 @@ export default function VenueMap({ venues, selectedVenue }: VenueMapProps) {
             
             {apiKey && (
                 <Script
-                    src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initMap`}
-                    strategy="afterInteractive"
+                    {...({
+                        src: `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initMap`,
+                        strategy: "afterInteractive"
+                    } as any)}
                 />
             )}
 
