@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
 
-async function handleProxy(req: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+async function handleProxy(req: NextRequest, { params }: { params: Promise<{ slug?: string[] }> }) {
   const { slug } = await params;
   const path = slug ? slug.join('/') : '';
   const url = new URL('/api/' + path, BACKEND_URL);
