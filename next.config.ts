@@ -1,7 +1,25 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  transpilePackages: [
+    "firebase",
+    "@firebase/app",
+    "@firebase/auth",
+    "@firebase/firestore",
+    "@firebase/functions",
+    "@firebase/storage",
+    "@firebase/analytics",
+    "@firebase/app-check",
+    "@firebase/installations",
+    "@firebase/messaging",
+    "@firebase/performance",
+    "@firebase/remote-config",
+    "@firebase/data-connect",
+    "@firebase/component",
+    "@firebase/util",
+    "@firebase/logger",
+    "@firebase/webchannel-wrapper",
+  ],
   images: {
     remotePatterns: [
       {
