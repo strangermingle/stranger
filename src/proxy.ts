@@ -16,17 +16,21 @@ export function proxy(request: NextRequest) {
     
     // Get the actual hostname (remove port if present)
     const host = hostname.split(':')[0];
-    
+
+    // Allow Vercel preview/branch domains and localhost
+    const isVercelPreview = host.endsWith('.vercel.app');
+    if (isVercelPreview || isLocalhost) {
+        return NextResponse.next();
+    }
+
     // Redirect non-www to www
     if (host === ALLOWED_DOMAIN_WITHOUT_WWW) {
-        const urlWithWww = url.clone();
-        urlWithWww.host = ALLOWED_DOMAIN;
-        return NextResponse.redirect(urlWithWww);
+        return NextResponse.redirect('https://' + ALLOWED_DOMAIN + url.pathname + url.search);
     }
     
     // Block any other domains
     if (host !== ALLOWED_DOMAIN) {
-        return new NextResponse('Access Denied: This website is only accessible from www.strangermingle.com', {
+        return new NextResponse('Access Denied: This website is only accessible from ' + ALLOWED_DOMAIN, {
             status: 403,
             headers: {
                 'Content-Type': 'text/plain',
