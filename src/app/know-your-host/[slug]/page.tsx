@@ -6,6 +6,7 @@ import EventCard from '@/components/EventCard';
 import { Instagram, Facebook, Twitter, Youtube, MapPin, Users, Calendar, Star, Shield, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getEventsByHostDisplayName, Event } from '@/lib/events';
+export const dynamic = 'force-dynamic';
 
 type Props = {
     params: Promise<{ slug: string }>;

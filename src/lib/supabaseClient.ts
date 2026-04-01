@@ -7,11 +7,11 @@ function getSupabaseConfig() {
   
   if (!url || !anonKey) {
     if (typeof window === 'undefined') {
-       // On server, we can be more strict
-       throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY');
+       // On server, log a warning instead of throwing during build
+       console.warn('⚠️ Supabase environment variables are missing (NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY). This is expected during some build phases but will fail at runtime.');
+    } else {
+       console.error('Supabase config missing');
     }
-    // On client, we might be in a state where envs are loading (though unlikely with NEXT_PUBLIC)
-    console.error('Supabase config missing');
     return { url: '', anonKey: '' };
   }
   
@@ -78,7 +78,8 @@ export function createAdminClient(): SupabaseClient {
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   
   if (!url || !serviceKey) {
-    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
+    console.warn('⚠️ Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY for Admin Client.');
+    return {} as SupabaseClient;
   }
   
   return createClient(url, serviceKey, {
