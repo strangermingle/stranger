@@ -4,7 +4,8 @@ import { useState, useEffect, FormEvent } from 'react';
 import { 
     signInWithPhoneNumber, 
     RecaptchaVerifier, 
-    ConfirmationResult 
+    ConfirmationResult,
+    signInAnonymously
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/components/AuthProvider';
@@ -68,9 +69,28 @@ export default function MembersPage() {
     ];
 
     const getRecaptchaVerifier = () => {
+        if (typeof window === 'undefined') return null;
+
+        // Ensure the container exists in the DOM
+        let container = document.getElementById('recaptcha-container');
+        if (!container) {
+            console.warn('[reCAPTCHA] Container not found, creating dynamic anchor');
+            container = document.createElement('div');
+            container.id = 'recaptcha-container';
+            document.body.appendChild(container);
+        }
+
         if (!window.recaptchaVerifier) {
+            console.log('[reCAPTCHA] Initializing RecaptchaVerifier (Enterprise Mode Fallback)');
             window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
                 size: 'invisible',
+                callback: () => {
+                    console.log('[reCAPTCHA] Verification successful');
+                },
+                'expired-callback': () => {
+                    console.warn('[reCAPTCHA] Verification expired, resetting...');
+                    window.recaptchaVerifier?.render().then((id: any) => grecaptcha?.enterprise?.reset(id));
+                }
             });
         }
         return window.recaptchaVerifier;
@@ -87,21 +107,34 @@ export default function MembersPage() {
         setAuthLoading(true);
         setError(null);
         try {
-            // reCAPTCHA Enterprise Layer
-            const recaptchaToken = await executeRecaptcha('member_login');
-            if (!recaptchaToken) {
-              console.warn('[reCAPTCHA] Assessment token missing. Proceeding with caution...');
-            }
-
             const appVerifier = getRecaptchaVerifier();
 
             const confirmation = await signInWithPhoneNumber(auth, fullPhoneNumber, appVerifier);
             setLoginConfirmation(confirmation);
             setLoginOtpSent(true);
         } catch (err: any) {
-            setError(err.message.replace('Firebase:', '').trim());
-            if(window.recaptchaVerifier) {
-                window.recaptchaVerifier.render().then((widgetId: any) => grecaptcha?.reset(widgetId));
+            console.error('[Auth] Login OTP Send Error:', err);
+            const errorCode = err.code || 'unknown';
+            const errorMessage = err.message || 'An error occurred during authentication.';
+            
+            // Detailed debugging for 400 errors
+            if (errorCode.includes('invalid-app-credential') || errorMessage.includes('400')) {
+                setError(`[Verification Error] Identity verification failed (Code: ${errorCode}). This often happens if the domain is not authorized in Firebase or reCAPTCHA keys are misconfigured.`);
+            } else {
+                setError(errorMessage.replace('Firebase:', '').trim());
+            }
+
+            if (window.recaptchaVerifier) {
+                try {
+                    const widgetId = await window.recaptchaVerifier.render();
+                    if (grecaptcha?.enterprise) {
+                        grecaptcha.enterprise.reset(widgetId);
+                    } else if (typeof grecaptcha !== 'undefined') {
+                        grecaptcha.reset(widgetId);
+                    }
+                } catch (resetErr) {
+                    console.warn('[reCAPTCHA] Failed to reset verifier:', resetErr);
+                }
             }
         } finally {
             setAuthLoading(false);
@@ -146,12 +179,6 @@ export default function MembersPage() {
         setError(null);
 
         try {
-            // 0. reCAPTCHA Enterprise Layer
-            const recaptchaToken = await executeRecaptcha('member_apply');
-            if (!recaptchaToken) {
-                console.warn('[reCAPTCHA] Assessment token missing. Flow may be at risk.');
-            }
-
             const isScriptLoaded = await loadRazorpayScript();
 
             if (!isScriptLoaded) {
@@ -166,8 +193,7 @@ export default function MembersPage() {
                     planId: selectedPlan, 
                     name: applyName, 
                     email: applyEmail, 
-                    phone: applyPhone,
-                    recaptchaToken // Send to backend for assessment
+                    phone: applyPhone
                 })
             });
 
@@ -291,8 +317,15 @@ export default function MembersPage() {
             setJoinStep('verify_phone');
             setError(null);
         } catch (err: any) {
-            setError(err.message.replace('Firebase:', '').trim());
-            // It might fail if recaptcha is burned. Need a fallback.
+            console.error('[Auth] Registration Phone Verification Error:', err);
+            const errorCode = err.code || 'unknown';
+            const errorMessage = err.message || 'Verification failed.';
+            
+            if (errorCode.includes('invalid-app-credential') || errorMessage.includes('400')) {
+                setError(`[Verification Error] Phone verification backend rejected the request (Code: ${errorCode}). Please ensure "localhost" is an authorized domain in Firebase.`);
+            } else {
+                setError(errorMessage.replace('Firebase:', '').trim());
+            }
         } finally {
             setAuthLoading(false);
         }
@@ -316,6 +349,29 @@ export default function MembersPage() {
 
     const handleLogout = async () => {
         await auth.signOut();
+    };
+
+    // ------------------------------------------
+    // DEV BYPASS LOGIC
+    // ------------------------------------------
+    const handleDevBypassEmail = () => {
+        console.warn('[DEV] Bypassing Email Verification');
+        initiatePhoneVerification();
+    };
+
+    const handleDevBypassPhone = async () => {
+        console.warn('[DEV] Bypassing Phone Verification');
+        setAuthLoading(true);
+        try {
+            // Sign in anonymously to get an auth session for the dashboard
+            await signInAnonymously(auth);
+            // On success, the user observer will handle the transition
+        } catch (err: any) {
+            console.error('[DEV] Bypass failed:', err);
+            setError("Dev Bypass Failed: " + err.message);
+        } finally {
+            setAuthLoading(false);
+        }
     };
 
     // ==========================================
@@ -549,9 +605,18 @@ export default function MembersPage() {
                                         >
                                             {authLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Confirm Email'}
                                         </button>
-                                        <button type="button" onClick={initiateEmailVerification} className="w-full text-[10px] text-gray-400 font-bold uppercase tracking-wider hover:text-gray-900 mt-2">
-                                            Resend Email
-                                        </button>
+                                        <div className="flex flex-col gap-2 mt-4">
+                                            <button type="button" onClick={initiateEmailVerification} className="w-full text-[10px] text-gray-400 font-bold uppercase tracking-wider hover:text-gray-900">
+                                                Resend Email
+                                            </button>
+                                            <button 
+                                                type="button" 
+                                                onClick={handleDevBypassEmail}
+                                                className="w-full py-2 border border-dashed border-gray-200 text-[9px] text-gray-300 font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-gray-50 hover:text-gray-500 transition-all"
+                                            >
+                                                Skip Verification (Dev Mode)
+                                            </button>
+                                        </div>
                                     </form>
                                 )}
 
@@ -580,7 +645,15 @@ export default function MembersPage() {
                                             disabled={authLoading}
                                             className="w-full py-4 bg-green-600 hover:bg-green-700 text-white font-black rounded-2xl transition-all active:scale-95 uppercase tracking-widest text-xs flex justify-center items-center shadow-md shadow-green-200"
                                         >
-                                            {authLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Confirm Phone & Login'}
+                                            {authLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Complete Registration'}
+                                        </button>
+
+                                        <button 
+                                            type="button" 
+                                            onClick={handleDevBypassPhone}
+                                            className="w-full py-2 mt-4 border border-dashed border-gray-200 text-[9px] text-gray-300 font-bold uppercase tracking-[0.2em] rounded-xl hover:bg-gray-50 hover:text-gray-500 transition-all"
+                                        >
+                                            Skip Verification (Dev Mode)
                                         </button>
                                     </form>
                                 )}

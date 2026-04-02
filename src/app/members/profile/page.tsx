@@ -24,6 +24,8 @@ export default function ProfilePage() {
     const [gender, setGender] = useState('');
     const [dob, setDob] = useState('');
     const [avatarUrl, setAvatarUrl] = useState('');
+    const [subscription, setSubscription] = useState<any>(null);
+    const [subLoading, setSubLoading] = useState(false);
 
     useEffect(() => {
         if (!authLoading && !user) {
@@ -54,8 +56,22 @@ export default function ProfilePage() {
             }
         };
 
+        const fetchSubscription = async () => {
+            if (!mappedUserId) return;
+            setSubLoading(true);
+            try {
+                const subData = await callRpc('userProfile', 'getUserSubscription', [mappedUserId]);
+                setSubscription(subData);
+            } catch (err) {
+                console.error('Error fetching subscription:', err);
+            } finally {
+                setSubLoading(false);
+            }
+        };
+
         if (mappedUserId) {
             fetchProfile();
+            fetchSubscription();
         } else if (!loading) {
             setLoading(false); // No user found
         }
@@ -173,16 +189,28 @@ export default function ProfilePage() {
                     <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 p-8 rounded-[2rem] shadow-2xl shadow-yellow-200/50 flex flex-col md:flex-row justify-between items-center text-black gap-6">
                         <div className="text-center md:text-left">
                             <div className="text-xs font-black uppercase tracking-[0.2em] mb-1 opacity-60">Account Standing</div>
-                            <div className="text-4xl font-black tracking-tighter">PLATINUM MEMBER</div>
+                            <div className="text-4xl font-black tracking-tighter">
+                                {subscription ? (
+                                    subscription.razorpay_plan_id === 'plan_SRHZEI4lcH5QUm' ? 'PLATINUM YEARLY' : 'PLATINUM MONTHLY'
+                                ) : (
+                                    'GUEST MEMBER'
+                                )}
+                            </div>
                         </div>
                         <div className="flex items-center gap-8">
                             <div className="text-center md:text-right">
                                 <div className="text-[10px] font-black uppercase tracking-widest opacity-60">Status</div>
-                                <div className="font-black uppercase tracking-tight text-green-700">Active</div>
+                                <div className={`font-black uppercase tracking-tight ${subscription?.status === 'active' ? 'text-green-700' : 'text-orange-700'}`}>
+                                    {subscription?.status || 'None'}
+                                </div>
                             </div>
                             <div className="text-center md:text-right">
                                 <div className="text-[10px] font-black uppercase tracking-widest opacity-60">Renewal</div>
-                                <div className="font-bold">April 2026</div>
+                                <div className="font-bold">
+                                    {subscription?.current_period_end 
+                                        ? new Date(subscription.current_period_end).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' }) 
+                                        : 'N/A'}
+                                </div>
                             </div>
                         </div>
                         <div className="w-16 h-16 bg-black/10 rounded-2xl flex items-center justify-center shrink-0">
