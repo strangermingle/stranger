@@ -1,148 +1,509 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/components/AuthProvider';
-import { MessageSquare, Users, User as UserIcon, Send, Shield, Info, Ghost, Hash, Loader2, Undo } from 'lucide-react';
+import { 
+    MessageSquare, Send, Ghost, Loader2, Undo, 
+    Search, Plus, MoreVertical, CheckCheck, 
+    Check, X, User as UserIcon, Shield, ChevronLeft as ArrowLeft
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { callRpc } from '@/lib/rpc-client';
+import { supabase } from '@/lib/supabaseClient';
+
+interface Conversation {
+    id: string;
+    last_message_at: string;
+    last_message_preview: string;
+    other_participant: {
+        id: string;
+        anonymous_alias: string;
+        avatar_url: string | null;
+    };
+    is_muted: boolean;
+    is_blocked: boolean;
+}
+
+interface Message {
+    id: string;
+    conversation_id: string;
+    sender_id: string;
+    content: string;
+    created_at: string;
+    is_read: boolean;
+}
+
+interface Member {
+    id: string;
+    anonymous_alias: string;
+    avatar_url: string | null;
+}
 
 export default function ChatPage() {
-    const { user, loading } = useAuth();
+    const { user, mappedUserId, loading: authLoading } = useAuth();
     const router = useRouter();
-    const [activeTab, setActiveTab] = useState<'anonymous' | 'direct' | 'rooms'>('anonymous');
-    const [message, setMessage] = useState('');
+    
+    const [conversations, setConversations] = useState<Conversation[]>([]);
+    const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [newMessage, setNewMessage] = useState('');
+    const [availableMembers, setAvailableMembers] = useState<Member[]>([]);
+    
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isLoadingConv, setIsLoadingConv] = useState(true);
+    const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+    const [isSending, setIsSending] = useState(false);
+    
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const pollingInterval = useRef<NodeJS.Timeout | null>(null);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
+    // Initial Load: Create Audio Instance
     useEffect(() => {
-        if (!loading && !user) {
-            router.push('/members');
-        }
-    }, [user, loading, router]);
+        audioRef.current = new Audio('/tone/message-tone.mp3');
+    }, []);
 
-    if (loading) {
+    // 1. Initial Load: Fetch Conversations and Available Members
+    useEffect(() => {
+        if (!authLoading && !user) {
+            router.push('/members');
+            return;
+        }
+
+        if (user && mappedUserId) {
+            fetchConversations();
+            fetchAvailableMembers();
+        }
+    }, [user, mappedUserId, authLoading, router]);
+
+    // 2. Fetch Conversations
+    async function fetchConversations() {
+        try {
+            const result = await callRpc('chatService', 'getConversations', []);
+            setConversations(result || []);
+        } catch (error) {
+            console.error('Failed to fetch conversations:', error);
+        } finally {
+            setIsLoadingConv(false);
+        }
+    }
+
+    // 3. Fetch Available Members for New Chat
+    async function fetchAvailableMembers() {
+        try {
+            const result = await callRpc('chatService', 'getAvailableMembers', []);
+            setAvailableMembers(result || []);
+        } catch (error) {
+            console.error('Failed to fetch members:', error);
+        }
+    }
+
+    // 4. Handle Conversation Selection
+    useEffect(() => {
+        if (activeConversation) {
+            fetchMessages(activeConversation.id);
+            setupRealtime(activeConversation.id);
+        } else {
+            setMessages([]);
+            if (pollingInterval.current) clearInterval(pollingInterval.current);
+        }
+    }, [activeConversation]);
+
+    // 4b. Auto-scroll on Messages Change
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    async function fetchMessages(convId: string) {
+        setIsLoadingMessages(true);
+        try {
+            const result = await callRpc('chatService', 'getMessages', [convId]);
+            setMessages(result || []);
+            scrollToBottom();
+        } catch (error) {
+            console.error('Failed to fetch messages:', error);
+        } finally {
+            setIsLoadingMessages(false);
+        }
+    }
+
+    // 5. Realtime Setup (Subscribing to Postgres Changes + Broadcast)
+    function setupRealtime(convId: string) {
+        // Cleanup old subscription
+        if (pollingInterval.current) clearInterval(pollingInterval.current);
+
+        console.log('Setting up secure realtime for conversation:', convId);
+        
+        const channelName = `conversation:${convId}`;
+        const channel = supabase
+            .channel(channelName)
+            // A. Broadcast Listener (Ping-based instant refresh)
+            .on('broadcast', { event: 'refresh' }, (payload) => {
+                console.log('Refresh signal received via broadcast:', payload);
+                // Trigger refresh if someone else sent a message
+                if (payload.payload?.sender_id !== mappedUserId) {
+                    refreshMessages(convId);
+                }
+            })
+            // B. Postgres Changes (Native Supabase Realtime)
+            .on('postgres_changes', { 
+                event: 'INSERT', 
+                schema: 'public', 
+                table: 'messages',
+                filter: `conversation_id=eq.${convId}`
+            }, (payload) => {
+                const msg = payload.new as Message;
+                setMessages(prev => {
+                    if (prev.find(m => m.id === msg.id)) return prev;
+                    if (msg.sender_id !== mappedUserId) {
+                        audioRef.current?.play().catch(e => console.log('Audio play blocked:', e));
+                    }
+                    return [...prev, msg];
+                });
+                scrollToBottom();
+            })
+            .subscribe();
+
+        // C. Safety Keep-alive (Every 60s instead of 5s)
+        // This is a slow, inexpensive fallback to ensures messages are never stuck.
+        pollingInterval.current = setInterval(() => {
+            refreshMessages(convId);
+        }, 60000);
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }
+
+    async function refreshMessages(convId: string) {
+        try {
+            const result = await callRpc('chatService', 'getMessages', [convId]);
+            // Merge messages without duplicates
+            setMessages(prev => {
+                const existingIds = new Set(prev.map(m => m.id));
+                const newMsgs = (result || []).filter((m: Message) => !existingIds.has(m.id));
+                
+                if (newMsgs.length === 0) return prev;
+
+                // Play sound for new incoming messages in polling
+                const hasIncoming = newMsgs.some((m: Message) => m.sender_id !== mappedUserId);
+                if (hasIncoming) {
+                    audioRef.current?.play().catch(e => console.log('Audio play blocked:', e));
+                }
+
+                return [...prev, ...newMsgs];
+            });
+        } catch (error) {
+            // Silently fail polling
+        }
+    }
+
+    // 6. Send Message
+    async function handleSendMessage(e: React.FormEvent) {
+        e.preventDefault();
+        if (!newMessage.trim() || !activeConversation || isSending) return;
+
+        setIsSending(true);
+        const text = newMessage;
+        setNewMessage('');
+
+        try {
+            const result = await callRpc('chatService', 'sendMessage', [activeConversation.id, text]);
+            // Optimistically or already handled by refresh
+            setMessages(prev => [...prev, result]);
+            scrollToBottom();
+            fetchConversations(); // Update preview in list
+        } catch (error) {
+            console.error('Failed to send message:', error);
+            setNewMessage(text); // Restore text on failure
+        } finally {
+            setIsSending(false);
+        }
+    }
+
+    // 7. Start New Conversation
+    async function handleStartChat(targetUserId: string) {
+        try {
+            const convId = await callRpc('chatService', 'startConversation', [targetUserId]);
+            setIsSearching(false);
+            fetchConversations();
+            // Find the conversation object to set as active
+            const conv = conversations.find(c => c.id === convId);
+            if (conv) {
+                setActiveConversation(conv);
+            } else {
+                // If it's a brand new conv, we might need a dummy object until refresh
+                const member = availableMembers.find(m => m.id === targetUserId);
+                if (member) {
+                    setActiveConversation({
+                        id: convId,
+                        last_message_at: new Date().toISOString(),
+                        last_message_preview: '',
+                        other_participant: member,
+                        is_muted: false,
+                        is_blocked: false
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Failed to start chat:', error);
+        }
+    }
+
+    function scrollToBottom() {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    }
+
+    if (authLoading || isLoadingConv) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+            <div className="min-h-screen flex items-center justify-center bg-black">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="w-12 h-12 text-blue-500 animate-spin" />
+                    <p className="text-white font-black uppercase tracking-widest text-xs">Initializing Safe Chat...</p>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white pt-24 pb-12 px-4 selection:bg-blue-500/30">
-            <div className="max-w-6xl mx-auto h-[calc(100vh-160px)] flex flex-col">
+        <div className="min-h-screen bg-black text-white pt-24 pb-8 px-4 font-sans antialiased">
+            <div className="max-w-7xl mx-auto h-[calc(100vh-160px)] flex flex-col md:flex-row gap-6 relative">
                 
-                {/* Chat Header */}
-                <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-4">
-                        <Link href="/members" className="p-2 hover:bg-white/10 rounded-xl transition-all border border-white/5">
-                            <Undo className="w-6 h-6 text-gray-400" />
-                        </Link>
+                {/* 1. Conversations Sidebar */}
+                <div className={`w-full md:w-96 flex flex-col bg-white/[0.03] border border-white/5 rounded-[2.5rem] overflow-hidden backdrop-blur-3xl shadow-2xl ${activeConversation ? 'hidden md:flex' : 'flex'}`}>
+                    <div className="p-6 border-b border-white/5 flex items-center justify-between">
                         <div>
-                            <h1 className="text-2xl font-black tracking-tight uppercase">Member Chat</h1>
-                            <p className="text-gray-500 text-sm font-medium">Safe & Encrypted Communication</p>
+                            <h1 className="text-xl font-black uppercase tracking-tight">Stranger Mingle</h1>
+                            <p className="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Anonymous Member Chat</p>
                         </div>
+                        <button 
+                            onClick={() => setIsSearching(!isSearching)}
+                            className="p-3 bg-white/5 hover:bg-white/10 rounded-2xl transition-all border border-white/5"
+                        >
+                            {isSearching ? <X className="w-5 h-5 text-gray-400" /> : <Plus className="w-5 h-5 text-blue-400" />}
+                        </button>
                     </div>
-                    <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-green-500">248 Members Online</span>
+
+                    <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2 custom-scrollbar">
+                        {isSearching ? (
+                            <div className="space-y-4">
+                                <div className="relative mb-4">
+                                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                                    <input 
+                                        type="text" 
+                                        placeholder="Search by alias..." 
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-blue-500/50"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
+                                </div>
+                                <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest px-2 mb-2">Available Members</div>
+                                {availableMembers
+                                    .filter(m => m.anonymous_alias.toLowerCase().includes(searchQuery.toLowerCase()))
+                                    .map(member => (
+                                    <button 
+                                        key={member.id}
+                                        onClick={() => handleStartChat(member.id)}
+                                        className="w-full flex items-center gap-4 p-4 rounded-3xl hover:bg-white/5 transition-all text-left border border-transparent hover:border-white/5 group"
+                                    >
+                                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 p-[2px]">
+                                            <div className="w-full h-full bg-black rounded-[calc(1rem-2px)] flex items-center justify-center">
+                                                <UserIcon className="w-6 h-6 text-blue-400" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className="font-bold text-sm tracking-tight group-hover:text-blue-400 transition-colors">{member.anonymous_alias}</div>
+                                            <div className="text-[10px] text-green-500 font-bold uppercase tracking-widest">Verified Member</div>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        ) : conversations.length > 0 ? (
+                            conversations.map(conv => (
+                                <button 
+                                    key={conv.id}
+                                    onClick={() => setActiveConversation(conv)}
+                                    className={`w-full flex items-center gap-4 p-4 rounded-3xl transition-all text-left border ${
+                                        activeConversation?.id === conv.id 
+                                        ? 'bg-blue-500/10 border-blue-500/30' 
+                                        : 'bg-white/5 border-white/5 hover:bg-white/10'
+                                    } group relative overflow-hidden`}
+                                >
+                                    {activeConversation?.id === conv.id && (
+                                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500" />
+                                    )}
+                                    <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-gray-400 group-hover:scale-110 transition-transform">
+                                        <Ghost className="w-8 h-8 opacity-40" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex justify-between items-start mb-1">
+                                            <div className="font-bold text-sm tracking-tight truncate pr-2">{conv.other_participant.anonymous_alias}</div>
+                                            <div className="text-[9px] text-gray-500 font-bold uppercase shrink-0">
+                                                {conv.last_message_at ? new Date(conv.last_message_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
+                                            </div>
+                                        </div>
+                                        <div className="text-xs text-gray-500 truncate font-medium">
+                                            {conv.last_message_preview || 'Start a conversation...'}
+                                        </div>
+                                    </div>
+                                </button>
+                            ))
+                        ) : (
+                            <div className="h-full flex flex-col items-center justify-center text-center p-8 opacity-40">
+                                <MessageSquare className="w-12 h-12 mb-4" />
+                                <p className="text-sm font-bold uppercase tracking-widest text-gray-400">No conversations yet</p>
+                                <button 
+                                    onClick={() => setIsSearching(true)}
+                                    className="mt-4 text-xs text-blue-400 font-black hover:underline"
+                                >
+                                    START YOUR FIRST EXPLORATION
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Main Chat Interface */}
-                <div className="flex-1 bg-white/[0.02] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row backdrop-blur-xl">
-                    
-                    {/* Sidebar / Tabs */}
-                    <div className="w-full md:w-72 border-r border-white/5 p-6 flex flex-col gap-2">
-                        {[
-                            { id: 'anonymous', label: 'Anonymous', icon: Ghost, color: 'text-purple-400', desc: 'Alias-based matching' },
-                            { id: 'direct', label: 'Direct', icon: UserIcon, color: 'text-blue-400', desc: 'Private 1-on-1' },
-                            { id: 'rooms', label: 'Rooms', icon: Hash, color: 'text-emerald-400', desc: 'Group discussions' },
-                        ].map((tab) => (
-                            <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id as any)}
-                                className={`flex items-center gap-4 p-4 rounded-2xl transition-all text-left group ${
-                                    activeTab === tab.id 
-                                    ? 'bg-white/10 shadow-xl' 
-                                    : 'hover:bg-white/5 opacity-60 hover:opacity-100'
-                                }`}
-                            >
-                                <div className={`p-2 rounded-xl bg-white/5 ${tab.color}`}>
-                                    <tab.icon className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <div className="font-black text-sm uppercase tracking-wider">{tab.label}</div>
-                                    <div className="text-[10px] text-gray-500 font-medium">{tab.desc}</div>
-                                </div>
-                            </button>
-                        ))}
-
-                        <div className="mt-auto p-4 bg-blue-500/5 border border-blue-500/10 rounded-2xl">
-                            <div className="flex items-center gap-2 text-blue-400 mb-2">
-                                <Shield className="w-4 h-4" />
-                                <span className="text-[10px] font-black uppercase tracking-widest">Privacy Level</span>
-                            </div>
-                            <p className="text-[10px] text-gray-500 leading-relaxed">
-                                End-to-end encryption active. Messages are deleted from servers after 24h of inactivity.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Chat Area */}
-                    <div className="flex-1 flex flex-col relative">
-                        
-                        {/* Area Content */}
-                        <div className="flex-1 p-8 overflow-y-auto flex flex-col justify-center items-center text-center">
-                            <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-6 animate-pulse">
-                                {activeTab === 'anonymous' ? <Ghost className="w-10 h-10 text-purple-400" /> : 
-                                 activeTab === 'direct' ? <UserIcon className="w-10 h-10 text-blue-400" /> : 
-                                 <Hash className="w-10 h-10 text-emerald-400" />}
-                            </div>
-                            <h2 className="text-xl font-black uppercase mb-2 tracking-wide">
-                                {activeTab === 'anonymous' ? 'Searching for Stranger...' : 
-                                 activeTab === 'direct' ? 'Select a Contact' : 
-                                 'Joining Public Room...'}
-                            </h2>
-                            <p className="text-gray-500 max-w-xs text-sm font-medium">
-                                {activeTab === 'anonymous' ? 'We are matching you with another verified member. Your identity remains hidden.' : 
-                                 activeTab === 'direct' ? 'Choose from your verified connections to start a private encrypted conversation.' : 
-                                 'Enter a public room to discuss topics with the community in real-time.'}
-                            </p>
-                            
-                            {activeTab === 'anonymous' && (
-                                <button className="mt-8 px-8 py-3 bg-purple-500 hover:bg-purple-600 text-white font-black rounded-xl transition-all active:scale-95 shadow-lg shadow-purple-500/20 uppercase tracking-widest text-xs">
-                                    Flash Match Now
-                                </button>
-                            )}
-                        </div>
-
-                        {/* Message Input Box */}
-                        <div className="p-6 border-t border-white/5 bg-black/20">
-                            <form className="flex gap-4">
-                                <div className="flex-1 relative">
-                                    <input
-                                        type="text"
-                                        placeholder={`Message in ${activeTab}...`}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium text-sm"
-                                        value={message}
-                                        onChange={(e) => setMessage(e.target.value)}
-                                    />
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                        <button type="button" className="p-2 hover:text-white text-gray-500 transition-colors">
-                                            <Info className="w-4 h-4" />
-                                        </button>
+                {/* 2. Chat Area */}
+                <div className={`flex-1 flex flex-col bg-white/[0.03] border border-white/5 rounded-[2.5rem] overflow-hidden backdrop-blur-3xl shadow-2xl relative ${!activeConversation ? 'hidden md:flex' : 'flex'}`}>
+                    {activeConversation ? (
+                        <>
+                            {/* Chat Header */}
+                            <div className="p-6 bg-black/40 border-b border-white/5 flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                    <button 
+                                        onClick={() => setActiveConversation(null)}
+                                        className="p-3 bg-white/5 hover:bg-white/10 rounded-2xl transition-all border border-white/10 md:hidden"
+                                    >
+                                        <ArrowLeft className="w-5 h-5 text-blue-400" />
+                                    </button>
+                                    <div className="hidden sm:flex w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 items-center justify-center border border-white/10 text-blue-400">
+                                        <Ghost className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-lg font-black tracking-tight">{activeConversation.other_participant.anonymous_alias}</h2>
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Active Stealth Channel</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <button 
-                                    className="p-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl transition-all active:scale-95 shadow-xl shadow-blue-500/20 disabled:opacity-50"
-                                    disabled={!message.trim()}
-                                >
-                                    <Send className="w-5 h-5" />
-                                </button>
-                            </form>
+                                <div className="flex items-center gap-3">
+                                    <button className="p-3 hover:bg-white/5 rounded-2xl transition-colors border border-transparent hover:border-white/10">
+                                        <Shield className="w-5 h-5 text-gray-500" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Messages List */}
+                            <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
+                                {isLoadingMessages ? (
+                                    <div className="h-full flex items-center justify-center">
+                                        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+                                    </div>
+                                ) : messages.length > 0 ? (
+                                    messages.map((msg, i) => {
+                                        const isMine = msg.sender_id === mappedUserId;
+                                        return (
+                                            <div 
+                                                key={msg.id} 
+                                                className={`flex flex-col ${isMine ? 'items-end' : 'items-start'} group`}
+                                            >
+                                                <div className={`max-w-[80%] md:max-w-[60%] px-6 py-4 rounded-[1.5rem] text-sm font-medium leading-relaxed ${
+                                                    isMine 
+                                                    ? 'bg-blue-600 text-white rounded-tr-none shadow-xl shadow-blue-600/10' 
+                                                    : 'bg-white/5 text-gray-200 border border-white/5 rounded-tl-none'
+                                                }`}>
+                                                    {msg.content}
+                                                </div>
+                                                <div className="mt-2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <span className="text-[9px] text-gray-600 font-bold uppercase tabular-nums">
+                                                        {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    </span>
+                                                    {isMine && (
+                                                        msg.is_read ? <CheckCheck className="w-3 h-3 text-blue-500" /> : <Check className="w-3 h-3 text-gray-600" />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <div className="h-full flex flex-col items-center justify-center text-center opacity-30 gap-4">
+                                        <div className="w-20 h-20 rounded-full border border-dashed border-white/30 flex items-center justify-center">
+                                            <Ghost className="w-10 h-10" />
+                                        </div>
+                                        <p className="text-xs font-black uppercase tracking-widest text-gray-400">Secure connection established.<br/>Messages are encrypted.</p>
+                                    </div>
+                                )}
+                                <div ref={messagesEndRef} />
+                            </div>
+
+                            {/* Message Input */}
+                            <div className="p-8 bg-black/40 border-t border-white/5">
+                                <form onSubmit={handleSendMessage} className="flex gap-4">
+                                    <div className="flex-1 relative group">
+                                        <input 
+                                            type="text" 
+                                            placeholder="Write your secret message..." 
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium text-sm pr-12"
+                                            value={newMessage}
+                                            onChange={(e) => setNewMessage(e.target.value)}
+                                            disabled={isSending}
+                                        />
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 p-2">
+                                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse opacity-0 group-focus-within:opacity-100 transition-opacity" />
+                                        </div>
+                                    </div>
+                                    <button 
+                                        type="submit"
+                                        disabled={!newMessage.trim() || isSending}
+                                        className="px-8 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl transition-all active:scale-95 shadow-2xl shadow-blue-500/30 disabled:opacity-50 disabled:grayscale flex items-center justify-center"
+                                    >
+                                        {isSending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}
+                                    </button>
+                                </form>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
+                            <div className="w-32 h-32 bg-white/5 rounded-full flex items-center justify-center mb-8 relative">
+                                <Ghost className="w-16 h-16 text-blue-500/50" />
+                                <div className="absolute inset-0 rounded-full border border-blue-500/20 animate-ping" />
+                            </div>
+                            <h2 className="text-2xl font-black uppercase tracking-widest mb-4">Select a Stranger</h2>
+                            <p className="text-gray-500 max-w-sm text-sm font-medium leading-relaxed">
+                                Join a private 1-on-1 stealth channel with other verified members. 
+                                Your real details are never exposed. Only your anonymous alias is shared.
+                            </p>
+                            <button 
+                                onClick={() => setIsSearching(true)}
+                                className="mt-10 px-10 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-xs font-black uppercase tracking-widest transition-all hover:border-blue-500/30 text-blue-400"
+                            >
+                                Explorer Members Directory
+                            </button>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
+
+            <style jsx global>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                }
+            `}</style>
         </div>
     );
 }

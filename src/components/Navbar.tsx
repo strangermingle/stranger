@@ -7,10 +7,24 @@ import SocialLinks from './SocialLinks';
 import SearchBar from './SearchBar';
 import { useAuth } from './AuthProvider';
 import { UserCircle, LogOut, LayoutDashboard } from 'lucide-react';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
     const { user } = useAuth();
+    const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            router.push('/');
+            closeMobileMenu();
+        } catch (error) {
+            console.error('Error signing out:', error);
+        }
+    };
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -47,27 +61,33 @@ export default function Navbar() {
                         <Link href="/events" className="hover:text-yellow-700 transition-colors hidden sm:block">
                             Events
                         </Link>
-                        {/* Featured Cities */}
-                        <div className="hidden xl:flex items-center gap-6">
-                            <Link href="/bangalore" className="hover:text-pink-600 transition-colors">Bangalore</Link>
-                            <Link href="/mumbai" className="hover:text-green-600 transition-colors">Mumbai</Link>
-                            <Link href="/delhi" className="hover:text-purple-600 transition-colors">Delhi</Link>
-                        </div>
+                        <Link href="/best-hangout-places" className="hover:text-red-600 transition-colors hidden sm:block">
+                            Hangout Places
+                        </Link>
                         
                         <Link href="/know-your-host" className="hover:text-blue-600 transition-colors hidden sm:block">
                             Know Your Host
                         </Link>
                         
                         {!user ? (
-                            <Link href="/members" className="px-5 py-2.5 bg-yellow-400 text-black rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-yellow-500 transition-all flex items-center gap-2 shadow-sm active:scale-95">
+                            <Link href="/members" className="hidden sm:flex px-5 py-2.5 bg-yellow-400 text-black rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-yellow-500 transition-all items-center gap-2 shadow-sm active:scale-95">
                                 <UserCircle className="w-4 h-4" />
-                                <span>Members</span>
+                                <span>Member Login</span>
                             </Link>
                         ) : (
-                            <Link href="/members" className="px-5 py-2.5 bg-gray-900 text-white rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-black transition-all flex items-center gap-2 shadow-lg active:scale-95">
-                                <LayoutDashboard className="w-4 h-4 text-green-400" />
-                                <span>Dashboard</span>
-                            </Link>
+                            <div className="flex items-center gap-2 sm:gap-3">
+                                <Link href="/members" className="hidden sm:flex px-5 py-2.5 bg-gray-100 text-gray-900 rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-gray-200 transition-all items-center gap-2 active:scale-95">
+                                    <LayoutDashboard className="w-4 h-4 text-green-600" />
+                                    <span>Dashboard</span>
+                                </Link>
+                                <button 
+                                    onClick={handleSignOut}
+                                    className="px-3 py-1.5 border border-gray-300 bg-red-500 text-white rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-black transition-all flex items-center gap-2 active:scale-95"
+                                >
+                                    <LogOut className="w-4 h-4 text-white" />
+                                    <span>Sign Out</span>
+                                </button>
+                            </div>
                         )}
 
                         {/* Mobile Actions (Location + Hamburger) */}
@@ -125,6 +145,13 @@ export default function Navbar() {
                             Events
                         </Link>
                         <Link
+                            href="/best-hangout-places"
+                            className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
+                            onClick={closeMobileMenu}
+                        >
+                            Hangouts
+                        </Link>
+                        <Link
                             href="/know-your-host"
                             className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
                             onClick={closeMobileMenu}
@@ -155,13 +182,31 @@ export default function Navbar() {
                     </div>
 
                     <div className="pt-4 border-t border-gray-100">
-                        <Link
-                            href="/members"
-                            className="block w-full px-4 py-3 bg-yellow-400 text-black text-center rounded-full font-bold hover:bg-black hover:text-white transition-colors mb-6 shadow-sm"
-                            onClick={closeMobileMenu}
-                        >
-                            Members Area
-                        </Link>
+                        {!user ? (
+                            <Link
+                                href="/members"
+                                className="block w-full px-4 py-3 bg-yellow-400 text-black text-center rounded-full font-bold hover:bg-black hover:text-white transition-colors mb-6 shadow-sm"
+                                onClick={closeMobileMenu}
+                            >
+                                Member Login
+                            </Link>
+                        ) : (
+                            <div className="flex flex-col gap-3 mb-6">
+                                <Link
+                                    href="/members"
+                                    className="block w-full px-4 py-3 bg-gray-100 text-gray-900 text-center rounded-full font-bold hover:bg-gray-200 transition-colors"
+                                    onClick={closeMobileMenu}
+                                >
+                                    Dashboard
+                                </Link>
+                                <button
+                                    onClick={handleSignOut}
+                                    className="block w-full px-4 py-3 bg-gray-900 text-white text-center rounded-full font-bold hover:bg-black transition-colors"
+                                >
+                                    Sign Out
+                                </button>
+                            </div>
+                        )}
 
                         {/* Social Media Icons */}
                         <div className="px-2">

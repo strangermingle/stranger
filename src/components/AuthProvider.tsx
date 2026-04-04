@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { User, onIdTokenChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { v5 as uuidv5 } from 'uuid';
@@ -11,26 +11,75 @@ const SM_UUID_NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
 interface AuthContextType {
   user: User | null;
   mappedUserId: string | null;
+  isMember: boolean;
+  isMemberVerified: boolean;
+  membershipExpiry: string | null;
   loading: boolean;
+  checkMembershipStatus: (email?: string) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType>({ 
   user: null, 
   mappedUserId: null,
-  loading: true 
+  isMember: false,
+  isMemberVerified: false,
+  membershipExpiry: null,
+  loading: true,
+  checkMembershipStatus: async () => false
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [mappedUserId, setMappedUserId] = useState<string | null>(null);
+  const [isMember, setIsMember] = useState(false);
+  const [isMemberVerified, setIsMemberVerified] = useState(false);
+  const [membershipExpiry, setMembershipExpiry] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const checkMembershipStatus = useCallback(async (email?: string) => {
+    const targetEmail = (email || user?.email)?.toLowerCase();
+    if (!targetEmail) return false;
+
+    try {
+      // Get fresh token to prove identity to the backend
+      const idToken = await auth.currentUser?.getIdToken();
+      
+      const res = await fetch(`/api/membership/status?email=${encodeURIComponent(targetEmail)}`, {
+        headers: {
+          ...(idToken ? { 'Authorization': `Bearer ${idToken}` } : {})
+        }
+      });
+      
+      const data = await res.json();
+      if (data.success && data.isMember) {
+        setIsMember(true);
+        setIsMemberVerified(!!data.is_verified);
+        setMembershipExpiry(data.expiry || null);
+        return true;
+      }
+      setIsMember(false);
+      setIsMemberVerified(false);
+      setMembershipExpiry(null);
+      return false;
+    } catch (err) {
+      console.error('[Auth] Failed to check membership status:', err);
+      setIsMember(false);
+      setIsMemberVerified(false);
+      setMembershipExpiry(null);
+      return false;
+    }
+  }, [user?.email]);
 
   useEffect(() => {
     // Listen for authentication state to change.
     const unsubscribe = onIdTokenChanged(auth, async (currentUser) => {
+      setLoading(true);
       if (!currentUser) {
         setUser(null);
         setMappedUserId(null);
+        setIsMember(false);
+        setIsMemberVerified(false);
+        setMembershipExpiry(null);
         // Clear the HTTP cookie for SSR context
         document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         setLoading(false);
@@ -47,14 +96,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const token = await currentUser.getIdToken();
       document.cookie = `auth-token=${token}; path=/; max-age=1209600; Secure; SameSite=Strict`;
       
+      // Check membership status immediately
+      const detectedEmail = (currentUser.email || 
+                            currentUser.providerData.find(p => p.email)?.email)?.toLowerCase();
+      
+      if (detectedEmail) {
+        await checkMembershipStatus(detectedEmail);
+      }
+      
       setLoading(false);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [checkMembershipStatus]);
 
   return (
-    <AuthContext.Provider value={{ user, mappedUserId, loading }}>
+    <AuthContext.Provider value={{ user, mappedUserId, isMember, isMemberVerified, membershipExpiry, loading, checkMembershipStatus }}>
       {children}
     </AuthContext.Provider>
   );

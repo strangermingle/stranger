@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import { callRpc } from '@/lib/rpc-client';
 import { useAuth } from '@/components/AuthProvider';
-import { Camera, User as UserIcon, Loader2, Save, Undo, Shield, AlertCircle, CheckCircle } from 'lucide-react';
+import { Camera, User as UserIcon, Loader2, Save, Undo, Shield, AlertCircle, CheckCircle, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function ProfilePage() {
-    const { user, mappedUserId, loading: authLoading } = useAuth();
+    const { user, mappedUserId, loading: authLoading, isMemberVerified, membershipExpiry } = useAuth();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -19,6 +19,8 @@ export default function ProfilePage() {
 
     // Form states
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [bio, setBio] = useState('');
     const [anonymousAlias, setAnonymousAlias] = useState('');
     const [gender, setGender] = useState('');
@@ -41,6 +43,8 @@ export default function ProfilePage() {
                 
                 // Initialize form values
                 setUsername(data.username || '');
+                setEmail(data.email || '');
+                setPhone(data.phone || '');
                 setBio(data.bio || '');
                 setAnonymousAlias(data.anonymous_alias || '');
                 setGender(data.gender || '');
@@ -85,15 +89,17 @@ export default function ProfilePage() {
         setSuccess(null);
 
         try {
-            const result = await callRpc('userProfile', 'updateUserProfile', [mappedUserId, {
-                username,
-                bio,
-                anonymous_alias: anonymousAlias,
-                gender,
-                date_of_birth: dob,
-                avatar_url: avatarUrl,
+            // Sanitize data: convert empty strings to null for database compatibility
+            const updatePayload = {
+                bio: bio || null,
+                phone: phone || null,
+                gender: gender || null,
+                date_of_birth: dob || null,
+                avatar_url: avatarUrl || null,
                 updated_at: new Date().toISOString(),
-            }]);
+            };
+
+            const result = await callRpc('userProfile', 'updateUserProfile', [mappedUserId, updatePayload]);
 
             if (!result) throw new Error('Update failed on backend');
             
@@ -200,16 +206,17 @@ export default function ProfilePage() {
                         <div className="flex items-center gap-8">
                             <div className="text-center md:text-right">
                                 <div className="text-[10px] font-black uppercase tracking-widest opacity-60">Status</div>
-                                <div className={`font-black uppercase tracking-tight ${subscription?.status === 'active' ? 'text-green-700' : 'text-orange-700'}`}>
+                                <div className={`font-black uppercase tracking-tight flex items-center gap-1.5 ${subscription?.status === 'active' ? 'text-green-700' : 'text-orange-700'}`}>
                                     {subscription?.status || 'None'}
+                                    {isMemberVerified && <CheckCircle className="w-3 h-3 text-green-700" />}
                                 </div>
                             </div>
                             <div className="text-center md:text-right">
                                 <div className="text-[10px] font-black uppercase tracking-widest opacity-60">Renewal</div>
                                 <div className="font-bold">
-                                    {subscription?.current_period_end 
-                                        ? new Date(subscription.current_period_end).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' }) 
-                                        : 'N/A'}
+                                    {(subscription?.current_period_end || membershipExpiry) 
+                                        ? new Date(subscription?.current_period_end || membershipExpiry!).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' }) 
+                                        : 'Active'}
                                 </div>
                             </div>
                         </div>
@@ -274,30 +281,59 @@ export default function ProfilePage() {
                         )}
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Form Fields */}
-                            <div>
-                                <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
-                                    Username
-                                </label>
-                                <input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 transition-all outline-none font-bold"
-                                    placeholder="your_username"
-                                />
+                            {/* Read-only Identity Section */}
+                            <div className="md:col-span-2">
+                                <div className="flex items-center gap-2 mb-4">
+                                    <Shield className="w-4 h-4 text-blue-600" />
+                                    <span className="text-xs font-black text-blue-600 uppercase tracking-widest">Verified Identity (Locked)</span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                            Full Name
+                                        </label>
+                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-bold flex items-center justify-between">
+                                            <span>{username || 'Anonymous'}</span>
+                                            <Lock className="w-4 h-4 opacity-30" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                            Official Email
+                                        </label>
+                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-bold flex items-center justify-between">
+                                            <span className="truncate">{email || 'Not verified'}</span>
+                                            <Lock className="w-4 h-4 opacity-30" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                            Anonymous Alias
+                                        </label>
+                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-bold flex items-center justify-between">
+                                            <span>{anonymousAlias || 'CoolStranger007'}</span>
+                                            <Lock className="w-4 h-4 opacity-30" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
+                            {/* Separator */}
+                            <div className="md:col-span-2 border-t border-gray-50 my-2" />
+                            
+                            {/* Editable Fields */}
                             <div>
                                 <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
-                                    Anonymous Alias
+                                    Phone Number
                                 </label>
                                 <input
-                                    type="text"
-                                    value={anonymousAlias}
-                                    onChange={(e) => setAnonymousAlias(e.target.value)}
+                                    type="tel"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
                                     className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 transition-all outline-none font-bold"
-                                    placeholder="CoolStranger007"
+                                    placeholder="+91 00000 00000"
                                 />
                             </div>
 

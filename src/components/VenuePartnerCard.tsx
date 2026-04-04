@@ -1,8 +1,9 @@
 'use client';
 
 import { VenuePartner } from '@/lib/events';
-import { MapPin, ExternalLink, Star } from 'lucide-react';
+import { MapPin, ExternalLink, Star, Info } from 'lucide-react';
 import { sendGAEvent } from '@/lib/gtag';
+import Image from 'next/image';
 
 interface VenuePartnerCardProps {
     venue: VenuePartner;
@@ -20,69 +21,91 @@ export default function VenuePartnerCard({ venue, onViewOnMap }: VenuePartnerCar
                 });
                 onViewOnMap?.(venue);
             }}
-            className="group block bg-white rounded-3xl border border-gray-100 p-6 hover:shadow-2xl hover:shadow-gray-200/50 transition-all duration-500 cursor-pointer h-full relative"
+            className="group block bg-white rounded-3xl border border-gray-100 overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 cursor-pointer h-full relative"
         >
             <div className="flex flex-col h-full uppercase">
-                {/* Header with Icon/Image placeholder */}
-                <div className="flex items-start gap-4 mb-6">
-                    <div className="relative w-24 h-24 rounded-2xl overflow-hidden border-4 border-gray-50 shrink-0 shadow-sm transition-transform duration-500 group-hover:scale-105 bg-linear-to-br from-blue-50 to-indigo-50 flex items-center justify-center text-blue-200">
-                        <MapPin size={40} />
+                {/* Visual Header */}
+                <div className="relative aspect-[16/9] overflow-hidden bg-gray-50">
+                    {venue.cover_image_url ? (
+                        <Image
+                            src={venue.cover_image_url}
+                            alt={venue.venue_name}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                    ) : (
+                        <div className="absolute inset-0 flex items-center justify-center text-blue-100 bg-linear-to-br from-blue-50 to-indigo-50">
+                            <MapPin size={48} strokeWidth={1} />
+                        </div>
+                    )}
+                    
+                    {/* Badge */}
+                    <div className="absolute top-4 left-4">
+                        <span className="bg-white/90 backdrop-blur-md text-gray-900 px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm">
+                            {venue.event_count > 0 ? `${venue.event_count} Upcoming Events` : 'Venue Partner'}
+                        </span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                        <h3 className="text-lg font-bold text-green-500 mb-1 truncate group-hover:text-red-600 transition-colors uppercase tracking-wide">
+                </div>
+
+                {/* Content */}
+                <div className="p-6 flex flex-col flex-1">
+                    <div className="mb-4">
+                        <h3 className="text-xl font-black text-gray-900 mb-2 truncate group-hover:text-blue-600 transition-colors tracking-tight">
                             {venue.venue_name}
                         </h3>
-                        <div className="flex items-center gap-1.5 text-gray-500 text-sm mb-2 font-regular tracking-wider">
-                            <MapPin size={14} className="text-blue-400" />
+                        <div className="flex items-center gap-1.5 text-gray-500 text-[10px] font-bold tracking-widest uppercase">
+                            <MapPin size={12} className="text-blue-500" />
                             <span>{venue.city}</span>
                         </div>
-                        <p className="text-xs text-blue-400 font-regular line-clamp-2 leading-relaxed tracking-tight">
-                            {venue.address}
+                    </div>
+
+                    {venue.description && (
+                        <p className="text-gray-400 text-xs font-medium mb-6 line-clamp-2 leading-relaxed tracking-wide normal-case">
+                            {venue.description}
                         </p>
-                    </div>
-                </div>
-
-                {/* Stats Row (Matching HostCard) */}
-                <div className="grid grid-cols-3 gap-2 mb-2 py-4 border-y border-gray-50 font-bold">
-                    <div className="text-center">
-                        <div className="text-lg text-gray-900">{venue.event_count}</div>
-                        <div className="text-[10px] text-gray-400 uppercase tracking-widest">Events</div>
-                    </div>
-                    <div className="text-center border-x border-gray-50">
-                        <div className="text-sm text-gray-400">Verified</div>
-                        <div className="text-[10px] text-gray-400 uppercase tracking-widest">Status</div>
-                    </div>
-                    <div className="text-center">
-                        <div className="text-lg text-gray-900 flex items-center justify-center gap-1">
-                            4.8
-                            <Star size={12} className="fill-yellow-400 text-yellow-400" />
-                        </div>
-                        <div className="text-[10px] text-gray-400 uppercase tracking-widest">Rating</div>
-                    </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-3 mt-auto relative z-20">
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onViewOnMap?.(venue);
-                        }}
-                        className="flex-1 bg-red-600 text-white py-3 rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-green-600 transition-all shadow-sm active:scale-[0.98]"
-                    >
-                        View on Map
-                    </button>
-                    {venue.google_maps_url && (
-                        <a
-                            href={venue.google_maps_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="p-3 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all transform hover:-translate-y-1"
-                        >
-                            <ExternalLink size={18} />
-                        </a>
                     )}
+
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-2 gap-4 mb-6 py-4 border-y border-gray-100 font-bold mt-auto">
+                        <div className="flex flex-col gap-1">
+                            <div className="text-[10px] text-gray-400 uppercase tracking-widest">Experience</div>
+                            <div className="text-sm text-gray-900 flex items-center gap-1">
+                                {venue.rating_avg || 4.8}
+                                <Star size={12} className="fill-yellow-400 text-yellow-400" />
+                                <span className="text-[10px] text-gray-400 font-medium">({venue.rating_count || 12}+)</span>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-1 pl-4 border-l border-gray-100">
+                            <div className="text-[10px] text-gray-400 uppercase tracking-widest">Activity</div>
+                            <div className="text-sm text-gray-900">
+                                {venue.event_count || 0} Events
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-2 mt-auto">
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onViewOnMap?.(venue);
+                            }}
+                            className="flex-1 bg-gray-900 text-white py-4 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg active:scale-[0.98]"
+                        >
+                            Explore Details
+                        </button>
+                        {venue.google_maps_url && (
+                            <a
+                                href={venue.google_maps_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="p-4 bg-gray-50 text-gray-400 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition-all group/icon"
+                            >
+                                <ExternalLink size={18} className="group-hover/icon:scale-110" />
+                            </a>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

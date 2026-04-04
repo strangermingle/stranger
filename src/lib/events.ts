@@ -537,11 +537,24 @@ export interface VenuePartner {
     longitude: number | null;
     google_maps_url: string | null;
     event_count: number;
+    // New rich metadata
+    description?: string | null;
+    cover_image_url?: string | null;
+    website_url?: string | null;
+    rating_avg?: number;
+    rating_count?: number;
+    amenities?: string[] | null;
+    is_active?: boolean;
 }
 
-/**
- * Get all unique venue partners from locations table
- */
 export async function getAllVenuePartners(): Promise<VenuePartner[]> {
     return callRpc('events', 'getAllVenuePartners', []);
+}
+
+export async function getVenuePartnersByCity(city: string): Promise<VenuePartner[]> {
+    return callRpc('events', 'getVenuePartnersByCity', [city]);
+}
+
+export async function getUpcomingVenuePartners(): Promise<VenuePartner[]> {
+    return callRpc('events', 'getUpcomingVenuePartners', []);
 }
