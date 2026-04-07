@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect, FormEvent } from 'react';
-import { 
-    GoogleAuthProvider, 
+import {
+    GoogleAuthProvider,
     signInWithPopup,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -11,16 +11,18 @@ import {
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/components/AuthProvider';
-import { LogOut, Shield, Loader2, AlertCircle, CheckCircle, Mail, Lock } from 'lucide-react';
+import { LogOut, Shield, Loader2, AlertCircle, CheckCircle, Mail, Lock, MessageSquare, MapPin, Gamepad2, User, Ticket } from 'lucide-react';
 import Link from 'next/link';
 import NextImage from 'next/image';
 
-const PLAN_MONTHLY = 'plan_SRHYRiXvgQQAnC';
-const PLAN_YEARLY = 'plan_SRHZEI4lcH5QUm';
+//currently plan IDs stored in the .env.local are test IDs
+const PLAN_MONTHLY = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_MONTHLY || '';
+const PLAN_YEARLY = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_YEARLY || '';
+
 
 export default function MembersPage() {
     const { user, isMember, isMemberVerified, membershipExpiry, loading, checkMembershipStatus } = useAuth();
-    
+
     // Auth mode: standard login for existing members, or new application
     const [authMode, setAuthMode] = useState<'login' | 'apply'>('apply');
 
@@ -53,7 +55,7 @@ export default function MembersPage() {
     const [authLoading, setAuthLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
-    
+
     // Forgot Password Modal
     const [showForgotModal, setShowForgotModal] = useState(false);
     const [forgotEmail, setForgotEmail] = useState('');
@@ -101,16 +103,16 @@ export default function MembersPage() {
 
     const handleForgotPassword = async (e: FormEvent) => {
         e.preventDefault();
-        
+
         const emailToReset = forgotEmail.trim().toLowerCase();
         if (!emailToReset) {
             setError('Please enter your email address to reset your password.');
             return;
         }
-        
+
         setAuthLoading(true);
         setError(null);
-        
+
         try {
             // Call our new custom backend API instead of Firebase client SDK
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/forgot-password`, {
@@ -120,7 +122,7 @@ export default function MembersPage() {
             });
 
             const result = await response.json();
-            
+
             if (!response.ok) {
                 throw new Error(result.error || 'Failed to send reset link');
             }
@@ -146,10 +148,10 @@ export default function MembersPage() {
 
     const handleApplyAndPay = async (e: FormEvent) => {
         e.preventDefault();
-        
+
         // Normalize registration email
         const cleanEmail = applyEmail.trim().toLowerCase();
-        
+
         if (applyPhone.length < 8 || !cleanEmail.includes('@') || applyName.length < 2 || applyPassword.length < 6) {
             return setError("Please fill all details correctly. Password must be at least 6 characters.");
         }
@@ -165,10 +167,10 @@ export default function MembersPage() {
             const res = await fetch('/api/subscription', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    planId: selectedPlan, 
-                    name: applyName, 
-                    email: cleanEmail, 
+                body: JSON.stringify({
+                    planId: selectedPlan,
+                    name: applyName,
+                    email: cleanEmail,
                     phone: applyPhone
                 })
             });
@@ -204,18 +206,18 @@ export default function MembersPage() {
                         const verifyData = await verifyRes.json();
                         if (verifyData.success) {
                             // 4. Create Firebase Account with Password
-                                try {
-                                    const userCredential = await createUserWithEmailAndPassword(auth, applyEmail, applyPassword);
-                                    if (userCredential.user) {
-                                        await updateProfile(userCredential.user, { displayName: applyName });
-                                    }
-                                    setShowSuccess(true);
-                                } catch (createErr: any) {
-                                    // If account creation fails (e.g. already exists), we still show success view
-                                    // but the user might need to log in normally.
-                                    console.error('[Auth] Account creation error post-payment:', createErr);
-                                    setShowSuccess(true);
+                            try {
+                                const userCredential = await createUserWithEmailAndPassword(auth, applyEmail, applyPassword);
+                                if (userCredential.user) {
+                                    await updateProfile(userCredential.user, { displayName: applyName });
                                 }
+                                setShowSuccess(true);
+                            } catch (createErr: any) {
+                                // If account creation fails (e.g. already exists), we still show success view
+                                // but the user might need to log in normally.
+                                console.error('[Auth] Account creation error post-payment:', createErr);
+                                setShowSuccess(true);
+                            }
                         } else {
                             throw new Error(verifyData.error || "Payment verification failed");
                         }
@@ -326,8 +328,8 @@ export default function MembersPage() {
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Renewal Date</span>
                                 <span className="text-sm font-bold text-gray-900">
-                                    {membershipExpiry 
-                                        ? new Date(membershipExpiry).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) 
+                                    {membershipExpiry
+                                        ? new Date(membershipExpiry).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                                         : 'Active'}
                                 </span>
                             </div>
@@ -343,23 +345,23 @@ export default function MembersPage() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                         {[
-                            { 
-                                title: 'Anonymous Chat', desc: 'Anonymous matches & private messaging', 
+                        {[
+                            {
+                                title: 'Anonymous Chat', desc: 'One-on-One private messaging',
                                 icon: '💬', href: '/members/chat', color: 'from-blue-500 to-indigo-600'
                             },
-                            { 
-                                title: 'Local Groups', desc: 'Turf, Trek, Cycling & Activity circles', 
+                            {
+                                title: 'Local Groups', desc: 'Turf, Trek, Cycling & Activity circles',
                                 icon: '🤝', href: '/members/groups', color: 'from-emerald-500 to-teal-600'
                             },
-                            { 
-                                title: 'Identity Vault', desc: 'Manage your profile & preferences', 
+                            {
+                                title: 'Identity Vault', desc: 'Manage your profile & preferences',
                                 icon: '🛡️', href: '/members/profile', color: 'from-gray-800 to-black'
                             }
                         ].map((card, i) => (
                             <Link key={i} href={card.href} className="group relative overflow-hidden bg-white p-6 rounded-2xl border border-gray-300 shadow-xl shadow-gray-200/50 hover:-translate-y-2 transition-all">
                                 <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-10 transition-opacity rounded-bl-[5rem]`} />
-                                
+
                                 <div className="relative z-10">
                                     <div className="text-5xl filter grayscale group-hover:grayscale-0 transition-all duration-500 mb-2">{card.icon}</div>
                                     <h3 className="text-2xl font-black text-gray-800 hover:text-blue-600 mb-2 truncate">{card.title}</h3>
@@ -376,7 +378,7 @@ export default function MembersPage() {
     // Default Landing (Non-logged in or Non-member)
     return (
         <div className="min-h-screen flex flex-col md:flex-row bg-white relative">
-            
+
             {/* Left Side (Desktop) */}
             <div className="relative w-full md:w-1/2 lg:w-3/5 bg-gray-900 overflow-hidden min-h-screen flex flex-col justify-end">
                 <NextImage
@@ -392,33 +394,54 @@ export default function MembersPage() {
                 <div className="relative z-10 w-full p-8 lg:p-24 flex flex-col h-full justify-end">
                     <div className="mb-6">
                         <span className="px-4 py-1.5 bg-yellow-400 text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-full inline-block">
-                            Members Only
+                            Members only dashboard
                         </span>
                     </div>
-                    <h2 className="text-5xl lg:text-7xl font-black text-white tracking-tighter leading-none mb-8">
-                        Zero fake <span className="text-yellow-400">profiles</span>
+                    <h2 className="text-5xl lg:text-7xl font-Bold text-white tracking-tighter leading-none mb-8">
+                        zero fake <span className="text-yellow-400">profiles</span>
                     </h2>
+
+                    {/* Membership Features List OVER IMAGE */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 animate-in fade-in slide-in-from-left duration-700 delay-300">
+                        {[
+                            { icon: <MessageSquare className="w-5 h-5 text-yellow-400" />, title: 'Anonymous Chat', desc: 'One-on-One private messaging' },
+                            { icon: <MapPin className="w-5 h-5 text-yellow-400" />, title: 'City Activity Groups', desc: 'Turf, Trek, Cycling & Circles' },
+                            { icon: <Gamepad2 className="w-5 h-5 text-yellow-400" />, title: 'Online Live Games', desc: 'Play live games with strangers' },
+                            { icon: <User className="w-5 h-5 text-yellow-400" />, title: 'Profile Building', desc: 'Build your unique identity' },
+                            { icon: <Ticket className="w-5 h-5 text-yellow-400" />, title: 'More Coming Soon', desc: 'Be the member to unlock' }
+                        ].map((feature, idx) => (
+                            <div key={idx} className="flex items-center gap-4 group">
+                                <div className="w-10 h-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-yellow-400 shadow-xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                                    {feature.icon}
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-black text-white uppercase tracking-widest">{feature.title}</span>
+                                    <span className="text-[10px] text-white/80 font-medium tracking-wide">{feature.desc}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
             {/* Right Side (Desktop) */}
             <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col items-center justify-center p-4 lg:p-12 bg-gray-50/50 backdrop-blur-sm relative min-h-screen overflow-y-auto">
                 <div className="w-full max-w-sm mt-8 space-y-6">
-                    
+
                     {/* Auth Mode Toggle & Heading */}
                     <div className="flex flex-col items-center mb-4">
                         <h1 className="text-3xl font-bold text-gray-900 text-center leading-none mb-4">
                             Stranger Mingle
                         </h1>
-                        
+
                         <div className="flex p-1 bg-gray-100 rounded-full w-full max-w-[280px]">
-                            <button 
+                            <button
                                 onClick={() => { setAuthMode('login'); setError(null); }}
                                 className={`flex-1 py-3 text-xs font-bold uppercase tracking-widest rounded-full transition-all ${authMode === 'login' ? 'bg-white text-black shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
                             >
                                 Log In
                             </button>
-                            <button 
+                            <button
                                 onClick={() => { setAuthMode('apply'); setError(null); }}
                                 className={`flex-1 py-3 text-xs font-bold uppercase tracking-widest rounded-full transition-all ${authMode === 'apply' ? 'bg-yellow-400 text-black shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
                             >
@@ -442,7 +465,7 @@ export default function MembersPage() {
                     )}
 
                     {user && !isMember && (
-                         <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-2xl flex items-start gap-3 text-yellow-700 text-xs font-bold shadow-sm">
+                        <div className="p-4 bg-yellow-50 border border-yellow-100 rounded-2xl flex items-start gap-3 text-yellow-700 text-xs font-bold shadow-sm">
                             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                             <span className="leading-tight">You are logged in as {user.email}, but don't have an active membership yet. Please apply below.</span>
                         </div>
@@ -547,7 +570,7 @@ export default function MembersPage() {
                                     placeholder="Full Name as per ID"
                                     className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-yellow-400 outline-none transition-all font-medium text-sm text-gray-900"
                                 />
-                                
+
                                 <input
                                     type="email"
                                     value={applyEmail}
@@ -580,20 +603,57 @@ export default function MembersPage() {
 
                                 {/* Plan Selection */}
                                 <div className="grid grid-cols-2 gap-3 pt-2">
-                                    <div 
+                                    {/* Offer Deadline Banner */}
+                                    <div className="col-span-2 flex items-center justify-center gap-1.5 bg-red-50 border border-red-100 rounded-xl px-3 py-2">
+                                        <svg className="w-3.5 h-3.5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
+                                        </svg>
+                                        <span className="text-[11px] font-bold text-red-500 uppercase tracking-wide">
+                                            Offer ends 30 Apr · {(() => {
+                                                const now = new Date();
+                                                const end = new Date('2026-04-30T23:59:59');
+                                                const diff = Math.max(0, end.getTime() - now.getTime());
+                                                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                                                return `${d}d ${h}h ${m}m left`;
+                                            })()}
+                                        </span>
+                                    </div>
+
+                                    <div
                                         onClick={() => setSelectedPlan(PLAN_MONTHLY)}
                                         className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${selectedPlan === PLAN_MONTHLY ? 'border-yellow-400 bg-yellow-50 shadow-md' : 'border-gray-50 bg-gray-50 hover:border-gray-200'}`}
                                     >
                                         <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Monthly</div>
-                                        <div className="text-xl font-black text-gray-900">₹49</div>
+                                        <div className="flex items-baseline gap-1.5">
+                                            <span className="text-xl font-black text-gray-900">₹49</span>
+                                            <span className="text-xs font-semibold text-gray-400 line-through">₹499</span>
+                                        </div>
+                                        <div className={`text-[10px] font-bold mt-0.5 ${selectedPlan === PLAN_MONTHLY ? 'text-yellow-600' : 'text-gray-400'}`}>
+                                            90% OFF
+                                        </div>
                                     </div>
-                                    <div 
+
+                                    <div
                                         onClick={() => setSelectedPlan(PLAN_YEARLY)}
                                         className={`p-4 rounded-2xl border-2 cursor-pointer transition-all relative overflow-hidden ${selectedPlan === PLAN_YEARLY ? 'border-yellow-400 bg-yellow-400 shadow-lg shadow-yellow-200' : 'border-gray-50 bg-gray-50 hover:border-gray-200'}`}
                                     >
-                                        {selectedPlan === PLAN_YEARLY && <div className="absolute top-0 right-0 bg-black text-white text-[8px] font-black uppercase px-2 py-0.5 rounded-bl-lg">Save 15%</div>}
-                                        <div className={`text-xs font-bold uppercase tracking-wider mb-1 transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black/70' : 'text-gray-500'}`}>Yearly</div>
-                                        <div className={`text-xl font-black transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black' : 'text-gray-900'}`}>₹499</div>
+                                        {selectedPlan === PLAN_YEARLY && (
+                                            <div className="absolute top-0 right-0 bg-black text-white text-[8px] font-black uppercase px-2 py-0.5 rounded-bl-lg">
+                                                Best Deal
+                                            </div>
+                                        )}
+                                        <div className={`text-xs font-bold uppercase tracking-wider mb-1 transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black/70' : 'text-gray-500'}`}>
+                                            Yearly
+                                        </div>
+                                        <div className="flex items-baseline gap-1.5">
+                                            <span className={`text-xl font-black transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black' : 'text-gray-900'}`}>₹499</span>
+                                            <span className={`text-xs font-semibold line-through transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black/40' : 'text-gray-400'}`}>₹1,999</span>
+                                        </div>
+                                        <div className={`text-[10px] font-bold mt-0.5 transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black/70' : 'text-gray-400'}`}>
+                                            75% OFF
+                                        </div>
                                     </div>
                                 </div>
 
@@ -616,7 +676,7 @@ export default function MembersPage() {
             {/* FORGOT PASSWORD MODAL */}
             {showForgotModal && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-0">
-                    <div 
+                    <div
                         className="absolute inset-0 bg-black/60 backdrop-blur-md animate-in fade-in"
                         onClick={() => setShowForgotModal(false)}
                     />
@@ -628,8 +688,8 @@ export default function MembersPage() {
                                 </div>
                                 <h3 className="text-xl font-black text-gray-900 tracking-tight">Reset Password</h3>
                                 <p className="text-sm text-gray-500 font-medium px-4">
-                                    {forgotSuccess 
-                                        ? "Email Sent Successfully!" 
+                                    {forgotSuccess
+                                        ? "Email Sent Successfully!"
                                         : "Enter your email address and we'll send you a link to reset your password."
                                     }
                                 </p>

@@ -92,7 +92,7 @@ export default async function EventDetails({ params }: Props) {
     "name": event.title,
     "description":
       event.description ||
-      `Join us for ${event.title} - an authentic offline weekend meetup event.`,
+      `${event.title} - an authentic event for making new friends.`,
     "startDate": toISTISOString(event.start_datetime),
     "endDate": toISTISOString(event.end_datetime),
     "eventAttendanceMode":

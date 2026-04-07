@@ -1,11 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { Event, formatEventDate, formatEventTime, getSpotsLabel } from "@/lib/events";
 import Image from "next/image";
 import Link from "next/link";
-import PaymentModal from "./PaymentModal";
-import ContactOrganizerModal from "./ContactOrganizerModal";
 import { sendGAEvent } from "@/lib/gtag";
 
 interface EventCardProps {
@@ -13,8 +10,6 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event }: EventCardProps) {
-    const [showPaymentModal, setShowPaymentModal] = useState(false);
-    const [showContactModal, setShowContactModal] = useState(false);
     
     const date = formatEventDate(event.start_datetime, event.end_datetime);
     const time = formatEventTime(event.start_datetime, event.end_datetime);
@@ -153,50 +148,25 @@ export default function EventCard({ event }: EventCardProps) {
                     </div>
                 </Link>
 
-                {/* Book Button Area */}
+                {/* More Details Button Area */}
                 <div className="px-3 pb-3 md:px-5 md:pb-5">
-                    <button
+                    <Link
+                        href={`/events/${event.slug || event.id}`}
                         onClick={(e) => {
                             e.stopPropagation();
-                            e.preventDefault();
                             sendGAEvent({
-                                action: 'begin_checkout',
+                                action: 'view_event_details',
                                 category: 'event_card',
-                                label: isSoldOut ? `Sold Out: ${event.title}` : `Book: ${event.title}`,
-                                value: firstTier?.price || 0
+                                label: `Details Button: ${event.title}`
                             });
-                            if (isSoldOut) {
-                                setShowContactModal(true);
-                            } else {
-                                setShowPaymentModal(true);
-                            }
                         }}
-                        className={`relative z-20 w-full py-2.5 md:py-4 rounded-xl font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-300 ${isSoldOut
-                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                            : 'bg-red-500 hover:bg-green-600 text-white shadow-lg hover:shadow-blue-500/20 active:scale-[0.98]'
-                            }`}
-                            
-                        disabled={isSoldOut}
+                        className="relative z-20 block w-full py-2.5 md:py-4 rounded-xl font-black text-xs md:text-sm uppercase tracking-widest text-center transition-all duration-300 bg-red-500 hover:bg-red-600 text-white shadow-lg active:scale-[0.98]"
                     >
-                        {isSoldOut ? 'Sold Out' : 'Book Now'}
-                    </button>
+                        More Details
+                    </Link>
                 </div>
             </div>
         </div>
-
-            {/* Payment Modal */}
-            <PaymentModal
-                isOpen={showPaymentModal}
-                onClose={() => setShowPaymentModal(false)}
-                event={event}
-                selectedTickets={firstTier ? { [firstTier.id]: 1 } : {}}
-            />
-
-            {/* Contact Organizer Modal */}
-            <ContactOrganizerModal
-                isOpen={showContactModal}
-                onClose={() => setShowContactModal(false)}
-            />
         </>
     );
 }

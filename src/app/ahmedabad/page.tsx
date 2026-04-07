@@ -11,7 +11,7 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Ahmedabad - Meet New People at Social Events in Amdavad with Stranger Mingle",
+    title: "Ahmedabad - Meet New People at Social Events in Ahmedabad with Stranger Mingle",
     description: "Curated stranger meetups and social events in Ahmedabad. From Satellite to Navrangpura, meet verified, interesting people in small groups. Safe. Fun. Real connections.",
     alternates: {
         canonical: "/ahmedabad",
@@ -269,7 +269,7 @@ export default async function AhmedabadCityPage() {
                 </div>
             </section>
 
-            
+
             {/* Upcoming Activities for Ahmedabad */}
             <UpcomingExperiences city="Ahmedabad" currentEventId="" />
 

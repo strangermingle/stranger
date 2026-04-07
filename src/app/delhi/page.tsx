@@ -11,7 +11,7 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Stranger Mingle Delhi - Meetups, Events & Making Friends in Delhi",
+    title: "Delhi - Meet New People at Social Events in Delhi for making new friends",
     description: "Join curated stranger meetups and events in Delhi. Meet new people in Connaught Place, Hauz Khas, Saket, and Vasant Kunj. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/delhi",

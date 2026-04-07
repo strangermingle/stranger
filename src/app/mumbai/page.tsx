@@ -11,11 +11,11 @@ import { MapPin, Users, ShieldCheck, ArrowRight, Calendar, Coffee, Heart } from 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Stranger Mingle Mumbai - Make Real Friends at Curated Meetups & Events",
+    title: "Mumbai - Make Real Friends at Curated Meetups & weekend Events",
     description: "Break the loneliness in Mumbai. Join safe, curated stranger meetups across Bandra, Andheri, Powai & South Mumbai. Small groups of verified people. No awkwardness, just real connections.",
     keywords: "Mumbai meetups, make friends Mumbai, Mumbai events, stranger meetup Mumbai, social events Mumbai, Bandra meetups, Andheri events, Powai community",
     openGraph: {
-        title: "Stranger Mingle Mumbai - Make Real Friends at Curated Meetups",
+        title: "Mumbai - Make Real Friends at Curated Meetups weekend events",
         description: "Join safe, curated stranger meetups across Mumbai. Small groups. Verified members. Real friendships.",
         url: "/mumbai",
         siteName: "Stranger Mingle",
@@ -476,7 +476,7 @@ export default async function MumbaiCityPage() {
                 </div>
             </section>
 
-            
+
             {/* Upcoming Activities for Mumbai */}
             <UpcomingExperiences city="Mumbai" currentEventId="" />
 

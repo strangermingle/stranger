@@ -11,9 +11,9 @@ import SidebarVideoAd from "@/components/ads/SidebarVideoAd";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Nearby weekend events and stranger meetups across the India.",
-    description: "Curated weekend stranger meetups across India — offline and online. Safe, verified social networking events for meaningful friendships and real conversations.",
-    keywords: "Stranger Meetups & Social Networking Events, weekend social networking Pune, stranger meetup Hyderabad, community events Bengaluru, make friends offline Mumbai, real-life networking events, authentic social gatherings India, young professionals meetup, offline friendship events, verified social events India, community building meetups, weekend networking events, offline stranger meetup India, in-person social events, meaningful connections India",
+    title: "Nearby weekend events and stranger meetups across the India for making new friends.",
+    description: "Curated weekend stranger meetups across India — offline and online. Safe, verified social networking events for making new friends and real conversations.",
+    keywords: "Stranger Meetups, Social Events, weekend social networking, Pune, stranger meetup Hyderabad, community events Bengaluru, make friends offline Mumbai, real-life networking events, authentic social gatherings India, young professionals meetup, offline friendship events, verified social events India, community building meetups, weekend networking events, offline stranger meetup India, in-person social events, meaningful connections India",
     authors: [{ name: "Stranger Mingle Team" }],
     creator: "Stranger Mingle",
     publisher: "Stranger Mingle",
@@ -21,8 +21,8 @@ export const metadata: Metadata = {
     classification: "Community Events and Social Networking",
 
     openGraph: {
-        title: "Authentic Offline Weekend Meetup Events & Social Networking in Pune, Hyderabad & Bengaluru | Stranger Mingle",
-        description: "Join authentic offline weekend meetups for meaningful friendships and real conversations. Community-driven social networking events across India. Safe, verified, curated experiences every weekend.",
+        title: "Authentic Offline Weekend Meetup Events & Social Networking in India | Stranger Mingle",
+        description: "Join authentic offline weekend meetups for making new friends and real conversations. Community-driven social networking events across India. Safe, verified, curated experiences every weekend.",
         type: 'website',
         url: 'https://www.strangermingle.com/events',
         siteName: 'Stranger Mingle',

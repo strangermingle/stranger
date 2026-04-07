@@ -6,8 +6,8 @@ import BlogSidebar from '@/components/BlogSidebar';
 import UpcomingExperiences from '@/components/event/UpcomingExperiences';
 
 export const metadata: Metadata = {
-    title: 'Stranger Mingle Blog | Friendship, Community, and Connection',
-    description: 'Read stories about making friends, community building, and overcoming loneliness in the modern world.',
+    title: 'Stranger Mingle Cultural Desk | Making new Friends, Community, and Connection',
+    description: 'Read stories about making new friends, community building, and overcoming loneliness in the modern world.',
     alternates: {
         canonical: '/blog',
     },
@@ -32,7 +32,7 @@ export default function BlogIndex() {
                         Stranger Mingle Blog
                     </h1>
                     <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                        Stories about connection, community, and the art of making friends.
+                        Stories about connection, community, and the art of making new friends.
                     </p>
                 </div>
             </section>

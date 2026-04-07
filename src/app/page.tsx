@@ -9,7 +9,7 @@ import HeroButtons from "@/components/HeroButtons";
 import FeaturedEvents from "@/components/event/FeaturedEvents";
 import TrendingEvents from "@/components/event/TrendingEvents";
 import WeekendEvents from "@/components/event/WeekendEvents";
-import { ArrowRight, Coffee, Mountain, Palette, HandHeart, Monitor, MapPin } from "lucide-react";
+import { ArrowRight, Coffee, Mountain, Palette, HandHeart, Monitor, MapPin, ShieldCheck, MessageSquare } from "lucide-react";
 
 const CITIES = [
   { name: "Pune", slug: "pune" },
@@ -108,7 +108,7 @@ export default async function Home() {
                 <Coffee className="w-8 h-8 text-orange-600" />
               </div>
               <h3 className="font-bold text-orange-600 mb-1">Social Meetups</h3>
-              <p className="text-sm text-gray-600">Chai circles & board games for casual conversations.</p>
+              <p className="text-sm text-gray-600">Weekend events of board games, stranger meetups, hangouts for casual conversations.</p>
             </div>
             <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all hover:-translate-y-1">
               <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-2">
@@ -122,14 +122,14 @@ export default async function Home() {
                 <Palette className="w-8 h-8 text-purple-600" />
               </div>
               <h3 className="font-bold text-purple-600 mb-1">Culture</h3>
-              <p className="text-sm text-gray-600">Heritage walks & art visits to explore your city.</p>
+              <p className="text-sm text-gray-600">Art workshops, heritage walks & party events to explore your city.</p>
             </div>
             <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all hover:-translate-y-1">
               <div className="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-2">
                 <HandHeart className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="font-bold text-blue-600 mb-1">Volunteering</h3>
-              <p className="text-sm text-gray-600">Give back to the community while making friends.</p>
+              <h3 className="font-bold text-blue-600 mb-1">Membership</h3>
+              <p className="text-sm text-gray-600">Get exclusive access to anonymous chat with verified and real people.</p>
             </div>
             <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all hover:-translate-y-1 col-span-2 sm:col-span-1 lg:col-span-1">
               <div className="w-16 h-16 mx-auto bg-teal-100 rounded-full flex items-center justify-center mb-2">
@@ -167,11 +167,75 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* Anonymous Chat Promotion Section */}
+        <section className="w-full max-w-7xl mx-auto px-4 py-4 mb-4">
+          <div className="relative overflow-hidden bg-indigo-900 rounded-[2rem] p-8 md:p-8 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl">
+            {/* Decorative Background Elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-xl blur-[80px] -mr-32 -mt-32" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/20 rounded-xl blur-[80px] -ml-32 -mb-32" />
+            
+            <div className="relative z-10 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-xs font-black uppercase tracking-widest mb-6">
+                <ShieldCheck className="w-4 h-4" />
+                Verified Members Only
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight tracking-wider italic">
+                Anonymous Chat <br />
+                <span className="text-yellow-300 italic">with verified strangers</span>
+              </h2>
+              <p className="text-indigo-100/80 text-xs md:text-sm font-medium leading-relaxed mb-8">
+                Mingle without the pressure. Access our exclusive anonymous chat room once you&apos;re a verified member. No real names, no profiles—just pure connection.
+              </p>
+              <Link 
+                href="/members" 
+                className="inline-flex items-center gap-3 px-4 py-4 border border-white bg-yellow-300 hover:bg-yellow-400 text-black rounded-2xl font-bold text-lg transition-all hover:scale-105 shadow-xl shadow-indigo-500/20 active:scale-95 group"
+              >
+                Join the Exclusive Club
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            <div className="relative z-10 w-full max-w-[300px] md:max-w-none md:w-1/3 aspect-square flex items-center justify-center">
+              <div className="relative w-full h-full">
+                <div className="absolute inset-0 bg-indigo-500/30 rounded-full blur-3xl animate-pulse" />
+                <div className="relative bg-indigo-800/50 backdrop-blur-2xl border border-indigo-400/30 rounded-[2.5rem] p-8 shadow-2xl transform hover:rotate-3 transition-transform duration-500">
+                  <div className="flex flex-col gap-6">
+                    <div className="flex justify-start">
+                      <div className="bg-indigo-700/50 rounded-2xl p-4 max-w-[80%] border border-indigo-500/20">
+                        <p className="text-[12px] text-yellow-400 font-regular mb-1 tracking-wide">Stranger6721</p>
+                        <p className="text-xs text-white">Hey! Any plans for tonight? </p>
+                      </div>
+                    </div>
+                    <div className="flex justify-end">
+                      <div className="bg-indigo-600 rounded-2xl p-4 max-w-[80%] shadow-lg border border-indigo-400/30">
+                        <p className="text-[10px] text-indigo-200 font-regular mb-1 tracking-wide">You</p>
+                        <p className="text-xs text-white font-medium">Looking for people to join me for the board game 🎲</p>
+                      </div>
+                    </div>
+                    <div className="flex justify-start">
+                      <div className="bg-indigo-700/50 rounded-2xl p-4 max-w-[80%] border border-indigo-500/20">
+                        <p className="text-[12px] text-yellow-400 font-regular mb-1 tracking-wide">Stranger6721</p>
+                        <p className="text-xs text-white">Count me in! I&apos;ve been wanting to try Catan. 🙋‍♂️</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-8 flex items-center gap-3 border-t border-indigo-500/20 pt-6">
+                    <div className="w-10 h-10 rounded-full bg-indigo-700 flex items-center justify-center">
+                      <MessageSquare className="w-5 h-5 text-indigo-300" />
+                    </div>
+                    <div className="h-2 flex-grow bg-indigo-900/50 rounded-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* City Pages Carousel Section */}
         <section className="w-full py-4 relative z-20 overflow-hidden bg-white/50 border-y border-gray-100 mb-2]4">
           <div className="max-w-7xl mx-auto px-4 mb-8 text-center sm:text-left">
-            <h2 className="text-3xl font-bold text-gray-900">Make new friends in your city</h2>
-            <p className="text-gray-500 mt-2">Find events happening in your city</p>
+            <h2 className="text-3xl font-bold text-gray-900 text-center">Make new friends in your city</h2>
+            <p className="text-gray-500 mt-2 text-center">Find events happening in your city</p>
           </div>
 
 
@@ -579,7 +643,7 @@ export default async function Home() {
                   "name": "How much do events cost?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Most events range from ₹149 to ₹599. These fees go directly toward supporting the platform, booking venues, and organizing activities. We keep it sustainable and community-focused rather than profit-driven. It can vary based on the event and location."
+                    "text": "Most events range from ₹49 to ₹599. These fees go directly toward supporting the platform, booking venues, and organizing activities. We keep it sustainable and community-focused rather than profit-driven. It can vary based on the event and location."
                   }
                 },
                 {

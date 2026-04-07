@@ -197,7 +197,8 @@ export default function ProfilePage() {
                             <div className="text-xs font-black uppercase tracking-[0.2em] mb-1 opacity-60">Account Standing</div>
                             <div className="text-4xl font-black tracking-tighter">
                                 {subscription ? (
-                                    subscription.razorpay_plan_id === 'plan_SRHZEI4lcH5QUm' ? 'PLATINUM YEARLY' : 'PLATINUM MONTHLY'
+                                    subscription.razorpay_plan_id === process.env.NEXT_PUBLIC_RAZORPAY_PLAN_YEARLY ? 'PLATINUM YEARLY' : 'PLATINUM MONTHLY'
+
                                 ) : (
                                     'GUEST MEMBER'
                                 )}
