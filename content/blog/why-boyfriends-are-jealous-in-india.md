@@ -8,8 +8,8 @@ readTime: "12 min read"
 category: "Relationships & Society"
 image: "https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775289516/jealous-boyfriends-at-stranger-mingle-event-bengaluru_pwapce.jpg"
 featured: false
-tags: ["Relationships", "Indian Society", "Patriarchy", "Gender Equality", "Mental Health", "Urban Life"]
-keywords: ["why are Indian boyfriends so jealous", "jealousy in Indian relationships", "patriarchy in Indian dating culture", "possessive boyfriend India", "gender inequality in Indian relationships", "why Indian men control their girlfriends", "toxic relationship signs India", "property mindset in relationships", "women's freedom in Indian relationships", "controlling behaviour boyfriend India"]
+tags: [Relationships, Indian Society, Patriarchy, Gender Equality, Mental Health, Urban Life, Mumbai, Delhi, Bangalore, Hyderabad, Chennai, Ahmedabad, Bangalore, Kolkata, Lucknow, Kanpur, Surat, Vadodara, Goa, Nagpur, Nashik, Agra, Noida, Indore, Bhopal]
+keywords: [why are Indian boyfriends so jealous, jealousy in Indian relationships, patriarchy in Indian dating culture, possessive boyfriend India, gender inequality in Indian relationships, why Indian men control their girlfriends, toxic relationship signs India, property mindset in relationships, women's freedom in Indian relationships, controlling behaviour boyfriend India]
 ---
 
 ## The Jealousy That Nobody Questions

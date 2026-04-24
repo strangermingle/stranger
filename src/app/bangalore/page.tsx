@@ -42,8 +42,8 @@ export default async function bangaloreCityPage() {
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768792656/pexels-amit-mehra-1100393832-29183751_ulv93a.jpg"
-                        alt="Friends in Bengaluru having fun"
+                        src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775889994/pexels-oberai-36397550_qccjkd.jpg"
+                        alt="Stranger weekend Meetup event in Bengaluru"
                         fill
                         sizes="100vw"
                         className="object-cover"
@@ -53,12 +53,12 @@ export default async function bangaloreCityPage() {
                 </div>
 
                 <div className="relative z-10 w-full max-w-4xl mx-auto px-4">
-                    <span className="px-4 py-2 rounded-full bg-blue-600/20 backdrop-blur-md border border-blue-400/30 text-sm font-medium text-blue-300 inline-block mb-6 uppercase tracking-wider">
+                    <span className="px-4 py-2 rounded-full bg-pink-600/80 backdrop-blur-md border border-pink-400 text-sm font-medium text-white inline-block mb-6 uppercase tracking-wider">
                         Bengaluru&apos;s #1 Community for Strangers
                     </span>
                     <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
                         Stranger Meetups and Events <br />
-                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-300 via-purple-300 to-pink-300">
+                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 drop-shadow-sm" style={{ WebkitTextStroke: '0.6px white' }}>
                             in Bengaluru
                         </span>
                     </h1>
@@ -80,27 +80,27 @@ export default async function bangaloreCityPage() {
             <section className="py-12 border-b border-gray-100 bg-gray-50/50">
                 <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-gray-900">500+</div>
+                        <div className="text-3xl font-bold text-blue-600">500+</div>
                         <div className="text-sm text-gray-500 uppercase tracking-widest font-medium">Bengalurukars</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-gray-900">20+</div>
+                        <div className="text-3xl font-bold text-green-600">20+</div>
                         <div className="text-sm text-gray-500 uppercase tracking-widest font-medium">Monthly Events</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-gray-900">100%</div>
+                        <div className="text-3xl font-bold text-red-600">100%</div>
                         <div className="text-sm text-gray-500 uppercase tracking-widest font-medium">Safe & Curated</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-gray-900">4.9/5</div>
+                        <div className="text-3xl font-bold text-yellow-500">4.9/5</div>
                         <div className="text-sm text-gray-500 uppercase tracking-widest font-medium">User Rating</div>
                     </div>
                 </div>
             </section>
             {/* Upcoming Events Section */}
-            <section id="events" className="w-full max-w-7xl mx-auto px-4 py-20 text-center">
+            <section id="events" className="w-full max-w-7xl mx-auto px-4 py-12 text-center">
                 <div className="mb-12">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Upcoming Meetups</h2>
+                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Upcoming weekend events & meetups</h2>
                     <p className="text-gray-600 max-w-xl mx-auto">Join a group this weekend. First-timers welcome; come alone (most people do)!</p>
                 </div>
 
@@ -117,39 +117,42 @@ export default async function bangaloreCityPage() {
                 </div>
             </section>
 
+            {/* Upcoming Activities for Bangalore */}
+            <UpcomingExperiences city="Bangalore" currentEventId="" />
 
             {/* Popular Areas Section */}
             <section className="py-24 bg-gray-900 text-white overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 relative">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div>
-                            <h2 className="text-4xl font-bold mb-6">Find Your Tribe in Your Part of Bengaluru</h2>
-                            <p className="text-gray-400 text-lg mb-10">
+                            <h2 className="text-4xl font-bold mb-6 text-center">Find Your Tribe in Your Part of Bengaluru</h2>
+                            <p className="text-gray-400 text-lg mb-10 text-center">
                                 We&apos;re expanding across the city. Whether you&apos;re in the IT corridors of Whitefield or the vibrant lanes of Koramangala, there&apos;s a Stranger Mingle waiting for you.
                             </p>
                             <div className="grid sm:grid-cols-2 gap-6">
                                 {popularAreas.map((area) => (
                                     <div key={area.name} className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <MapPin className="w-5 h-5 text-blue-400" />
-                                            <h3 className="font-bold text-lg">{area.name}</h3>
+                                            <MapPin className="w-5 h-5 text-indigo-400" />
+                                            <h3 className="font-bold text-lg text-green-300">{area.name}</h3>
                                         </div>
-                                        <p className="text-sm text-gray-400 leading-relaxed">
+                                        <p className="text-sm text-yellow-100 leading-relaxed">
                                             {area.description}
                                         </p>
                                     </div>
                                 ))}
                             </div>
                         </div>
-                        <div className="relative aspect-square">
-                            <Image
-                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768620120/diverse-young-people-talking-coffee-shop_doxz0c.jpg"
-                                alt="Bengaluru Meetup"
-                                fill
-                                sizes="(max-width: 1024px) 100vw, 50vw"
-                                className="object-cover rounded-3xl"
+                        <div className="relative aspect-[9/16] max-h-[700px] ml-auto">
+                            <video
+                                src="https://res.cloudinary.com/strangermingle/video/upload/q_auto/f_auto/v1775847965/5159096-uhd_2160_4096_25fps_my5pfk.mp4"
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                className="w-full h-full object-cover rounded-3xl"
                             />
-                            <div className="absolute -bottom-6 -right-6 bg-blue-600 p-8 rounded-3xl shadow-2xl hidden md:block">
+                            <div className="absolute -bottom-6 -right-6 bg-indigo-600 p-8 rounded-3xl shadow-2xl">
                                 <p className="text-2xl font-bold">15+ Cafes</p>
                                 <p className="text-blue-100">Partnered in Bengaluru</p>
                             </div>
@@ -200,11 +203,12 @@ export default async function bangaloreCityPage() {
             {bangalorePosts.length > 0 && (
                 <section className="py-24 bg-gray-50">
                     <div className="max-w-7xl mx-auto px-4">
-                        <div className="flex justify-between items-end mb-12">
-                            <div>
-                                <h2 className="text-4xl font-bold text-gray-900 mb-4">Bengaluru City Guides</h2>
-                                <p className="text-lg text-gray-600">Tips and stories for people making friends in Bengaluru.</p>
-                            </div>
+                        <div className="text-center items-end mb-2">
+                            <h2 className="text-4xl font-bold text-gray-900 mb-4 text-center">Bengaluru City Guides</h2>
+                            <p className="text-lg text-gray-600 text-center">Tips and stories for people making friends in Bengaluru.</p>
+                        </div>
+
+                        <div className="flex justify-center mt-2 mb-4">
                             <Link href="/blog" className="text-gray-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">
                                 See all stories <ArrowRight className="w-5 h-5" />
                             </Link>
@@ -265,41 +269,38 @@ export default async function bangaloreCityPage() {
                 </div>
             </section>
 
-
-            {/* Upcoming Activities for Bangalore */}
-            <UpcomingExperiences city="Bangalore" currentEventId="" />
-
             {/* Structured Data */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Bengaluru",
-                            "description": "City homepage for Stranger Mingle Bengaluru events and community.",
-                            "url": "https://www.strangermingle.com/bangalore"
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Bengaluru",
-                                    "item": "https://www.strangermingle.com/bangalore"
-                                }
-                            ]
-                        }
-                    ])
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Bengaluru",
+                                "description": "City homepage for Stranger Mingle Bengaluru events and community.",
+                                "url": "https://www.strangermingle.com/bangalore"
+                            },
+                            {
+                                "@type": "BreadcrumbList",
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Bengaluru",
+                                        "item": "https://www.strangermingle.com/bangalore"
+                                    }
+                                ]
+                            }
+                        ]
+                    })
                 }}
             />
         </div>

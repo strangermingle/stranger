@@ -11,8 +11,8 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Ahmedabad - Meet New People at Social Events in Ahmedabad with Stranger Mingle",
-    description: "Curated stranger meetups and social events in Ahmedabad. From Satellite to Navrangpura, meet verified, interesting people in small groups. Safe. Fun. Real connections.",
+    title: "Ahmedabad - Make New friends at weekend Meetups and Events",
+    description: "Curated weekend meetups and social events in Ahmedabad. From Satellite to Navrangpura. Make New friends at weekend Meetups and Events",
     alternates: {
         canonical: "/ahmedabad",
     }
@@ -57,7 +57,7 @@ export default async function AhmedabadCityPage() {
                     </span>
                     <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
                         Make Real Friends at <br />
-                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-300 via-purple-300 to-pink-300">
+                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 drop-shadow-sm" style={{ WebkitTextStroke: '0.6px white' }}>
                             Stranger Meetups in Ahmedabad
                         </span>
                     </h1>
@@ -167,7 +167,7 @@ export default async function AhmedabadCityPage() {
                 <div className="max-w-7xl mx-auto px-4 relative">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div>
-                            <h2 className="text-4xl font-bold mb-6">From Satellite to Bopal — We Are All Over Ahmedabad</h2>
+                            <h2 className="text-4xl font-bold mb-6">From Satellite to Navrangpura — We Are All Over Ahmedabad</h2>
                             <p className="text-gray-400 text-lg mb-10">
                                 Ahmedabad spreads wide and its neighbourhoods each have their own personality. Stranger Mingle works across all of them — so there is always a meetup within reach, wherever you are in the city.
                             </p>
@@ -176,9 +176,9 @@ export default async function AhmedabadCityPage() {
                                     <div key={area.name} className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
                                         <div className="flex items-center gap-3 mb-3">
                                             <MapPin className="w-5 h-5 text-blue-400" />
-                                            <h3 className="font-bold text-lg">{area.name}</h3>
+                                            <h3 className="font-medium text-lg text-green-300">{area.name}</h3>
                                         </div>
-                                        <p className="text-sm text-gray-400 leading-relaxed">
+                                        <p className="text-sm text-yellow-100 leading-relaxed">
                                             {area.description}
                                         </p>
                                     </div>
@@ -187,7 +187,7 @@ export default async function AhmedabadCityPage() {
                         </div>
                         <div className="relative aspect-square">
                             <Image
-                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768620120/diverse-young-people-talking-coffee-shop_doxz0c.jpg"
+                                src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775676269/14590_piqsow.jpg"
                                 alt="Friends at a Stranger Mingle event in Ahmedabad"
                                 fill
                                 className="object-cover rounded-3xl"
@@ -277,16 +277,18 @@ export default async function AhmedabadCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                            
                             "@type": "WebPage",
                             "name": "Stranger Mingle Ahmedabad",
                             "description": "City homepage for Stranger Mingle Ahmedabad events and community.",
                             "url": "https://www.strangermingle.com/ahmedabad"
                         },
                         {
-                            "@context": "https://schema.org",
+                            
                             "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
@@ -303,7 +305,8 @@ export default async function AhmedabadCityPage() {
                                 }
                             ]
                         }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

@@ -8,7 +8,7 @@ readTime: 10 min
 category: Psychology & Relationships
 image: "https://res.cloudinary.com/dt3rse8bg/image/upload/v1768885568/pexels-a-frame-in-motion-132129244-11347309_ctvwek.jpg"
 featured: false
-tags: [Friendship, Human Psychology, Social Bonding, Meetups, Indian Culture, Mumbai]
+tags: [Friendship, Human Psychology, Social Bonding, Meetups, Indian Culture, Mumbai, Ahmedabad, Bangalore, Delhi, Pune, Hyderabad, Kolkata, Chennai, Jaipur, Lucknow, Kanpur, Surat, Vadodara, Goa, Nagpur, Nashik, Agra, Noida, Indore, Bhopal]
 keywords: [psychology of friendship, stranger to friend, social bonding, making friends in India, human connection]
 ---
 

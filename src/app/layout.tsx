@@ -101,46 +101,47 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "name": "Stranger Mingle",
-                "url": "https://www.strangermingle.com",
-                "potentialAction": {
-                  "@type": "SearchAction",
-                  "target": "https://www.strangermingle.com/events?q={search_term_string}",
-                  "query-input": "required name=search_term_string"
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  "name": "Stranger Mingle",
+                  "url": "https://www.strangermingle.com",
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://www.strangermingle.com/events?q={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                  }
+                },
+                {
+                  "@type": "Organization",
+                  "name": "Stranger Mingle",
+                  "url": "https://www.strangermingle.com",
+                  "logo": "https://www.strangermingle.com/logo.png",
+                  "description": "India's most active community for making friends through weekend stranger meetups and local events.",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Pune",
+                    "addressRegion": "Maharashtra",
+                    "addressCountry": "IN"
+                  },
+                  "contactPoint": {
+                    "@type": "ContactPoint",
+                    "contactType": "Customer Support",
+                    "email": "strangermingleteam@gmail.com",
+                    "availableLanguage": ["English", "Hindi"]
+                  },
+                  "sameAs": [
+                    "https://www.instagram.com/strangermingle/",
+                    "https://www.youtube.com/@strangermingle",
+                    "https://x.com/strangermingle",
+                    "https://www.linkedin.com/company/strangermingle",
+                    "https://www.facebook.com/strangermingle"
+                  ]
                 }
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "name": "Stranger Mingle",
-                "url": "https://www.strangermingle.com",
-                "logo": "https://www.strangermingle.com/logo.png",
-                "description": "India's most active community for making friends through weekend stranger meetups and local events.",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": "Pune",
-                  "addressRegion": "Maharashtra",
-                  "addressCountry": "IN"
-                },
-                "contactPoint": {
-                  "@type": "ContactPoint",
-                  "contactType": "Customer Support",
-                  "email": "strangermingleteam@gmail.com",
-                  "availableLanguage": ["English", "Hindi"]
-                },
-                "sameAs": [
-                  "https://www.instagram.com/strangermingle/",
-                  "https://www.youtube.com/@strangermingle",
-                  "https://x.com/strangermingle",
-                  "https://www.linkedin.com/company/strangermingle",
-                  "https://www.facebook.com/strangermingle"
-                ]
-              }
-            ]),
+              ]
+            }),
           }}
         />
         <Footer />

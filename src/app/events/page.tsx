@@ -295,150 +295,149 @@ export default async function EventsPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                                "@type": "BreadcrumbList",
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Offline Meetup Events",
+                                        "item": "https://www.strangermingle.com/events"
+                                    }
+                                ]
+                            },
+                            {
+                                "@type": "CollectionPage",
+                                "name": "Offline Weekend Meetup Events and Social Networking in India",
+                                "description": "Discover authentic offline weekend meetup events and social networking gatherings across Pune, Hyderabad, Bengaluru, and Mumbai. Community-driven in-person events for meaningful friendships.",
+                                "url": "https://www.strangermingle.com/events",
+                                "inLanguage": "en-IN",
+                                "about": [
+                                    { "@type": "City", "name": "Pune", "sameAs": "https://en.wikipedia.org/wiki/Pune" },
+                                    { "@type": "City", "name": "Hyderabad", "sameAs": "https://en.wikipedia.org/wiki/Hyderabad" },
+                                    { "@type": "City", "name": "Bengaluru", "sameAs": "https://en.wikipedia.org/wiki/Bangalore" },
+                                    { "@type": "City", "name": "Mumbai", "sameAs": "https://en.wikipedia.org/wiki/Mumbai" }
+                                ],
+                                "mentions": [
+                                    { "@type": "Thing", "name": "Social Networking" },
+                                    { "@type": "Thing", "name": "Community Meetups" },
+                                    { "@type": "Thing", "name": "Making Friends Offline" }
+                                ],
+                                "publisher": {
+                                    "@type": "Organization",
+                                    "name": "Stranger Mingle",
+                                    "url": "https://www.strangermingle.com",
+                                    "logo": {
+                                        "@type": "ImageObject",
+                                        "url": "https://www.strangermingle.com/logo.png"
+                                    },
+                                    "contactPoint": {
+                                        "@type": "ContactPoint",
+                                        "contactType": "Customer Service",
+                                        "availableLanguage": ["English", "Hindi"]
+                                    },
+                                    "aggregateRating": {
+                                        "@type": "AggregateRating",
+                                        "ratingValue": "4.8",
+                                        "reviewCount": "1250",
+                                        "bestRating": "5",
+                                        "worstRating": "1"
+                                    }
+                                }
+                            },
+                            {
+                                "@type": "FAQPage",
+                                "mainEntity": [
+                                    {
+                                        "@type": "Question",
+                                        "name": "What are offline weekend meetup events?",
+                                        "acceptedAnswer": {
+                                            "@type": "Answer",
+                                            "text": "Offline weekend meetup events are in-person social gatherings where people come together to make genuine friendships and connections. Unlike online networking, our events focus on real face-to-face interactions in safe, curated environments across cities like Pune, Hyderabad, and Bengaluru."
+                                        }
+                                    },
+                                    {
+                                        "@type": "Question",
+                                        "name": "How do I join social networking events in India?",
+                                        "acceptedAnswer": {
+                                            "@type": "Answer",
+                                            "text": "Simply browse our upcoming offline meetup events, select an event that interests you, and register online. All our social networking events are verified and community-driven, ensuring safe and authentic experiences for all attendees."
+                                        }
+                                    },
+                                    {
+                                        "@type": "Question",
+                                        "name": "Are these events suitable for making new friends?",
+                                        "acceptedAnswer": {
+                                            "@type": "Answer",
+                                            "text": "Absolutely! Our offline weekend meetups are specifically designed for people looking to build meaningful friendships and expand their social network. Every event creates opportunities for genuine conversations and lasting connections in a comfortable, no-pressure environment."
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "@type": "ItemList",
+                                "numberOfItems": events.length,
+                                "itemListElement": events.map((event, index) => ({
                                     "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Offline Meetup Events",
-                                    "item": "https://www.strangermingle.com/events"
-                                }
-                            ]
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "CollectionPage",
-                            "name": "Offline Weekend Meetup Events and Social Networking in India",
-                            "description": "Discover authentic offline weekend meetup events and social networking gatherings across Pune, Hyderabad, Bengaluru, and Mumbai. Community-driven in-person events for meaningful friendships.",
-                            "url": "https://www.strangermingle.com/events",
-                            "inLanguage": "en-IN",
-                            "about": [
-                                { "@type": "City", "name": "Pune", "sameAs": "https://en.wikipedia.org/wiki/Pune" },
-                                { "@type": "City", "name": "Hyderabad", "sameAs": "https://en.wikipedia.org/wiki/Hyderabad" },
-                                { "@type": "City", "name": "Bengaluru", "sameAs": "https://en.wikipedia.org/wiki/Bangalore" },
-                                { "@type": "City", "name": "Mumbai", "sameAs": "https://en.wikipedia.org/wiki/Mumbai" }
-                            ],
-                            "mentions": [
-                                { "@type": "Thing", "name": "Social Networking" },
-                                { "@type": "Thing", "name": "Community Meetups" },
-                                { "@type": "Thing", "name": "Making Friends Offline" }
-                            ],
-                            "publisher": {
-                                "@type": "Organization",
-                                "name": "Stranger Mingle",
-                                "url": "https://www.strangermingle.com",
-                                "logo": {
-                                    "@type": "ImageObject",
-                                    "url": "https://www.strangermingle.com/logo.png"
-                                },
-                                "contactPoint": {
-                                    "@type": "ContactPoint",
-                                    "contactType": "Customer Service",
-                                    "availableLanguage": ["English", "Hindi"]
-                                },
-                                "aggregateRating": {
-                                    "@type": "AggregateRating",
-                                    "ratingValue": "4.8",
-                                    "reviewCount": "1250",
-                                    "bestRating": "5",
-                                    "worstRating": "1"
-                                }
-                            }
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "FAQPage",
-                            "mainEntity": [
-                                {
-                                    "@type": "Question",
-                                    "name": "What are offline weekend meetup events?",
-                                    "acceptedAnswer": {
-                                        "@type": "Answer",
-                                        "text": "Offline weekend meetup events are in-person social gatherings where people come together to make genuine friendships and connections. Unlike online networking, our events focus on real face-to-face interactions in safe, curated environments across cities like Pune, Hyderabad, and Bengaluru."
-                                    }
-                                },
-                                {
-                                    "@type": "Question",
-                                    "name": "How do I join social networking events in India?",
-                                    "acceptedAnswer": {
-                                        "@type": "Answer",
-                                        "text": "Simply browse our upcoming offline meetup events, select an event that interests you, and register online. All our social networking events are verified and community-driven, ensuring safe and authentic experiences for all attendees."
-                                    }
-                                },
-                                {
-                                    "@type": "Question",
-                                    "name": "Are these events suitable for making new friends?",
-                                    "acceptedAnswer": {
-                                        "@type": "Answer",
-                                        "text": "Absolutely! Our offline weekend meetups are specifically designed for people looking to build meaningful friendships and expand their social network. Every event creates opportunities for genuine conversations and lasting connections in a comfortable, no-pressure environment."
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "ItemList",
-                            "numberOfItems": events.length,
-                            "itemListElement": events.map((event, index) => ({
-                                "@type": "ListItem",
-                                "position": index + 1,
-                                "item": {
-                                    "@type": "Event",
-                                    "name": event.title,
-                                    "description": event.description || `Join us for ${event.title} - an authentic offline weekend meetup event. Experience genuine social networking and build meaningful friendships.`,
-                                    "startDate": toISTISOString(event.start_datetime),
-                                    "endDate": toISTISOString(event.end_datetime),
-                                    "eventStatus": "https://schema.org/EventScheduled",
-                                    "eventAttendanceMode": event.event_type === 'online'
-                                        ? "https://schema.org/OnlineEventAttendanceMode"
-                                        : "https://schema.org/OfflineEventAttendanceMode",
-                                    "image": event.cover_image_url || undefined,
-                                    "location": {
-                                        "@type": event.event_type === 'online' ? "VirtualLocation" : "Place",
-                                        "name": event.location?.venue_name || event.location?.city || "India",
-                                        "address": event.event_type === 'online' ? undefined : {
-                                            "@type": "PostalAddress",
-                                            "streetAddress": `${event.location?.address_line1 || ''} ${event.location?.address_line2 || ''}`.trim(),
-                                            "addressLocality": event.location?.city,
-                                            "postalCode": event.location?.postal_code || undefined,
-                                            "addressCountry": "IN"
+                                    "position": index + 1,
+                                    "item": {
+                                        "@type": "Event",
+                                        "name": event.title,
+                                        "description": event.description || `Join us for ${event.title} - an authentic offline weekend meetup event. Experience genuine social networking and build meaningful friendships.`,
+                                        "startDate": toISTISOString(event.start_datetime),
+                                        "endDate": toISTISOString(event.end_datetime),
+                                        "eventStatus": "https://schema.org/EventScheduled",
+                                        "eventAttendanceMode": event.event_type === 'online'
+                                            ? "https://schema.org/OnlineEventAttendanceMode"
+                                            : "https://schema.org/OfflineEventAttendanceMode",
+                                        "image": event.cover_image_url || undefined,
+                                        "location": {
+                                            "@type": event.event_type === 'online' ? "VirtualLocation" : "Place",
+                                            "name": event.location?.venue_name || event.location?.city || "India",
+                                            "address": event.event_type === 'online' ? undefined : {
+                                                "@type": "PostalAddress",
+                                                "streetAddress": `${event.location?.address_line1 || ''} ${event.location?.address_line2 || ''}`.trim(),
+                                                "addressLocality": event.location?.city,
+                                                "postalCode": event.location?.postal_code || undefined,
+                                                "addressCountry": "IN"
+                                            },
+                                            "geo": (event.location?.latitude && event.location?.longitude) ? {
+                                                "@type": "GeoCoordinates",
+                                                "latitude": event.location.latitude,
+                                                "longitude": event.location.longitude,
+                                            } : undefined,
                                         },
-                                        "geo": (event.location?.latitude && event.location?.longitude) ? {
-                                            "@type": "GeoCoordinates",
-                                            "latitude": event.location.latitude,
-                                            "longitude": event.location.longitude,
-                                        } : undefined,
-                                    },
-                                    "organizer": {
-                                        "@type": "Organization",
-                                        "name": "Stranger Mingle",
-                                        "url": "https://www.strangermingle.com"
-                                    },
-                                    "offers": {
-                                        "@type": "Offer",
+                                        "organizer": {
+                                            "@type": "Organization",
+                                            "name": "Stranger Mingle",
+                                            "url": "https://www.strangermingle.com"
+                                        },
+                                        "offers": {
+                                            "@type": "Offer",
+                                            "url": `https://www.strangermingle.com/events/${event.slug || event.id}`,
+                                            "price": event.ticket_tiers?.[0]?.price?.toString() || "0",
+                                            "priceCurrency": "INR",
+                                            "availability": ((event.max_capacity || 0) - event.booking_count) > 0
+                                                ? "https://schema.org/InStock"
+                                                : "https://schema.org/SoldOut",
+                                            "validFrom": toISTISOString(event.created_at || event.start_datetime)
+                                        },
                                         "url": `https://www.strangermingle.com/events/${event.slug || event.id}`,
-                                        "price": event.ticket_tiers?.[0]?.price?.toString() || "0",
-                                        "priceCurrency": "INR",
-                                        "availability": ((event.max_capacity || 0) - event.booking_count) > 0
-                                            ? "https://schema.org/InStock"
-                                            : "https://schema.org/SoldOut",
-                                        "validFrom": toISTISOString(event.created_at || event.start_datetime)
-                                    },
-                                    "url": `https://www.strangermingle.com/events/${event.slug || event.id}`,
-                                    "keywords": "offline meetup events, social networking India, weekend events, community gatherings, make friends offline"
-                                }
-                            }))
-                        }
-                    ])
+                                        "keywords": "offline meetup events, social networking India, weekend events, community gatherings, make friends offline"
+                                    }
+                                }))
+                            }
+                        ]
+                    })
                 }}
             />
         </div>

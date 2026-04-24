@@ -42,8 +42,8 @@ export default async function IndoreCityPage() {
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://res.cloudinary.com/strangermingle/image/upload/v1774871755/indore-stranger-mingle-event-place_qzvsle.jpg"
-                        alt="indore-stranger-mingle-event-place"
+                        src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775676269/14590_piqsow.jpg"
+                        alt="Stranger weekend Meetup event in Indore"
                         fill
                         className="object-cover"
                         priority
@@ -269,7 +269,7 @@ export default async function IndoreCityPage() {
                 </div>
             </section>
 
-            
+
             {/* Upcoming Activities for Indore */}
             <UpcomingExperiences city="Indore" currentEventId="" />
 
@@ -277,16 +277,18 @@ export default async function IndoreCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                            
                             "@type": "WebPage",
                             "name": "Stranger Mingle Indore",
                             "description": "City homepage for Stranger Mingle Indore events and community.",
                             "url": "https://www.strangermingle.com/indore"
                         },
                         {
-                            "@context": "https://schema.org",
+                            
                             "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
@@ -303,7 +305,8 @@ export default async function IndoreCityPage() {
                                 }
                             ]
                         }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

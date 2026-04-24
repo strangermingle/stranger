@@ -42,7 +42,7 @@ export default async function LucknowCityPage() {
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://res.cloudinary.com/strangermingle/image/upload/v1774871935/minaret-lucknow-stranger-mingle-event-place_enx2l8.jpg"
+                        src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775676269/14590_piqsow.jpg"
                         alt="minaret-lucknow-stranger-mingle-event-place"
                         fill
                         className="object-cover"
@@ -277,16 +277,18 @@ export default async function LucknowCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                            
                             "@type": "WebPage",
                             "name": "Stranger Mingle Lucknow",
                             "description": "City homepage for Stranger Mingle Lucknow events and community.",
                             "url": "https://www.strangermingle.com/lucknow"
                         },
                         {
-                            "@context": "https://schema.org",
+                            
                             "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
@@ -303,7 +305,8 @@ export default async function LucknowCityPage() {
                                 }
                             ]
                         }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

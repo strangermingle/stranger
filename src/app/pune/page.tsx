@@ -52,12 +52,12 @@ export default async function PuneCityPage() {
                 </div>
 
                 <div className="relative z-10 w-full max-w-4xl mx-auto px-4">
-                    <span className="px-4 py-2 rounded-full bg-blue-600 backdrop-blur-md border border-blue-400/30 text-sm font-medium text-white inline-block mb-6 uppercase tracking-wider">
+                    <span className="px-4 py-2 rounded-full bg-yellow-400 backdrop-blur-md border border-blue-400/30 text-sm font-medium text-gray900 inline-block mb-6 uppercase tracking-wider">
                         Pune&apos;s #1 Community for Strangers
                     </span>
                     <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
                         Stranger Meetups and Events <br />
-                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-300 via-purple-300 to-pink-300">
+                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 drop-shadow-sm" style={{ WebkitTextStroke: '0.6px white' }}>
                             in Pune
                         </span>
                     </h1>
@@ -116,14 +116,16 @@ export default async function PuneCityPage() {
                 </div>
             </section>
 
+            {/* Upcoming Activities for Pune */}
+            <UpcomingExperiences city="Pune" currentEventId="" />
 
             {/* Popular Areas Section */}
             <section className="py-24 bg-gray-900 text-white overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 relative">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div>
-                            <h2 className="text-4xl font-bold mb-6">Find Your Tribe in Your Part of Pune</h2>
-                            <p className="text-gray-400 text-lg mb-10">
+                            <h2 className="text-4xl font-bold mb-6 text-center">Find Your Tribe in Your Part of Pune</h2>
+                            <p className="text-gray-400 text-lg mb-10 text-center">
                                 We&apos;re expanding across the city. Whether you&apos;re in the IT hub of Hinjewadi or the student vibes of Viman Nagar, there&apos;s a Stranger Mingle waiting for you.
                             </p>
                             <div className="grid sm:grid-cols-2 gap-6">
@@ -131,24 +133,25 @@ export default async function PuneCityPage() {
                                     <div key={area.name} className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
                                         <div className="flex items-center gap-3 mb-3">
                                             <MapPin className="w-5 h-5 text-blue-400" />
-                                            <h3 className="font-bold text-lg">{area.name}</h3>
+                                            <h3 className="font-bold text-lg text-green-300">{area.name}</h3>
                                         </div>
-                                        <p className="text-sm text-gray-400 leading-relaxed">
+                                        <p className="text-sm text-yellow-100 leading-relaxed">
                                             {area.description}
                                         </p>
                                     </div>
                                 ))}
                             </div>
                         </div>
-                        <div className="relative aspect-square">
-                            <Image
-                                src="https://res.cloudinary.com/strangermingle/image/upload/v1774412541/pune-event_lflo6b.jpg"
-                                alt="Pune Meetup"
-                                fill
-                                className="object-cover rounded-3xl"
-                                sizes="(max-width: 1024px) 100vw, 50vw"
+                        <div className="relative aspect-[9/16] max-h-[700px] ml-auto">
+                            <video
+                                src="https://res.cloudinary.com/strangermingle/video/upload/q_auto/f_auto/v1775848125/7061222-hd_1080_1920_30fps_ijlrea.mp4"
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                className="w-full h-full object-cover rounded-3xl"
                             />
-                            <div className="absolute -bottom-6 -right-6 bg-blue-600 p-8 rounded-3xl shadow-2xl hidden md:block">
+                            <div className="absolute -bottom-6 -right-6 bg-pink-600 p-8 rounded-3xl shadow-2xl">
                                 <p className="text-2xl font-bold">15+ Cafes</p>
                                 <p className="text-blue-100">Partnered in Pune</p>
                             </div>
@@ -264,40 +267,39 @@ export default async function PuneCityPage() {
                 </div>
             </section>
 
-            {/* Upcoming Activities for Pune */}
-            <UpcomingExperiences city="Pune" currentEventId="" />
 
             {/* Structured Data */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Pune",
-                            "description": "City homepage for Stranger Mingle Pune events and community.",
-                            "url": "https://www.strangermingle.com/pune"
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Pune",
-                                    "item": "https://www.strangermingle.com/pune"
-                                }
-                            ]
-                        }
-                    ])
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Pune",
+                                "description": "City homepage for Stranger Mingle Pune events and community.",
+                                "url": "https://www.strangermingle.com/pune"
+                            },
+                            {
+                                "@type": "BreadcrumbList",
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Pune",
+                                        "item": "https://www.strangermingle.com/pune"
+                                    }
+                                ]
+                            }
+                        ]
+                    })
                 }}
             />
         </div>

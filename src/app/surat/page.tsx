@@ -277,16 +277,18 @@ export default async function SuratCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                            
                             "@type": "WebPage",
                             "name": "Stranger Mingle Surat",
                             "description": "City homepage for Stranger Mingle Surat events and community.",
                             "url": "https://www.strangermingle.com/surat"
                         },
                         {
-                            "@context": "https://schema.org",
+                            
                             "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
@@ -303,7 +305,8 @@ export default async function SuratCityPage() {
                                 }
                             ]
                         }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

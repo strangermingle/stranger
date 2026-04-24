@@ -42,7 +42,7 @@ export default async function LudhianaCityPage() {
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://res.cloudinary.com/strangermingle/image/upload/v1774872595/gurudwara-ludhiana-stranger-mingle-event-place_sf6bl9.jpg"
+                        src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1774872595/gurudwara-ludhiana-stranger-mingle-event-place_sf6bl9.jpg"
                         alt="gurudwara-ludhiana-stranger-mingle-event-place"
                         fill
                         className="object-cover"
@@ -56,8 +56,8 @@ export default async function LudhianaCityPage() {
                         Ludhiana&apos;s #1 Community for Making Real Friends
                     </span>
                     <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
-                        Stranger Meetups and Social Events <br />
-                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-300 via-purple-300 to-pink-300">
+                        Stranger Meetups and Weekend Social Events <br />
+                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 drop-shadow-lg">
                             in Ludhiana
                         </span>
                     </h1>
@@ -149,7 +149,7 @@ export default async function LudhianaCityPage() {
                         </div>
                         <div className="relative aspect-square">
                             <Image
-                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768620120/diverse-young-people-talking-coffee-shop_doxz0c.jpg"
+                                src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775676269/14590_piqsow.jpg"
                                 alt="Strangers becoming friends at a Ludhiana meetup"
                                 fill
                                 className="object-cover rounded-3xl"
@@ -277,16 +277,18 @@ export default async function LudhianaCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                            
                             "@type": "WebPage",
                             "name": "Stranger Mingle Ludhiana",
                             "description": "City homepage for Stranger Mingle Ludhiana events and community.",
                             "url": "https://www.strangermingle.com/ludhiana"
                         },
                         {
-                            "@context": "https://schema.org",
+                            
                             "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
@@ -303,7 +305,8 @@ export default async function LudhianaCityPage() {
                                 }
                             ]
                         }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

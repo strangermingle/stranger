@@ -42,8 +42,8 @@ export default async function CoimbatoreCityPage() {
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://res.cloudinary.com/strangermingle/image/upload/v1774871382/coimbatore-stranger-mingle-event-place_iutfgn.jpg"
-                        alt="Friends at a Stranger Mingle meetup in Coimbatore"
+                        src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775676269/14590_piqsow.jpg"
+                        alt="Stranger weekend Meetup event in Coimbatore"
                         fill
                         className="object-cover"
                         priority
@@ -278,16 +278,18 @@ export default async function CoimbatoreCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                            
                             "@type": "WebPage",
                             "name": "Stranger Mingle Coimbatore",
                             "description": "City homepage for Stranger Mingle Coimbatore events and community.",
                             "url": "https://www.strangermingle.com/coimbatore"
                         },
                         {
-                            "@context": "https://schema.org",
+                            
                             "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
@@ -304,7 +306,8 @@ export default async function CoimbatoreCityPage() {
                                 }
                             ]
                         }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

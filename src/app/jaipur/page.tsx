@@ -42,8 +42,8 @@ export default async function JaipurCityPage() {
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://res.cloudinary.com/strangermingle/image/upload/v1774870714/jaipur-stranger-mingle-mahal-event-place_vgmfz5.jpg"
-                        alt="People at a Stranger Mingle meetup in Jaipur"
+                        src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775676269/14590_piqsow.jpg"
+                        alt="Stranger weekend Meetup event in Jaipur"
                         fill
                         className="object-cover"
                         priority
@@ -277,16 +277,18 @@ export default async function JaipurCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                            
                             "@type": "WebPage",
                             "name": "Stranger Mingle Jaipur",
                             "description": "City homepage for Stranger Mingle Jaipur events and community.",
                             "url": "https://www.strangermingle.com/jaipur"
                         },
                         {
-                            "@context": "https://schema.org",
+                            
                             "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
@@ -303,7 +305,8 @@ export default async function JaipurCityPage() {
                                 }
                             ]
                         }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

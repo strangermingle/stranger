@@ -44,7 +44,7 @@ export default function UpcomingExperiences({ city, currentEventId }: UpcomingEx
             <div className="text-center mb-10">
                 <div className="inline-flex items-center gap-3 mb-4">
                     <div className="w-2 h-8 bg-blue-600 rounded-full" />
-                    <h2 className="text-xl md:text-3xl font-black text-gray-900 uppercase tracking-wider">
+                    <h2 className="text-xl md:text-3xl font-bold text-gray-900 uppercase tracking-wider">
                         Upcoming Activities
                     </h2>
                 </div>
@@ -94,7 +94,7 @@ export default function UpcomingExperiences({ city, currentEventId }: UpcomingEx
 
                             {/* Content */}
                             <div className="p-3 md:p-4 flex flex-col flex-1">
-                                <h3 className="text-xs md:text-sm font-black text-gray-900 mb-2 line-clamp-2 leading-tight tracking-tight group-hover:text-blue-600 transition-colors">
+                                <h3 className="text-xs md:text-sm font-bold text-gray-900 mb-2 line-clamp-2 leading-tight tracking-wide group-hover:text-blue-600 transition-colors">
                                     {event.title}
                                 </h3>
                                 
@@ -102,7 +102,7 @@ export default function UpcomingExperiences({ city, currentEventId }: UpcomingEx
                                     <div className="flex flex-col gap-0.5">
                                         <div className="flex items-center gap-1.5 text-gray-500">
                                             <Calendar size={12} className="text-red-500" />
-                                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-wider text-gray-900">
+                                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-red-500">
                                                 {dateDisplay}
                                             </span>
                                         </div>

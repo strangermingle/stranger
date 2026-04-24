@@ -11,7 +11,7 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Kolkata - Meetups, Social Events & Making Friends in Kolkata",
+    title: "Kolkata - Meetups, Social weekend Events & Making Friends in Kolkata",
     description: "Join curated stranger meetups and social events in Kolkata. Meet new people in Park Street, Salt Lake, Ballygunge, and New Town. Small groups. Safe. Good adda.",
     alternates: {
         canonical: "/kolkata",
@@ -42,7 +42,7 @@ export default async function KolkataCityPage() {
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://res.cloudinary.com/strangermingle/image/upload/v1774872297/kolkata-queens-palace-stranger-mingle-event-place_rpxo7c.jpg"
+                        src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775676269/14590_piqsow.jpg"
                         alt="kolkata-queens-palace-stranger-mingle-event-place"
                         fill
                         className="object-cover"
@@ -277,16 +277,18 @@ export default async function KolkataCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                            
                             "@type": "WebPage",
                             "name": "Stranger Mingle Kolkata",
                             "description": "City homepage for Stranger Mingle Kolkata events and community.",
                             "url": "https://www.strangermingle.com/kolkata"
                         },
                         {
-                            "@context": "https://schema.org",
+                            
                             "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
@@ -303,7 +305,8 @@ export default async function KolkataCityPage() {
                                 }
                             ]
                         }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

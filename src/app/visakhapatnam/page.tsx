@@ -281,16 +281,18 @@ export default async function VisakhapatnamCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                            
                             "@type": "WebPage",
                             "name": "Stranger Mingle Visakhapatnam",
                             "description": "City homepage for Stranger Mingle Visakhapatnam events and community.",
                             "url": "https://www.strangermingle.com/visakhapatnam"
                         },
                         {
-                            "@context": "https://schema.org",
+                            
                             "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
@@ -307,7 +309,8 @@ export default async function VisakhapatnamCityPage() {
                                 }
                             ]
                         }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

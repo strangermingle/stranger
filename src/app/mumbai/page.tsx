@@ -129,7 +129,7 @@ export default async function MumbaiCityPage() {
                     <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.1]">
                         Make Real Friends in<br />
                         <span className="bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
-                            Maximum City
+                            Mumbai City
                         </span>
                     </h1>
                     <p className="text-xl sm:text-2xl text-white/95 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
@@ -484,73 +484,72 @@ export default async function MumbaiCityPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "Organization",
-                            "name": "Stranger Mingle Mumbai",
-                            "description": "Mumbai's most trusted community for making real friends through curated meetups and events",
-                            "url": "https://www.strangermingle.com/mumbai",
-                            "logo": "https://www.strangermingle.com/logo.png",
-                            "sameAs": [
-                                "https://www.instagram.com/strangermingle",
-                                "https://www.linkedin.com/company/strangermingle"
-                            ],
-                            "address": {
-                                "@type": "PostalAddress",
-                                "addressLocality": "Mumbai",
-                                "addressRegion": "Maharashtra",
-                                "addressCountry": "IN"
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                                "@type": "Organization",
+                                "name": "Stranger Mingle Mumbai",
+                                "description": "Mumbai's most trusted community for making real friends through curated meetups and events",
+                                "url": "https://www.strangermingle.com/mumbai",
+                                "logo": "https://www.strangermingle.com/logo.png",
+                                "sameAs": [
+                                    "https://www.instagram.com/strangermingle",
+                                    "https://www.linkedin.com/company/strangermingle"
+                                ],
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Mumbai",
+                                    "addressRegion": "Maharashtra",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Mumbai - Make Real Friends at Curated Meetups",
+                                "description": "Join safe, curated stranger meetups across Mumbai. Small groups of verified people. No awkwardness, just real connections.",
+                                "url": "https://www.strangermingle.com/mumbai"
+                            },
+                            {
+                                "@type": "BreadcrumbList",
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Mumbai",
+                                        "item": "https://www.strangermingle.com/mumbai"
+                                    }
+                                ]
+                            },
+                            {
+                                "@type": "FAQPage",
+                                "mainEntity": [
+                                    {
+                                        "@type": "Question",
+                                        "name": "Is it weird to come alone to Stranger Mingle events?",
+                                        "acceptedAnswer": {
+                                            "@type": "Answer",
+                                            "text": "Not at all! Over 80% of our attendees come solo. Everyone's in the same boat, which makes it easier to connect."
+                                        }
+                                    },
+                                    {
+                                        "@type": "Question",
+                                        "name": "How does Stranger Mingle keep events safe?",
+                                        "acceptedAnswer": {
+                                            "@type": "Answer",
+                                            "text": "Every member is verified through LinkedIn and phone verification. We have a strict code of conduct, trained hosts at every event, and a zero-tolerance policy for misconduct."
+                                        }
+                                    }
+                                ]
                             }
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Mumbai - Make Real Friends at Curated Meetups",
-                            "description": "Join safe, curated stranger meetups across Mumbai. Small groups of verified people. No awkwardness, just real connections.",
-                            "url": "https://www.strangermingle.com/mumbai"
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Mumbai",
-                                    "item": "https://www.strangermingle.com/mumbai"
-                                }
-                            ]
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "FAQPage",
-                            "mainEntity": [
-                                {
-                                    "@type": "Question",
-                                    "name": "Is it weird to come alone to Stranger Mingle events?",
-                                    "acceptedAnswer": {
-                                        "@type": "Answer",
-                                        "text": "Not at all! Over 80% of our attendees come solo. Everyone's in the same boat, which makes it easier to connect."
-                                    }
-                                },
-                                {
-                                    "@type": "Question",
-                                    "name": "How does Stranger Mingle keep events safe?",
-                                    "acceptedAnswer": {
-                                        "@type": "Answer",
-                                        "text": "Every member is verified through LinkedIn and phone verification. We have a strict code of conduct, trained hosts at every event, and a zero-tolerance policy for misconduct."
-                                    }
-                                }
-                            ]
-                        }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

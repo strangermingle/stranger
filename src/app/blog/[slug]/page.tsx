@@ -70,15 +70,6 @@ export default async function Post({ params }: Props) {
                     <article className="flex-1 lg:max-w-3xl">
                         {/* Post Header */}
                         <header className="mb-12 text-center">
-                            {post.tags && post.tags.length > 0 && (
-                                <div className="flex justify-center gap-2 mb-6">
-                                    {post.tags.map((tag: string) => (
-                                        <span key={tag} className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-bold uppercase tracking-wider">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
                             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
                                 {post.title}
                             </h1>
@@ -110,6 +101,32 @@ export default async function Post({ params }: Props) {
                             className="prose prose-lg prose-blue mx-auto prose-img:rounded-xl prose-headings:font-bold prose-a:text-blue-600 hover:prose-a:text-blue-500 max-w-none"
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
+
+                        {/* Metadata: Tags & Keywords */}
+                        {( (post.tags && post.tags.length > 0) || (post.keywords && post.keywords.length > 0) ) && (
+                            <div className="mt-12 pt-8 border-t border-gray-50 text-[10px] text-gray-400 leading-relaxed uppercase tracking-widest">
+                                {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
+                                    <div className="flex flex-wrap gap-x-3 gap-y-1 mb-2">
+                                        <span className="font-bold text-gray-300">Tags:</span>
+                                        {post.tags.map((tag: string) => (
+                                            <span key={tag} className="hover:text-gray-600 transition-colors">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                                {post.keywords && Array.isArray(post.keywords) && post.keywords.length > 0 && (
+                                    <div className="flex flex-wrap gap-x-3 gap-y-1">
+                                        <span className="font-bold text-gray-300">Keywords:</span>
+                                        {post.keywords.map((keyword: string) => (
+                                            <span key={keyword} className="hover:text-gray-600 transition-colors">
+                                                {keyword}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
                         {/* Author Card */}
                         <AuthorCard authorName={post.author} />

@@ -8,8 +8,8 @@ readTime: "9 min read"
 category: "Social Trends"
 image: "https://res.cloudinary.com/dt3rse8bg/image/upload/v1768885579/pexels-helenalopes-4034147_qchgpc.jpg"
 featured: false
-tags: ["stranger meetups", "social connection", "urban India", "community building", "dating culture", "mental health"]
-keywords: ["stranger meetups India", "meet new people India", "social events India", "urban loneliness India", "community events"]
+tags: [ stranger meetups, social connection, urban India, community building, dating culture, mental health, Mumbai, Delhi, Bangalore, Hyderabad, Chennai, Ahmedabad, Bangalore, Kolkata, Lucknow, Kanpur, Surat, Vadodara, Goa, Nagpur, Nashik, Agra, Noida, Indore, Bhopal]
+keywords: [stranger meetups India, meet new people India, social events India, urban loneliness India, community events]
 ---
 
 ## A Quiet Social Revolution Is Unfolding

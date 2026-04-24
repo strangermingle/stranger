@@ -595,76 +595,76 @@ export default async function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            {
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "Stranger Mingle",
-              "url": "https://www.strangermingle.com",
-              "description": "Make new friends through Stranger Meetups and local events.",
-              "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://www.strangermingle.com/?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-              }
-            },
-            {
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              "itemListElement": [{
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://www.strangermingle.com"
-              }]
-            },
-            {
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": [
-                {
-                  "@type": "Question",
-                  "name": "What is Stranger Mingle and how does it work?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Stranger Mingle is a community platform for making real friends through organized weekend events in Indian cities. Browse events, register, and just show up – we handle the introductions and ice-breakers to ensure you have a great time and make genuine connections."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Is Stranger Mingle safe for women?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Absolutely. We have a zero-tolerance policy for harassment and maintain strict safety protocols. All participants are verified, events are held in public locations, and our organizers are trained to ensure a safe and comfortable environment for everyone."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "How much do events cost?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Most events range from ₹49 to ₹599. These fees go directly toward supporting the platform, booking venues, and organizing activities. We keep it sustainable and community-focused rather than profit-driven. It can vary based on the event and location."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Who attends these events?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Our members are mostly young professionals, students, and people new to the city looking for platonic friendships. Whether you're an introvert or extrovert, you'll find a welcoming space. About 80% of people show up alone!"
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Which cities are you present in?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "We are currently active in Pune and expanding rapidly to Mumbai, Hyderabad, Bengaluru, and Delhi. Keep an eye on our events page for meetups in your city!"
-                  }
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebSite",
+                "name": "Stranger Mingle",
+                "url": "https://www.strangermingle.com",
+                "description": "Make new friends through Stranger Meetups and local events.",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://www.strangermingle.com/?q={search_term_string}",
+                  "query-input": "required name=search_term_string"
                 }
-              ]
-            }
-          ]),
+              },
+              {
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.strangermingle.com"
+                }]
+              },
+              {
+                "@type": "FAQPage",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "What is Stranger Mingle and how does it work?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Stranger Mingle is a community platform for making real friends through organized weekend events in Indian cities. Browse events, register, and just show up – we handle the introductions and ice-breakers to ensure you have a great time and make genuine connections."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Is Stranger Mingle safe for women?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Absolutely. We have a zero-tolerance policy for harassment and maintain strict safety protocols. All participants are verified, events are held in public locations, and our organizers are trained to ensure a safe and comfortable environment for everyone."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "How much do events cost?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Most events range from ₹49 to ₹599. These fees go directly toward supporting the platform, booking venues, and organizing activities. We keep it sustainable and community-focused rather than profit-driven. It can vary based on the event and location."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Who attends these events?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Our members are mostly young professionals, students, and people new to the city looking for platonic friendships. Whether you're an introvert or extrovert, you'll find a welcoming space. About 80% of people show up alone!"
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Which cities are you present in?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "We are currently active in Pune and expanding rapidly to Mumbai, Hyderabad, Bengaluru, and Delhi. Keep an eye on our events page for meetups in your city!"
+                    }
+                  }
+                ]
+              }
+            ]
+          }),
         }}
       />
     </div>

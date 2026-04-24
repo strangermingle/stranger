@@ -42,8 +42,8 @@ export default async function DelhiCityPage() {
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1769134847/delhi-hero_zergjn.jpg"
-                        alt="Friends in Delhi having fun"
+                        src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775910196/pexels-rajneesh-narula-252427656-31709020_ppkuc4.jpg"
+                        alt="Stranger weekend Meetup event in Delhi"
                         fill
                         sizes="100vw"
                         className="object-cover"
@@ -53,12 +53,12 @@ export default async function DelhiCityPage() {
                 </div>
 
                 <div className="relative z-10 w-full max-w-4xl mx-auto px-4">
-                    <span className="px-4 py-2 rounded-full bg-blue-600/20 backdrop-blur-md border border-blue-400/30 text-sm font-medium text-blue-300 inline-block mb-6 uppercase tracking-wider">
+                    <span className="px-4 py-2 rounded-full bg-red-800 backdrop-blur-md border border-blue-400/30 text-sm font-medium text-white inline-block mb-6 uppercase tracking-wider">
                         Delhi&apos;s #1 Community for Strangers
                     </span>
                     <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
                         Stranger Meetups and Events <br />
-                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-300 via-purple-300 to-pink-300">
+                        <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 drop-shadow-sm" style={{ WebkitTextStroke: '0.6px white' }}>
                             in Delhi
                         </span>
                     </h1>
@@ -80,19 +80,19 @@ export default async function DelhiCityPage() {
             <section className="py-12 border-b border-gray-100 bg-gray-50/50">
                 <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-gray-900">300+</div>
+                        <div className="text-3xl font-bold text-red-600">300+</div>
                         <div className="text-sm text-gray-500 uppercase tracking-widest font-medium">Delhiites</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-gray-900">15+</div>
+                        <div className="text-3xl font-bold text-green-600">15+</div>
                         <div className="text-sm text-gray-500 uppercase tracking-widest font-medium">Monthly Events</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-gray-900">100%</div>
+                        <div className="text-3xl font-bold text-blue-600">100%</div>
                         <div className="text-sm text-gray-500 uppercase tracking-widest font-medium">Safe & Curated</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-gray-900">4.9/5</div>
+                        <div className="text-3xl font-bold text-yellow-500">4.9/5</div>
                         <div className="text-sm text-gray-500 uppercase tracking-widest font-medium">User Rating</div>
                     </div>
                 </div>
@@ -124,14 +124,16 @@ export default async function DelhiCityPage() {
                 </div>
             </section>
 
+            {/* Upcoming Activities for Delhi */}
+            <UpcomingExperiences city="Delhi" currentEventId="" />
 
             {/* Popular Areas Section */}
             <section className="py-24 bg-gray-900 text-white overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 relative">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div>
-                            <h2 className="text-4xl font-bold mb-6">Find Your Tribe in Your Part of Delhi</h2>
-                            <p className="text-gray-400 text-lg mb-10">
+                            <h2 className="text-4xl font-bold mb-6 text-center">Find Your Tribe in Your Part of Delhi</h2>
+                            <p className="text-gray-400 text-lg mb-10 text-center">
                                 We&apos;re expanding across the city. Whether you&apos;re in the heart of CP or the trendy Hauz Khas Village, there&apos;s a Stranger Mingle waiting for you.
                             </p>
                             <div className="grid sm:grid-cols-2 gap-6">
@@ -139,24 +141,25 @@ export default async function DelhiCityPage() {
                                     <div key={area.name} className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
                                         <div className="flex items-center gap-3 mb-3">
                                             <MapPin className="w-5 h-5 text-blue-400" />
-                                            <h3 className="font-bold text-lg">{area.name}</h3>
+                                            <h3 className="font-bold text-lg text-green-300">{area.name}</h3>
                                         </div>
-                                        <p className="text-sm text-gray-400 leading-relaxed">
+                                        <p className="text-sm text-yellow-100 leading-relaxed">
                                             {area.description}
                                         </p>
                                     </div>
                                 ))}
                             </div>
                         </div>
-                        <div className="relative aspect-square">
-                            <Image
-                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768620120/diverse-young-people-talking-coffee-shop_doxz0c.jpg"
-                                alt="Delhi Meetup"
-                                fill
-                                sizes="(max-width: 1024px) 100vw, 50vw"
-                                className="object-cover rounded-3xl"
+                        <div className="relative aspect-[9/16] max-h-[700px] ml-auto">
+                            <video
+                                src="https://res.cloudinary.com/strangermingle/video/upload/q_auto/f_auto/v1775848268/7293832-uhd_2160_3840_30fps_sjnsen.mp4"
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                className="w-full h-full object-cover rounded-3xl"
                             />
-                            <div className="absolute -bottom-6 -right-6 bg-blue-600 p-8 rounded-3xl shadow-2xl hidden md:block">
+                            <div className="absolute -bottom-6 -right-6 bg-blue-600 p-8 rounded-3xl shadow-2xl">
                                 <p className="text-2xl font-bold">12+ Cafes</p>
                                 <p className="text-blue-100">Partnered in Delhi</p>
                             </div>
@@ -207,16 +210,18 @@ export default async function DelhiCityPage() {
             {delhiPosts.length > 0 && (
                 <section className="py-24 bg-gray-50">
                     <div className="max-w-7xl mx-auto px-4">
-                        <div className="flex justify-between items-end mb-12">
+                        <div className="flex justify-between items-end mb-4">
                             <div>
-                                <h2 className="text-4xl font-bold text-gray-900 mb-4">Delhi City Guides</h2>
-                                <p className="text-lg text-gray-600">Tips and stories for people making friends in Delhi.</p>
+                                <h2 className="text-4xl font-bold text-gray-900 mb-4 text-center">Delhi City Guides</h2>
+                                <p className="text-lg text-gray-600 text-center">Tips and stories for people making friends in Delhi.</p>
                             </div>
+                        </div>
+
+                        <div className="flex justify-center mt-2 mb-4">
                             <Link href="/blog" className="text-gray-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">
                                 See all stories <ArrowRight className="w-5 h-5" />
                             </Link>
                         </div>
-
                         <div className="grid md:grid-cols-3 gap-8">
                             {delhiPosts.map((post) => (
                                 <Link
@@ -272,41 +277,38 @@ export default async function DelhiCityPage() {
                 </div>
             </section>
 
-            
-            {/* Upcoming Activities for Delhi */}
-            <UpcomingExperiences city="Delhi" currentEventId="" />
-
             {/* Structured Data */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Delhi",
-                            "description": "City homepage for Stranger Mingle Delhi events and community.",
-                            "url": "https://www.strangermingle.com/delhi"
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Delhi",
-                                    "item": "https://www.strangermingle.com/delhi"
-                                }
-                            ]
-                        }
-                    ])
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Delhi",
+                                "description": "City homepage for Stranger Mingle Delhi events and community.",
+                                "url": "https://www.strangermingle.com/delhi"
+                            },
+                            {
+                                "@type": "BreadcrumbList",
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Delhi",
+                                        "item": "https://www.strangermingle.com/delhi"
+                                    }
+                                ]
+                            }
+                        ]
+                    })
                 }}
             />
         </div>

@@ -8,8 +8,8 @@ readTime: "12–15 minutes"
 category: "Dating & Relationships"
 image: "https://res.cloudinary.com/dt3rse8bg/image/upload/v1768884391/2147844547_gzscou.jpg"
 featured: false
-tags: ["Tinder India", "Dating Apps", "Indian Dating", "Relationship Advice", "Modern Dating", "Tinder", "Pune", "Mumbai", "Delhi", "Bengaluru", "Hyderabad", "Chennai"]
-keywords: ["why Tinder doesn't work in India", "Tinder problems India", "is Tinder worth it", "dating apps India review", "Tinder vs real life dating"]
+tags: [ Tinder India, Dating Apps, Indian Dating, Relationship Advice, Modern Dating, Tinder, Pune, Mumbai, Delhi, Bengaluru, Hyderabad, Chennai, Ahmedabad, Bangalore, Kolkata, Lucknow, Kanpur, Surat, Vadodara, Goa, Nagpur, Nashik, Agra, Noida, Indore, Bhopal]
+keywords: [why Tinder doesn't work in India, Tinder problems India, is Tinder worth it, dating apps India review, Tinder vs real life dating]
 ---
 
 ## The Uncomfortable Truth Nobody's Saying About Tinder in India

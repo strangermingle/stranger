@@ -16,7 +16,7 @@ export interface Post {
     content: string;
     image: string;
     tags?: string[];
-    keywords?: string;
+    keywords?: string[];
 }
 
 export function getPostSlugs() {

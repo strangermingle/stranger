@@ -35,7 +35,7 @@ export default function About() {
                 <div className="text-center max-w-3xl mx-auto">
                     <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
                     <p className="text-xl text-gray-600 leading-relaxed mb-6">
-                        Stranger Mingle is a brand of <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                        <strong>Stranger Mingle</strong> is a brand of Salty Media Production (opc) Pvt Ltd.
                         We are built to help people make real connections — primarily through in-person events, with online meetups and sessions as well. We create safe spaces where strangers meet and friendships begin through organised weekend events and virtual gatherings across Indian cities.
                     </p>
                     <p className="text-lg text-gray-500 leading-relaxed mb-8">
@@ -301,40 +301,41 @@ export default function About() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify([
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "About",
-                                    "item": "https://www.strangermingle.com/about"
-                                }
-                            ]
-                        },
-                        {
-                            "@context": "https://schema.org",
-                            "@type": "AboutPage",
-                            "name": "About Stranger Mingle",
-                            "description": "Stranger Mingle builds safe communities across India where people make real friendships through organized weekend events and meetups.",
-                            "mainEntity": {
-                                "@type": "Organization",
-                                "name": "Stranger Mingle",
-                                "foundingLocation": {
-                                    "@type": "Place",
-                                    "name": "Pune, India"
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@graph": [
+                            {
+                                "@type": "BreadcrumbList",
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "About",
+                                        "item": "https://www.strangermingle.com/about"
+                                    }
+                                ]
+                            },
+                            {
+                                "@type": "AboutPage",
+                                "name": "About Stranger Mingle",
+                                "description": "Stranger Mingle builds safe communities across India where people make real friendships through organized weekend events and meetups.",
+                                "mainEntity": {
+                                    "@type": "Organization",
+                                    "name": "Stranger Mingle",
+                                    "foundingLocation": {
+                                        "@type": "Place",
+                                        "name": "Pune, India"
+                                    }
                                 }
                             }
-                        }
-                    ])
+                        ]
+                    })
                 }}
             />
         </div>

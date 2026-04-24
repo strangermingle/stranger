@@ -8,8 +8,8 @@ readTime: "9 min"
 category: "Events & Meetups"
 image: "https://res.cloudinary.com/dt3rse8bg/image/upload/v1768885581/pexels-simran-dhillon-designs-2152319760-32151747_aizv6b.jpg"
 featured: false
-tags: ["Pune events", "Weekend meetups Pune", "Social events Pune", "Community meetups", "How to make friends in Pune", "Stranger meetups Pune"]
-keywords: ["best weekend events in Pune", "meetup ideas in Pune", "social events Pune", "weekend events in Pune", "how to make friends in Pune", "stranger meetups in Pune", "Pune weekend activities", "social meetups Pune"]
+tags: [Pune events, Weekend meetups Pune, Social events Pune, Community meetups, How to make friends in Pune, Stranger meetups Pune, Mumbai, Delhi, Bangalore, Hyderabad, Chennai, Ahmedabad, Bangalore, Kolkata, Lucknow, Kanpur, Surat, Vadodara, Goa, Nagpur, Nashik, Agra, Noida, Indore, Bhopal]
+keywords: [best weekend events in Pune, meetup ideas in Pune, social events Pune, weekend events in Pune, how to make friends in Pune, stranger meetups in Pune, Pune weekend activities, social meetups Pune]
 ---
 ## The Magic of Real-Life Connections
 
