@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     description: "Find answers to common questions about Stranger Mingle events, registration, safety, and community guidelines.",
     alternates: {
         canonical: "/faqs",
-    },,
+    },
     openGraph: {
         url: "/faqs",
     }

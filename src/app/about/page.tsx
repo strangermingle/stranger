@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     description: "Learn more about Stranger Mingle mission to build safe communities across India through organized weekend events and meetups.",
     alternates: {
         canonical: "/about",
-    },,
+    },
     openGraph: {
         url: "/about",
     }

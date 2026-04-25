@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description: "Our commitment to your privacy. Learn how Stranger Mingle collects, uses, and protects your personal information.",
     alternates: {
         canonical: "/privacy-policy",
-    },,
+    },
     openGraph: {
         url: "/privacy-policy",
     }

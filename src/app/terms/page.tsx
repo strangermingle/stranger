@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description: "The rules and guidelines for using Stranger Mingle. Understand your rights and responsibilities as a community member.",
     alternates: {
         canonical: "/terms",
-    },,
+    },
     openGraph: {
         url: "/terms",
     }

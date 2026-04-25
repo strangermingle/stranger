@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Learn how Stranger Mingle uses cookies to improve your experience and how you can manage your preferences.",
   alternates: {
     canonical: "/cookie-policy",
-  },,
+  },
     openGraph: {
         url: "/cookie-policy",
     }
