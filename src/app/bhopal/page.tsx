@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Bhopal. Meet new people in MP Nagar, New Market, Arera Colony, and Shahpura. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/bhopal",
+    },
+    openGraph: {
+        url: "/bhopal",
     }
+
 };
 
 export default async function BhopalCityPage() {

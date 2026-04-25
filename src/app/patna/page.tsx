@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Patna. Meet interesting people in Boring Road, Rajendra Nagar, Kankarbagh, and Fraser Road. Small groups. Verified members. Genuinely fun.",
     alternates: {
         canonical: "/patna",
+    },
+    openGraph: {
+        url: "/patna",
     }
+
 };
 
 export default async function PatnaCityPage() {

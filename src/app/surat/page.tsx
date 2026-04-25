@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Surat. Meet interesting people in Adajan, Vesu, Athwa, and Pal. Small groups. Verified. Actually fun.",
     alternates: {
         canonical: "/surat",
+    },
+    openGraph: {
+        url: "/surat",
     }
+
 };
 
 export default async function SuratCityPage() {

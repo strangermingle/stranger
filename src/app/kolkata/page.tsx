@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Kolkata. Meet new people in Park Street, Salt Lake, Ballygunge, and New Town. Small groups. Safe. Good adda.",
     alternates: {
         canonical: "/kolkata",
+    },
+    openGraph: {
+        url: "/kolkata",
     }
+
 };
 
 export default async function KolkataCityPage() {

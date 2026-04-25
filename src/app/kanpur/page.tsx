@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and events in Kanpur. Meet new people in Civil Lines, Swaroop Nagar, Kidwai Nagar, and Harsh Nagar. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/kanpur",
+    },
+    openGraph: {
+        url: "/kanpur",
     }
+
 };
 
 export default async function KanpurCityPage() {

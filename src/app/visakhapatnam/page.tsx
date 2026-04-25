@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Visakhapatnam. Meet new people in MVP Colony, Rushikonda, Gajuwaka, and Beach Road. Small groups. Verified. Safe. Real fun.",
     alternates: {
         canonical: "/visakhapatnam",
+    },
+    openGraph: {
+        url: "/visakhapatnam",
     }
+
 };
 
 export default async function VisakhapatnamCityPage() {

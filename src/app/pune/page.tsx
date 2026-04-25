@@ -14,7 +14,11 @@ export const metadata: Metadata = {
     description: "Join weekend events and meet new people in Viman Nagar, Baner, Hinjewadi, and Koregaon Park. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/pune",
+    },
+    openGraph: {
+        url: "/pune",
     }
+
 };
 
 export default async function PuneCityPage() {

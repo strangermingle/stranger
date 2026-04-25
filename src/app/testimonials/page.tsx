@@ -5,7 +5,11 @@ export const metadata: Metadata = {
     description: "Read real stories and experiences from community members who found friendship and connection through Stranger Mingle meetups.",
     alternates: {
         canonical: "/testimonials",
+    },
+    openGraph: {
+        url: "/testimonials",
     }
+
 };
 
 export default function Testimonials() {

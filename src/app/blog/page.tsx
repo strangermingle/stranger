@@ -10,7 +10,11 @@ export const metadata: Metadata = {
     description: 'Read stories about making new friends, community building, and overcoming loneliness in the modern world.',
     alternates: {
         canonical: '/blog',
-    },
+    },,
+    openGraph: {
+        url: "/blog",
+    }
+
 };
 
 export default function BlogIndex() {

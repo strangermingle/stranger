@@ -8,7 +8,11 @@ export const metadata: Metadata = {
     description: 'Meet the authors behind Stranger Mingle blog posts.',
     alternates: {
         canonical: '/authors',
+    },
+    openGraph: {
+        url: "/authors",
     }
+
 };
 
 export default function AuthorsPage() {

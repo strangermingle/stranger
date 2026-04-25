@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and events in Lucknow. Meet new people in Gomti Nagar, Hazratganj, Aliganj, and Indira Nagar. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/lucknow",
+    },
+    openGraph: {
+        url: "/lucknow",
     }
+
 };
 
 export default async function LucknowCityPage() {

@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Chennai. Meet new people in Anna Nagar, T. Nagar, Adyar, and OMR. Small groups. Safe. Real connections.",
     alternates: {
         canonical: "/chennai",
+    },
+    openGraph: {
+        url: "/chennai",
     }
+
 };
 
 export default async function ChennaiCityPage() {

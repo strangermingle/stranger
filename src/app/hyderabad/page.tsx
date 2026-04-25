@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Hyderabad. Meet new people in Jubilee Hills, Hitech City, Gachibowli, and Banjara Hills. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/hyderabad",
+    },
+    openGraph: {
+        url: "/hyderabad",
     }
+
 };
 
 export default async function HyderabadCityPage() {

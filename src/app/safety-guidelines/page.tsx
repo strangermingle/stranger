@@ -26,7 +26,11 @@ export const metadata: Metadata = {
     description: "Your safety is our priority. Read our comprehensive safety guidelines for attending events and interacting with community members.",
     alternates: {
         canonical: "/safety-guidelines",
-    },
+    },,
+    openGraph: {
+        url: "/safety-guidelines",
+    }
+
 };
 
 export default function SafetyGuidelines() {

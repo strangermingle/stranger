@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Coimbatore. Meet interesting people in RS Puram, Peelamedu, Saibaba Colony, and Avinashi Road. Small groups. Safe. Genuinely fun.",
     alternates: {
         canonical: "/coimbatore",
+    },
+    openGraph: {
+        url: "/coimbatore",
     }
+
 };
 
 export default async function CoimbatoreCityPage() {

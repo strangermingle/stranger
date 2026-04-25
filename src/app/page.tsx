@@ -42,7 +42,11 @@ export const metadata: Metadata = {
   description: "Join weekend events, stranger meetups and friendship groups in Pune, Hyderabad & Bengaluru. Small groups. Safe.",
   alternates: {
     canonical: "/",
-  },
+  },,
+    openGraph: {
+        url: "/",
+    }
+
 };
 
 export default async function Home() {

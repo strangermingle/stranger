@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Meet new people at curated social events in Jaipur. From C-Scheme to Malviya Nagar, we bring interesting strangers together in small, safe, and well-organised groups.",
     alternates: {
         canonical: "/jaipur",
+    },
+    openGraph: {
+        url: "/jaipur",
     }
+
 };
 
 export default async function JaipurCityPage() {

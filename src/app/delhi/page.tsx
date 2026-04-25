@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and events in Delhi. Meet new people in Connaught Place, Hauz Khas, Saket, and Vasant Kunj. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/delhi",
+    },
+    openGraph: {
+        url: "/delhi",
     }
+
 };
 
 export default async function DelhiCityPage() {

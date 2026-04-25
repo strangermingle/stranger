@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and events in Nagpur. Meet new people in Dharampeth, Sitabuldi, Ramdaspeth, and Sadar. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/nagpur",
+    },
+    openGraph: {
+        url: "/nagpur",
     }
+
 };
 
 export default async function NagpurCityPage() {

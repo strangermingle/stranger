@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Ludhiana. Meet interesting people in Sarabha Nagar, Model Town, Civil Lines, and BRS Nagar. Small groups. Safe. Genuinely fun.",
     alternates: {
         canonical: "/ludhiana",
+    },
+    openGraph: {
+        url: "/ludhiana",
     }
+
 };
 
 export default async function LudhianaCityPage() {

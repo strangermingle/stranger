@@ -51,7 +51,11 @@ export const metadata: Metadata = {
     description: "Meet the passionate team behind Stranger Mingle, building a more connected world through shared experiences and genuine friendships.",
     alternates: {
         canonical: "/team",
+    },
+    openGraph: {
+        url: "/team",
     }
+
 };
 
 export default function TeamPage() {

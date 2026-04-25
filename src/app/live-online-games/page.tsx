@@ -37,7 +37,11 @@ export const metadata: Metadata = {
     description: "Play classic online games like Chess, Ludo, and Mafia with strangers. Connect through interactive gameplay right in your browser.",
     alternates: {
         canonical: "/live-online-games",
+    },
+    openGraph: {
+        url: "/live-online-games",
     }
+
 };
 
 export default function LiveOnlineGames() {

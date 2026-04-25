@@ -20,7 +20,11 @@ export const metadata: Metadata = {
     description: "Understand the terms for refunds and cancellations of Stranger Mingle events and memberships.",
     alternates: {
         canonical: "/refund-policy",
-    },
+    },,
+    openGraph: {
+        url: "/refund-policy",
+    }
+
 };
 
 export default function RefundPolicy() {

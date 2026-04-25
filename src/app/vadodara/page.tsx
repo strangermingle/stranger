@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Join curated stranger meetups and social events in Vadodara. Meet new people in Alkapuri, Sayajigunj, Fatehgunj, and Manjalpur. Small groups. Verified members. Genuinely fun.",
     alternates: {
         canonical: "/vadodara",
+    },
+    openGraph: {
+        url: "/vadodara",
     }
+
 };
 
 export default async function VadodaraCityPage() {

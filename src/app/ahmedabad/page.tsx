@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     description: "Curated weekend meetups and social events in Ahmedabad. From Satellite to Navrangpura. Make New friends at weekend Meetups and Events",
     alternates: {
         canonical: "/ahmedabad",
+    },
+    openGraph: {
+        url: "/ahmedabad",
     }
+
 };
 
 export default async function AhmedabadCityPage() {

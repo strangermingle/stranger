@@ -25,7 +25,11 @@ export const metadata: Metadata = {
     description: "Legal disclaimer and terms for participating in Stranger Mingle events and using our community platform.",
     alternates: {
         canonical: "/disclaimer",
+    },
+    openGraph: {
+        url: "/disclaimer",
     }
+
 };
 
 export default function Disclaimer() {
