@@ -65,7 +65,7 @@ export default async function LudhianaCityPage() {
                             in Ludhiana
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         Punjab da dil, Ludhiana, is a city that runs on warmth and hustle both. But between work, family, and the same old gedi route, finding a fresh circle is harder than it looks. We fix that — with safe, well-planned meetups where real friendships actually start.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function LudhianaCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Ludhiana",
-                            "description": "City homepage for Stranger Mingle Ludhiana events and community.",
-                            "url": "https://www.strangermingle.com/ludhiana"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Ludhiana",
+                                "description": "City homepage for Stranger Mingle Ludhiana events and community.",
+                                "url": "https://www.strangermingle.com/ludhiana",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Ludhiana",
+                                "description": "Ludhiana city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Ludhiana",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

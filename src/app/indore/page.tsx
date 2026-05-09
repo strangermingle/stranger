@@ -65,7 +65,7 @@ export default async function IndoreCityPage() {
                             in Indore
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         Indore runs on good food and good company. We bring the company — safe, structured meetups across the city for people who want more than just a contact in their phone.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function IndoreCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Indore",
-                            "description": "City homepage for Stranger Mingle Indore events and community.",
-                            "url": "https://www.strangermingle.com/indore"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Indore",
+                                "description": "City homepage for Stranger Mingle Indore events and community.",
+                                "url": "https://www.strangermingle.com/indore",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Indore",
+                                "description": "Indore city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Indore",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

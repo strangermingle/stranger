@@ -288,7 +288,7 @@ export default function SocialCoachingPage() {
                     Book via Member Portal · Verified members only
                   </p>
                   <a
-                    href="https://member.strangermingle.com/login"
+                    href="https://www.strangermingle.com/members"
                     className="inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-md transition-colors"
                   >
                     Book This Session →
@@ -393,7 +393,7 @@ export default function SocialCoachingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://member.strangermingle.com/login"
+              href="https://www.strangermingle.com/members"
               className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md text-base transition-colors"
             >
               Book via Member Portal

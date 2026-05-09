@@ -88,7 +88,7 @@ export default async function Home() {
                 For Making New Friends
               </span>
             </h1>
-            <p className="text-xl text-white/90 px-2 max-w-2xl mx-auto mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 drop-shadow-md">
+            <p id="hero-description" className="text-xl text-white/90 px-2 max-w-2xl mx-auto mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 drop-shadow-md">
               Stranger Mingle is built to help people make real connections locally, not only online. We create safe spaces where strangers meet and friendships begin through organized weekend events across Indian cities.
             </p>
             <HeroButtons />
@@ -535,7 +535,7 @@ export default async function Home() {
 
 
         {/* FAQs Section */}
-        <section className="w-full max-w-4xl mx-auto px-4 py-20">
+        <section id="faqs-section" className="w-full max-w-4xl mx-auto px-4 py-20">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-center">Frequently Asked Questions</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">Quick answers to help you get started with building real friendships.</p>
@@ -611,6 +611,38 @@ export default async function Home() {
                   "@type": "SearchAction",
                   "target": "https://www.strangermingle.com/?q={search_term_string}",
                   "query-input": "required name=search_term_string"
+                }
+              },
+              {
+                "@type": "Organization",
+                "name": "Stranger Mingle",
+                "url": "https://www.strangermingle.com",
+                "logo": "https://www.strangermingle.com/logo.png",
+                "description": "Stranger Mingle organizes weekend events and meetups in India for people to make real friends.",
+                "location": {
+                  "@type": "Place",
+                  "name": "Stranger Mingle HQ",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressCountry": "IN"
+                  }
+                },
+                "areaServed": [
+                  { "@type": "City", "name": "Pune" },
+                  { "@type": "City", "name": "Mumbai" },
+                  { "@type": "City", "name": "Bangalore" },
+                  { "@type": "City", "name": "Hyderabad" },
+                  { "@type": "City", "name": "Delhi" }
+                ]
+              },
+              {
+                "@type": "WebPage",
+                "@id": "https://www.strangermingle.com/",
+                "url": "https://www.strangermingle.com/",
+                "name": "Weekend Events & Stranger Meetups in Pune, Hyderabad, Bengaluru",
+                "speakable": {
+                  "@type": "SpeakableSpecification",
+                  "cssSelector": ["#hero-description", "#faqs-section"]
                 }
               },
               {

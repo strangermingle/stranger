@@ -132,7 +132,7 @@ export default async function MumbaiCityPage() {
                             Mumbai City
                         </span>
                     </h1>
-                    <p className="text-xl sm:text-2xl text-white/95 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+                    <p id="city-hero-description" className="text-xl sm:text-2xl text-white/95 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
                         Stop scrolling. Start connecting. Join curated meetups where strangers become friends—no awkwardness, no pretense, just real conversations in Mumbai&apos;s best cafes.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -427,7 +427,7 @@ export default async function MumbaiCityPage() {
             </section>
 
             {/* FAQ Section */}
-            <section className="py-24 max-w-4xl mx-auto px-4">
+            <section id="faqs-section" className="py-24 max-w-4xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-gray-900 mb-4">Got Questions?</h2>
                     <p className="text-lg text-gray-600">We&apos;ve got answers.</p>
@@ -506,9 +506,25 @@ export default async function MumbaiCityPage() {
                             },
                             {
                                 "@type": "WebPage",
+                                "@id": "https://www.strangermingle.com/mumbai",
                                 "name": "Stranger Mingle Mumbai - Make Real Friends at Curated Meetups",
                                 "description": "Join safe, curated stranger meetups across Mumbai. Small groups of verified people. No awkwardness, just real connections.",
-                                "url": "https://www.strangermingle.com/mumbai"
+                                "url": "https://www.strangermingle.com/mumbai",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description", "#faqs-section"]
+                                }
+                            },
+                            {
+                                "@type": "Place",
+                                "name": "Mumbai",
+                                "description": "Mumbai city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Mumbai",
+                                    "addressRegion": "Maharashtra",
+                                    "addressCountry": "IN"
+                                }
                             },
                             {
                                 "@type": "BreadcrumbList",

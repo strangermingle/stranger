@@ -65,7 +65,7 @@ export default async function ChennaiCityPage() {
                             in Chennai
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         Moved to Chennai for work? Or simply craving a social circle that goes beyond colleagues and cousins? We run safe, well-organised meetups across the city for people who want to build friendships that actually last.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function ChennaiCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Chennai",
-                            "description": "City homepage for Stranger Mingle Chennai events and community.",
-                            "url": "https://www.strangermingle.com/chennai"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Chennai",
+                                "description": "City homepage for Stranger Mingle Chennai events and community.",
+                                "url": "https://www.strangermingle.com/chennai",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Chennai",
+                                "description": "Chennai city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Chennai",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

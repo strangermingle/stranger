@@ -65,7 +65,7 @@ export default async function JaipurCityPage() {
                             Meetups in Jaipur
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         Jaipur has always been a city of warm people and open doors. Now there is a proper way to meet them. We organise small, curated meetups across the Pink City — for newcomers, for people between friend groups, and for anyone who believes the best conversations happen with strangers.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function JaipurCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Jaipur",
-                            "description": "City homepage for Stranger Mingle Jaipur events and community.",
-                            "url": "https://www.strangermingle.com/jaipur"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Jaipur",
+                                "description": "City homepage for Stranger Mingle Jaipur events and community.",
+                                "url": "https://www.strangermingle.com/jaipur",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Jaipur",
+                                "description": "Jaipur city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Jaipur",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

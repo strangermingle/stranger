@@ -65,7 +65,7 @@ export default async function KolkataCityPage() {
                             in Kolkata
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         New to the City of Joy? Or just tired of the same old crowd? We bring together curious, interesting people across Kolkata for safe, curated meetups where real friendships begin.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function KolkataCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Kolkata",
-                            "description": "City homepage for Stranger Mingle Kolkata events and community.",
-                            "url": "https://www.strangermingle.com/kolkata"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Kolkata",
+                                "description": "City homepage for Stranger Mingle Kolkata events and community.",
+                                "url": "https://www.strangermingle.com/kolkata",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Kolkata",
+                                "description": "Kolkata city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Kolkata",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

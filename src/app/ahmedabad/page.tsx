@@ -65,7 +65,7 @@ export default async function AhmedabadCityPage() {
                             Stranger Meetups in Ahmedabad
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         Ahmedabad is a city that runs on community — pols, mohallas, addas. We are just building the modern version of that. Curated meetups across Amdavad for people who want to skip the small talk and actually connect.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function AhmedabadCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Ahmedabad",
-                            "description": "City homepage for Stranger Mingle Ahmedabad events and community.",
-                            "url": "https://www.strangermingle.com/ahmedabad"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Ahmedabad",
+                                "description": "City homepage for Stranger Mingle Ahmedabad events and community.",
+                                "url": "https://www.strangermingle.com/ahmedabad",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Ahmedabad",
+                                "description": "Ahmedabad city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Ahmedabad",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

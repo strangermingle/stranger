@@ -66,7 +66,7 @@ export default async function DelhiCityPage() {
                             in Delhi
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         New in the capital? We organize safe, curated meetups in Delhi for people who want to skip the small talk and build real connections.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -292,7 +292,21 @@ export default async function DelhiCityPage() {
                                 "@type": "WebPage",
                                 "name": "Stranger Mingle Delhi",
                                 "description": "City homepage for Stranger Mingle Delhi events and community.",
-                                "url": "https://www.strangermingle.com/delhi"
+                                "url": "https://www.strangermingle.com/delhi",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
+                            {
+                                "@type": "Place",
+                                "name": "Delhi",
+                                "description": "Delhi city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Delhi",
+                                    "addressCountry": "IN"
+                                }
                             },
                             {
                                 "@type": "BreadcrumbList",

@@ -65,7 +65,7 @@ export default async function BhopalCityPage() {
                             in Bhopal
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         New to the City of Lakes? We run safe, well-curated meetups across Bhopal for people who want genuine conversations — not just another WhatsApp group.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function BhopalCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Bhopal",
-                            "description": "City homepage for Stranger Mingle Bhopal events and community.",
-                            "url": "https://www.strangermingle.com/bhopal"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Bhopal",
+                                "description": "City homepage for Stranger Mingle Bhopal events and community.",
+                                "url": "https://www.strangermingle.com/bhopal",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Bhopal",
+                                "description": "Bhopal city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Bhopal",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

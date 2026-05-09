@@ -14,9 +14,9 @@ export default function HeroButtons() {
 
     const handleAboutClick = () => {
         sendGAEvent({
-            action: 'members_login_click',
+            action: 'host_application_click',
             category: 'homepage_cta',
-            label: 'Members Login'
+            label: 'Host Application'
         });
     };
 
@@ -30,11 +30,11 @@ export default function HeroButtons() {
                 Upcoming Events
             </Link>
             <Link
-                href="/members"
+                href="/host-application"
                 onClick={handleAboutClick}
-                className="px-8 py-4 bg-yellow-200/95 backdrop-blur-sm hover:bg-white text-gray-900 border border-white/20 rounded-xl font-bold text-lg transition-all hover:scale-105 w-fit"
+                className="px-8 py-4 bg-indigo-500 backdrop-blur-sm hover:bg-green-500 text-white border border-white/20 rounded-xl font-bold text-lg transition-all hover:scale-105 w-fit"
             >
-                Premium Members
+                Become a Host
             </Link>
         </div>
     );

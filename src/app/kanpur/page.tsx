@@ -65,7 +65,7 @@ export default async function KanpurCityPage() {
                             in Kanpur
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         Kanpur works hard — everyone here knows that. But once the week is done, this city deserves a proper social life too. We run safe, structured meetups across Kanpur for people who want real friendships, not just followers.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function KanpurCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Kanpur",
-                            "description": "City homepage for Stranger Mingle Kanpur events and community.",
-                            "url": "https://www.strangermingle.com/kanpur"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Kanpur",
+                                "description": "City homepage for Stranger Mingle Kanpur events and community.",
+                                "url": "https://www.strangermingle.com/kanpur",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Kanpur",
+                                "description": "Kanpur city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Kanpur",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

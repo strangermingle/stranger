@@ -65,7 +65,7 @@ export default async function SuratCityPage() {
                             Stranger Meetups in Surat
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         New to the Diamond City? Or just tired of the same old WhatsApp groups? We run safe, well-organised meetups across Surat for people who want genuine friendships — no awkward intros, no forced networking.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function SuratCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Surat",
-                            "description": "City homepage for Stranger Mingle Surat events and community.",
-                            "url": "https://www.strangermingle.com/surat"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Surat",
+                                "description": "City homepage for Stranger Mingle Surat events and community.",
+                                "url": "https://www.strangermingle.com/surat",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Surat",
+                                "description": "Surat city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Surat",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

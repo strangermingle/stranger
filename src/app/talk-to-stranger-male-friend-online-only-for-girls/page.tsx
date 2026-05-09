@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { Shield, Phone, UserCheck, Heart, Sparkles, ArrowRight, Lock, CheckCircle, Mic, Star, Clock } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Talk to me Healing Call for Indian Women | Talk to Stranger Male Safely',
-  description: 'India\'s first safe, online healing call exclusively for women. Talk to verified male strangers without judgment, advice, or pressure. Anonymous, secure, and designed for every Indian woman.',
+  title: 'Anonymous calling - Safe space to talk to strangers for girls',
+  description: 'For the first time in India, women have a space that is truly their own. A place to speak freely, breathe deeply, and be heard — without fear, without filters.',
   keywords: [
     'safe online call for women india',
     'talk to stranger male safely',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     canonical: '/safe-online-call-service-for-indian-women',
   },
   openGraph: {
-    title: 'Safe Online Call Service for Indian Women | Stranger Mingle',
+    title: 'Anonymous calling - Safe space to talk to strangers for girls',
     description: 'India\'s first anonymous, non-judgmental online call service for women. Talk to verified male strangers safely — on your terms.',
     type: 'website',
   },
@@ -46,7 +46,7 @@ export default function ForWomenPage() {
           </div>
 
           <h1 className="text-5xl lg:text-7xl font-black text-gray-900 tracking-tight leading-[1.1] mb-8">
-            Talk to a <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-fuchsia-600">Verified Male Stranger</span> Online — Safely & Without Judgement.
+            Talk to a <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-fuchsia-600">Verified Stranger Male</span> Online — Safely & Without Judgement.
           </h1>
 
           <p className="max-w-2xl mx-auto text-xl text-gray-600 font-medium mb-6">
@@ -409,7 +409,7 @@ export default function ForWomenPage() {
           {[
             {
               plan: 'Single Session',
-              price: '₹99',
+              price: '₹49',
               duration: 'per 30-min call',
               features: ['1 voice call session', 'Verified male listener', 'Fully anonymous', 'Rate & block access'],
               cta: 'Book Now',
@@ -417,7 +417,7 @@ export default function ForWomenPage() {
             },
             {
               plan: 'Monthly Plan',
-              price: '₹349',
+              price: '₹199',
               duration: 'per month · 5 sessions',
               features: ['5 voice call sessions', 'Priority matching', 'Choose your listener type', 'Full anonymity', '24/7 safety support'],
               cta: 'Start Monthly',
@@ -425,7 +425,7 @@ export default function ForWomenPage() {
             },
             {
               plan: 'Flexi Pack',
-              price: '₹599',
+              price: '₹499',
               duration: '10 sessions · no expiry',
               features: ['10 voice call sessions', 'Sessions never expire', 'All listener categories', 'Priority queue', 'Dedicated support'],
               cta: 'Get Flexi Pack',

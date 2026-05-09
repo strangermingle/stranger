@@ -65,7 +65,7 @@ export default async function VadodaraCityPage() {
                             in Vadodara
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         New to Baroda, or tired of the same old social circle? We organise safe, well-curated meetups in Vadodara for people who want honest conversations and friendships that actually last.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function VadodaraCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Vadodara",
-                            "description": "City homepage for Stranger Mingle Vadodara events and community.",
-                            "url": "https://www.strangermingle.com/vadodara"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Vadodara",
+                                "description": "City homepage for Stranger Mingle Vadodara events and community.",
+                                "url": "https://www.strangermingle.com/vadodara",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Vadodara",
+                                "description": "Vadodara city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Vadodara",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

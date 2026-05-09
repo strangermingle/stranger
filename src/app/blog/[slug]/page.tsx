@@ -98,6 +98,7 @@ export default async function Post({ params }: Props) {
 
                         {/* Content */}
                         <div
+                            id="article-content"
                             className="prose prose-lg prose-blue mx-auto prose-img:rounded-xl prose-headings:font-bold prose-a:text-blue-600 hover:prose-a:text-blue-500 max-w-none"
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
@@ -163,12 +164,13 @@ export default async function Post({ params }: Props) {
                 dangerouslySetInnerHTML={{
                     __html: JSON.stringify({
                         "@context": "https://schema.org",
-                        "@type": "BlogPosting",
+                        "@type": ["BlogPosting", "Article"],
                         "headline": post.title,
                         "image": post.image,
                         "author": {
                             "@type": "Person",
                             "name": post.author,
+                            "url": "https://www.strangermingle.com/about"
                         },
                         "publisher": {
                             "@type": "Organization",
@@ -179,12 +181,17 @@ export default async function Post({ params }: Props) {
                             }
                         },
                         "datePublished": post.date,
+                        "dateModified": post.date,
                         "description": post.excerpt,
                         "mainEntityOfPage": {
                             "@type": "WebPage",
                             "@id": `https://www.strangermingle.com/blog/${post.slug}`
                         },
-                        "keywords": post.keywords
+                        "keywords": post.keywords,
+                        "speakable": {
+                            "@type": "SpeakableSpecification",
+                            "cssSelector": ["#article-content"]
+                        }
                     }),
                 }}
             />

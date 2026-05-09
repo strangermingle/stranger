@@ -14,7 +14,6 @@ const brandFacts = [
   { label: 'Founded', value: 'Pune, Maharashtra, India' },
   { label: 'Active Cities', value: 'Pune · Mumbai · Bengaluru · Hyderabad · Delhi' },
   { label: 'Platform', value: 'strangermingle.com' },
-  { label: 'Member Portal', value: 'member.strangermingle.com' },
   { label: 'Press Contact', value: 'strangermingleteam@gmail.com' },
 ];
 

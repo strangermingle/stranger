@@ -65,7 +65,7 @@ export default async function CoimbatoreCityPage() {
                             in Coimbatore
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         New to Kovai, or simply done with the same old circle? We organise safe, well-curated meetups in Coimbatore for people who want genuine conversations — not just another contact to add on LinkedIn.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -286,15 +286,27 @@ export default async function CoimbatoreCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Coimbatore",
-                            "description": "City homepage for Stranger Mingle Coimbatore events and community.",
-                            "url": "https://www.strangermingle.com/coimbatore"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Coimbatore",
+                                "description": "City homepage for Stranger Mingle Coimbatore events and community.",
+                                "url": "https://www.strangermingle.com/coimbatore",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Coimbatore",
+                                "description": "Coimbatore city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Coimbatore",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

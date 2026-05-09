@@ -46,7 +46,8 @@ export default async function PuneCityPage() {
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1769134847/pune-hero_sssw1x.jpg"
-                        alt="Friends in Pune having fun"
+                        title="Stranger Meetup event in Pune"
+                        alt="Stranger Meetup event in Pune"
                         fill
                         className="object-cover"
                         sizes="100vw"
@@ -65,7 +66,7 @@ export default async function PuneCityPage() {
                             in Pune
                         </span>
                     </h1>
-                    <p className="text-xl text-white max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white max-w-2xl mx-auto mb-10 leading-relaxed">
                         Tired of loneliness in the IT hub? We organize safe, curated meetups in Pune for people who want to skip the small talk and build real connections.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -283,7 +284,21 @@ export default async function PuneCityPage() {
                                 "@type": "WebPage",
                                 "name": "Stranger Mingle Pune",
                                 "description": "City homepage for Stranger Mingle Pune events and community.",
-                                "url": "https://www.strangermingle.com/pune"
+                                "url": "https://www.strangermingle.com/pune",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
+                            {
+                                "@type": "Place",
+                                "name": "Pune",
+                                "description": "Pune city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Pune",
+                                    "addressCountry": "IN"
+                                }
                             },
                             {
                                 "@type": "BreadcrumbList",

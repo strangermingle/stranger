@@ -65,7 +65,7 @@ export default async function HyderabadCityPage() {
                             in Hyderabad
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         New in the city of pearls? We organize safe, curated meetups in Hyderabad for people who want to skip the small talk and build real connections.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function HyderabadCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Hyderabad",
-                            "description": "City homepage for Stranger Mingle Hyderabad events and community.",
-                            "url": "https://www.strangermingle.com/hyderabad"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Hyderabad",
+                                "description": "City homepage for Stranger Mingle Hyderabad events and community.",
+                                "url": "https://www.strangermingle.com/hyderabad",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Hyderabad",
+                                "description": "Hyderabad city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Hyderabad",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

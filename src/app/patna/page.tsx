@@ -66,7 +66,7 @@ export default async function PatnaCityPage() {
                             for People in Patna
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         Back in Patna after years away, or simply looking for a social life that goes beyond office colleagues and college groups? We run well-organised, safe stranger meetups across the city for people who want more than small talk.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -290,15 +290,27 @@ export default async function PatnaCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Patna",
-                            "description": "City homepage for Stranger Mingle Patna events and community.",
-                            "url": "https://www.strangermingle.com/patna"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Patna",
+                                "description": "City homepage for Stranger Mingle Patna events and community.",
+                                "url": "https://www.strangermingle.com/patna",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Patna",
+                                "description": "Patna city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Patna",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",

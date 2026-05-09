@@ -65,7 +65,7 @@ export default async function LucknowCityPage() {
                             in Lucknow
                         </span>
                     </h1>
-                    <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p id="city-hero-description" className="text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed">
                         Lucknow is famous for its tehzeeb — the art of making every person feel welcome. We carry that same spirit into our meetups. Safe, curated gatherings across the City of Nawabs for people who want friendships worth keeping.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -285,15 +285,27 @@ export default async function LucknowCityPage() {
                         "@context": "https://schema.org",
                         "@graph": [
                             {
-                            
-                            "@type": "WebPage",
-                            "name": "Stranger Mingle Lucknow",
-                            "description": "City homepage for Stranger Mingle Lucknow events and community.",
-                            "url": "https://www.strangermingle.com/lucknow"
-                        },
+                                "@type": "WebPage",
+                                "name": "Stranger Mingle Lucknow",
+                                "description": "City homepage for Stranger Mingle Lucknow events and community.",
+                                "url": "https://www.strangermingle.com/lucknow",
+                                "speakable": {
+                                    "@type": "SpeakableSpecification",
+                                    "cssSelector": ["#city-hero-description"]
+                                }
+                            },
                         {
-                            
-                            "@type": "BreadcrumbList",
+                                "@type": "Place",
+                                "name": "Lucknow",
+                                "description": "Lucknow city area where Stranger Mingle hosts weekend events.",
+                                "address": {
+                                    "@type": "PostalAddress",
+                                    "addressLocality": "Lucknow",
+                                    "addressCountry": "IN"
+                                }
+                            },
+                            {
+                                "@type": "BreadcrumbList",
                             "itemListElement": [
                                 {
                                     "@type": "ListItem",
