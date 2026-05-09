@@ -6,10 +6,14 @@ import { cookies } from 'next/headers';
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
 const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET || 'dev-secret-mingle-123';
 
-export async function callRpc(module: string, method: string, args: any[] = []) {
+export async function callRpc(module: string, method: string, args: any[] = [], options: { useCookies?: boolean } = { useCookies: true }) {
   try {
     // Collect all cookies from the incoming request (useful for SSR auth forwarding)
-    const cookieStore = await cookies().catch(() => null);
+    let cookieStore = null;
+    if (options.useCookies) {
+      cookieStore = await cookies().catch(() => null);
+    }
+    
     const idToken = cookieStore?.get('auth-token')?.value || '';
     const cookieString = cookieStore?.toString() || '';
 
@@ -22,7 +26,7 @@ export async function callRpc(module: string, method: string, args: any[] = []) 
         ...(cookieString ? { 'Cookie': cookieString } : {}),
       },
       body: JSON.stringify({ functionName: method, args }),
-      cache: 'no-store', // Important for dynamic functions. Revalidate could be added later.
+      cache: options.useCookies ? 'no-store' : 'force-cache', // Allow caching for non-cookie requests
     });
 
     if (!res.ok) {
