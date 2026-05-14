@@ -609,9 +609,9 @@ export default function MembersPage() {
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
                                         </svg>
                                         <span className="text-[11px] font-bold text-red-500 uppercase tracking-wide">
-                                            Offer ends 30 Apr · {(() => {
+                                            Offer ends 30 June · {(() => {
                                                 const now = new Date();
-                                                const end = new Date('2026-04-30T23:59:59');
+                                                const end = new Date('2026-06-30T23:59:59');
                                                 const diff = Math.max(0, end.getTime() - now.getTime());
                                                 const d = Math.floor(diff / (1000 * 60 * 60 * 24));
                                                 const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
