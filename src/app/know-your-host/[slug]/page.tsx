@@ -43,9 +43,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
         title: `${host.display_name} | Verified Host | Stranger Mingle`,
         description: host.tagline || host.description || `Meet ${host.display_name}, a verified host at Stranger Mingle organizing social events and meetups.`,
+        alternates: {
+            canonical: `/know-your-host/${slug}`,
+        },
         openGraph: {
             title: `${host.display_name} | Verified Host Profile`,
             description: host.tagline || host.description,
+            url: `/know-your-host/${slug}`,
             images: host.profile_image ? [host.profile_image] : [],
         }
     };

@@ -8,6 +8,9 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Meet Our Hosts | Stranger Mingle',
     description: 'Meet the passionate individuals and organizations who curate unique experiences for the Stranger Mingle community.',
+    alternates: {
+        canonical: "/know-your-host",
+    }
 };
 
 export const revalidate = 3600; // Revalidate every hour

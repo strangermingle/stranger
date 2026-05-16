@@ -1,5 +1,13 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Private Group Events | Stranger Mingle',
+  description: 'Book a private, structured social experience for your close-knit group, college alumni, or community interest group. Facilitated by a verified host.',
+  alternates: {
+    canonical: '/private-events',
+  },
+};
 const eventTypes = [
   {
     icon: '🏘️',

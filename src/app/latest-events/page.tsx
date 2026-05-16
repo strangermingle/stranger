@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     title: "Latest Stranger Meetups & Upcoming Weekend Events | Stranger Mingle",
     description: "Discover the most upcoming offline weekend stranger meetups. Join curated, safe, and authentic social events across Pune, Hyderabad, Bengaluru, Mumbai & Delhi. Build genuine friendships through in-person connections.",
     keywords: "latest events, upcoming meetups, weekend social gatherings, offline networking India, stranger meetups Pune, upcoming events Bengaluru, Mumbai meetups, Hyderabad social events, Delhi weekend activities",
+    alternates: {
+        canonical: "/latest-events",
+    },
 };
 
 export default async function LatestEventsPage() {

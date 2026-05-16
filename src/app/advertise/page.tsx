@@ -1,5 +1,13 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Advertise With Us | Stranger Mingle',
+  description: 'Reach a verified, engaged community of young urban Indians. Explore advertising opportunities with Stranger Mingle.',
+  alternates: {
+    canonical: '/advertise',
+  },
+};
 const whyAdvertise = [
   {
     icon: '✅',

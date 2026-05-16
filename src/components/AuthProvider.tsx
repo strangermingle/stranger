@@ -14,6 +14,7 @@ interface AuthContextType {
   isMember: boolean;
   isMemberVerified: boolean;
   membershipExpiry: string | null;
+  cancelAtPeriodEnd: boolean;
   loading: boolean;
   checkMembershipStatus: (email?: string) => Promise<boolean>;
 }
@@ -24,6 +25,7 @@ const AuthContext = createContext<AuthContextType>({
   isMember: false,
   isMemberVerified: false,
   membershipExpiry: null,
+  cancelAtPeriodEnd: false,
   loading: true,
   checkMembershipStatus: async () => false
 });
@@ -34,6 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isMember, setIsMember] = useState(false);
   const [isMemberVerified, setIsMemberVerified] = useState(false);
   const [membershipExpiry, setMembershipExpiry] = useState<string | null>(null);
+  const [cancelAtPeriodEnd, setCancelAtPeriodEnd] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const checkMembershipStatus = useCallback(async (email?: string) => {
@@ -55,17 +58,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsMember(true);
         setIsMemberVerified(!!data.is_verified);
         setMembershipExpiry(data.expiry || null);
+        setCancelAtPeriodEnd(!!data.cancel_at_period_end);
         return true;
       }
       setIsMember(false);
       setIsMemberVerified(false);
       setMembershipExpiry(null);
+      setCancelAtPeriodEnd(false);
       return false;
     } catch (err) {
       console.error('[Auth] Failed to check membership status:', err);
       setIsMember(false);
       setIsMemberVerified(false);
       setMembershipExpiry(null);
+      setCancelAtPeriodEnd(false);
       return false;
     }
   }, [user?.email]);
@@ -80,6 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsMember(false);
         setIsMemberVerified(false);
         setMembershipExpiry(null);
+        setCancelAtPeriodEnd(false);
         // Clear the HTTP cookie for SSR context
         document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         setLoading(false);
@@ -111,7 +118,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [checkMembershipStatus]);
 
   return (
-    <AuthContext.Provider value={{ user, mappedUserId, isMember, isMemberVerified, membershipExpiry, loading, checkMembershipStatus }}>
+    <AuthContext.Provider value={{ user, mappedUserId, isMember, isMemberVerified, membershipExpiry, cancelAtPeriodEnd, loading, checkMembershipStatus }}>
       {children}
     </AuthContext.Provider>
   );

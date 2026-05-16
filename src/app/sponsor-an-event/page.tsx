@@ -1,5 +1,13 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Sponsor an Event | Stranger Mingle',
+  description: 'Put your brand inside a real community moment. Sponsor a Stranger Mingle offline social event.',
+  alternates: {
+    canonical: '/sponsor-an-event',
+  },
+};
 const WA_NUMBER = '917411820025';
 const WA_MESSAGE = encodeURIComponent(
   'Hi, I would like to enquire about sponsoring a Stranger Mingle event. Here are my details:\n\nBrand name:\nProduct or service category:\nCity or cities of interest:\nType of event you want to sponsor:\nAnything else:'

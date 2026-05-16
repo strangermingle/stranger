@@ -1,5 +1,13 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Community & Brand Partnerships | Stranger Mingle',
+  description: 'Build something lasting with the Stranger Mingle community. Explore venue, cause, content, and city ecosystem partnerships.',
+  alternates: {
+    canonical: '/brand-partnership',
+  },
+};
 const WA_NUMBER = '917411820025';
 const WA_MESSAGE = encodeURIComponent(
   'Hi, I would like to enquire about a Community or Brand Partnership with Stranger Mingle. Here are my details:\n\nBrand or organisation name:\nWhat you do:\nCities you operate in:\nWhat kind of partnership you have in mind:\nAnything else:'

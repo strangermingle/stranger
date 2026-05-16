@@ -13,9 +13,13 @@ export const metadata: Metadata = {
     "community groups",
     "activity circles"
   ],
+  alternates: {
+    canonical: "/members",
+  },
   openGraph: {
     title: "Stranger Mingle - Anonymous Chat & Local Community Meetups",
     description: "Join India's most active community for making friends. Anonymous chat, city-based groups, live games, and profile building.",
+    url: "/members",
     images: [
       {
         url: "https://res.cloudinary.com/strangermingle/image/upload/v1774261273/full-shot-friends-with-fireworks_tijjpi.jpg",

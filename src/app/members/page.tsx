@@ -21,7 +21,7 @@ const PLAN_YEARLY = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_YEARLY || '';
 
 
 export default function MembersPage() {
-    const { user, isMember, isMemberVerified, membershipExpiry, loading, checkMembershipStatus } = useAuth();
+    const { user, isMember, isMemberVerified, membershipExpiry, cancelAtPeriodEnd, loading, checkMembershipStatus } = useAuth();
 
     // Auth mode: standard login for existing members, or new application
     const [authMode, setAuthMode] = useState<'login' | 'apply'>('apply');
@@ -322,11 +322,15 @@ export default function MembersPage() {
                         <div className="bg-white border border-gray-100 rounded-[2rem] p-4 px-6 shadow-sm flex items-center gap-6">
                             <div className="flex flex-col">
                                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Plan Status</span>
-                                <span className="text-sm font-bold text-green-500 uppercase">Active</span>
+                                <span className={`text-sm font-bold uppercase ${cancelAtPeriodEnd ? 'text-orange-500' : 'text-green-500'}`}>
+                                    {cancelAtPeriodEnd ? 'Expiring' : 'Active'}
+                                </span>
                             </div>
                             <div className="w-px h-8 bg-gray-100" />
                             <div className="flex flex-col">
-                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Renewal Date</span>
+                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">
+                                    {cancelAtPeriodEnd ? 'Expiry Date' : 'Renewal Date'}
+                                </span>
                                 <span className="text-sm font-bold text-gray-900">
                                     {membershipExpiry
                                         ? new Date(membershipExpiry).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })

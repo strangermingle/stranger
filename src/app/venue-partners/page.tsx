@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     title: 'Venue Partners | Stranger Mingle - Premium Social Experience Venues',
     description: 'Explore the curated list of venue partners that host Stranger Mingle events. Cafés, co-working spaces, and cultural venues that build community and facilitate genuine connections.',
     keywords: ['venue partners', 'event venues india', 'social spaces', 'stranger mingle venues', 'pune cafés', 'bangalore venues', 'hyderabad social spaces'],
+    alternates: {
+        canonical: "/venue-partners",
+    },
     openGraph: {
         title: 'Venue Partners | Stranger Mingle - Experience the Best Social Spaces',
         description: 'Discover the locations where real human connection happens. Join us at our partner venues across India.',

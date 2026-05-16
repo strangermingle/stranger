@@ -18,6 +18,9 @@ export async function generateMetadata({ params }: CityPageProps): Promise<Metad
     return {
         title: `Best Hangout Places in ${cityName} | Stranger Mingle`,
         description: `Explore the best cafes, social spaces, and community hubs in ${cityName}. Discover curated hangout places for authentic human connection.`,
+        alternates: {
+            canonical: `/best-hangout-places/${city}`,
+        },
         openGraph: {
             title: `Best Hangout Places in ${cityName} | Stranger Mingle`,
             description: `Connect with locals and travelers at the best social venues in ${cityName}.`,

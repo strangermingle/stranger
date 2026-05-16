@@ -1,5 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Media Kit | Stranger Mingle',
+  description: 'Press & Media Information for Stranger Mingle. Story angles, brand facts, audience snapshot, and press contact details.',
+  alternates: {
+    canonical: '/media-kit',
+  },
+};
 
 const WA_NUMBER = '917411820025';
 const WA_MESSAGE = encodeURIComponent(

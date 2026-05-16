@@ -1,5 +1,13 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Online Workshops for Making Friends | Stranger Mingle',
+  description: 'Live online sessions on conversation, social confidence, adult loneliness, and building genuine connections in Indian cities. Learn the skills that make real friendships possible.',
+  alternates: {
+    canonical: '/workshops',
+  },
+};
 interface Workshop {
   icon: string;
   badge: string;

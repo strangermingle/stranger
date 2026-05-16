@@ -1,5 +1,13 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Host an Event | Stranger Mingle',
+  description: 'Apply to become a Verified Host for Stranger Mingle. Help strangers become friends in your city and build a real community.',
+  alternates: {
+    canonical: '/host-an-event',
+  },
+};
 const benefits = [
   {
     icon: '🛡️',

@@ -1,5 +1,13 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Our Partners | Stranger Mingle',
+  description: 'Who helps us build real community. Meet the venue and experience partners that support Stranger Mingle events.',
+  alternates: {
+    canonical: '/our-partners',
+  },
+};
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const partnerCategories = [

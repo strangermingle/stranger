@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     title: 'Best Hangout Places | Stranger Mingle - Curated Community Spaces',
     description: 'Explore our handpicked selection of the best hangout places across India where genuine human connection happens. Join Stranger Mingle events at our partner venues.',
     keywords: ['hangout places', 'social spaces india', 'community venues', 'stranger mingle locations', 'best cafes for meetups'],
+    alternates: {
+        canonical: "/best-hangout-places",
+    }
 };
 
 export const revalidate = 3600; // Revalidate every hour

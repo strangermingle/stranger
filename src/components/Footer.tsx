@@ -12,7 +12,7 @@ export default function Footer() {
                 { name: "Events", href: "/events" },
                 { name: "Latest Events", href: "/latest-events" },
                 { name: "Workshops", href: "/workshops" },
-                 { name: "Social Coaching", href: "/social-coaching" },
+                { name: "Social Coaching", href: "/social-coaching" },
                 { name: "Know Your Host", href: "/know-your-host" },
                 { name: "Host an Event", href: "/host-an-event", highlight: true },
                 { name: "Host Application", href: "/host-application" },
@@ -20,7 +20,7 @@ export default function Footer() {
             ]
         },
         {
-            title: "Partnerships",
+            title: "Partner with us",
             links: [
                 { name: "Sponsor an Event", href: "/sponsor-an-event" },
                 { name: "Media Kit", href: "/media-kit" },
@@ -31,7 +31,7 @@ export default function Footer() {
             ]
         },
         {
-            title: "Main City Pages",
+            title: "Popular City Pages",
             links: [
                 { name: "Bengaluru", href: "/bangalore" },
                 { name: "Mumbai", href: "/mumbai" },
@@ -78,13 +78,12 @@ export default function Footer() {
                             <ul className="space-y-0.5">
                                 {section.links.map((link) => (
                                     <li key={link.name}>
-                                        <Link 
-                                            href={link.href} 
-                                            className={`text-sm transition-colors ${
-                                                link.highlight 
-                                                ? "text-blue-600 font-semibold hover:text-blue-700" 
+                                        <Link
+                                            href={link.href}
+                                            className={`text-sm transition-colors ${link.highlight
+                                                ? "text-blue-600 font-semibold hover:text-blue-700"
                                                 : "text-gray-500 hover:text-gray-900"
-                                            }`}
+                                                }`}
                                         >
                                             {link.name}
                                         </Link>
@@ -98,11 +97,11 @@ export default function Footer() {
                     {/* Left: Branding */}
                     <div className="pt-2 flex-1 flex flex-col items-center md:items-start gap-4 max-w-sm">
                         <Link href="/">
-                            <Image 
-                                src="/logo-2.svg" 
-                                alt="Stranger Mingle Logo" 
-                                width={180} 
-                                height={40} 
+                            <Image
+                                src="/logo-2.svg"
+                                alt="Stranger Mingle Logo"
+                                width={180}
+                                height={40}
                                 className="h-7 w-auto"
                             />
                         </Link>
@@ -119,7 +118,7 @@ export default function Footer() {
                     {/* Right: Copyright */}
                     <div className="flex-1 text-center md:text-right">
                         <p className="text-sm text-gray-600 mb-2">
-                            © {currentYear} Stranger Mingle | A Brand of 
+                            © {currentYear} Stranger Mingle | A Brand of
                             <a
                                 href="https://saltymediaproduction.com"
                                 target="_blank"

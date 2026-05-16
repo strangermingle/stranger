@@ -1,4 +1,14 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Social Coaching & 1-on-1 Sessions | Stranger Mingle",
+  description: "Get guided support for social confidence and building platonic friendships. Our trained facilitators help you navigate loneliness and social anxiety.",
+  alternates: {
+    canonical: "/social-coaching",
+  },
+};
+
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 

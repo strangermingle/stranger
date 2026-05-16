@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { callRpc } from '@/lib/rpc-client';
 import { useAuth } from '@/components/AuthProvider';
-import { Camera, User as UserIcon, Loader2, Save, Undo, Shield, AlertCircle, CheckCircle, Lock } from 'lucide-react';
+import { Camera, User as UserIcon, Loader2, Save, Undo, Shield, AlertCircle, CheckCircle, Lock, CreditCard, Ban, Trash2, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -28,6 +28,10 @@ export default function ProfilePage() {
     const [avatarUrl, setAvatarUrl] = useState('');
     const [subscription, setSubscription] = useState<any>(null);
     const [subLoading, setSubLoading] = useState(false);
+    const [cancelling, setCancelling] = useState(false);
+    const [managingPayment, setManagingPayment] = useState(false);
+    const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+    const [cancelReason, setCancelReason] = useState('');
 
     useEffect(() => {
         if (!authLoading && !user) {
@@ -152,6 +156,71 @@ export default function ProfilePage() {
             setError(message);
         } finally {
             setUploading(false);
+        }
+    };
+    
+    const handleManagePayment = async () => {
+        setManagingPayment(true);
+        setError(null);
+        try {
+            const { auth } = await import('@/lib/firebase');
+            const token = await auth.currentUser?.getIdToken();
+
+            const response = await fetch('/api/subscription/manage-payment', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || 'Failed to generate link');
+
+            if (data.short_url) {
+                window.open(data.short_url, '_blank');
+            } else {
+                throw new Error('Link generation failed');
+            }
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Management failed';
+            setError(message);
+        } finally {
+            setManagingPayment(false);
+        }
+    };
+
+    const handleCancelSubscription = async () => {
+        setCancelling(true);
+        setError(null);
+        try {
+            const { auth } = await import('@/lib/firebase');
+            const token = await auth.currentUser?.getIdToken();
+
+            const response = await fetch('/api/subscription/cancel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ reason: cancelReason })
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || 'Cancellation failed');
+
+            setSuccess(data.message || 'Subscription cancelled successfully');
+            setShowCancelConfirm(false);
+            
+            // Refresh subscription data
+            if (mappedUserId) {
+                const subData = await callRpc('userProfile', 'getUserSubscription', [mappedUserId]);
+                setSubscription(subData);
+            }
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Cancellation failed';
+            setError(message);
+        } finally {
+            setCancelling(false);
         }
     };
 
@@ -399,6 +468,102 @@ export default function ProfilePage() {
                         </div>
                     </form>
                 </div>
+
+                {/* Membership Management Section */}
+                {subscription && subscription.status === 'active' && (
+                    <div className="mt-8 bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8 animate-in fade-in slide-in-from-bottom duration-700">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                                <CreditCard className="w-5 h-5 text-blue-600" />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-black text-gray-900 tracking-tight">MEMBERSHIP ACTIONS</h3>
+                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Self-service control panel</p>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {/* Update Payment Method */}
+                            <div className="p-6 bg-gray-50 rounded-[2rem] border border-gray-100 flex flex-col justify-between group">
+                                <div>
+                                    <h4 className="font-black text-gray-900 mb-1">Update Payment Method</h4>
+                                    <p className="text-sm text-gray-500 font-medium mb-6">Securely update your card or mandate via Razorpay.</p>
+                                </div>
+                                <button 
+                                    onClick={handleManagePayment}
+                                    disabled={managingPayment}
+                                    className="w-full py-3 bg-white hover:bg-blue-600 hover:text-white text-gray-900 font-black rounded-xl border border-gray-200 shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+                                >
+                                    {managingPayment ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
+                                    <span>MANAGE AUTOPAY</span>
+                                </button>
+                            </div>
+
+                            {/* Cancel Subscription */}
+                            <div className="p-6 bg-red-50/30 rounded-[2rem] border border-red-100/50 flex flex-col justify-between">
+                                <div>
+                                    <h4 className="font-black text-red-900 mb-1">Cancel Autopay</h4>
+                                    <p className="text-sm text-red-700/70 font-medium mb-6">Stop future charges. You keep access until current expiry.</p>
+                                </div>
+                                {subscription.cancel_at_period_end ? (
+                                    <div className="w-full py-3 bg-red-100 text-red-700 font-black rounded-xl border border-red-200 flex items-center justify-center gap-2">
+                                        <Ban className="w-4 h-4" />
+                                        <span>CANCELLATION PENDING</span>
+                                    </div>
+                                ) : (
+                                    <button 
+                                        onClick={() => setShowCancelConfirm(true)}
+                                        className="w-full py-3 bg-white hover:bg-red-600 hover:text-white text-red-600 font-black rounded-xl border border-red-200 shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                        <span>CANCEL MEMBERSHIP</span>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Cancellation Modal */}
+                {showCancelConfirm && (
+                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+                        <div className="bg-white rounded-[2.5rem] max-w-md w-full p-8 shadow-2xl border border-gray-100 animate-in zoom-in duration-300">
+                            <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6">
+                                <AlertCircle className="w-8 h-8 text-red-600" />
+                            </div>
+                            <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-2">Wait, Stranger!</h2>
+                            <p className="text-gray-500 font-medium mb-6 leading-relaxed">
+                                Are you sure you want to cancel? You'll lose access to exclusive meetups and verification status once your current period ends on <b>{new Date(subscription?.current_period_end).toLocaleDateString()}</b>.
+                            </p>
+
+                            <div className="space-y-4">
+                                <textarea
+                                    placeholder="Optional: Why are you leaving us?"
+                                    value={cancelReason}
+                                    onChange={(e) => setCancelReason(e.target.value)}
+                                    className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 outline-none focus:bg-white focus:border-red-500 transition-all text-sm font-medium"
+                                    rows={3}
+                                />
+                                
+                                <div className="grid grid-cols-2 gap-4">
+                                    <button 
+                                        onClick={() => setShowCancelConfirm(false)}
+                                        className="py-4 bg-gray-100 hover:bg-gray-200 text-gray-900 font-black rounded-2xl transition-all active:scale-95 uppercase tracking-widest text-xs"
+                                    >
+                                        Keep Membership
+                                    </button>
+                                    <button 
+                                        onClick={handleCancelSubscription}
+                                        disabled={cancelling}
+                                        className="py-4 bg-red-600 hover:bg-red-700 text-white font-black rounded-2xl transition-all shadow-xl shadow-red-200 active:scale-95 flex items-center justify-center gap-2 uppercase tracking-widest text-xs"
+                                    >
+                                        {cancelling ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Confirm Cancel'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

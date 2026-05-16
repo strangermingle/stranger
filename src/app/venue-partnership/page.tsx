@@ -1,5 +1,13 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Venue Partnership | Stranger Mingle',
+  description: 'Become a Stranger Mingle Venue Partner. We bring a verified, paying community to your space on a regular basis.',
+  alternates: {
+    canonical: '/venue-partnership',
+  },
+};
 const WA_NUMBER = '917411820025';
 const WA_MESSAGE = encodeURIComponent(
   'Hi, I would like to enquire about a Venue Partnership with Stranger Mingle. Here are my details:\n\nVenue name:\nVenue type (café, activity space, rooftop, etc.):\nCity:\nCapacity (approximate):\nAvailability (days/times):\nAnything else:'
