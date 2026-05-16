@@ -8,51 +8,67 @@ export const metadata: Metadata = {
     canonical: '/success-stories',
   },
 };
-{
-  id: "suraj"
-  name: "Suraj Bhan Singh"
-  role: "Software Engineer"
-  location: "Wakad, Pune"
-  city: "Pune"
-  eventType: "Weekend Meetup"
-  headline: "Came with one friend. Left with fifteen."
-  summary:
-  "Suraj joined Stranger Mingle with a friend, unsure what to expect. A few months later, that one event had grown into a circle of 10–15 people who hang out together regularly — not because an app told them to, but because they kept showing up."
-  quote:
-  "I joined this group with my friend and initially we were just 2 of us. But slowly we started meeting new people and now we have a group of 10-15 people who regularly hang out together."
-  tags: ["Pune", "Weekend Meetup", "Group Friendships"]
-  avatar: "/images/suraj-bhansingh.png"
+interface FeaturedStory {
+  id: string;
+  name: string;
+  role: string;
+  location: string;
+  city: string;
+  eventType: string;
+  headline: string;
+  summary: string;
+  quote: string;
+  tags: string[];
+  avatar: string;
 }
-{
-  id: "anuradha"
-  name: "Anuradha"
-  role: "IT Engineer"
-  location: "Hinjewadi, Pune"
-  city: "Pune"
-  eventType: "Board Game Night"
-  headline: "Natural conversation. No awkward networking."
-  summary:
-  "Anuradha wanted to meet people the way it's supposed to happen — without forcing it. A board game night gave her exactly that. She met Trishul through a mutual friend at the event and now counts him as a genuine friend — the kind you don't have to perform for."
-  quote:
-  "I wanted to meet people naturally. The board game night was so much fun, and I didn't have to worry about forcing conversation."
-  tags: ["Pune", "Board Game Night", "Platonic Friendships"]
-  avatar: "/images/anuradha.png"
-}
-{
-  id: "varsha"
-  name: "Varsha Sundaram"
-  role: "Professional"
-  location: "Bengaluru"
-  city: "Bengaluru"
-  eventType: "Community Meetup"
-  headline: "Five years in Bengaluru. Finally found her people."
-  summary:
-  "Varsha had lived in Bengaluru for five years without building a real social circle. Busy work life, new city, no obvious entry point. Stranger Mingle gave her a structured way to just show up — and that was enough."
-  quote:
-  "I'm working in Bengaluru since last 5 years and I haven't met many people. This group helped me to connect with new people and make friends."
-  tags: ["Bengaluru", "New in City", "Community"]
-  avatar: "/images/varsha.png"
-}
+
+const featuredStories: FeaturedStory[] = [
+  {
+    id: "suraj",
+    name: "Suraj Bhan Singh",
+    role: "Software Engineer",
+    location: "Wakad, Pune",
+    city: "Pune",
+    eventType: "Weekend Meetup",
+    headline: "Came with one friend. Left with fifteen.",
+    summary:
+      "Suraj joined Stranger Mingle with a friend, unsure what to expect. A few months later, that one event had grown into a circle of 10–15 people who hang out together regularly — not because an app told them to, but because they kept showing up.",
+    quote:
+      "I joined this group with my friend and initially we were just 2 of us. But slowly we started meeting new people and now we have a group of 10-15 people who regularly hang out together.",
+    tags: ["Pune", "Weekend Meetup", "Group Friendships"],
+    avatar: "/images/suraj-bhansingh.png",
+  },
+  {
+    id: "anuradha",
+    name: "Anuradha",
+    role: "IT Engineer",
+    location: "Hinjewadi, Pune",
+    city: "Pune",
+    eventType: "Board Game Night",
+    headline: "Natural conversation. No awkward networking.",
+    summary:
+      "Anuradha wanted to meet people the way it's supposed to happen — without forcing it. A board game night gave her exactly that. She met Trishul through a mutual friend at the event and now counts him as a genuine friend — the kind you don't have to perform for.",
+    quote:
+      "I wanted to meet people naturally. The board game night was so much fun, and I didn't have to worry about forcing conversation.",
+    tags: ["Pune", "Board Game Night", "Platonic Friendships"],
+    avatar: "/images/anuradha.png",
+  },
+  {
+    id: "varsha",
+    name: "Varsha Sundaram",
+    role: "Professional",
+    location: "Bengaluru",
+    city: "Bengaluru",
+    eventType: "Community Meetup",
+    headline: "Five years in Bengaluru. Finally found her people.",
+    summary:
+      "Varsha had lived in Bengaluru for five years without building a real social circle. Busy work life, new city, no obvious entry point. Stranger Mingle gave her a structured way to just show up — and that was enough.",
+    quote:
+      "I'm working in Bengaluru since last 5 years and I haven't met many people. This group helped me to connect with new people and make friends.",
+    tags: ["Bengaluru", "New in City", "Community"],
+    avatar: "/images/varsha.png",
+  },
+];
 
 const miniStories = [
   {
@@ -185,7 +201,7 @@ export default function SuccessStoriesPage() {
             <p className="text-gray-500 text-lg">From our community — in their own words.</p>
           </div>
           <div className="space-y-12">
-            {featuredStories.map((story, i) => (
+            {featuredStories.map((story: FeaturedStory, i: number) => (
               <div
                 key={story.id}
                 className={`rounded-2xl border border-gray-100 overflow-hidden shadow-sm ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'
@@ -201,7 +217,7 @@ export default function SuccessStoriesPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex flex-wrap gap-2 mb-2">
-                        {story.tags?.map((tag) => (
+                        {story.tags?.map((tag: string) => (
                           <span
                             key={tag}
                             className="text-xs font-medium bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full"
