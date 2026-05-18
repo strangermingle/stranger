@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { 
     MessageSquare, Send, Ghost, Loader2, Undo, 
@@ -58,6 +58,7 @@ export default function ChatPage() {
     
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const pollingInterval = useRef<NodeJS.Timeout | null>(null);
+    const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     // Initial Load: Create Audio Instance
@@ -100,105 +101,113 @@ export default function ChatPage() {
         }
     }
 
-    // 4. Handle Conversation Selection
-    useEffect(() => {
-        if (activeConversation) {
-            fetchMessages(activeConversation.id);
-            setupRealtime(activeConversation.id);
-        } else {
-            setMessages([]);
-            if (pollingInterval.current) clearInterval(pollingInterval.current);
+    const cleanupRealtime = useCallback(() => {
+        if (pollingInterval.current) {
+            clearInterval(pollingInterval.current);
+            pollingInterval.current = null;
         }
-    }, [activeConversation]);
+        if (channelRef.current) {
+            supabase.removeChannel(channelRef.current);
+            channelRef.current = null;
+        }
+    }, []);
+
+    const refreshMessages = useCallback(async (convId: string) => {
+        try {
+            const result = await callRpc('chatService', 'getMessages', [convId]);
+            setMessages((prev) => {
+                const existingIds = new Set(prev.map((m) => m.id));
+                const newMsgs = (result || []).filter((m: Message) => !existingIds.has(m.id));
+
+                if (newMsgs.length === 0) return prev;
+
+                const hasIncoming = newMsgs.some((m: Message) => m.sender_id !== mappedUserId);
+                if (hasIncoming) {
+                    audioRef.current?.play().catch(() => undefined);
+                }
+
+                return [...prev, ...newMsgs];
+            });
+        } catch {
+            // Silently fail polling / broadcast refresh
+        }
+    }, [mappedUserId]);
+
+    // 4. Load messages + realtime when conversation changes (with proper cleanup)
+    useEffect(() => {
+        if (!activeConversation?.id || !mappedUserId) {
+            setMessages([]);
+            cleanupRealtime();
+            return;
+        }
+
+        const convId = activeConversation.id;
+        let cancelled = false;
+
+        async function loadConversation() {
+            cleanupRealtime();
+
+            setIsLoadingMessages(true);
+            try {
+                const result = await callRpc('chatService', 'getMessages', [convId]);
+                if (!cancelled) setMessages(result || []);
+            } catch (error) {
+                console.error('Failed to fetch messages:', error);
+            } finally {
+                if (!cancelled) setIsLoadingMessages(false);
+            }
+
+            if (cancelled) return;
+
+            console.log('Setting up secure realtime for conversation:', convId);
+
+            const channel = supabase
+                .channel(`conversation:${convId}`)
+                .on('broadcast', { event: 'refresh' }, (payload) => {
+                    if (payload.payload?.sender_id !== mappedUserId) {
+                        refreshMessages(convId);
+                    }
+                })
+                .on(
+                    'postgres_changes',
+                    {
+                        event: 'INSERT',
+                        schema: 'public',
+                        table: 'messages',
+                        filter: `conversation_id=eq.${convId}`,
+                    },
+                    (payload) => {
+                        const msg = payload.new as Message;
+                        setMessages((prev) => {
+                            if (prev.find((m) => m.id === msg.id)) return prev;
+                            if (msg.sender_id !== mappedUserId) {
+                                audioRef.current?.play().catch(() => undefined);
+                            }
+                            return [...prev, msg];
+                        });
+                    }
+                )
+                .subscribe();
+
+            channelRef.current = channel;
+
+            pollingInterval.current = setInterval(() => {
+                refreshMessages(convId);
+            }, 60000);
+        }
+
+        loadConversation();
+
+        return () => {
+            cancelled = true;
+            cleanupRealtime();
+        };
+    }, [activeConversation?.id, mappedUserId, cleanupRealtime, refreshMessages]);
 
     // 4b. Auto-scroll on Messages Change
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
-
-    async function fetchMessages(convId: string) {
-        setIsLoadingMessages(true);
-        try {
-            const result = await callRpc('chatService', 'getMessages', [convId]);
-            setMessages(result || []);
-            scrollToBottom();
-        } catch (error) {
-            console.error('Failed to fetch messages:', error);
-        } finally {
-            setIsLoadingMessages(false);
-        }
-    }
-
-    // 5. Realtime Setup (Subscribing to Postgres Changes + Broadcast)
-    function setupRealtime(convId: string) {
-        // Cleanup old subscription
-        if (pollingInterval.current) clearInterval(pollingInterval.current);
-
-        console.log('Setting up secure realtime for conversation:', convId);
-        
-        const channelName = `conversation:${convId}`;
-        const channel = supabase
-            .channel(channelName)
-            // A. Broadcast Listener (Ping-based instant refresh)
-            .on('broadcast', { event: 'refresh' }, (payload) => {
-                console.log('Refresh signal received via broadcast:', payload);
-                // Trigger refresh if someone else sent a message
-                if (payload.payload?.sender_id !== mappedUserId) {
-                    refreshMessages(convId);
-                }
-            })
-            // B. Postgres Changes (Native Supabase Realtime)
-            .on('postgres_changes', { 
-                event: 'INSERT', 
-                schema: 'public', 
-                table: 'messages',
-                filter: `conversation_id=eq.${convId}`
-            }, (payload) => {
-                const msg = payload.new as Message;
-                setMessages(prev => {
-                    if (prev.find(m => m.id === msg.id)) return prev;
-                    if (msg.sender_id !== mappedUserId) {
-                        audioRef.current?.play().catch(e => console.log('Audio play blocked:', e));
-                    }
-                    return [...prev, msg];
-                });
-                scrollToBottom();
-            })
-            .subscribe();
-
-        // C. Safety Keep-alive (Every 60s instead of 5s)
-        // This is a slow, inexpensive fallback to ensures messages are never stuck.
-        pollingInterval.current = setInterval(() => {
-            refreshMessages(convId);
-        }, 60000);
-
-        return () => {
-            supabase.removeChannel(channel);
-        };
-    }
-
-    async function refreshMessages(convId: string) {
-        try {
-            const result = await callRpc('chatService', 'getMessages', [convId]);
-            // Merge messages without duplicates
-            setMessages(prev => {
-                const existingIds = new Set(prev.map(m => m.id));
-                const newMsgs = (result || []).filter((m: Message) => !existingIds.has(m.id));
-                
-                if (newMsgs.length === 0) return prev;
-
-                // Play sound for new incoming messages in polling
-                const hasIncoming = newMsgs.some((m: Message) => m.sender_id !== mappedUserId);
-                if (hasIncoming) {
-                    audioRef.current?.play().catch(e => console.log('Audio play blocked:', e));
-                }
-
-                return [...prev, ...newMsgs];
-            });
-        } catch (error) {
-            // Silently fail polling
-        }
-    }
 
     // 6. Send Message
     async function handleSendMessage(e: React.FormEvent) {
