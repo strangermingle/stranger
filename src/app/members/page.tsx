@@ -146,6 +146,42 @@ export default function MembersPage() {
         });
     };
 
+    const verifyMembershipPayment = async (
+        payload: {
+            razorpay_payment_id: string;
+            razorpay_subscription_id: string;
+            razorpay_signature: string;
+        },
+        maxAttempts = 3
+    ) => {
+        let lastError: Error | null = null;
+
+        for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+            try {
+                const verifyRes = await fetch('/api/membership/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                const verifyData = await verifyRes.json();
+
+                if (verifyRes.ok && verifyData.success) {
+                    return verifyData;
+                }
+
+                lastError = new Error(verifyData.error || verifyData.details || 'Payment verification failed');
+            } catch (err: unknown) {
+                lastError = err instanceof Error ? err : new Error('Payment verification failed');
+            }
+
+            if (attempt < maxAttempts) {
+                await new Promise((r) => setTimeout(r, attempt * 1000));
+            }
+        }
+
+        throw lastError || new Error('Payment verification failed');
+    };
+
     const handleApplyAndPay = async (e: FormEvent) => {
         e.preventDefault();
 
@@ -191,38 +227,36 @@ export default function MembersPage() {
                 },
                 theme: { color: "#eab308" },
                 handler: async function (response: any) {
-                    // 3. Verify Payment on Backend
+                    setAuthLoading(true);
                     try {
-                        const verifyRes = await fetch('/api/membership/verify', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                razorpay_payment_id: response.razorpay_payment_id,
-                                razorpay_subscription_id: response.razorpay_subscription_id,
-                                razorpay_signature: response.razorpay_signature,
-                                email: cleanEmail // Explicitly pass normalized email for verification
-                            })
+                        await verifyMembershipPayment({
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_subscription_id: response.razorpay_subscription_id,
+                            razorpay_signature: response.razorpay_signature,
                         });
-                        const verifyData = await verifyRes.json();
-                        if (verifyData.success) {
-                            // 4. Create Firebase Account with Password
-                            try {
-                                const userCredential = await createUserWithEmailAndPassword(auth, applyEmail, applyPassword);
-                                if (userCredential.user) {
-                                    await updateProfile(userCredential.user, { displayName: applyName });
-                                }
-                                setShowSuccess(true);
-                            } catch (createErr: any) {
-                                // If account creation fails (e.g. already exists), we still show success view
-                                // but the user might need to log in normally.
-                                console.error('[Auth] Account creation error post-payment:', createErr);
-                                setShowSuccess(true);
+
+                        try {
+                            const userCredential = await createUserWithEmailAndPassword(
+                                auth,
+                                cleanEmail,
+                                applyPassword
+                            );
+                            if (userCredential.user) {
+                                await updateProfile(userCredential.user, { displayName: applyName });
                             }
-                        } else {
-                            throw new Error(verifyData.error || "Payment verification failed");
+                        } catch (createErr: unknown) {
+                            console.error('[Auth] Account creation error post-payment:', createErr);
                         }
-                    } catch (err: any) {
-                        setError(err.message || "Verification failed. Please contact support.");
+
+                        setShowSuccess(true);
+                    } catch (err: unknown) {
+                        const message =
+                            err instanceof Error
+                                ? err.message
+                                : 'Verification failed. If payment was deducted, check your email shortly or contact support.';
+                        setError(message);
+                    } finally {
+                        setAuthLoading(false);
                     }
                 }
             };
@@ -237,6 +271,27 @@ export default function MembersPage() {
 
         } catch (err: any) {
             setError(err.message || 'Payment initiation failed.');
+            setAuthLoading(false);
+        }
+    };
+
+    const handleResendVerification = async () => {
+        setAuthLoading(true);
+        setError(null);
+        try {
+            const idToken = await auth.currentUser?.getIdToken();
+            if (!idToken) throw new Error('Please log in to resend the verification email.');
+
+            const res = await fetch('/api/membership/resend-verification', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${idToken}` },
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to resend verification email');
+            setSuccessMessage(data.message || 'Verification email sent! Check your inbox.');
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Failed to resend verification email.');
+        } finally {
             setAuthLoading(false);
         }
     };
@@ -291,9 +346,14 @@ export default function MembersPage() {
                                 <AlertCircle className="w-5 h-5" />
                                 <span>Action Required: Please verify your official email to unlock full access</span>
                             </div>
-                            <Link href="/verify-membership" className="px-4 py-1.5 bg-black text-white text-[10px] font-black uppercase rounded-lg hover:bg-gray-800 transition-all">
+                            <button
+                                type="button"
+                                onClick={handleResendVerification}
+                                disabled={authLoading}
+                                className="px-4 py-1.5 bg-black text-white text-[10px] font-black uppercase rounded-lg hover:bg-gray-800 transition-all disabled:opacity-50"
+                            >
                                 Resend Link
-                            </Link>
+                            </button>
                         </div>
                     )}
 
