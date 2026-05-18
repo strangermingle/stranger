@@ -89,6 +89,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setCancelAtPeriodEnd(false);
         // Clear the HTTP cookie for SSR context
         document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        
+        // Clear User-ID in GTM dataLayer
+        if (typeof window !== 'undefined') {
+          const win = window as unknown as { dataLayer?: Record<string, unknown>[] };
+          if (win.dataLayer) {
+            win.dataLayer.push({
+              event: 'user_logout',
+              user_id: null
+            });
+          }
+        }
+        
         setLoading(false);
         return;
       }
@@ -98,6 +110,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Calculate deterministic identity
       const uuid = uuidv5(currentUser.uid, SM_UUID_NAMESPACE);
       setMappedUserId(uuid);
+      
+      // Push User-ID to Google Tag Manager dataLayer
+      if (typeof window !== 'undefined') {
+        const win = window as unknown as { dataLayer?: Record<string, unknown>[] };
+        if (win.dataLayer) {
+          win.dataLayer.push({
+            event: 'user_login',
+            user_id: uuid
+          });
+        }
+      }
       
       // Get the fresh JWT and set it as an HTTP cookie
       const token = await currentUser.getIdToken();
