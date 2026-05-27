@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             images: [post.image],
         },
         alternates: {
-            canonical: `/blog/${slug}`,
+            canonical: `https://www.strangermingle.com/blog/${slug}`,
         },
     };
 }

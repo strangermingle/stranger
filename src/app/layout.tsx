@@ -7,6 +7,7 @@ import ConsentBanner from "@/components/ConsentBanner";
 import GoogleTagManager from "@/components/GoogleTagManager";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { AuthProvider } from "@/components/AuthProvider";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -87,15 +88,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden" suppressHydrationWarning>
       <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2513522563082642"
-          crossOrigin="anonymous"
-        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col overflow-x-hidden`}
       >
+        <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2513522563082642"
+          crossOrigin="anonymous"
+        />
         <GoogleTagManager />
         <AuthProvider>
           <Navbar />

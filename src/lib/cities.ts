@@ -1,0 +1,22 @@
+export const LIVE_CITIES = [
+  'ahmedabad',
+  'bangalore',
+  'bhopal',
+  'chennai',
+  'coimbatore',
+  'delhi',
+  'hyderabad',
+  'indore',
+  'jaipur',
+  'kanpur',
+  'kolkata',
+  'lucknow',
+  'ludhiana',
+  'mumbai',
+  'nagpur',
+  'patna',
+  'pune',
+  'surat',
+  'vadodara',
+  'visakhapatnam'
+];
