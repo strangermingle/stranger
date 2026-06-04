@@ -149,7 +149,7 @@ export default async function PuneCityPage() {
                         </div>
                         <div className="relative aspect-[9/16] max-h-[700px] ml-auto">
                             <video
-                                src="https://res.cloudinary.com/strangermingle/video/upload/q_auto/f_auto/v1775848125/7061222-hd_1080_1920_30fps_ijlrea.mp4"
+                                src="https://res.cloudinary.com/dxxzhrmpm/video/upload/v1780599457/5159096-uhd_2160_4096_25fps_my5pfk_ha2mav.mp4"
                                 autoPlay
                                 muted
                                 loop

@@ -10,21 +10,21 @@ export default function SidebarVideoAd() {
                     </span>
                     <span className="text-[10px] font-bold text-blue-600">NearByPetCare</span>
                 </div>
-                
+
                 <div className="relative aspect-[9/16] w-full bg-black">
-                    <video 
-                        src="https://res.cloudinary.com/strangermingle/video/upload/v1774306032/NEARBY_knvfbi.mp4"
-                        autoPlay 
-                        muted 
-                        loop 
+                    <video
+                        src="https://res.cloudinary.com/dxxzhrmpm/video/upload/v1780599133/NEARBY_knvfbi_fvuknc.mp4"
+                        autoPlay
+                        muted
+                        loop
                         playsInline
                         className="w-full h-full object-cover"
                     />
-                    
+
                     {/* Overlay for better integration */}
                     <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                 </div>
-                
+
                 <div className="p-4 text-center">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Free Pet Tools, Guide and Hacks</p>
                     <h4 className="font-black text-gray-900 leading-tight uppercase tracking-wide text-sm">
