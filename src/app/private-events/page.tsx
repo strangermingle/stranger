@@ -169,7 +169,7 @@ const faqs = [
   },
   {
     q: 'What happens if a participant misbehaves at a private event?',
-    a: 'The same zero-tolerance policy that applies to all Stranger Mingle events applies here. The host has full authority to remove any participant immediately. Depending on the severity, the individual may be permanently banned from the platform. Salty Media Production (opc) Pvt Ltd reserves the right to take further action in accordance with our Terms of Service.',
+    a: 'The same zero-tolerance policy that applies to all Stranger Mingle events applies here. The host has full authority to remove any participant immediately. Depending on the severity, the individual may be permanently banned from the platform. StrangerMingle reserves the right to take further action in accordance with our Terms of Service.',
   },
   {
     q: 'What is the pricing for private group events?',
@@ -502,7 +502,7 @@ export default function PrivateGroupEventsPage() {
       <section className="py-10 px-4 bg-white text-center">
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           Stranger Mingle is a brand of{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>.
+          <span className="text-gray-600 font-medium">StrangerMingle</span>.
           All private group event bookings are governed by our{' '}
           <Link href="/terms" className="text-blue-600 hover:underline">
             Terms of Service

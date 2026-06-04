@@ -403,7 +403,7 @@ export default function CommunityBrandPartnershipPage() {
               },
               {
                 q: 'Can we use the Stranger Mingle name or logo in our own marketing?',
-                a: 'Only with explicit written permission from Salty Media Production (opc) Pvt Ltd, and only within the scope agreed in the partnership documentation. Unauthorised use of the Stranger Mingle brand is prohibited under our Terms of Service.',
+                a: 'Only with explicit written permission from StrangerMingle, and only within the scope agreed in the partnership documentation. Unauthorised use of the Stranger Mingle brand is prohibited under our Terms of Service.',
               },
               {
                 q: 'Do community partners get access to our member data?',
@@ -526,7 +526,7 @@ export default function CommunityBrandPartnershipPage() {
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           All community and brand partnerships with Stranger Mingle are governed by the
           standards of{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>,
+          <span className="text-gray-600 font-medium">StrangerMingle</span>,
           our{' '}
           <Link href="/terms" className="text-blue-600 hover:underline">
             Terms of Service

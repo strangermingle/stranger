@@ -6,6 +6,7 @@ import { toISTISOString } from '@/lib/date-utils';
 
 import EventDetailsPage from '@/components/EventDetailsPage';
 import UpcomingExperiences from '@/components/event/UpcomingExperiences';
+import FacebookGroupCTA from '@/components/FacebookGroupCTA';
 
 export const dynamic = 'force-static';
 export const revalidate = 3600;
@@ -236,6 +237,9 @@ export default async function EventDetails({ params }: Props) {
       
       {/* Weekend Events */}
       <WeekendEvents />
+
+      {/* Facebook Group CTA */}
+      <FacebookGroupCTA />
     </>
   );
 }

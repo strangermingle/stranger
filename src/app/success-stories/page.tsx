@@ -401,7 +401,7 @@ export default function SuccessStoriesPage() {
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           All stories shared on this page are from real Stranger Mingle members and are used
           with their knowledge and consent. Stranger Mingle is a brand of{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>
+          <span className="text-gray-600 font-medium">StrangerMingle</span>
           . Our events are governed by our{' '}
           <Link href="/terms" className="text-blue-600 hover:underline">
             Terms of Service

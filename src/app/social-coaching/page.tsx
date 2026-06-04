@@ -440,7 +440,7 @@ export default function SocialCoachingPage() {
             Safety Guidelines
           </Link>
           . Stranger Mingle is a brand of{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>
+          <span className="text-gray-600 font-medium">StrangerMingle</span>
           . Facilitators are community-trained members — not licensed therapists or professional
           coaches. For professional mental health support, please consult a qualified practitioner.
         </p>

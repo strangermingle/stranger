@@ -6,7 +6,7 @@ Stranger Mingle is built to solve a problem millions of Indians face: feeling lo
 
 Stranger Mingle is NOT a dating app, matrimonial service, or networking platform. It is exclusively focused on platonic friendships. All events are in-person (plus periodic online intercity meetups), held in public venues, facilitated by verified and trained hosts, and governed by a strict zero-harassment policy.
 
-Founded by Salty Media Production (OPC) Pvt Ltd, Pune, India.
+Founded by StrangerMingle, Pune, India.
 
 ---
 
@@ -162,5 +162,5 @@ Stranger Mingle is India-specific, maintains stricter safety standards tailored 
 
 ---
 
-*Stranger Mingle is a brand of Salty Media Production (OPC) Pvt Ltd. © 2026 Stranger Mingle. All rights reserved.*
+*Stranger Mingle is a brand of Salty Media Production (opc) Pvt Ltd. © 2026 Stranger Mingle. All rights reserved.*
 *Deploy this file at: https://www.strangermingle.com/llm.txt*

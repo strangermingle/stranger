@@ -665,7 +665,7 @@ export default function HostApplicationFormPage() {
       <section className="py-10 px-4 bg-gray-50 border-t border-gray-100 text-center">
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           Host applications are processed by{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>.
+          <span className="text-gray-600 font-medium">StrangerMingle</span>.
           Submitting an application does not guarantee host approval. All applications are
           reviewed individually. For questions, write to{' '}
           <a

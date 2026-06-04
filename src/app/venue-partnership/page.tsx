@@ -523,7 +523,7 @@ export default function VenuePartnershipPage() {
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           Venue partnerships with Stranger Mingle are governed by a formal Venue Partnership
           Agreement with{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>,
+          <span className="text-gray-600 font-medium">StrangerMingle</span>,
           our{' '}
           <Link href="/terms" className="text-blue-600 hover:underline">
             Terms of Service

@@ -5,6 +5,7 @@ import { getEventsByCity } from "@/lib/events";
 import { getAllPosts, formatBlogDate } from "@/lib/blog";
 import EventCard from "@/components/EventCard";
 import UpcomingExperiences from "@/components/event/UpcomingExperiences";
+import FacebookGroupCTA from "@/components/FacebookGroupCTA";
 
 import { MapPin, Users, ShieldCheck, ArrowRight, Calendar, Coffee, Heart } from "lucide-react";
 
@@ -478,6 +479,9 @@ export default async function MumbaiCityPage() {
 
 
             {/* Upcoming Activities for Mumbai */}
+            {/* Facebook Group CTA */}
+            <FacebookGroupCTA />
+
             <UpcomingExperiences city="Mumbai" currentEventId="" />
 
             {/* Structured Data */}

@@ -73,7 +73,7 @@ const standards = [
   { icon: '🚫', title: 'No ads inside the member experience', desc: 'The member portal, booking flow, event confirmation pages, and post-event communications are permanently advertisement-free. Ads appear on public-facing pages only.' },
   { icon: '✋', title: 'Zero advertiser influence on content or events', desc: 'Sponsoring an event gives a brand one brief acknowledgement. Nothing more. Advertisers have no influence over event format, host conduct, or any community content.' },
   { icon: '📋', title: 'Creative review before every placement', desc: 'All ad creative is reviewed by our team before going live. We reserve the right to reject or request changes to any creative that conflicts with our values — even within accepted categories.' },
-  { icon: '⚖️', title: 'No implied endorsement', desc: 'Advertising on strangermingle.com does not constitute endorsement of any product or service by Stranger Mingle or Salty Media Production (opc) Pvt Ltd. Stated clearly on every placement confirmation.' },
+  { icon: '⚖️', title: 'No implied endorsement', desc: 'Advertising on strangermingle.com does not constitute endorsement of any product or service by Stranger Mingle or StrangerMingle. Stated clearly on every placement confirmation.' },
 ];
 
 const WA_NUMBER = '917411820025';
@@ -329,7 +329,7 @@ export default function AdvertiseWithUsPage() {
               },
               {
                 q: 'Does advertising on Stranger Mingle mean the brand is endorsed by you?',
-                a: 'No. The presence of an advertisement on strangermingle.com does not constitute an endorsement or recommendation of any advertiser\'s product or service by Stranger Mingle or Salty Media Production (opc) Pvt Ltd. All placements are clearly labelled as paid advertising.',
+                a: 'No. The presence of an advertisement on strangermingle.com does not constitute an endorsement or recommendation of any advertiser\'s product or service by Stranger Mingle or StrangerMingle. All placements are clearly labelled as paid advertising.',
               },
               {
                 q: 'Can an event sponsor influence what happens at the event?',
@@ -400,7 +400,7 @@ export default function AdvertiseWithUsPage() {
       <section className="py-10 px-4 bg-white text-center">
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           Advertising with Stranger Mingle is governed by the advertising standards of{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>,
+          <span className="text-gray-600 font-medium">StrangerMingle</span>,
           our{' '}
           <Link href="/terms" className="text-blue-600 hover:underline">
             Terms of Service

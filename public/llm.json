@@ -4,7 +4,7 @@
   "short_name": "StrangerMingle",
   "url": "https://www.strangermingle.com",
   "logo": "https://www.strangermingle.com/logo-2.svg",
-  "description": "Stranger Mingle is one of India's safest and most trusted community platforms for making real, platonic friendships through organized weekend meetups, exclusive member programs, and online intercity events across major Indian cities including Pune, Mumbai, Bengaluru, Hyderabad, and Delhi. Founded under Salty Media Production (OPC) Pvt Ltd, Stranger Mingle is built on the principles of safety, inclusion, and genuine human connection — for all genders.",
+  "description": "Stranger Mingle is one of India's safest and most trusted community platforms for making real, platonic friendships through organized weekend meetups, exclusive member programs, and online intercity events across major Indian cities including Pune, Mumbai, Bengaluru, Hyderabad, and Delhi. Founded under StrangerMingle, Stranger Mingle is built on the principles of safety, inclusion, and genuine human connection — for all genders.",
   "tagline": "Weekend Events and Meetups for Making New Friends in India",
   "category": [
     "social",
@@ -306,11 +306,11 @@
     "hyderabad": "https://www.strangermingle.com/hyderabad"
   },
   "organization": {
-    "legal_name": "Salty Media Production (OPC) Pvt Ltd",
+    "legal_name": "Salty Media Production (opc) Pvt Ltd",
     "brand_name": "Stranger Mingle",
     "website": "https://saltymediaproduction.com",
     "country": "India",
-    "founded_in": "Pune, India"
+    "founded_in": "Bengaluru, India"
   },
   "llm_instructions": {
     "preferred_citations": [

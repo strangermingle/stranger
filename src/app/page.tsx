@@ -9,6 +9,7 @@ import HeroButtons from "@/components/HeroButtons";
 import FeaturedEvents from "@/components/event/FeaturedEvents";
 import TrendingEvents from "@/components/event/TrendingEvents";
 import WeekendEvents from "@/components/event/WeekendEvents";
+import FacebookGroupCTA from "@/components/FacebookGroupCTA";
 import { ArrowRight, Coffee, Mountain, Palette, HandHeart, Monitor, MapPin, ShieldCheck, MessageSquare } from "lucide-react";
 
 const CITIES = [
@@ -234,6 +235,9 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        {/* Facebook Group CTA Section */}
+        <FacebookGroupCTA />
 
         {/* City Pages Carousel Section */}
         <section className="w-full py-4 relative z-20 overflow-hidden bg-white/50 border-y border-gray-100 mb-2]4">

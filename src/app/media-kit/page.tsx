@@ -18,7 +18,7 @@ const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`;
 
 const brandFacts = [
   { label: 'Full Brand Name', value: 'Stranger Mingle' },
-  { label: 'Legal Entity', value: 'Salty Media Production (opc) Pvt Ltd' },
+  { label: 'Legal Entity', value: 'StrangerMingle' },
   { label: 'Category', value: 'Community Platform · Social Friendship · Offline Events' },
   { label: 'Founded', value: 'Pune, Maharashtra, India' },
   { label: 'Active Cities', value: 'Pune · Mumbai · Bengaluru · Hyderabad · Delhi' },
@@ -86,7 +86,7 @@ const usageGuidelines = [
   },
   {
     fits: true,
-    label: 'Identify the legal entity as "Salty Media Production (opc) Pvt Ltd" when required for formal editorial',
+    label: 'Identify the legal entity as "StrangerMingle" when required for formal editorial',
   },
   {
     fits: true,
@@ -161,7 +161,7 @@ export default function MediaKitPage() {
           <h2 className="text-3xl font-bold text-gray-900 mb-6">About Stranger Mingle</h2>
           <p className="text-gray-600 text-lg leading-relaxed mb-4">
             Stranger Mingle is India&apos;s community platform for platonic friendship — a brand of
-            Salty Media Production (opc) Pvt Ltd, built for young adults in their 20s and 30s
+            StrangerMingle, built for young adults in their 20s and 30s
             who want to build a genuine social life in the city they live in. We organise
             verified, in-person events — chai circles, treks, board game nights, heritage
             walks, and more — across Pune, Mumbai, Bengaluru, Hyderabad, and Delhi.
@@ -530,7 +530,7 @@ export default function MediaKitPage() {
       <section className="py-10 px-4 bg-white text-center">
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           Stranger Mingle is a brand of{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>.
+          <span className="text-gray-600 font-medium">StrangerMingle</span>.
           All media usage of the Stranger Mingle brand, logo, event imagery, and member
           content is subject to our intellectual property rights and editorial usage guidelines.
           For permissions, contact{' '}

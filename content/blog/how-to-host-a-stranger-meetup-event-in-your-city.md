@@ -306,7 +306,7 @@ Your city's community is waiting to be built. The first step is yours.
 
 ---
 
-*Stranger Mingle is a brand of Salty Media Production (opc) Pvt Ltd. All host activity is governed by our [Terms of Service](/terms), [Safety Guidelines](/safety-guidelines), and internal host policies. Hosting is subject to approval and does not constitute employment with Salty Media Production (opc) Pvt Ltd.*
+*Stranger Mingle is a brand of Salty Media Production (opc) Pvt Ltd. All host activity is governed by our [Terms of Service](/terms), [Safety Guidelines](/safety-guidelines), and internal host policies. Hosting is subject to approval and does not constitute employment with StrangerMingle.*
 
 ---
 

@@ -48,7 +48,7 @@ const whatSponsorshipDoesNotInclude = [
   'Access to attendee contact details, names, or any member data',
   'The ability to influence event format, host conduct, or participant interactions',
   'Recurring or automatic sponsorship — each event is booked individually',
-  'Any form of implied endorsement by Stranger Mingle or Salty Media Production (opc) Pvt Ltd',
+  'Any form of implied endorsement by Stranger Mingle or StrangerMingle',
 ];
 
 const suitableBrands = [
@@ -440,7 +440,7 @@ export default function SponsorAnEventPage() {
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           Event sponsorship with Stranger Mingle is governed by the advertising and sponsorship
           standards of{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>,
+          <span className="text-gray-600 font-medium">StrangerMingle</span>,
           our{' '}
           <Link href="/terms" className="text-blue-600 hover:underline">
             Terms of Service

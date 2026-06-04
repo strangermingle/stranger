@@ -131,7 +131,7 @@ export default function HostAnEventPage() {
             Stranger Mingle name.
           </p>
           <p className="text-gray-600 text-lg leading-relaxed mb-4">
-            Hosts are not employees of Salty Media Production (opc) Pvt Ltd. They are community
+            Hosts are not employees of StrangerMingle. They are community
             leaders who take on the responsibility of delivering safe, inclusive, and meaningful
             experiences — consistent with our brand values and Safety Guidelines.
           </p>
@@ -303,7 +303,7 @@ export default function HostAnEventPage() {
       <section className="py-10 px-4 bg-white text-center">
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           Stranger Mingle is a brand of{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>.
+          <span className="text-gray-600 font-medium">StrangerMingle</span>.
           All host activity is governed by our{' '}
           <Link href="/terms" className="text-blue-600 hover:underline">
             Terms of Service

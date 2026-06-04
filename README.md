@@ -38,10 +38,10 @@ Stranger Mingle is built on trust. We enforce a **Zero Harassment Policy** and a
 
 **Proprietary / All Rights Reserved**
 
-All information contained herein is, and remains the property of **Salty Media Production (OPC) Pvt Ltd**. Dissemination of this information or reproduction of this material is strictly forbidden unless prior written permission is obtained.
+All information contained herein is, and remains the property of **StrangerMingle**. Dissemination of this information or reproduction of this material is strictly forbidden unless prior written permission is obtained.
 
 See [LICENSE.txt](./LICENSE.txt) for more details.
 
 ---
 
-*© 2026 Stranger Mingle. A brand of Salty Media Production (OPC) Pvt Ltd.*
+*© 2026 Stranger Mingle. A brand of Salty Media Production (opc) Pvt Ltd.*

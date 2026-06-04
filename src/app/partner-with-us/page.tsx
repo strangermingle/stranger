@@ -90,7 +90,7 @@ const sharedPolicies = [
   {
     icon: '⚖️',
     title: 'No implied endorsement',
-    desc: 'Any commercial association with Stranger Mingle does not constitute endorsement of a partner\'s products or services by Stranger Mingle or Salty Media Production (opc) Pvt Ltd.',
+    desc: 'Any commercial association with Stranger Mingle does not constitute endorsement of a partner\'s products or services by Stranger Mingle or StrangerMingle.',
   },
 ];
 
@@ -391,7 +391,7 @@ export default function PartnerWithUsPage() {
       <section className="py-10 px-4 bg-white text-center">
         <p className="text-gray-400 text-sm max-w-2xl mx-auto">
           All commercial relationships with Stranger Mingle are governed by the standards of{' '}
-          <span className="text-gray-600 font-medium">Salty Media Production (opc) Pvt Ltd</span>,
+          <span className="text-gray-600 font-medium">StrangerMingle</span>,
           our{' '}
           <Link href="/terms" className="text-blue-600 hover:underline">
             Terms of Service
@@ -405,7 +405,7 @@ export default function PartnerWithUsPage() {
             Privacy Policy
           </Link>
           . All partnerships are subject to review and approval at the sole discretion of
-          Salty Media Production (opc) Pvt Ltd. Commercial association does not constitute
+          StrangerMingle. Commercial association does not constitute
           endorsement of any product, service, or organisation.
         </p>
         <div className="mt-6">

@@ -46,7 +46,7 @@ export default function RefundPolicy() {
                         <div className="relative z-10">
                             <p className="font-semibold text-lg mb-2 text-blue-100">Last updated: {new Date().toLocaleDateString()}</p>
                             <p className="leading-relaxed text-lg text-blue-50">
-                                <strong>Stranger Mingle</strong> is a brand owned and operated by <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                                <strong>Stranger Mingle</strong> is a brand owned and operated by <strong>StrangerMingle</strong>.
                                 This policy outlines our refund and cancellation terms. Please read carefully before registering for events.
                             </p>
                         </div>
@@ -280,7 +280,7 @@ export default function RefundPolicy() {
                                     <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100 mb-6">
                                         <h3 className="text-lg font-bold text-gray-900 mb-2">Legal Entity & Billing</h3>
                                         <p className="leading-relaxed text-gray-700">
-                                            All event payments, invoices, and refunds are processed by the parent company <strong>Salty Media Production (opc) Pvt Ltd</strong>.
+                                            All event payments, invoices, and refunds are processed by the parent company <strong>StrangerMingle</strong>.
                                             On your bank statement or payment notification, the transaction may appear under the name <strong>Salty Media Production</strong>.
                                         </p>
                                     </div>
