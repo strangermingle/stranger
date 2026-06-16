@@ -18,7 +18,11 @@ export const metadata: Metadata = {
         canonical: "/delhi",
     },
     openGraph: {
+        title: "Delhi - Meet New People at Social Events in Delhi for making new friends",
+        description: "Join curated stranger meetups and events in Delhi. Meet new people in Connaught Place, Hauz Khas, Saket, and Vasant Kunj. Small groups. Safe. Fun.",
         url: "/delhi",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

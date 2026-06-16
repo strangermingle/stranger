@@ -18,7 +18,11 @@ export const metadata: Metadata = {
         canonical: "/jaipur",
     },
     openGraph: {
+        title: "Jaipur - Social Meetups & Friend Events in the Pink City",
+        description: "Meet new people at curated social events in Jaipur. From C-Scheme to Malviya Nagar, we bring interesting strangers together in small, safe, and well-organised groups.",
         url: "/jaipur",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

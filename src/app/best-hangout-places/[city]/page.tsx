@@ -24,6 +24,9 @@ export async function generateMetadata({ params }: CityPageProps): Promise<Metad
         openGraph: {
             title: `Best Hangout Places in ${cityName} | Stranger Mingle`,
             description: `Connect with locals and travelers at the best social venues in ${cityName}.`,
+            url: `https://www.strangermingle.com/best-hangout-places/${city}`,
+            type: 'website',
+            images: ['/images/og-images/og-image-default.webp'],
         }
     };
 }

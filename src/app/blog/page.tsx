@@ -12,7 +12,11 @@ export const metadata: Metadata = {
         canonical: '/blog',
     },
     openGraph: {
+        title: "Stranger Mingle Cultural Desk | Making new Friends, Community, and Connection",
+        description: "Read stories about making new friends, community building, and overcoming loneliness in the modern world.",
         url: "/blog",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

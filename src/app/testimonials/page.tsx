@@ -7,7 +7,11 @@ export const metadata: Metadata = {
         canonical: "/testimonials",
     },
     openGraph: {
+        title: "User Stories & Testimonials | Stranger Mingle",
+        description: "Read real stories and experiences from community members who found friendship and connection through Stranger Mingle meetups.",
         url: "/testimonials",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

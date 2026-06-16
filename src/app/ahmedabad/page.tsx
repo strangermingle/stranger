@@ -18,7 +18,11 @@ export const metadata: Metadata = {
         canonical: "/ahmedabad",
     },
     openGraph: {
+        title: "Ahmedabad - Make New friends at weekend Meetups and Events",
+        description: "Curated weekend meetups and social events in Ahmedabad. From Satellite to Navrangpura. Make New friends at weekend Meetups and Events",
         url: "/ahmedabad",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

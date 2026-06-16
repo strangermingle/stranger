@@ -18,7 +18,11 @@ export const metadata: Metadata = {
         canonical: "/indore",
     },
     openGraph: {
+        title: "Indore - Meetups, Events & Making Friends in Indore",
+        description: "Join curated stranger meetups and events in Indore. Meet new people in Vijay Nagar, Palasia, AB Road, and Scheme 54. Small groups. Safe. Fun.",
         url: "/indore",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

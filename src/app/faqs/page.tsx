@@ -8,7 +8,11 @@ export const metadata: Metadata = {
         canonical: "/faqs",
     },
     openGraph: {
+        title: "Frequently Asked Questions | Stranger Mingle",
+        description: "Find answers to common questions about Stranger Mingle events, registration, safety, and community guidelines.",
         url: "/faqs",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

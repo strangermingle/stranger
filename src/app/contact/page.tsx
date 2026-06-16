@@ -9,7 +9,11 @@ export const metadata: Metadata = {
         canonical: "/contact",
     },
     openGraph: {
+        title: "Contact Us | Stranger Mingle",
+        description: "Have questions or need assistance? Reach out to the Stranger Mingle team. We",
         url: "/contact",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

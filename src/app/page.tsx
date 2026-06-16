@@ -45,7 +45,11 @@ export const metadata: Metadata = {
     canonical: "/",
   },
     openGraph: {
+        title: "Weekend Events & Stranger Meetups in Pune, Hyderabad, Bengaluru",
+        description: "Join weekend events, stranger meetups and friendship groups in Pune, Hyderabad & Bengaluru. Small groups. Safe.",
         url: "/",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

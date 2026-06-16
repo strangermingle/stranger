@@ -18,7 +18,11 @@ export const metadata: Metadata = {
         canonical: "/nagpur",
     },
     openGraph: {
+        title: "Nagpur - Meetups, Events & Making Friends in Nagpur with Stranger Mingle",
+        description: "Join curated stranger meetups and events in Nagpur. Meet new people in Dharampeth, Sitabuldi, Ramdaspeth, and Sadar. Small groups. Safe. Fun.",
         url: "/nagpur",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

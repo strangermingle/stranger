@@ -17,7 +17,11 @@ export const metadata: Metadata = {
         canonical: "/pune",
     },
     openGraph: {
+        title: "Pune - Weekend Events and Stranger Meetups for making new friends",
+        description: "Join weekend events and meet new people in Viman Nagar, Baner, Hinjewadi, and Koregaon Park. Small groups. Safe. Fun.",
         url: "/pune",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

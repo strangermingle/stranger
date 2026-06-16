@@ -28,7 +28,11 @@ export const metadata: Metadata = {
         canonical: "/safety-guidelines",
     },
     openGraph: {
+        title: "Safety Guidelines | Stranger Mingle",
+        description: "Your safety is our priority. Read our comprehensive safety guidelines for attending events and interacting with community members.",
         url: "/safety-guidelines",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

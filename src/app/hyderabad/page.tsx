@@ -18,7 +18,11 @@ export const metadata: Metadata = {
         canonical: "/hyderabad",
     },
     openGraph: {
+        title: "Hyderabad - Meetups, Events & Making Friends in Hyderabad",
+        description: "Join curated stranger meetups and social events in Hyderabad. Meet new people in Jubilee Hills, Hitech City, Gachibowli, and Banjara Hills. Small groups. Safe. Fun.",
         url: "/hyderabad",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

@@ -8,7 +8,11 @@ export const metadata: Metadata = {
         canonical: "/about",
     },
     openGraph: {
+        title: "About Us | Stranger Mingle",
+        description: "Learn more about Stranger Mingle mission to build safe communities across India through organized weekend events and meetups.",
         url: "/about",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

@@ -23,7 +23,11 @@ export const metadata: Metadata = {
         canonical: "/terms",
     },
     openGraph: {
+        title: "Terms of Service | Stranger Mingle",
+        description: "The rules and guidelines for using Stranger Mingle. Understand your rights and responsibilities as a community member.",
         url: "/terms",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

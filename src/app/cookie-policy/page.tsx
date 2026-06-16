@@ -8,7 +8,11 @@ export const metadata: Metadata = {
     canonical: "/cookie-policy",
   },
     openGraph: {
+        title: "Cookie Policy | Stranger Mingle",
+        description: "Learn how Stranger Mingle uses cookies to improve your experience and how you can manage your preferences.",
         url: "/cookie-policy",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

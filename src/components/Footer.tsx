@@ -125,7 +125,7 @@ export default function Footer() {
                                 rel="opener referrer"
                                 className="hover:text-blue-600 ml-1"
                             >
-                                StrangerMingle
+                                Salty Media Production (opc) Pvt Ltd
                             </a>.
                             All rights reserved.
                         </p>

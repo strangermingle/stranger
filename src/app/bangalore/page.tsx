@@ -18,7 +18,11 @@ export const metadata: Metadata = {
         canonical: "/bangalore",
     },
     openGraph: {
+        title: "Bengaluru Weekend Meetups & Events for making new friends",
+        description: "Join curated stranger meetups and social events in Bengaluru. Meet interesting people in Koramangala, Indiranagar, HSR Layout, and Whitefield. Small groups. Safe. Fun.",
         url: "/bangalore",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

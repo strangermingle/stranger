@@ -53,7 +53,11 @@ export const metadata: Metadata = {
         canonical: "/team",
     },
     openGraph: {
+        title: "Meet the Team | Stranger Mingle",
+        description: "Meet the passionate team behind Stranger Mingle, building a more connected world through shared experiences and genuine friendships.",
         url: "/team",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

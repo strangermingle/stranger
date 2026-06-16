@@ -18,7 +18,11 @@ export const metadata: Metadata = {
         canonical: "/visakhapatnam",
     },
     openGraph: {
+        title: "Visakhapatnam - Meetups, Events & Making Friends in Vizag",
+        description: "Join curated stranger meetups and social events in Visakhapatnam. Meet new people in MVP Colony, Rushikonda, Gajuwaka, and Beach Road. Small groups. Verified. Safe. Real fun.",
         url: "/visakhapatnam",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

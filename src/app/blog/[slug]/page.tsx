@@ -28,6 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: `${post.title} | Stranger Mingle Blog`,
         description: post.excerpt,
         openGraph: {
+            title: `${post.title} | Stranger Mingle Blog`,
+            description: post.excerpt,
+            url: `https://www.strangermingle.com/blog/${slug}`,
+            type: 'article',
             images: [post.image],
         },
         alternates: {

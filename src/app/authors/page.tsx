@@ -10,7 +10,11 @@ export const metadata: Metadata = {
         canonical: '/authors',
     },
     openGraph: {
+        title: "Authors | Stranger Mingle Blog",
+        description: "Meet the authors behind Stranger Mingle blog posts.",
         url: "/authors",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

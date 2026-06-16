@@ -39,7 +39,11 @@ export const metadata: Metadata = {
         canonical: "/live-online-games",
     },
     openGraph: {
+        title: "Live Online Games Hub | Play & Connect - Stranger Mingle",
+        description: "Challenge a friend or test your skills against the board. Real-time strategy at your fingertips.",
         url: "/live-online-games",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

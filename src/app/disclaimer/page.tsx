@@ -27,7 +27,11 @@ export const metadata: Metadata = {
         canonical: "/disclaimer",
     },
     openGraph: {
+        title: "Disclaimer | Stranger Mingle",
+        description: "Legal disclaimer and terms for participating in Stranger Mingle events and using our community platform.",
         url: "/disclaimer",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

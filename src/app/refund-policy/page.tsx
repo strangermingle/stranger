@@ -22,7 +22,11 @@ export const metadata: Metadata = {
         canonical: "/refund-policy",
     },
     openGraph: {
+        title: "Refund and Cancellation Policy | Stranger Mingle",
+        description: "Understand the terms for refunds and cancellations of Stranger Mingle events and memberships.",
         url: "/refund-policy",
+        type: "website",
+        images: ["/images/og-images/og-image-default.webp"],
     }
 
 };

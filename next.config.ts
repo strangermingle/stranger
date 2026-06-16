@@ -38,6 +38,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'i.pravatar.cc',
       },
+      {
+        protocol: 'https',
+        hostname: 'blogger.googleusercontent.com',
+        pathname: '/**',
+      },
     ],
   },
   async redirects() {
