@@ -158,7 +158,7 @@ export default async function VadodaraCityPage() {
                         </div>
                         <div className="relative aspect-square">
                             <Image
-                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768620120/diverse-young-people-talking-coffee-shop_doxz0c.jpg"
+                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1781635420/pune-event_lflo6b_gs7vgu.jpg"
                                 alt="Strangers becoming friends at a Vadodara meetup"
                                 fill
                                 className="object-cover rounded-3xl"
@@ -278,7 +278,7 @@ export default async function VadodaraCityPage() {
                 </div>
             </section>
 
-            
+
             {/* Upcoming Activities for Vadodara */}
             {/* Facebook Group CTA */}
             <FacebookGroupCTA />
@@ -302,7 +302,7 @@ export default async function VadodaraCityPage() {
                                     "cssSelector": ["#city-hero-description"]
                                 }
                             },
-                        {
+                            {
                                 "@type": "Place",
                                 "name": "Vadodara",
                                 "description": "Vadodara city area where Stranger Mingle hosts weekend events.",
@@ -314,21 +314,21 @@ export default async function VadodaraCityPage() {
                             },
                             {
                                 "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Vadodara",
-                                    "item": "https://www.strangermingle.com/vadodara"
-                                }
-                            ]
-                        }
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Vadodara",
+                                        "item": "https://www.strangermingle.com/vadodara"
+                                    }
+                                ]
+                            }
                         ]
                     })
                 }}

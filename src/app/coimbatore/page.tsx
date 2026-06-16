@@ -159,7 +159,7 @@ export default async function CoimbatoreCityPage() {
                         </div>
                         <div className="relative aspect-square">
                             <Image
-                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768620120/diverse-young-people-talking-coffee-shop_doxz0c.jpg"
+                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1781635420/pune-event_lflo6b_gs7vgu.jpg"
                                 alt="Strangers becoming friends at a Coimbatore meetup"
                                 fill
                                 className="object-cover rounded-3xl"
@@ -303,7 +303,7 @@ export default async function CoimbatoreCityPage() {
                                     "cssSelector": ["#city-hero-description"]
                                 }
                             },
-                        {
+                            {
                                 "@type": "Place",
                                 "name": "Coimbatore",
                                 "description": "Coimbatore city area where Stranger Mingle hosts weekend events.",
@@ -315,21 +315,21 @@ export default async function CoimbatoreCityPage() {
                             },
                             {
                                 "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Coimbatore",
-                                    "item": "https://www.strangermingle.com/coimbatore"
-                                }
-                            ]
-                        }
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Coimbatore",
+                                        "item": "https://www.strangermingle.com/coimbatore"
+                                    }
+                                ]
+                            }
                         ]
                     })
                 }}

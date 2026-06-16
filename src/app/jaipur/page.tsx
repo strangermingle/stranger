@@ -139,7 +139,7 @@ export default async function JaipurCityPage() {
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <div className="relative aspect-square order-last lg:order-first">
                             <Image
-                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768620120/diverse-young-people-talking-coffee-shop_doxz0c.jpg"
+                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1781635420/pune-event_lflo6b_gs7vgu.jpg"
                                 alt="Stranger Mingle social meetup in Jaipur cafe"
                                 fill
                                 className="object-cover rounded-3xl"
@@ -302,7 +302,7 @@ export default async function JaipurCityPage() {
                                     "cssSelector": ["#city-hero-description"]
                                 }
                             },
-                        {
+                            {
                                 "@type": "Place",
                                 "name": "Jaipur",
                                 "description": "Jaipur city area where Stranger Mingle hosts weekend events.",
@@ -314,21 +314,21 @@ export default async function JaipurCityPage() {
                             },
                             {
                                 "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Jaipur",
-                                    "item": "https://www.strangermingle.com/jaipur"
-                                }
-                            ]
-                        }
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Jaipur",
+                                        "item": "https://www.strangermingle.com/jaipur"
+                                    }
+                                ]
+                            }
                         ]
                     })
                 }}

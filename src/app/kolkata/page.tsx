@@ -158,7 +158,7 @@ export default async function KolkataCityPage() {
                         </div>
                         <div className="relative aspect-square">
                             <Image
-                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768620120/diverse-young-people-talking-coffee-shop_doxz0c.jpg"
+                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1781635420/pune-event_lflo6b_gs7vgu.jpg"
                                 alt="Kolkata Meetup"
                                 fill
                                 className="object-cover rounded-3xl"
@@ -278,7 +278,7 @@ export default async function KolkataCityPage() {
                 </div>
             </section>
 
-            
+
             {/* Upcoming Activities for Kolkata */}
             {/* Facebook Group CTA */}
             <FacebookGroupCTA />
@@ -302,7 +302,7 @@ export default async function KolkataCityPage() {
                                     "cssSelector": ["#city-hero-description"]
                                 }
                             },
-                        {
+                            {
                                 "@type": "Place",
                                 "name": "Kolkata",
                                 "description": "Kolkata city area where Stranger Mingle hosts weekend events.",
@@ -314,21 +314,21 @@ export default async function KolkataCityPage() {
                             },
                             {
                                 "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Kolkata",
-                                    "item": "https://www.strangermingle.com/kolkata"
-                                }
-                            ]
-                        }
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Kolkata",
+                                        "item": "https://www.strangermingle.com/kolkata"
+                                    }
+                                ]
+                            }
                         ]
                     })
                 }}

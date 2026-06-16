@@ -158,7 +158,7 @@ export default async function HyderabadCityPage() {
                         </div>
                         <div className="relative aspect-square">
                             <Image
-                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1768620120/diverse-young-people-talking-coffee-shop_doxz0c.jpg"
+                                src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1781635420/pune-event_lflo6b_gs7vgu.jpg"
                                 alt="Hyderabad Meetup"
                                 fill
                                 className="object-cover rounded-3xl"
@@ -302,7 +302,7 @@ export default async function HyderabadCityPage() {
                                     "cssSelector": ["#city-hero-description"]
                                 }
                             },
-                        {
+                            {
                                 "@type": "Place",
                                 "name": "Hyderabad",
                                 "description": "Hyderabad city area where Stranger Mingle hosts weekend events.",
@@ -314,21 +314,21 @@ export default async function HyderabadCityPage() {
                             },
                             {
                                 "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Home",
-                                    "item": "https://www.strangermingle.com"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Hyderabad",
-                                    "item": "https://www.strangermingle.com/hyderabad"
-                                }
-                            ]
-                        }
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://www.strangermingle.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Hyderabad",
+                                        "item": "https://www.strangermingle.com/hyderabad"
+                                    }
+                                ]
+                            }
                         ]
                     })
                 }}
