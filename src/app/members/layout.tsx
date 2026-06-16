@@ -23,8 +23,6 @@ export const metadata: Metadata = {
         type: "website",
         images: ["/images/og-images/og-image-default.webp"],
     },
-    ],
-  },
 };
 
 export default function MembersLayout({
