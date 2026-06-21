@@ -10,6 +10,7 @@ import FeaturedEvents from "@/components/event/FeaturedEvents";
 import TrendingEvents from "@/components/event/TrendingEvents";
 import WeekendEvents from "@/components/event/WeekendEvents";
 import FacebookGroupCTA from "@/components/FacebookGroupCTA";
+import SocialMediaQRSection from "@/components/SocialMediaQRSection";
 import { ArrowRight, Coffee, Mountain, Palette, HandHeart, Monitor, MapPin, ShieldCheck, MessageSquare } from "lucide-react";
 
 const CITIES = [
@@ -44,13 +45,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-    openGraph: {
-        title: "Weekend Events & Stranger Meetups in Pune, Hyderabad, Bengaluru",
-        description: "Join weekend events, stranger meetups and friendship groups in Pune, Hyderabad & Bengaluru. Small groups. Safe.",
-        url: "/",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
+  openGraph: {
+    title: "Weekend Events & Stranger Meetups in Pune, Hyderabad, Bengaluru",
+    description: "Join weekend events, stranger meetups and friendship groups in Pune, Hyderabad & Bengaluru. Small groups. Safe.",
+    url: "/",
+    type: "website",
+    images: ["/images/og-images/og-image-default.webp"],
+  }
 
 };
 
@@ -182,22 +183,22 @@ export default async function Home() {
             {/* Decorative Background Elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-xl blur-[80px] -mr-32 -mt-32" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/20 rounded-xl blur-[80px] -ml-32 -mb-32" />
-            
+
             <div className="relative z-10 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-xs font-black uppercase tracking-widest mb-6">
-                <ShieldCheck className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-[8px] font-bold uppercase tracking-widest mb-2">
+                <ShieldCheck className="w-2 h-2" />
                 Verified Members Only
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight tracking-wider italic">
+              <h2 className="text-[12px] md:text-[24px] font-bold text-white mb-1 leading-tight tracking-wider italic">
                 Anonymous Chat <br />
                 <span className="text-yellow-300 italic">with verified strangers</span>
               </h2>
-              <p className="text-indigo-100/80 text-xs md:text-sm font-medium leading-relaxed mb-8">
+              <p className="text-indigo-100/80 text-[8px] md:text-[12px] font-medium leading-relaxed mb-2">
                 Mingle without the pressure. Access our exclusive anonymous chat room once you&apos;re a verified member. No real names, no profiles—just pure connection.
               </p>
-              <Link 
-                href="/members" 
-                className="inline-flex items-center gap-3 px-4 py-4 border border-white bg-yellow-300 hover:bg-yellow-400 text-black rounded-2xl font-bold text-lg transition-all hover:scale-105 shadow-xl shadow-indigo-500/20 active:scale-95 group"
+              <Link
+                href="/members"
+                className="inline-flex items-center gap-3 px-2 py-2 border border-white bg-yellow-300 hover:bg-yellow-400 text-black rounded-2xl font-bold text-lg transition-all hover:scale-105 shadow-xl shadow-indigo-500/20 active:scale-95 group"
               >
                 Join the Exclusive Club
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -211,25 +212,25 @@ export default async function Home() {
                   <div className="flex flex-col gap-6">
                     <div className="flex justify-start">
                       <div className="bg-indigo-700/50 rounded-2xl p-4 max-w-[80%] border border-indigo-500/20">
-                        <p className="text-[12px] text-yellow-400 font-regular mb-1 tracking-wide">Stranger6721</p>
-                        <p className="text-xs text-white">Hey! Any plans for tonight? </p>
+                        <p className="text-[8px] text-yellow-400 font-regular mb-1 tracking-wide">Stranger6721</p>
+                        <p className="text-[10px] text-white">Hey! Any plans for tonight? </p>
                       </div>
                     </div>
                     <div className="flex justify-end">
                       <div className="bg-indigo-600 rounded-2xl p-4 max-w-[80%] shadow-lg border border-indigo-400/30">
-                        <p className="text-[10px] text-indigo-200 font-regular mb-1 tracking-wide">You</p>
-                        <p className="text-xs text-white font-medium">Looking for people to join me for the board game 🎲</p>
+                        <p className="text-[8px] text-indigo-200 font-regular mb-1 tracking-wide">You</p>
+                        <p className="text-[10px] text-white font-medium">Looking for people to join me for the board game 🎲</p>
                       </div>
                     </div>
                     <div className="flex justify-start">
                       <div className="bg-indigo-700/50 rounded-2xl p-4 max-w-[80%] border border-indigo-500/20">
-                        <p className="text-[12px] text-yellow-400 font-regular mb-1 tracking-wide">Stranger6721</p>
-                        <p className="text-xs text-white">Count me in! I&apos;ve been wanting to try Catan. 🙋‍♂️</p>
+                        <p className="text-[8px] text-yellow-400 font-regular mb-1 tracking-wide">Stranger6721</p>
+                        <p className="text-[10px] text-white">Count me in! I&apos;ve been wanting to try Catan. 🙋‍♂️</p>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-8 flex items-center gap-3 border-t border-indigo-500/20 pt-6">
-                    <div className="w-10 h-10 rounded-full bg-indigo-700 flex items-center justify-center">
+                  <div className="mt-4 flex items-center gap-3 border-t border-indigo-500/20 pt-2">
+                    <div className="w-6 h-6 rounded-full bg-indigo-700 flex items-center justify-center">
                       <MessageSquare className="w-5 h-5 text-indigo-300" />
                     </div>
                     <div className="h-2 flex-grow bg-indigo-900/50 rounded-full" />
@@ -255,7 +256,7 @@ export default async function Home() {
             {/* Edge Gradients */}
             <div className="absolute left-0 top-0 bottom-0 w-24 bg-linear-to-r from-white/80 via-white/40 to-transparent z-10 pointer-events-none"></div>
             <div className="absolute right-0 top-0 bottom-0 w-24 bg-linear-to-l from-white/80 via-white/40 to-transparent z-10 pointer-events-none"></div>
-            
+
             <div className="flex animate-scroll no-scrollbar py-4 gap-10 items-center w-max">
               {[...CITIES, ...CITIES].map((city, idx) => (
                 <Link
@@ -485,61 +486,8 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* WhatsApp Channel Section */}
-        <section className="w-full bg-linear-to-b from-blue-50 to-white py-20 border-y border-blue-100">
-          <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-12">
-            <div className="flex-1 text-center md:text-left">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-bold uppercase tracking-wider mb-6">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                Join Our Community
-              </span>
-              <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                Get Updates <br className="hidden sm:block" /> on WhatsApp
-              </h2>
-              <p className="text-xl text-gray-600 max-w-xl mb-8 leading-relaxed">
-                Be the first to know about new meetups, weekend events, and exclusive community news. Join our official WhatsApp channel.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <a
-                  href="https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-8 py-4 bg-green-600 text-white hover:bg-green-700 rounded-xl font-bold text-lg transition-all transform hover:scale-105 flex items-center justify-center gap-3 shadow-lg shadow-green-200"
-                >
-                  Join Channel
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 448 512"><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" /></svg>
-                </a>
-              </div>
-            </div>
-            <div className="flex-1 flex justify-center">
-              <div className="relative group p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transition-transform hover:rotate-2">
-                <a
-                  href="https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block relative"
-                >
-                  <div className="absolute -inset-1 bg-linear-to-r from-green-400 to-blue-500 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                  <div className="relative bg-white rounded-2xl overflow-hidden">
-                    <Image
-                      src="/qr-code-whatsapp.png"
-                      alt="WhatsApp Channel QR Code"
-                      width={300}
-                      height={300}
-                      className="w-full h-auto p-2"
-                      unoptimized
-                    />
-                  </div>
-                  <div className="mt-4 text-center">
-                    <p className="text-sm font-bold text-gray-500 bg-gray-50 py-2 rounded-lg group-hover:text-green-600 transition-colors">
-                      Scan or click to follow
-                    </p>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Social Media Section */}
+        <SocialMediaQRSection />
 
 
         {/* FAQs Section */}
@@ -550,47 +498,47 @@ export default async function Home() {
           </div>
           <div className="space-y-4">
             <details className="group bg-white border border-gray-200 rounded-2xl p-6 transition-all hover:border-blue-300">
-              <summary className="font-bold text-lg text-gray-900 cursor-pointer list-none flex items-center justify-between">
+              <summary className="font-bold text-xs text-gray-900 cursor-pointer list-none flex items-center justify-between">
                 What is Stranger Mingle and how does it work?
                 <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
               </summary>
-              <p className="text-gray-600 mt-4 leading-relaxed">
+              <p className="text-gray-600 mt-4 text-xs leading-relaxed">
                 Stranger Mingle is a community platform for making real friends through organized weekend events in Indian cities. Browse events, register, and just show up – we handle the introductions and ice-breakers to ensure you have a great time and make genuine connections.
               </p>
             </details>
             <details className="group bg-white border border-gray-200 rounded-2xl p-6 transition-all hover:border-blue-300">
-              <summary className="font-bold text-lg text-gray-900 cursor-pointer list-none flex items-center justify-between">
+              <summary className="font-bold text-xs text-gray-900 cursor-pointer list-none flex items-center justify-between">
                 Is Stranger Mingle safe for women?
                 <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
               </summary>
-              <p className="text-gray-600 mt-4 leading-relaxed">
+              <p className="text-gray-600 mt-4 text-xs leading-relaxed">
                 Absolutely. We have a zero-tolerance policy for harassment and maintain strict safety protocols. All participants are verified, events are held in public locations, and our organizers are trained to ensure a safe and comfortable environment for everyone.
               </p>
             </details>
             <details className="group bg-white border border-gray-200 rounded-2xl p-6 transition-all hover:border-blue-300">
-              <summary className="font-bold text-lg text-gray-900 cursor-pointer list-none flex items-center justify-between">
+              <summary className="font-bold text-xs text-gray-900 cursor-pointer list-none flex items-center justify-between">
                 How much do events cost?
                 <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
               </summary>
-              <p className="text-gray-600 mt-4 leading-relaxed">
+              <p className="text-gray-600 mt-4 text-xs leading-relaxed">
                 Most events range from ₹49 to ₹1999. These fees go directly toward supporting the platform, booking venues, and organizing activities. We keep it sustainable and community-focused rather than profit-driven.
               </p>
             </details>
             <details className="group bg-white border border-gray-200 rounded-2xl p-6 transition-all hover:border-blue-300">
-              <summary className="font-bold text-lg text-gray-900 cursor-pointer list-none flex items-center justify-between">
+              <summary className="font-bold text-xs text-gray-900 cursor-pointer list-none flex items-center justify-between">
                 Who attends these events?
                 <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
               </summary>
-              <p className="text-gray-600 mt-4 leading-relaxed">
+              <p className="text-gray-600 mt-4 text-xs leading-relaxed">
                 Our members are mostly young professionals, students, and people new to the city looking for platonic friendships. Whether you&apos;re an introvert or extrovert, you&apos;ll find a welcoming space. About 80% of people show up alone!
               </p>
             </details>
             <details className="group bg-white border border-gray-200 rounded-2xl p-6 transition-all hover:border-blue-300">
-              <summary className="font-bold text-lg text-gray-900 cursor-pointer list-none flex items-center justify-between">
+              <summary className="font-bold text-xs text-gray-900 cursor-pointer list-none flex items-center justify-between">
                 Which cities are you present in?
                 <svg className="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
               </summary>
-              <p className="text-gray-600 mt-4 leading-relaxed">
+              <p className="text-gray-600 mt-4 text-xs leading-relaxed">
                 We are currently active in Pune and expanding rapidly to Mumbai, Hyderabad, Bengaluru, and Delhi. Keep an eye on our events page for meetups in your city!
               </p>
             </details>

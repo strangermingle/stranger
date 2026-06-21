@@ -9,21 +9,21 @@ export default function FacebookGroupCTA() {
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
         
         <div className="relative z-10 max-w-3xl flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-sm font-bold uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-[12px] font-bold uppercase tracking-widest mb-2">
             <Users className="w-4 h-4" />
             Members Only
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4 leading-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white text-[20px] mb-2 leading-tight">
             Join Our Private Facebook Group
           </h2>
-          <p className="text-blue-100 text-lg sm:text-xl font-medium leading-relaxed mb-8 max-w-2xl">
+          <p className="text-blue-100 text-[12px] sm:text-xl font-medium leading-relaxed mb-2 max-w-2xl">
             Want to see who's coming to the next event? Join our private Facebook community to connect with other members, plan pre-meetups, and stay in touch after the events!
           </p>
           <a 
             href="https://www.facebook.com/groups/strangermingle" 
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-700 hover:bg-blue-50 hover:text-blue-800 rounded-xl font-bold text-lg transition-all hover:scale-105 shadow-xl group"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white text-blue-700 hover:bg-blue-50 hover:text-blue-800 rounded-xl font-bold text-[16px] transition-all hover:scale-105 shadow-xl group"
           >
             Join Facebook Group
             <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
