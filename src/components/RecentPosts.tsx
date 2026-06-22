@@ -29,7 +29,7 @@ export default function RecentPosts({ excludeSlug, limit = 4 }: RecentPostsProps
                         className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-gray-200 block"
                     >
                         <div className="relative h-40 w-full">
-                            <Image
+                            <Image sizes="(max-width: 1024px) 50vw, 320px"
                                 src={post.image || '/images/default-blog.jpg'}
                                 alt={post.title || 'Blog Post'}
                                 fill

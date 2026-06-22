@@ -16,7 +16,7 @@ export default function EventCohosts({ cohosts }: { cohosts: EventCohost[] }) {
                     <div key={cohost.id} className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50/50 border border-gray-100 hover:border-blue-100 transition-colors">
                         <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-blue-50 flex items-center justify-center">
                             {cohost.user?.avatar_url ? (
-                                <Image 
+                                <Image sizes="40px" 
                                     src={cohost.user.avatar_url} 
                                     alt={cohost.user.username} 
                                     fill 

@@ -43,7 +43,7 @@ export default function EventGallery({ images }: { images: EventImage[] }) {
                         className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group bg-gray-100 border border-gray-100"
                         onClick={() => setActiveIndex(index)}
                     >
-                        <Image 
+                        <Image sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 300px" 
                             src={img.image_url} 
                             alt={img.alt_text || "Event image"} 
                             fill 
@@ -105,7 +105,7 @@ export default function EventGallery({ images }: { images: EventImage[] }) {
                         className="relative w-full max-w-5xl aspect-video md:aspect-[16/10] lg:aspect-[3/2]"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <Image 
+                        <Image sizes="(max-width: 1024px) 100vw, 1024px" 
                             src={images[activeIndex].image_url} 
                             alt={images[activeIndex].alt_text || "Full event image"} 
                             fill 

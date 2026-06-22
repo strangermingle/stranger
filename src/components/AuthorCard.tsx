@@ -17,7 +17,7 @@ export default function AuthorCard({ authorName }: AuthorCardProps) {
         <div className="mt-12 pt-8 border-t border-gray-200">
             <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
                 <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 shrink-0">
-                    <Image
+                    <Image sizes="80px"
                         src={author.image}
                         alt={author.name}
                         fill

@@ -50,7 +50,7 @@ export default async function AhmedabadCityPage() {
             {/* Hero Section */}
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <Image
+                    <Image sizes="100vw"
                         src="https://res.cloudinary.com/strangermingle/image/upload/v1774870096/Ahmedabad-stranger-mingle-weekend-events-friends-place_igmmm4.jpg"
                         alt="People at a social meetup in Ahmedabad"
                         fill
@@ -195,7 +195,7 @@ export default async function AhmedabadCityPage() {
                             </div>
                         </div>
                         <div className="relative aspect-square">
-                            <Image
+                            <Image sizes="(max-width: 1024px) 100vw, 50vw"
                                 src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775676269/14590_piqsow.jpg"
                                 alt="Friends at a Stranger Mingle event in Ahmedabad"
                                 fill
@@ -232,7 +232,7 @@ export default async function AhmedabadCityPage() {
                                     className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100"
                                 >
                                     <div className="relative h-48 w-full">
-                                        <Image
+                                        <Image sizes="(max-width: 768px) 100vw, 33vw"
                                             src={post.image || '/images/default-blog.jpg'}
                                             alt={post.title}
                                             fill

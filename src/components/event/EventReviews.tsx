@@ -86,7 +86,7 @@ export default function EventReviews({ event, user, bookings, compact }: EventRe
                                         <div className="flex items-center gap-4">
                                             <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md bg-blue-50 flex items-center justify-center">
                                                 {review.user?.avatar_url ? (
-                                                    <Image 
+                                                    <Image sizes="56px" 
                                                         src={review.user.avatar_url} 
                                                         alt={review.user.username} 
                                                         fill 

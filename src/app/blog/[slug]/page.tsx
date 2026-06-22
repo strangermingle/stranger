@@ -91,7 +91,7 @@ export default async function Post({ params }: Props) {
 
                         {/* Featured Image */}
                         <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-12 shadow-lg">
-                            <Image
+                            <Image sizes="(max-width: 768px) 100vw, 768px"
                                 src={post.image}
                                 alt={post.title}
                                 fill

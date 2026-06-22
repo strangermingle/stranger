@@ -52,7 +52,7 @@ export default function SocialMediaQRSection() {
             >
               <div className="absolute -inset-1 bg-linear-to-r from-green-400 to-green-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
               <div className="relative bg-white rounded-xl overflow-hidden aspect-square">
-                <Image
+                <Image sizes="(max-width: 480px) 50vw, 224px"
                   src="/whatsapp.jpg"
                   alt="WhatsApp Channel QR Code"
                   fill
@@ -77,7 +77,7 @@ export default function SocialMediaQRSection() {
             >
               <div className="absolute -inset-1 bg-linear-to-r from-pink-500 to-purple-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
               <div className="relative bg-white rounded-xl overflow-hidden aspect-square">
-                <Image
+                <Image sizes="(max-width: 480px) 50vw, 224px"
                   src="/instagram.jpg"
                   alt="Instagram QR Code"
                   fill
@@ -102,7 +102,7 @@ export default function SocialMediaQRSection() {
             >
               <div className="absolute -inset-1 bg-linear-to-r from-blue-500 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
               <div className="relative bg-white rounded-xl overflow-hidden aspect-square">
-                <Image
+                <Image sizes="(max-width: 480px) 50vw, 224px"
                   src="/facebook.jpg"
                   alt="Facebook QR Code"
                   fill
@@ -127,7 +127,7 @@ export default function SocialMediaQRSection() {
             >
               <div className="absolute -inset-1 bg-linear-to-r from-orange-500 to-red-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
               <div className="relative bg-white rounded-xl overflow-hidden aspect-square">
-                <Image
+                <Image sizes="(max-width: 480px) 50vw, 224px"
                   src="/reddit.jpg"
                   alt="Reddit QR Code"
                   fill

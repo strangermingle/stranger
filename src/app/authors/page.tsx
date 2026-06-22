@@ -47,7 +47,7 @@ export default function AuthorsPage() {
                             <div className="p-8">
                                 <div className="flex flex-col items-center text-center mb-6">
                                     <div className="relative w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-gray-100">
-                                        <Image
+                                        <Image sizes="128px"
                                             src={author.image}
                                             alt={author.name}
                                             fill

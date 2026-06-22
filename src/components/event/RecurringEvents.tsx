@@ -67,7 +67,7 @@ export default function RecurringEvents({ limit = 4, currentEventId }: Recurring
                             {/* Image Header */}
                             <div className="relative aspect-[2/1] overflow-hidden">
                                 {event.cover_image_url ? (
-                                    <Image
+                                    <Image sizes="(max-width: 1024px) 50vw, 320px"
                                         src={event.cover_image_url}
                                         alt={event.title}
                                         fill

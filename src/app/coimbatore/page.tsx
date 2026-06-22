@@ -50,7 +50,7 @@ export default async function CoimbatoreCityPage() {
             {/* Hero Section */}
             <section className="relative w-full pt-32 pb-20 sm:pt-40 sm:pb-32 flex flex-col items-center text-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <Image
+                    <Image sizes="100vw"
                         src="https://res.cloudinary.com/strangermingle/image/upload/q_auto/f_auto/v1775676269/14590_piqsow.jpg"
                         alt="Stranger weekend Meetup event in Coimbatore"
                         fill
@@ -158,7 +158,7 @@ export default async function CoimbatoreCityPage() {
                             </div>
                         </div>
                         <div className="relative aspect-square">
-                            <Image
+                            <Image sizes="(max-width: 1024px) 100vw, 50vw"
                                 src="https://res.cloudinary.com/dt3rse8bg/image/upload/v1781635420/pune-event_lflo6b_gs7vgu.jpg"
                                 alt="Strangers becoming friends at a Coimbatore meetup"
                                 fill
@@ -233,7 +233,7 @@ export default async function CoimbatoreCityPage() {
                                     className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100"
                                 >
                                     <div className="relative h-48 w-full">
-                                        <Image
+                                        <Image sizes="(max-width: 768px) 100vw, 33vw"
                                             src={post.image || '/images/default-blog.jpg'}
                                             alt={post.title}
                                             fill

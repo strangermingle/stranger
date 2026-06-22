@@ -58,7 +58,7 @@ export default function BlogIndex() {
                                     className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 block border border-gray-200"
                                 >
                                     <div className="relative h-48 w-full">
-                                        <Image
+                                        <Image sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 320px"
                                             src={post.image || '/images/default-blog.jpg'}
                                             alt={post.title || 'Blog Post'}
                                             fill

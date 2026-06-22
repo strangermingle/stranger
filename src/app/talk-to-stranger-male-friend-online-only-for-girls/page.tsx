@@ -69,7 +69,7 @@ export default function ForWomenPage() {
               <div className="flex">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-gray-200 overflow-hidden relative -ml-2 first:ml-0">
-                    <Image
+                    <Image sizes="40px"
                       src={`https://i.pravatar.cc/100?u=woman${i + 20}`}
                       alt="Member"
                       fill
@@ -187,7 +187,7 @@ export default function ForWomenPage() {
       <section className="py-24 max-w-7xl mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl order-last lg:order-first">
-            <Image
+            <Image sizes="(max-width: 1024px) 100vw, 640px"
               src="https://res.cloudinary.com/strangermingle/image/upload/v1774261273/full-shot-friends-with-fireworks_tijjpi.jpg"
               alt="Indian women relaxing and talking"
               fill

@@ -205,7 +205,7 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
                         <div className="flex gap-4">
                             {event.cover_image_url && (
                                 <div className="relative w-24 h-24 rounded-xl overflow-hidden shrink-0">
-                                    <Image src={event.cover_image_url} alt={event.title} fill className="object-cover" />
+                                    <Image sizes="96px" src={event.cover_image_url} alt={event.title} fill className="object-cover" />
                                 </div>
                             )}
                             <div className="flex-1">

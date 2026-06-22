@@ -362,7 +362,7 @@ export default function MediaKitPage() {
             ].map((img) => (
               <div key={img.src} className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <div className="aspect-square relative overflow-hidden">
-                  <Image src={img.src} alt={img.name} fill className="object-cover transition-transform duration-300 group-hover:scale-105" unoptimized />
+                  <Image sizes="(max-width: 640px) 50vw, 300px" src={img.src} alt={img.name} fill className="object-cover transition-transform duration-300 group-hover:scale-105" unoptimized />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <a href={img.src} download className="bg-white text-gray-900 px-4 py-2 rounded-lg text-xs font-bold shadow-lg">Download ↓</a>
                   </div>

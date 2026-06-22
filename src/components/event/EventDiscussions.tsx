@@ -249,7 +249,7 @@ function MessageItem({ msg, userId, onReply, onLike, onDelete, isReply = false }
                 <div className="shrink-0">
                     <div className="relative w-10 md:w-12 h-10 md:h-12 rounded-2xl overflow-hidden bg-gray-100 ring-2 ring-white shadow-xl">
                         {msg.user?.avatar_url ? (
-                            <Image src={msg.user.avatar_url} alt={msg.user.username} fill className="object-cover" />
+                            <Image sizes="(max-width: 768px) 40px, 48px" src={msg.user.avatar_url} alt={msg.user.username} fill className="object-cover" />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-gray-200 to-gray-300 text-gray-400 font-black text-xs">
                                 {msg.user?.username?.[0] || '?'}

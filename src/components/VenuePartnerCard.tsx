@@ -27,7 +27,7 @@ export default function VenuePartnerCard({ venue, onViewOnMap }: VenuePartnerCar
                 {/* Visual Header */}
                 <div className="relative aspect-[16/9] overflow-hidden bg-gray-50">
                     {venue.cover_image_url ? (
-                        <Image
+                        <Image sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 426px"
                             src={venue.cover_image_url}
                             alt={venue.venue_name}
                             fill
