@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Kanpur - Meetups, Events & Making Friends in Kanpur",
         description: "Join curated stranger meetups and events in Kanpur. Meet new people in Civil Lines, Swaroop Nagar, Kidwai Nagar, and Harsh Nagar. Small groups. Safe. Fun.",
         url: "/kanpur",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function KanpurCityPage() {

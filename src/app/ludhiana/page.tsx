@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Ludhiana - Meetups, Events & Making New Friends in Ludhiana",
         description: "Join curated stranger meetups and social events in Ludhiana. Meet interesting people in Sarabha Nagar, Model Town, Civil Lines, and BRS Nagar. Small groups. Safe. Genuinely fun.",
         url: "/ludhiana",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function LudhianaCityPage() {

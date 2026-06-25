@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Social Coaching & 1-on-1 Sessions | Stranger Mingle",
-  description: "Get guided support for social confidence and building platonic friendships. Our trained facilitators help you navigate loneliness and social anxiety.",
-  alternates: {
-    canonical: "/social-coaching",
-  },
+    title: "Social Coaching & 1-on-1 Sessions",
+    description: "Get guided support for social confidence and building platonic friendships. Our trained facilitators help you navigate loneliness and social anxiety.",
+    alternates: {
+        canonical: "/social-coaching",
+    },
+    openGraph: {
+        title: "Social Coaching & 1-on-1 Sessions",
+        description: "Get guided support for social confidence and building platonic friendships. Our trained facilitators help you navigate loneliness and social anxiety.",
+        url: "/social-coaching",
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 
@@ -408,7 +424,7 @@ export default function SocialCoachingPage() {
             >
               Book via Member Portal
             </a>
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Social Coaching Session Enquiry&body=Hi, I'd like to know more about the social coaching sessions available."
               className="inline-flex items-center justify-center px-8 py-4 border border-white text-white hover:bg-white hover:text-gray-900 font-semibold rounded-md text-base transition-colors"
             >
@@ -417,7 +433,7 @@ export default function SocialCoachingPage() {
           </div>
           <p className="text-gray-500 text-sm mt-6">
             Email:{' '}
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com"
               className="text-gray-300 hover:text-white underline"
             >

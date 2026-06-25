@@ -183,7 +183,7 @@ export default function HostApplicationFormPage() {
           <p className="text-gray-500 text-sm mb-8">
             If you do not hear from us within 7 working days, please check your spam folder
             or follow up at{' '}
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com"
               className="text-blue-600 hover:underline"
             >
@@ -668,7 +668,7 @@ export default function HostApplicationFormPage() {
           <span className="text-gray-600 font-medium">StrangerMingle</span>.
           Submitting an application does not guarantee host approval. All applications are
           reviewed individually. For questions, write to{' '}
-          <a
+          <a rel="nofollow"
             href="mailto:strangermingleteam@gmail.com"
             className="text-blue-600 hover:underline"
           >

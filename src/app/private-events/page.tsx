@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Private Group Events | Stranger Mingle',
-  description: 'Book a private, structured social experience for your close-knit group, college alumni, or community interest group. Facilitated by a verified host.',
-  alternates: {
-    canonical: '/private-events',
-  },
+    title: 'Private Group Events',
+    description: 'Book a private, structured social experience for your close-knit group, college alumni, or community interest group. Facilitated by a verified host.',
+    alternates: {
+        canonical: '/private-events',
+    },
+    openGraph: {
+        title: 'Private Group Events',
+        description: 'Book a private, structured social experience for your close-knit group, college alumni, or community interest group. Facilitated by a verified host.',
+        url: '/private-events',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 const eventTypes = [
   {
@@ -472,7 +488,7 @@ export default function PrivateGroupEventsPage() {
             will not be accepted.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Private Group Event Enquiry — [Your City]&body=Hi, I would like to enquire about booking a private group event. Here are the details:%0A%0ACity:%0AGroup type:%0AApproximate headcount:%0APreferred dates:%0AEvent format preference:%0AAnything else we should know:"
               className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md text-base transition-colors"
             >
@@ -487,7 +503,7 @@ export default function PrivateGroupEventsPage() {
           </div>
           <p className="text-gray-500 text-sm mt-6">
             Email:{' '}
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com"
               className="text-gray-300 hover:text-white underline"
             >

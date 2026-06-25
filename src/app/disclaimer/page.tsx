@@ -21,19 +21,27 @@ import {
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Disclaimer | Stranger Mingle",
+    title: "Disclaimer",
     description: "Legal disclaimer and terms for participating in Stranger Mingle events and using our community platform.",
     alternates: {
         canonical: "/disclaimer",
     },
     openGraph: {
-        title: "Disclaimer | Stranger Mingle",
+        title: "Disclaimer",
         description: "Legal disclaimer and terms for participating in Stranger Mingle events and using our community platform.",
         url: "/disclaimer",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function Disclaimer() {

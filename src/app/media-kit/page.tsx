@@ -3,11 +3,27 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Media Kit | Stranger Mingle',
-  description: 'Press & Media Information for Stranger Mingle. Story angles, brand facts, audience snapshot, and press contact details.',
-  alternates: {
-    canonical: '/media-kit',
-  },
+    title: 'Media Kit',
+    description: 'Press & Media Information for Stranger Mingle. Story angles, brand facts, audience snapshot, and press contact details.',
+    alternates: {
+        canonical: '/media-kit',
+    },
+    openGraph: {
+        title: 'Media Kit',
+        description: 'Press & Media Information for Stranger Mingle. Story angles, brand facts, audience snapshot, and press contact details.',
+        url: '/media-kit',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 const WA_NUMBER = '917411820025';
@@ -145,7 +161,7 @@ export default function MediaKitPage() {
               </svg>
               Press Enquiry on WhatsApp
             </a>
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Press Enquiry — [Publication Name]&body=Hi, I am reaching out with a press or media enquiry about Stranger Mingle.%0A%0AName:%0APublication or platform:%0AType of coverage:%0ADeadline (if any):%0AWhat I need from you:"
               className="inline-flex items-center justify-center px-8 py-4 border border-white text-white hover:bg-white hover:text-gray-900 font-semibold rounded-md text-lg transition-colors"
             >
@@ -377,7 +393,7 @@ export default function MediaKitPage() {
           <div className="bg-blue-50 border border-blue-100 rounded-xl p-6">
             <p className="text-blue-900 text-sm leading-relaxed">
               <strong>Need higher resolution or more assets?</strong> Email{' '}
-              <a
+              <a rel="nofollow"
                 href="mailto:strangermingleteam@gmail.com?subject=Custom Asset Request — [Publication Name]"
                 className="font-semibold underline hover:text-blue-700"
               >
@@ -506,7 +522,7 @@ export default function MediaKitPage() {
               </svg>
               WhatsApp — +91 74118 20025
             </a>
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Press Enquiry — [Publication Name]&body=Hi, I am reaching out with a press or media enquiry about Stranger Mingle.%0A%0AName:%0APublication or platform:%0AType of coverage:%0ADeadline (if any):%0AWhat I need from you:"
               className="inline-flex items-center justify-center px-8 py-4 border border-white text-white hover:bg-white hover:text-gray-900 font-semibold rounded-md text-base transition-colors"
             >
@@ -515,7 +531,7 @@ export default function MediaKitPage() {
           </div>
           <p className="text-gray-500 text-sm mt-6">
             Email:{' '}
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com"
               className="text-gray-300 hover:text-white underline"
             >
@@ -534,7 +550,7 @@ export default function MediaKitPage() {
           All media usage of the Stranger Mingle brand, logo, event imagery, and member
           content is subject to our intellectual property rights and editorial usage guidelines.
           For permissions, contact{' '}
-          <a
+          <a rel="nofollow"
             href="mailto:strangermingleteam@gmail.com"
             className="text-blue-600 hover:underline"
           >

@@ -300,7 +300,7 @@ That someone could be you.
 
 [Read the full host requirements and apply to become a Verified Host at Stranger Mingle](/host-an-event). Applications are reviewed personally by the team within 5–7 working days.
 
-If you have questions before applying, write to [strangermingleteam@gmail.com](mailto:strangermingleteam@gmail.com). The team responds within 48–72 hours.
+If you have questions before applying, write to <a href="mailto:strangermingleteam@gmail.com" rel="nofollow">strangermingleteam@gmail.com</a>. The team responds within 48–72 hours.
 
 Your city's community is waiting to be built. The first step is yours.
 

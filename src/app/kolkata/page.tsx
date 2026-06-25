@@ -12,7 +12,7 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Kolkata - Meetups, Social weekend Events & Making Friends in Kolkata",
+    title: "Stranger Meetups & Social Events in Kolkata",
     description: "Join curated stranger meetups and social events in Kolkata. Meet new people in Park Street, Salt Lake, Ballygunge, and New Town. Small groups. Safe. Good adda.",
     alternates: {
         canonical: "/kolkata",
@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Kolkata - Meetups, Social weekend Events & Making Friends in Kolkata",
         description: "Join curated stranger meetups and social events in Kolkata. Meet new people in Park Street, Salt Lake, Ballygunge, and New Town. Small groups. Safe. Good adda.",
         url: "/kolkata",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function KolkataCityPage() {

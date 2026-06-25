@@ -25,14 +25,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ]);
 
     return {
-        title: `${post.title} | Stranger Mingle Blog`,
+        title: { absolute: `${post.title} | Stranger Mingle Blog` },
         description: post.excerpt,
         openGraph: {
             title: `${post.title} | Stranger Mingle Blog`,
             description: post.excerpt,
             url: `https://www.strangermingle.com/blog/${slug}`,
             type: 'article',
-            images: [post.image],
+            images: post.image ? [post.image] : ['/images/og-images/og-image-default.webp'],
         },
         alternates: {
             canonical: `https://www.strangermingle.com/blog/${slug}`,

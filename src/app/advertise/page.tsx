@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Advertise With Us | Stranger Mingle',
-  description: 'Reach a verified, engaged community of young urban Indians. Explore advertising opportunities with Stranger Mingle.',
-  alternates: {
-    canonical: '/advertise',
-  },
+    title: 'Advertise With Us',
+    description: 'Reach a verified, engaged community of young urban Indians. Explore advertising opportunities with Stranger Mingle.',
+    alternates: {
+        canonical: '/advertise',
+    },
+    openGraph: {
+        title: 'Advertise With Us',
+        description: 'Reach a verified, engaged community of young urban Indians. Explore advertising opportunities with Stranger Mingle.',
+        url: '/advertise',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 const whyAdvertise = [
   {
@@ -23,7 +39,7 @@ const whyAdvertise = [
   },
   {
     icon: '🏙️',
-    title: 'Five of India\'s Most Valuable Urban Markets',
+    title: "Five of India's Most Valuable Urban Markets",
     description:
       'Pune, Mumbai, Bengaluru, Hyderabad, Delhi. India\'s highest-earning, highest-spending urban demographics. Our community skews young professional — employed, independent, and with disposable income actively spent on real experiences.',
   },
@@ -385,7 +401,7 @@ export default function AdvertiseWithUsPage() {
           </div>
           <p className="text-gray-500 text-sm mt-6">
             Prefer email?{' '}
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Advertising Enquiry — [Brand Name]&body=Hi, I would like to enquire about advertising on Stranger Mingle.%0A%0ABrand name:%0AProduct or service category:%0ATarget cities:%0AAnything else:"
               className="text-gray-300 hover:text-white underline"
             >

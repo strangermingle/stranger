@@ -47,19 +47,27 @@ const teamMembers: TeamMember[] = [
 ];
 
 export const metadata: Metadata = {
-    title: "Meet the Team | Stranger Mingle",
+    title: "Meet the Team",
     description: "Meet the passionate team behind Stranger Mingle, building a more connected world through shared experiences and genuine friendships.",
     alternates: {
         canonical: "/team",
     },
     openGraph: {
-        title: "Meet the Team | Stranger Mingle",
+        title: "Meet the Team",
         description: "Meet the passionate team behind Stranger Mingle, building a more connected world through shared experiences and genuine friendships.",
         url: "/team",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function TeamPage() {

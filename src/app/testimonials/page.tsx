@@ -1,19 +1,27 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "User Stories & Testimonials | Stranger Mingle",
+    title: "User Stories & Testimonials",
     description: "Read real stories and experiences from community members who found friendship and connection through Stranger Mingle meetups.",
     alternates: {
         canonical: "/testimonials",
     },
     openGraph: {
-        title: "User Stories & Testimonials | Stranger Mingle",
+        title: "User Stories & Testimonials",
         description: "Read real stories and experiences from community members who found friendship and connection through Stranger Mingle meetups.",
         url: "/testimonials",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function Testimonials() {

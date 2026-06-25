@@ -1,11 +1,27 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Play Chess Online Free - Grandmaster Chess Game',
-  description: 'Play chess online for free with friends. No download required. Instant multiplayer chess game with easy controls. Best free online chess platform in India.',
-  alternates: {
-    canonical: '/live-online-games/chess',
-  },
+    title: 'Play Chess Online Free - Grandmaster Chess Game',
+    description: 'Play chess online for free with friends. No download required. Instant multiplayer chess game with easy controls. Best free online chess platform in India.',
+    alternates: {
+        canonical: '/live-online-games/chess',
+    },
+    openGraph: {
+        title: 'Play Chess Online Free - Grandmaster Chess Game',
+        description: 'Play chess online for free with friends. No download required. Instant multiplayer chess game with easy controls. Best free online chess platform in India.',
+        url: '/live-online-games/chess',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function ChessLayout({

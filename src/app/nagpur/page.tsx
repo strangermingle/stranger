@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Nagpur - Meetups, Events & Making Friends in Nagpur with Stranger Mingle",
         description: "Join curated stranger meetups and events in Nagpur. Meet new people in Dharampeth, Sitabuldi, Ramdaspeth, and Sadar. Small groups. Safe. Fun.",
         url: "/nagpur",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function NagpurCityPage() {

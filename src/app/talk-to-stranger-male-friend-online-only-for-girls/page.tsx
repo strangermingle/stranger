@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { Shield, Phone, UserCheck, Heart, Sparkles, ArrowRight, Lock, CheckCircle, Mic, Star, Clock } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Anonymous calling - Safe space to talk to strangers for girls',
-  description: 'For the first time in India, women have a space that is truly their own. A place to speak freely, breathe deeply, and be heard — without fear, without filters.',
-  keywords: [
+    title: 'Anonymous calling - Safe space to talk to strangers for girls',
+    description: 'For the first time in India, women have a space that is truly their own. A place to speak freely, breathe deeply, and be heard — without fear, without filters.',
+    keywords: [
     'safe online call for women india',
     'talk to stranger male safely',
     'anonymous call service for girls india',
@@ -20,14 +20,25 @@ export const metadata: Metadata = {
     'stranger call app india for girls',
     'safe space to talk for indian females'
   ],
-  alternates: {
-    canonical: '/safe-online-call-service-for-indian-women',
-  },
-  openGraph: {
-    title: 'Anonymous calling - Safe space to talk to strangers for girls',
-    description: 'India\'s first anonymous, non-judgmental online call service for women. Talk to verified male strangers safely — on your terms.',
-    type: 'website',
-  },
+    alternates: {
+        canonical: '/safe-online-call-service-for-indian-women',
+    },
+    openGraph: {
+        title: 'Anonymous calling - Safe space to talk to strangers for girls',
+        description: 'For the first time in India, women have a space that is truly their own. A place to speak freely, breathe deeply, and be heard — without fear, without filters.',
+        url: '/safe-online-call-service-for-indian-women',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function ForWomenPage() {

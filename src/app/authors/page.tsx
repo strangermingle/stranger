@@ -4,19 +4,27 @@ import { getAllAuthors } from '@/lib/authors';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Authors | Stranger Mingle Blog',
+    title: 'Authors Blog',
     description: 'Meet the authors behind Stranger Mingle blog posts.',
     alternates: {
         canonical: '/authors',
     },
     openGraph: {
-        title: "Authors | Stranger Mingle Blog",
-        description: "Meet the authors behind Stranger Mingle blog posts.",
-        url: "/authors",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        title: 'Authors Blog',
+        description: 'Meet the authors behind Stranger Mingle blog posts.',
+        url: '/authors',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function AuthorsPage() {

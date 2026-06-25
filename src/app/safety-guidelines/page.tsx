@@ -22,19 +22,27 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Safety Guidelines | Stranger Mingle",
+    title: "Safety Guidelines",
     description: "Your safety is our priority. Read our comprehensive safety guidelines for attending events and interacting with community members.",
     alternates: {
         canonical: "/safety-guidelines",
     },
     openGraph: {
-        title: "Safety Guidelines | Stranger Mingle",
+        title: "Safety Guidelines",
         description: "Your safety is our priority. Read our comprehensive safety guidelines for attending events and interacting with community members.",
         url: "/safety-guidelines",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function SafetyGuidelines() {

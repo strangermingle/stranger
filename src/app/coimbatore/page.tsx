@@ -12,7 +12,7 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Coimbatore - Meetups, Events & Making Friends in Coimbatore",
+    title: "Meetups & Weekend Events in Coimbatore",
     description: "Join curated stranger meetups and social events in Coimbatore. Meet interesting people in RS Puram, Peelamedu, Saibaba Colony, and Avinashi Road. Small groups. Safe. Genuinely fun.",
     alternates: {
         canonical: "/coimbatore",
@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Coimbatore - Meetups, Events & Making Friends in Coimbatore",
         description: "Join curated stranger meetups and social events in Coimbatore. Meet interesting people in RS Puram, Peelamedu, Saibaba Colony, and Avinashi Road. Small groups. Safe. Genuinely fun.",
         url: "/coimbatore",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function CoimbatoreCityPage() {

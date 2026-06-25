@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Bhopal - Meetups, Events & Making Friends in Bhopal",
         description: "Join curated stranger meetups and social events in Bhopal. Meet new people in MP Nagar, New Market, Arera Colony, and Shahpura. Small groups. Safe. Fun.",
         url: "/bhopal",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function BhopalCityPage() {

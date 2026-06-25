@@ -6,27 +6,27 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
-    title: 'Venue Partners | Stranger Mingle - Premium Social Experience Venues',
+    title: 'Venue Partners - Premium Social Experience Venues',
     description: 'Explore the curated list of venue partners that host Stranger Mingle events. Cafés, co-working spaces, and cultural venues that build community and facilitate genuine connections.',
     keywords: ['venue partners', 'event venues india', 'social spaces', 'stranger mingle venues', 'pune cafés', 'bangalore venues', 'hyderabad social spaces'],
     alternates: {
         canonical: "/venue-partners",
     },
     openGraph: {
-        title: 'Venue Partners | Stranger Mingle - Experience the Best Social Spaces',
-        description: 'Discover the locations where real human connection happens. Join us at our partner venues across India.',
-        url: 'https://www.strangermingle.com/venue-partners',
+        title: 'Venue Partners - Premium Social Experience Venues',
+        description: 'Explore the curated list of venue partners that host Stranger Mingle events. Cafés, co-working spaces, and cultural venues that build community and facilitate genuine connections.',
+        url: "/venue-partners",
         siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
         images: [
             {
                 url: '/images/og-images/og-image-default.webp',
                 width: 1200,
                 height: 630,
-                alt: 'Stranger Mingle Venue Partners',
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
             },
         ],
-        locale: 'en_IN',
-        type: 'website',
     },
 };
 

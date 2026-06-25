@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sponsor an Event | Stranger Mingle',
-  description: 'Put your brand inside a real community moment. Sponsor a Stranger Mingle offline social event.',
-  alternates: {
-    canonical: '/sponsor-an-event',
-  },
+    title: 'Sponsor an Event',
+    description: 'Put your brand inside a real community moment. Sponsor a Stranger Mingle offline social event.',
+    alternates: {
+        canonical: '/sponsor-an-event',
+    },
+    openGraph: {
+        title: 'Sponsor an Event',
+        description: 'Put your brand inside a real community moment. Sponsor a Stranger Mingle offline social event.',
+        url: '/sponsor-an-event',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 const WA_NUMBER = '917411820025';
 const WA_MESSAGE = encodeURIComponent(
@@ -419,7 +435,7 @@ export default function SponsorAnEventPage() {
               </svg>
               WhatsApp Us — +91 74118 20025
             </a>
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Event Sponsorship Enquiry — [Brand Name]&body=Hi, I would like to enquire about sponsoring a Stranger Mingle event.%0A%0ABrand name:%0AProduct or service category:%0ACity or cities of interest:%0AType of event you want to sponsor:%0AAnything else:"
               className="inline-flex items-center justify-center px-8 py-4 border border-white text-white hover:bg-white hover:text-gray-900 font-semibold rounded-md text-base transition-colors"
             >

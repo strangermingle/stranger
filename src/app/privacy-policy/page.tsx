@@ -18,19 +18,27 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Privacy Policy | Stranger Mingle",
+    title: "Privacy Policy",
     description: "Our commitment to your privacy. Learn how Stranger Mingle collects, uses, and protects your personal information.",
     alternates: {
         canonical: "/privacy-policy",
     },
     openGraph: {
-        title: "Privacy Policy | Stranger Mingle",
+        title: "Privacy Policy",
         description: "Our commitment to your privacy. Learn how Stranger Mingle collects, uses, and protects your personal information.",
         url: "/privacy-policy",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function PrivacyPolicy() {

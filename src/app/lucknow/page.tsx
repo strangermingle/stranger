@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Lucknow - Meetups, Events & Making Friends in Lucknow",
         description: "Join curated stranger meetups and events in Lucknow. Meet new people in Gomti Nagar, Hazratganj, Aliganj, and Indira Nagar. Small groups. Safe. Fun.",
         url: "/lucknow",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function LucknowCityPage() {

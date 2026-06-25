@@ -40,19 +40,29 @@ const CITIES = [
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: "Weekend Events & Stranger Meetups in Pune, Hyderabad, Bengaluru",
-  description: "Join weekend events, stranger meetups and friendship groups in Pune, Hyderabad & Bengaluru. Small groups. Safe.",
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    title: "Weekend Events & Stranger Meetups in Pune, Hyderabad, Bengaluru",
+    title: {
+        absolute: "Stranger Mingle - Weekend Events & Meetups"
+    },
     description: "Join weekend events, stranger meetups and friendship groups in Pune, Hyderabad & Bengaluru. Small groups. Safe.",
-    url: "/",
-    type: "website",
-    images: ["/images/og-images/og-image-default.webp"],
-  }
-
+    alternates: {
+        canonical: "/",
+    },
+    openGraph: {
+        title: "Stranger Mingle - Weekend Events & Meetups",
+        description: "Join weekend events, stranger meetups and friendship groups in Pune, Hyderabad & Bengaluru. Small groups. Safe.",
+        url: "/",
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function Home() {

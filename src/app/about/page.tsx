@@ -2,19 +2,27 @@ import type { Metadata } from "next";
 import { ArrowRight, Users, Heart, Shield, MapPin, Calendar, Star, CheckCircle2, UserPlus, Coffee, Mountain, Palette, HandHeart, Monitor } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "About Us | Stranger Mingle",
+    title: "About Us",
     description: "Learn more about Stranger Mingle mission to build safe communities across India through organized weekend events and meetups.",
     alternates: {
         canonical: "/about",
     },
     openGraph: {
-        title: "About Us | Stranger Mingle",
+        title: "About Us",
         description: "Learn more about Stranger Mingle mission to build safe communities across India through organized weekend events and meetups.",
         url: "/about",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 import Link from 'next/link';
 

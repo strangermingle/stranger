@@ -11,7 +11,7 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Pune - Weekend Events and Stranger Meetups for making new friends",
+    title: "Stranger Meetups and Events in Pune",
     description: "Join weekend events and meet new people in Viman Nagar, Baner, Hinjewadi, and Koregaon Park. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/pune",
@@ -20,10 +20,18 @@ export const metadata: Metadata = {
         title: "Pune - Weekend Events and Stranger Meetups for making new friends",
         description: "Join weekend events and meet new people in Viman Nagar, Baner, Hinjewadi, and Koregaon Park. Small groups. Safe. Fun.",
         url: "/pune",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function PuneCityPage() {

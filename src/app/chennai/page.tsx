@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Chennai - Meetups, Events & Making Friends in Chennai",
         description: "Join curated stranger meetups and social events in Chennai. Meet new people in Anna Nagar, T. Nagar, Adyar, and OMR. Small groups. Safe. Real connections.",
         url: "/chennai",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function ChennaiCityPage() {

@@ -2,19 +2,27 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Frequently Asked Questions | Stranger Mingle",
+    title: "Frequently Asked Questions",
     description: "Find answers to common questions about Stranger Mingle events, registration, safety, and community guidelines.",
     alternates: {
         canonical: "/faqs",
     },
     openGraph: {
-        title: "Frequently Asked Questions | Stranger Mingle",
+        title: "Frequently Asked Questions",
         description: "Find answers to common questions about Stranger Mingle events, registration, safety, and community guidelines.",
         url: "/faqs",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function FAQs() {
@@ -360,7 +368,7 @@ export default function FAQs() {
                         Can&apos;t find the answer you&apos;re looking for? Our support team is here to help. Reach out and we&apos;ll get back to you within 24-48 hours.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a
+                        <a rel="nofollow"
                             href="mailto:strangermingleteam@gmail.com"
                             className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                         >

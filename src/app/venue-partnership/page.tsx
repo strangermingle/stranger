@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Venue Partnership | Stranger Mingle',
-  description: 'Become a Stranger Mingle Venue Partner. We bring a verified, paying community to your space on a regular basis.',
-  alternates: {
-    canonical: '/venue-partnership',
-  },
+    title: 'Venue Partnership',
+    description: 'Become a Stranger Mingle Venue Partner. We bring a verified, paying community to your space on a regular basis.',
+    alternates: {
+        canonical: '/venue-partnership',
+    },
+    openGraph: {
+        title: 'Venue Partnership',
+        description: 'Become a Stranger Mingle Venue Partner. We bring a verified, paying community to your space on a regular basis.',
+        url: '/venue-partnership',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 const WA_NUMBER = '917411820025';
 const WA_MESSAGE = encodeURIComponent(
@@ -498,7 +514,7 @@ export default function VenuePartnershipPage() {
               </svg>
               WhatsApp Us — +91 74118 20025
             </a>
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Venue Partnership Enquiry — [Venue Name]&body=Hi, I would like to enquire about a Venue Partnership with Stranger Mingle.%0A%0AVenue name:%0AVenue type:%0ACity:%0AApproximate capacity:%0AAvailability (days/times):%0AAnything else:"
               className="inline-flex items-center justify-center px-8 py-4 border border-white text-white hover:bg-white hover:text-gray-900 font-semibold rounded-md text-base transition-colors"
             >
@@ -507,7 +523,7 @@ export default function VenuePartnershipPage() {
           </div>
           <p className="text-gray-500 text-sm mt-6">
             Email:{' '}
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com"
               className="text-gray-300 hover:text-white underline"
             >

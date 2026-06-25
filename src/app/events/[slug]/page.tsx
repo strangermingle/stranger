@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const metaTitle = event.meta_title || `${event.title} | Stranger Mingle Events`;
 
   return {
-    title: metaTitle,
+    title: { absolute: metaTitle },
     description,
     keywords: `${event.title}, stranger meetup ${event.location?.city}, weekend events ${event.location?.city}, offline social networking India, make friends offline`,
     openGraph: {
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       url: canonicalUrl,
       type: 'website',
-      images: event.cover_image_url ? [event.cover_image_url] : [],
+      images: event.cover_image_url ? [event.cover_image_url] : ['/images/og-images/og-image-default.webp'],
     },
     twitter: {
       card: 'summary_large_image',

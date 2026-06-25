@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Surat - Meetups, Events & Making New Friends in Surat",
         description: "Join curated stranger meetups and social events in Surat. Meet interesting people in Adajan, Vesu, Athwa, and Pal. Small groups. Verified. Actually fun.",
         url: "/surat",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function SuratCityPage() {

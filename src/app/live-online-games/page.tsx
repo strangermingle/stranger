@@ -40,12 +40,20 @@ export const metadata: Metadata = {
     },
     openGraph: {
         title: "Live Online Games Hub | Play & Connect - Stranger Mingle",
-        description: "Challenge a friend or test your skills against the board. Real-time strategy at your fingertips.",
+        description: "Play classic online games like Chess, Ludo, and Mafia with strangers. Connect through interactive gameplay right in your browser.",
         url: "/live-online-games",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function LiveOnlineGames() {

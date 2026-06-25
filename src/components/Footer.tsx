@@ -46,6 +46,7 @@ export default function Footer() {
             links: [
                 { name: "Contact Us", href: "/contact" },
                 { name: "Success Stories", href: "/success-stories" },
+                { name: "Testimonials", href: "/testimonials" },
                 { name: "Our Partners", href: "/our-partners" },
                 { name: "FAQs", href: "/faqs" },
                 { name: "Blog", href: "/blog" },

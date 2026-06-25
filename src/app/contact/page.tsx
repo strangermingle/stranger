@@ -3,19 +3,27 @@ import SocialLinks from '@/components/SocialLinks';
 import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
-    title: "Contact Us | Stranger Mingle",
+    title: "Contact Us",
     description: "Have questions or need assistance? Reach out to the Stranger Mingle team. We're here to help you make new friends.",
     alternates: {
         canonical: "/contact",
     },
     openGraph: {
-        title: "Contact Us | Stranger Mingle",
-        description: "Have questions or need assistance? Reach out to the Stranger Mingle team. We",
+        title: "Contact Us",
+        description: "Have questions or need assistance? Reach out to the Stranger Mingle team. We're here to help you make new friends.",
         url: "/contact",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function Contact() {
@@ -44,7 +52,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
-                                    <a href="mailto:strangermingleteam@gmail.com" className="text-blue-600 hover:text-blue-700">
+                                    <a rel="nofollow" href="mailto:strangermingleteam@gmail.com" className="text-blue-600 hover:text-blue-700">
                                         strangermingleteam@gmail.com
                                     </a>
                                 </div>

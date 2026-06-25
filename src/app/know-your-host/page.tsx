@@ -6,11 +6,27 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Meet Our Hosts | Stranger Mingle',
+    title: 'Meet Our Hosts',
     description: 'Meet the passionate individuals and organizations who curate unique experiences for the Stranger Mingle community.',
     alternates: {
         canonical: "/know-your-host",
-    }
+    },
+    openGraph: {
+        title: 'Meet Our Hosts',
+        description: 'Meet the passionate individuals and organizations who curate unique experiences for the Stranger Mingle community.',
+        url: "/know-your-host",
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export const revalidate = 3600; // Revalidate every hour

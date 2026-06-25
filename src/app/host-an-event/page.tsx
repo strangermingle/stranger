@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Host an Event | Stranger Mingle',
-  description: 'Apply to become a Verified Host for Stranger Mingle. Help strangers become friends in your city and build a real community.',
-  alternates: {
-    canonical: '/host-an-event',
-  },
+    title: 'Host an Event',
+    description: 'Apply to become a Verified Host for Stranger Mingle. Help strangers become friends in your city and build a real community.',
+    alternates: {
+        canonical: '/host-an-event',
+    },
+    openGraph: {
+        title: 'Host an Event',
+        description: 'Apply to become a Verified Host for Stranger Mingle. Help strangers become friends in your city and build a real community.',
+        url: '/host-an-event',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 const benefits = [
   {
@@ -272,7 +288,7 @@ export default function HostAnEventPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Host Application&body=Hi, I'd like to apply to become a Verified Host for Stranger Mingle. Here's a bit about me:"
               className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md text-base transition-colors"
             >
@@ -288,7 +304,7 @@ export default function HostAnEventPage() {
           <p className="text-gray-500 text-sm mt-6">
             Email:{' '}
             
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com"
               className="text-gray-300 hover:text-white underline"
             >

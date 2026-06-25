@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Success Stories | Stranger Mingle',
-  description: 'Friendships that started with a stranger. Read real stories from Stranger Mingle members about connections made at our events.',
-  alternates: {
-    canonical: '/success-stories',
-  },
+    title: 'Success Stories',
+    description: 'Friendships that started with a stranger. Read real stories from Stranger Mingle members about connections made at our events.',
+    alternates: {
+        canonical: '/success-stories',
+    },
+    openGraph: {
+        title: 'Success Stories',
+        description: 'Friendships that started with a stranger. Read real stories from Stranger Mingle members about connections made at our events.',
+        url: '/success-stories',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 interface FeaturedStory {
   id: string;

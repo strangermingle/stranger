@@ -2,19 +2,27 @@ import type { Metadata } from 'next';
 import CookieConsentManager from '@/components/CookieConsentManager';
 
 export const metadata: Metadata = {
-  title: "Cookie Policy | Stranger Mingle",
-  description: "Learn how Stranger Mingle uses cookies to improve your experience and how you can manage your preferences.",
-  alternates: {
-    canonical: "/cookie-policy",
-  },
+    title: "Cookie Policy",
+    description: "Learn how Stranger Mingle uses cookies to improve your experience and how you can manage your preferences.",
+    alternates: {
+        canonical: "/cookie-policy",
+    },
     openGraph: {
-        title: "Cookie Policy | Stranger Mingle",
+        title: "Cookie Policy",
         description: "Learn how Stranger Mingle uses cookies to improve your experience and how you can manage your preferences.",
         url: "/cookie-policy",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function CookiePolicy() {

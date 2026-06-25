@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Online Workshops for Making Friends | Stranger Mingle',
-  description: 'Live online sessions on conversation, social confidence, adult loneliness, and building genuine connections in Indian cities. Learn the skills that make real friendships possible.',
-  alternates: {
-    canonical: '/workshops',
-  },
+    title: 'Online Workshops for Making Friends',
+    description: 'Live online sessions on conversation, social confidence, adult loneliness, and building genuine connections in Indian cities. Learn the skills that make real friendships possible.',
+    alternates: {
+        canonical: '/workshops',
+    },
+    openGraph: {
+        title: 'Online Workshops for Making Friends',
+        description: 'Live online sessions on conversation, social confidence, adult loneliness, and building genuine connections in Indian cities. Learn the skills that make real friendships possible.',
+        url: '/workshops',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 interface Workshop {
   icon: string;

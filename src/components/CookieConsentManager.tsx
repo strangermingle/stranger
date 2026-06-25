@@ -440,7 +440,7 @@ export default function CookieConsentManager() {
                     <h2 className="text-2xl font-bold mb-4">Questions About Cookies?</h2>
                     <p className="mb-4 leading-relaxed text-blue-50">
                         If you have any questions about our use of cookies or this Cookie Policy, please contact us at{' '}
-                        <a href="mailto:strangermingleteam@gmail.com" className="underline hover:text-white">
+                        <a rel="nofollow" href="mailto:strangermingleteam@gmail.com" className="underline hover:text-white">
                             strangermingleteam@gmail.com
                         </a>
                         {' '}or through our{' '}

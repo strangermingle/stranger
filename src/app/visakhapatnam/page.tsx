@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Visakhapatnam - Meetups, Events & Making Friends in Vizag",
         description: "Join curated stranger meetups and social events in Visakhapatnam. Meet new people in MVP Colony, Rushikonda, Gajuwaka, and Beach Road. Small groups. Verified. Safe. Real fun.",
         url: "/visakhapatnam",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function VisakhapatnamCityPage() {

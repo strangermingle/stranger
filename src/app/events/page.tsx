@@ -11,61 +11,27 @@ import SidebarVideoAd from "@/components/ads/SidebarVideoAd";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Nearby weekend events and stranger meetups across the India for making new friends.",
+    title: "Stranger Meetups & Weekend Events in India",
     description: "Curated weekend stranger meetups across India — offline and online. Safe, verified social networking events for making new friends and real conversations.",
     keywords: "Stranger Meetups, Social Events, weekend social networking, Pune, stranger meetup Hyderabad, community events Bengaluru, make friends offline Mumbai, real-life networking events, authentic social gatherings India, young professionals meetup, offline friendship events, verified social events India, community building meetups, weekend networking events, offline stranger meetup India, in-person social events, meaningful connections India",
-    authors: [{ name: "Stranger Mingle Team" }],
-    creator: "Stranger Mingle",
-    publisher: "Stranger Mingle",
-    category: "Weekend Events & Meetups",
-    classification: "Community Events and Social Networking",
-
-    openGraph: {
-        title: "Authentic Offline Weekend Meetup Events & Social Networking in India | Stranger Mingle",
-        description: "Join authentic offline weekend meetups for making new friends and real conversations. Community-driven social networking events across India. Safe, verified, curated experiences every weekend.",
-        type: 'website',
-        url: 'https://www.strangermingle.com/events',
-        siteName: 'Stranger Mingle',
-        locale: 'en_IN',
-        images: [
-            {
-                url: 'https://www.strangermingle.com/og-events-image.jpg',
-                width: 1200,
-                height: 630,
-                alt: 'Stranger Mingle - Offline Weekend Events & Meetups Across India',
-            }
-        ],
-    },
-
-    twitter: {
-        card: 'summary_large_image',
-        title: "Weekend Events: Authentic Social Meetups & Community Building | India",
-        description: "Join authentic offline weekend meetups for meaningful friendships and real conversations. Community-driven social networking events across India. Safe, verified experiences every weekend.",
-        images: ['https://www.strangermingle.com/twitter-events-card.jpg'],
-        site: '@StrangerMingle',
-        creator: '@StrangerMingle',
-    },
-
     alternates: {
         canonical: '/events',
     },
-
-    robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-            index: true,
-            follow: true,
-            'max-video-preview': -1,
-            'max-image-preview': 'large',
-            'max-snippet': -1,
-        },
-    },
-
-    other: {
-        'geo.region': 'IN',
-        'geo.placename': 'India',
-        'geo.position': '20.5937;78.9629',
+    openGraph: {
+        title: "Nearby weekend events and stranger meetups across the India for making new friends.",
+        description: "Curated weekend stranger meetups across India — offline and online. Safe, verified social networking events for making new friends and real conversations.",
+        url: '/events',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
     },
 };
 

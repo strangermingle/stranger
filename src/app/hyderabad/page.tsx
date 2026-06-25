@@ -12,7 +12,7 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Hyderabad - Meetups, Events & Making Friends in Hyderabad",
+    title: "Meetups & Weekend Events in Hyderabad",
     description: "Join curated stranger meetups and social events in Hyderabad. Meet new people in Jubilee Hills, Hitech City, Gachibowli, and Banjara Hills. Small groups. Safe. Fun.",
     alternates: {
         canonical: "/hyderabad",
@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Hyderabad - Meetups, Events & Making Friends in Hyderabad",
         description: "Join curated stranger meetups and social events in Hyderabad. Meet new people in Jubilee Hills, Hitech City, Gachibowli, and Banjara Hills. Small groups. Safe. Fun.",
         url: "/hyderabad",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function HyderabadCityPage() {

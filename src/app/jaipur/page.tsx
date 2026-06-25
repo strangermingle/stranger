@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Jaipur - Social Meetups & Friend Events in the Pink City",
         description: "Meet new people at curated social events in Jaipur. From C-Scheme to Malviya Nagar, we bring interesting strangers together in small, safe, and well-organised groups.",
         url: "/jaipur",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function JaipurCityPage() {

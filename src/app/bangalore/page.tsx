@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Bengaluru Weekend Meetups & Events for making new friends",
         description: "Join curated stranger meetups and social events in Bengaluru. Meet interesting people in Koramangala, Indiranagar, HSR Layout, and Whitefield. Small groups. Safe. Fun.",
         url: "/bangalore",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function bangaloreCityPage() {

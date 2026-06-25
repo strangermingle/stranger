@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Delhi - Meet New People at Social Events in Delhi for making new friends",
         description: "Join curated stranger meetups and events in Delhi. Meet new people in Connaught Place, Hauz Khas, Saket, and Vasant Kunj. Small groups. Safe. Fun.",
         url: "/delhi",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function DelhiCityPage() {

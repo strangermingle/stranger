@@ -16,19 +16,27 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Refund and Cancellation Policy | Stranger Mingle",
+    title: "Refund and Cancellation Policy",
     description: "Understand the terms for refunds and cancellations of Stranger Mingle events and memberships.",
     alternates: {
         canonical: "/refund-policy",
     },
     openGraph: {
-        title: "Refund and Cancellation Policy | Stranger Mingle",
+        title: "Refund and Cancellation Policy",
         description: "Understand the terms for refunds and cancellations of Stranger Mingle events and memberships.",
         url: "/refund-policy",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function RefundPolicy() {

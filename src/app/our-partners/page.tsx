@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Our Partners | Stranger Mingle',
-  description: 'Who helps us build real community. Meet the venue and experience partners that support Stranger Mingle events.',
-  alternates: {
-    canonical: '/our-partners',
-  },
+    title: 'Our Partners',
+    description: 'Who helps us build real community. Meet the venue and experience partners that support Stranger Mingle events.',
+    alternates: {
+        canonical: '/our-partners',
+    },
+    openGraph: {
+        title: 'Our Partners',
+        description: 'Who helps us build real community. Meet the venue and experience partners that support Stranger Mingle events.',
+        url: '/our-partners',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -146,7 +162,7 @@ export default function PartnerSponsorShowcasePage() {
           <p className="text-gray-600 text-lg leading-relaxed">
             If you&apos;ve attended a Stranger Mingle event and felt like you were being marketed to,
             that is a violation of our guidelines — please report it to{' '}
-            <a href="mailto:strangermingleteam@gmail.com" className="text-blue-600 hover:underline">
+            <a rel="nofollow" href="mailto:strangermingleteam@gmail.com" className="text-blue-600 hover:underline">
               strangermingleteam@gmail.com
             </a>
             .
@@ -270,7 +286,7 @@ export default function PartnerSponsorShowcasePage() {
             benefit Stranger Mingle members — not your organisation. We read every message.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Partnership Enquiry&body=Hi Stranger Mingle team, I'd like to enquire about a potential partnership. Here's who we are and how we think we could support the community:"
               className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md text-base transition-colors"
             >
@@ -285,7 +301,7 @@ export default function PartnerSponsorShowcasePage() {
           </div>
           <p className="text-gray-500 text-sm mt-6">
             Email:{' '}
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com"
               className="text-gray-300 hover:text-white underline"
             >

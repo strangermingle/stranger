@@ -12,20 +12,28 @@ import { MapPin, Users, ShieldCheck, ArrowRight, Calendar, Coffee, Heart } from 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Mumbai - Make Real Friends at Curated Meetups & weekend Events",
+    title: "Stranger Meetups & Events in Mumbai",
     description: "Break the loneliness in Mumbai. Join safe, curated stranger meetups across Bandra, Andheri, Powai & South Mumbai. Small groups of verified people. No awkwardness, just real connections.",
     keywords: "Mumbai meetups, make friends Mumbai, Mumbai events, stranger meetup Mumbai, social events Mumbai, Bandra meetups, Andheri events, Powai community",
-    openGraph: {
-        title: "Mumbai - Make Real Friends at Curated Meetups weekend events",
-        description: "Join safe, curated stranger meetups across Mumbai. Small groups. Verified members. Real friendships.",
-        url: "/mumbai",
-        siteName: "Stranger Mingle",
-        locale: "en_IN",
-        type: "website",
-    },
     alternates: {
         canonical: "/mumbai",
-    }
+    },
+    openGraph: {
+        title: "Mumbai - Make Real Friends at Curated Meetups & weekend Events",
+        description: "Break the loneliness in Mumbai. Join safe, curated stranger meetups across Bandra, Andheri, Powai & South Mumbai. Small groups of verified people. No awkwardness, just real connections.",
+        url: "/mumbai",
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function MumbaiCityPage() {

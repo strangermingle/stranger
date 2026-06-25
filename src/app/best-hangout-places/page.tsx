@@ -6,12 +6,28 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles, MapPin } from 'lucide-react';
 
 export const metadata: Metadata = {
-    title: 'Best Hangout Places | Stranger Mingle - Curated Community Spaces',
+    title: 'Best Hangout Places - Curated Community Spaces',
     description: 'Explore our handpicked selection of the best hangout places across India where genuine human connection happens. Join Stranger Mingle events at our partner venues.',
     keywords: ['hangout places', 'social spaces india', 'community venues', 'stranger mingle locations', 'best cafes for meetups'],
     alternates: {
         canonical: "/best-hangout-places",
-    }
+    },
+    openGraph: {
+        title: 'Best Hangout Places - Curated Community Spaces',
+        description: 'Explore our handpicked selection of the best hangout places across India where genuine human connection happens. Join Stranger Mingle events at our partner venues.',
+        url: "/best-hangout-places",
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export const revalidate = 3600; // Revalidate every hour

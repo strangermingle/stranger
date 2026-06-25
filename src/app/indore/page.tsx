@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Indore - Meetups, Events & Making Friends in Indore",
         description: "Join curated stranger meetups and events in Indore. Meet new people in Vijay Nagar, Palasia, AB Road, and Scheme 54. Small groups. Safe. Fun.",
         url: "/indore",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function IndoreCityPage() {

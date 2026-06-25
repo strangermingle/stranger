@@ -17,19 +17,27 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "Terms of Service | Stranger Mingle",
+    title: "Terms of Service",
     description: "The rules and guidelines for using Stranger Mingle. Understand your rights and responsibilities as a community member.",
     alternates: {
         canonical: "/terms",
     },
     openGraph: {
-        title: "Terms of Service | Stranger Mingle",
+        title: "Terms of Service",
         description: "The rules and guidelines for using Stranger Mingle. Understand your rights and responsibilities as a community member.",
         url: "/terms",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default function Terms() {

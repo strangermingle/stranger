@@ -2,11 +2,27 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Community & Brand Partnerships | Stranger Mingle',
-  description: 'Build something lasting with the Stranger Mingle community. Explore venue, cause, content, and city ecosystem partnerships.',
-  alternates: {
-    canonical: '/brand-partnership',
-  },
+    title: 'Community & Brand Partnerships',
+    description: 'Build something lasting with the Stranger Mingle community. Explore venue, cause, content, and city ecosystem partnerships.',
+    alternates: {
+        canonical: '/brand-partnership',
+    },
+    openGraph: {
+        title: 'Community & Brand Partnerships',
+        description: 'Build something lasting with the Stranger Mingle community. Explore venue, cause, content, and city ecosystem partnerships.',
+        url: '/brand-partnership',
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 const WA_NUMBER = '917411820025';
 const WA_MESSAGE = encodeURIComponent(
@@ -501,7 +517,7 @@ export default function CommunityBrandPartnershipPage() {
               </svg>
               WhatsApp Us — +91 74118 20025
             </a>
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com?subject=Community Partnership Enquiry — [Brand Name]&body=Hi, I would like to enquire about a community or brand partnership with Stranger Mingle.%0A%0ABrand or organisation name:%0AWhat you do:%0ACities you operate in:%0AWhat kind of partnership you have in mind:%0AAnything else:"
               className="inline-flex items-center justify-center px-8 py-4 border border-white text-white hover:bg-white hover:text-gray-900 font-semibold rounded-md text-base transition-colors"
             >
@@ -510,7 +526,7 @@ export default function CommunityBrandPartnershipPage() {
           </div>
           <p className="text-gray-500 text-sm mt-6">
             Email:{' '}
-            <a
+            <a rel="nofollow"
               href="mailto:strangermingleteam@gmail.com"
               className="text-gray-300 hover:text-white underline"
             >

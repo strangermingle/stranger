@@ -305,7 +305,7 @@ export default function MembersPage() {
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 text-yellow-400 animate-spin mx-auto mb-4" />
-                    <p className="text-gray-600 font-regular">Checking Identity...</p>
+                    <h1 className="text-gray-600 font-regular text-base">Checking Identity...</h1>
                 </div>
             </div>
         );

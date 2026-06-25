@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         title: "Patna - Meetups, Events & Making New Friends in Patna",
         description: "Join curated stranger meetups and social events in Patna. Meet interesting people in Boring Road, Rajendra Nagar, Kankarbagh, and Fraser Road. Small groups. Verified members. Genuinely fun.",
         url: "/patna",
-        type: "website",
-        images: ["/images/og-images/og-image-default.webp"],
-    }
-
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
+    },
 };
 
 export default async function PatnaCityPage() {

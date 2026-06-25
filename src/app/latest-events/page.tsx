@@ -6,11 +6,27 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Latest Stranger Meetups & Upcoming Weekend Events | Stranger Mingle",
+    title: "Latest Stranger Meetups & Upcoming Weekend Events",
     description: "Discover the most upcoming offline weekend stranger meetups. Join curated, safe, and authentic social events across Pune, Hyderabad, Bengaluru, Mumbai & Delhi. Build genuine friendships through in-person connections.",
     keywords: "latest events, upcoming meetups, weekend social gatherings, offline networking India, stranger meetups Pune, upcoming events Bengaluru, Mumbai meetups, Hyderabad social events, Delhi weekend activities",
     alternates: {
         canonical: "/latest-events",
+    },
+    openGraph: {
+        title: "Latest Stranger Meetups & Upcoming Weekend Events",
+        description: "Discover the most upcoming offline weekend stranger meetups. Join curated, safe, and authentic social events across Pune, Hyderabad, Bengaluru, Mumbai & Delhi. Build genuine friendships through in-person connections.",
+        url: "/latest-events",
+        siteName: 'Stranger Mingle',
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+            {
+                url: '/images/og-images/og-image-default.webp',
+                width: 1200,
+                height: 630,
+                alt: 'Stranger Mingle - Weekend Social Meetups & Events',
+            },
+        ],
     },
 };
 
