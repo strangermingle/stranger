@@ -24,7 +24,7 @@ async function getHostProfileByAlias(alias: string) {
         `)
         .eq('users.anonymous_alias', alias)
         .single();
-    
+
     if (error || !host) return null;
     return {
         ...host,
@@ -35,7 +35,7 @@ async function getHostProfileByAlias(alias: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const host = await getHostProfileByAlias(slug);
-    
+
     if (!host) {
         return { title: 'Host Not Found | Stranger Mingle' };
     }
@@ -61,14 +61,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HostProfilePage({ params }: Props) {
     const { slug } = await params;
     const host = await getHostProfileByAlias(slug);
-    
+
     if (!host) {
         notFound();
     }
 
     const events = await getEventsByHostDisplayName(host.display_name);
     const now = new Date().toISOString();
-    
+
     const upcomingEvents = events.filter((e: Event) => e.start_datetime >= now);
     const pastEvents = events.filter((e: Event) => e.start_datetime < now).sort((a: Event, b: Event) => b.start_datetime.localeCompare(a.start_datetime));
 
@@ -92,7 +92,7 @@ export default async function HostProfilePage({ params }: Props) {
                                 <Users size={120} className="text-blue-200/50" />
                             </div>
                         )}
-                        
+
                         {/* Gradient Overlay for better readability if needed */}
                         <div className="absolute inset-0 bg-linear-to-t from-white/10 to-transparent"></div>
                     </div>
@@ -136,7 +136,7 @@ export default async function HostProfilePage({ params }: Props) {
                                         Verified Host
                                     </span>
                                 </div>
-                                
+
                                 <div className="flex items-center justify-center md:justify-start gap-4 text-gray-500">
                                     {host.city && (
                                         <div className="flex items-center gap-1.5">
@@ -289,7 +289,7 @@ export default async function HostProfilePage({ params }: Props) {
                                             <EventCard key={event.id} event={event} />
                                         ))}
                                     </div>
-                                    
+
                                     {pastEvents.length > 4 && (
                                         <div className="mt-8 text-center">
                                             <p className="text-gray-400 text-sm font-medium mb-4 italic tracking-wide">Plus {pastEvents.length - 4} more successful meetups</p>
@@ -305,7 +305,7 @@ export default async function HostProfilePage({ params }: Props) {
                                     <p className="text-lg text-gray-400 leading-relaxed mb-8 font-regular">
                                         Stay updated with latest events and exclusive meetup invites. Our community members get early access to limited-capacity events.
                                     </p>
-                                    <Link href="/host-application" className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl active:scale-95">
+                                    <Link href="https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U" className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl active:scale-95">
                                         Join Community
                                         <ArrowRight size={18} />
                                     </Link>
