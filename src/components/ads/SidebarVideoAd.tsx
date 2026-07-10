@@ -1,4 +1,5 @@
 import { Info } from "lucide-react";
+import Image from "next/image";
 
 export default function SidebarVideoAd() {
     return (
@@ -12,12 +13,11 @@ export default function SidebarVideoAd() {
                 </div>
 
                 <div className="relative aspect-[9/16] w-full bg-black">
-                    <video
-                        src="https://res.cloudinary.com/dxxzhrmpm/video/upload/v1780599133/NEARBY_knvfbi_fvuknc.mp4"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
+                    <Image
+                        src="https://res.cloudinary.com/strangermingle/image/upload/v1783641616/nearby-pet-care_baxrop.png"
+                        alt="NearByPetCare Ad"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 300px"
                         className="w-full h-full object-cover"
                     />
 

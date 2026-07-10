@@ -170,14 +170,13 @@ export default async function DelhiCityPage() {
                                 ))}
                             </div>
                         </div>
-                        <div className="relative aspect-[9/16] max-h-[700px] ml-auto">
-                            <video
-                                src="https://res.cloudinary.com/dxxzhrmpm/video/upload/v1780599457/5159096-uhd_2160_4096_25fps_my5pfk_ha2mav.mp4"
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                className="w-full h-full object-cover rounded-3xl"
+                        <div className="relative aspect-[9/16] max-h-[700px] w-full ml-auto">
+                            <Image
+                                src="https://res.cloudinary.com/strangermingle/image/upload/v1783640698/image-1_ytylgh.png"
+                                alt="Stranger Mingle Delhi Partner Cafes"
+                                fill
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                                className="object-cover rounded-3xl"
                             />
                             <div className="absolute -bottom-6 -right-6 bg-blue-600 p-8 rounded-3xl shadow-2xl">
                                 <p className="text-2xl font-bold">12+ Cafes</p>
