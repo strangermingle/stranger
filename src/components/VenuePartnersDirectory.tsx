@@ -13,27 +13,26 @@ export default function VenuePartnersDirectory({ venues }: VenuePartnersDirector
         <div className="space-y-16">
             {/* Map Section - Always Visible */}
             <div id="venue-map-section" className="scroll-mt-32">
-                <div className="mb-8 flex items-center justify-between">
-                    <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tighter shrink-0">
-                        Venue <span className="text-blue-600">Locations</span>
+                <div className="mb-8 flex items-center justify-center">
+                    <h2 className="text-[16px] font-bold text-gray-900 uppercase tracking-tighter shrink-0">
+                        Venue <span className="text-red-600">Locations</span>
                     </h2>
-                    <div className="h-0.5 flex-1 bg-gray-50 ml-6" />
                 </div>
 
                 {/* <div className="h-[400px] md:h-[500px] rounded-[2.5rem] overflow-hidden border-8 border-gray-50 shadow-inner relative group">
                     <VenueMap venues={venues} selectedVenue={selectedVenue} />
                 </div> */}
 
-                <p className="mt-4 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-center">
+                <p className="mt-4 text-[10px] font-regular text-gray-400 uppercase tracking-[0.2em] text-center">
                     Map is under construction!
                 </p>
             </div>
 
             {/* Directory Section */}
             <div>
-                <div className="mb-10 flex items-center justify-between">
-                    <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tighter">
-                        Venue <span className="text-blue-600">Directory</span> ({venues.length})
+                <div className="mb-4 flex items-center justify-center">
+                    <h2 className="text-[20px] font-bold text-gray-900 uppercase tracking-tighter ">
+                        Venue <span className="text-green-600">Directory</span> ({venues.length})
                     </h2>
                     <div className="h-0.5 flex-1 bg-gray-50 mx-6 hidden md:block" />
                 </div>

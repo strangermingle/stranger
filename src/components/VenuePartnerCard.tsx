@@ -41,7 +41,7 @@ export default function VenuePartnerCard({ venue, onViewOnMap }: VenuePartnerCar
                     
                     {/* Badge */}
                     <div className="absolute top-4 left-4">
-                        <span className="bg-white/90 backdrop-blur-md text-gray-900 px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm">
+                        <span className="bg-white/90 backdrop-blur-md text-gray-900 px-3 py-1 rounded-lg text-[9px] font-bold uppercase tracking-widest shadow-sm">
                             {venue.event_count > 0 ? `${venue.event_count} Upcoming Events` : 'Venue Partner'}
                         </span>
                     </div>
@@ -50,7 +50,7 @@ export default function VenuePartnerCard({ venue, onViewOnMap }: VenuePartnerCar
                 {/* Content */}
                 <div className="p-6 flex flex-col flex-1">
                     <div className="mb-4">
-                        <h3 className="text-xl font-black text-gray-900 mb-2 truncate group-hover:text-blue-600 transition-colors tracking-tight">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2 truncate group-hover:text-blue-600 transition-colors tracking-tight">
                             {venue.venue_name}
                         </h3>
                         <div className="flex items-center gap-1.5 text-gray-500 text-[10px] font-bold tracking-widest uppercase">
