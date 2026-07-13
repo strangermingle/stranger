@@ -29,3 +29,23 @@ export async function submitEventReview(reviewData: {
 export async function checkUserInteraction(eventId: string, userId: string) {
     return callRpc('eventInteractions', 'checkUserInteraction', [eventId, userId]);
 }
+
+export async function joinEventWaitlist(eventId: string) {
+    return callRpc('eventInteractions', 'joinEventWaitlist', ['', eventId]);
+}
+
+export async function getEventDiscussions(eventId: string) {
+    return callRpc('eventInteractions', 'getEventDiscussions', [eventId], { useCookies: false });
+}
+
+export async function postEventDiscussion(eventId: string, parentId: string | null, message: string) {
+    return callRpc('eventInteractions', 'postEventDiscussion', ['', eventId, parentId, message]);
+}
+
+export async function likeEventDiscussion(messageId: string) {
+    return callRpc('eventInteractions', 'likeEventDiscussion', ['', messageId]);
+}
+
+export async function deleteEventDiscussion(messageId: string) {
+    return callRpc('eventInteractions', 'deleteEventDiscussion', ['', messageId]);
+}

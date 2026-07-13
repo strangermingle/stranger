@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
 import { Loader2, CheckCircle, AlertCircle, Send } from 'lucide-react';
 
 interface MembershipFormProps {
@@ -26,13 +25,25 @@ export default function MembershipForm({ onSuccess, source = 'waitlist' }: Membe
         setSuccess(false);
 
         try {
-            const { error } = await supabase
-                .from('contact_submissions')
-                .insert([
-                    { name, phone, email, city, source }
-                ]);
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    phone,
+                    email,
+                    city,
+                    source,
+                    submission_type: 'contact',
+                }),
+            });
 
-            if (error) throw error;
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || 'Failed to submit membership request');
+            }
             
             setSuccess(true);
             setName('');

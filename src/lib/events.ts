@@ -343,7 +343,7 @@ export function getSpotsLabel(event: Event): string {
 
 // Database query functions
 export async function getEventsByCity(city: string): Promise<Event[]> {
-    return callRpc('events', 'getEventsByCity', [city], { useCookies: false });
+    return callRpc('events', 'getEventsByCity', [city], { useCookies: false, cache: 'no-store' });
 }
 
 function mapPublicViewToEvent(row: PublicEventRow, tiers: TicketAvailabilityRow[]): Event {
@@ -438,19 +438,19 @@ function mapPublicViewToEvent(row: PublicEventRow, tiers: TicketAvailabilityRow[
 }
 
 export async function getAllLiveEvents(): Promise<Event[]> {
-    return callRpc('events', 'getAllLiveEvents', [], { useCookies: false });
+    return callRpc('events', 'getAllLiveEvents', [], { useCookies: false, cache: 'no-store' });
 }
 
 export async function getFeaturedEvents(limit: number = 6): Promise<Event[]> {
-    return callRpc('events', 'getFeaturedEvents', [limit], { useCookies: false });
+    return callRpc('events', 'getFeaturedEvents', [limit], { useCookies: false, cache: 'no-store' });
 }
 
 export async function getSponsoredEvents(limit: number = 3): Promise<Event[]> {
-    return callRpc('events', 'getSponsoredEvents', [limit], { useCookies: false });
+    return callRpc('events', 'getSponsoredEvents', [limit], { useCookies: false, cache: 'no-store' });
 }
 
 export async function getAllCompletedEvents(): Promise<Event[]> {
-    return callRpc('events', 'getAllCompletedEvents', [], { useCookies: false });
+    return callRpc('events', 'getAllCompletedEvents', [], { useCookies: false, cache: 'no-store' });
 }
 
 
@@ -494,7 +494,7 @@ export async function createBooking(bookingData: {
  * Get upcoming events for a city, falling back to other cities if needed
  */
 export async function getUpcomingEventsForCity(city: string, limit: number = 6): Promise<Event[]> {
-    return callRpc('events', 'getUpcomingEventsForCity', [city, limit], { useCookies: false });
+    return callRpc('events', 'getUpcomingEventsForCity', [city, limit], { useCookies: false, cache: 'no-store' });
 }
 
 /**
@@ -504,29 +504,29 @@ export async function getEventsByHostDisplayName(displayName: string): Promise<E
     return callRpc('events', 'getEventsByHostDisplayName', [displayName]);
 }
 export async function getUpcomingEvents(limit: number = 6): Promise<Event[]> {
-    return callRpc('events', 'getUpcomingEvents', [limit], { useCookies: false });
+    return callRpc('events', 'getUpcomingEvents', [limit], { useCookies: false, cache: 'no-store' });
 }
 
 export async function getWeekendEvents(limit: number = 6): Promise<Event[]> {
-    return callRpc('events', 'getWeekendEvents', [limit], { useCookies: false });
+    return callRpc('events', 'getWeekendEvents', [limit], { useCookies: false, cache: 'no-store' });
 }
 
 export async function getTrendingEvents(limit: number = 2): Promise<Event[]> {
-    return callRpc('events', 'getTrendingEvents', [limit], { useCookies: false });
+    return callRpc('events', 'getTrendingEvents', [limit], { useCookies: false, cache: 'no-store' });
 }
 
 /**
  * Get only online events
  */
 export async function getOnlineEvents(limit: number = 10): Promise<Event[]> {
-    return callRpc('events', 'getOnlineEvents', [limit], { useCookies: false });
+    return callRpc('events', 'getOnlineEvents', [limit], { useCookies: false, cache: 'no-store' });
 }
 
 /**
  * Get only recurring events
  */
 export async function getRecurringEvents(limit: number = 10): Promise<Event[]> {
-    return callRpc('events', 'getRecurringEvents', [limit], { useCookies: false });
+    return callRpc('events', 'getRecurringEvents', [limit], { useCookies: false, cache: 'no-store' });
 }
 
 export interface VenuePartner {
@@ -548,13 +548,13 @@ export interface VenuePartner {
 }
 
 export async function getAllVenuePartners(): Promise<VenuePartner[]> {
-    return callRpc('events', 'getAllVenuePartners', [], { useCookies: false });
+    return callRpc('events', 'getAllVenuePartners', [], { useCookies: false, cache: 'no-store' });
 }
 
 export async function getVenuePartnersByCity(city: string): Promise<VenuePartner[]> {
-    return callRpc('events', 'getVenuePartnersByCity', [city], { useCookies: false });
+    return callRpc('events', 'getVenuePartnersByCity', [city], { useCookies: false, cache: 'no-store' });
 }
 
 export async function getUpcomingVenuePartners(): Promise<VenuePartner[]> {
-    return callRpc('events', 'getUpcomingVenuePartners', [], { useCookies: false });
+    return callRpc('events', 'getUpcomingVenuePartners', [], { useCookies: false, cache: 'no-store' });
 }

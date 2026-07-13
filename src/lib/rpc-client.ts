@@ -4,9 +4,13 @@ import { cookies } from 'next/headers';
 
 // This file acts as a bridge to call backend library functions over HTTP securely
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
-const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET || 'dev-secret-mingle-123';
+const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET as string;
 
-export async function callRpc(module: string, method: string, args: any[] = [], options: { useCookies?: boolean } = { useCookies: true }) {
+if (!process.env.INTERNAL_API_SECRET) {
+  throw new Error('INTERNAL_API_SECRET environment variable is missing.');
+}
+
+export async function callRpc(module: string, method: string, args: any[] = [], options: { useCookies?: boolean; cache?: RequestCache } = { useCookies: true }) {
   try {
     // Collect all cookies from the incoming request (useful for SSR auth forwarding)
     let cookieStore = null;
@@ -26,7 +30,7 @@ export async function callRpc(module: string, method: string, args: any[] = [], 
         ...(cookieString ? { 'Cookie': cookieString } : {}),
       },
       body: JSON.stringify({ functionName: method, args }),
-      cache: options.useCookies ? 'no-store' : 'force-cache', // Allow caching for non-cookie requests
+      cache: options.cache || (options.useCookies ? 'no-store' : 'force-cache'), // Allow caching for non-cookie requests
     });
 
     if (!res.ok) {

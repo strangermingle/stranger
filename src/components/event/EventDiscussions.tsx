@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabaseClient';
+import { getEventDiscussions, postEventDiscussion, likeEventDiscussion, deleteEventDiscussion } from '@/lib/eventInteractions';
 import { Send, MessageSquare, CornerDownRight, ThumbsUp, Trash2, Pin } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -39,24 +40,13 @@ export default function EventDiscussions({ eventId, userId }: EventDiscussionsPr
     const fetchMessages = useCallback(async () => {
         try {
             // Fetch messages with user details
-            const { data, error } = await supabase
-                .from('event_discussions')
-                .select(`
-                    *,
-                    user:users!event_discussions_user_id_fkey(username, avatar_url)
-                `)
-                .eq('event_id', eventId)
-                .is('is_deleted', false)
-                .order('is_pinned', { ascending: false })
-                .order('created_at', { ascending: true });
-
-            if (error) throw error;
+            const data = await getEventDiscussions(eventId);
 
             // Organize into tree (parents and children)
             const messageMap: Record<string, DiscussionMessage> = {};
             const roots: DiscussionMessage[] = [];
 
-            (data || []).forEach((msg) => {
+            (data as any[] || []).forEach((msg: any) => {
                 const message = { ...msg, replies: [] } as DiscussionMessage;
                 messageMap[msg.id] = message;
                 if (!msg.parent_id) {
@@ -103,17 +93,7 @@ export default function EventDiscussions({ eventId, userId }: EventDiscussionsPr
 
         setIsSubmitting(true);
         try {
-            const { error } = await supabase
-                .from('event_discussions')
-                .insert({
-                    event_id: eventId,
-                    user_id: userId,
-                    parent_id: replyTo?.id || null,
-                    message: newMessage.trim(),
-                    is_host_reply: false // Logic for host check can be added
-                });
-
-            if (error) throw error;
+            await postEventDiscussion(eventId, replyTo?.id || null, newMessage);
             setNewMessage('');
             setReplyTo(null);
             fetchMessages();
@@ -127,12 +107,8 @@ export default function EventDiscussions({ eventId, userId }: EventDiscussionsPr
 
     const handleLike = async (messageId: string) => {
         if (!userId) return;
-        // In a real app, check if already liked (discussion_likes table)
         try {
-            await supabase.rpc('increment_discussion_like', { msg_id: messageId });
-            // If RPC doesn't exist, we'd do a select/update or just insert into discussion_likes
-            // For now, let's assume we use discussion_likes
-            await supabase.from('discussion_likes').insert({ discussion_id: messageId, user_id: userId });
+            await likeEventDiscussion(messageId);
             fetchMessages();
         } catch (error) {
             console.error('Error liking message:', error);
@@ -142,11 +118,7 @@ export default function EventDiscussions({ eventId, userId }: EventDiscussionsPr
     const handleDelete = async (messageId: string) => {
         if (!confirm('Are you sure you want to delete this message?')) return;
         try {
-            const { error } = await supabase
-                .from('event_discussions')
-                .update({ is_deleted: true, deleted_by: userId })
-                .eq('id', messageId);
-            if (error) throw error;
+            await deleteEventDiscussion(messageId);
             fetchMessages();
         } catch (error) {
             console.error('Error deleting message:', error);

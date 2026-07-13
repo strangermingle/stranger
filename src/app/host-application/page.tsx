@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
 
 const CITIES = ['Pune', 'Mumbai', 'Bengaluru', 'Hyderabad', 'Delhi', 'Other'];
 
@@ -129,8 +128,12 @@ export default function HostApplicationFormPage() {
     const city = form.city === 'Other' ? form.cityOther : form.city;
 
     try {
-      const { error } = await supabase.from('host_applications').insert([
-        {
+      const res = await fetch('/api/host-application', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           full_name: form.fullName,
           age: parseInt(form.age),
           city: city,
@@ -148,10 +151,13 @@ export default function HostApplicationFormPage() {
           agree_to_terms: form.agreeToTerms,
           agree_to_safety: form.agreeToSafety,
           agree_to_zero_harassment: form.agreeToZeroHarassment,
-        },
-      ]);
+        }),
+      });
 
-      if (error) throw error;
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Failed to submit host application.');
+      }
 
       // Optional: Still provide mailto link as a confirmation/redundancy if desired
       // const body = [ ... ]

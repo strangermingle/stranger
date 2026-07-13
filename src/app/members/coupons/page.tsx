@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabaseClient';
-import { User } from '@supabase/supabase-js';
 import { useAuth } from '@/components/AuthProvider';
 import { Ticket, ExternalLink, QrCode, Search, ChevronRight, Loader2, Undo, Coffee, Train, Music, GlassWater, Clock, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';

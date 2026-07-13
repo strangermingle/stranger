@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
 import { ShieldAlert, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -24,20 +23,26 @@ export default function SupportPage() {
         setSuccess(false);
 
         try {
-            const { error } = await supabase
-                .from('contact_submissions')
-                .insert([
-                    { 
-                        name, 
-                        email, 
-                        phone, 
-                        subject, 
-                        message, 
-                        source: 'support_report' 
-                    }
-                ]);
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    phone,
+                    subject,
+                    message,
+                    submission_type: 'contact',
+                    source: 'support_report',
+                }),
+            });
 
-            if (error) throw error;
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || 'Failed to submit report');
+            }
             
             setSuccess(true);
             setName('');

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import { joinEventWaitlist } from '@/lib/eventInteractions';
 import { CheckCircle, Loader2, UserPlus } from 'lucide-react';
 
 interface EventWaitlistProps {
@@ -23,39 +23,9 @@ export default function EventWaitlist({ eventId, userId, isSoldOut }: EventWaitl
 
         setIsJoining(true);
         try {
-            // Check if already in waitlist
-            const { data: existing } = await supabase
-                .from('event_waitlist')
-                .select('id')
-                .eq('event_id', eventId)
-                .eq('user_id', userId)
-                .maybeSingle();
-
-            if (existing) {
-                setIsJoined(true);
-                setMessage('You are already on the waitlist.');
-                return;
-            }
-
-            // Get current position (simple count)
-            const { count } = await supabase
-                .from('event_waitlist')
-                .select('*', { count: 'exact', head: true })
-                .eq('event_id', eventId);
-
-            const { error } = await supabase
-                .from('event_waitlist')
-                .insert({
-                    event_id: eventId,
-                    user_id: userId,
-                    position: (count || 0) + 1,
-                    status: 'waiting'
-                });
-
-            if (error) throw error;
-
+            const res = await joinEventWaitlist(eventId);
             setIsJoined(true);
-            setMessage('You have been added to the waitlist!');
+            setMessage(res.message);
         } catch (error) {
             console.error('Error joining waitlist:', error);
             alert('Failed to join waitlist. Please try again.');

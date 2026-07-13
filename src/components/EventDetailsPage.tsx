@@ -8,7 +8,6 @@ import PaymentModal from './PaymentModal';
 import ContactOrganizerModal from './ContactOrganizerModal';
 import SocialLinks from './SocialLinks';
 import { sendGAEvent } from '@/lib/gtag';
-import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthProvider';
 import { Shield } from "lucide-react";
 import EventComments from './event/EventComments';
@@ -35,18 +34,7 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
     const { user, mappedUserId } = useAuth();
-    const [, setUserBookings] = useState<Booking[]>([]);
     const [selectedTickets, setSelectedTickets] = useState<Record<string, number>>({});
-
-    useEffect(() => {
-        if (mappedUserId) {
-            supabase.from('bookings')
-                .select('*')
-                .eq('user_id', mappedUserId)
-                .eq('event_id', event.id)
-                .then(({ data }) => setUserBookings(data || []));
-        }
-    }, [event.id, mappedUserId]);
 
     const date = formatEventDate(event.start_datetime, event.end_datetime);
     const time = formatEventTime(event.start_datetime, event.end_datetime);
