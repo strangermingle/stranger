@@ -44,8 +44,66 @@ export default async function CityHangoutPlacesPage({ params }: CityPageProps) {
 
     const cityName = city.charAt(0).toUpperCase() + city.slice(1);
 
+    // Dynamic schemas for AEO and GEO optimization
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.strangermingle.com"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Best Hangout Places",
+                "item": "https://www.strangermingle.com/best-hangout-places"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": cityName,
+                "item": `https://www.strangermingle.com/best-hangout-places/${city}`
+            }
+        ]
+    };
+
+    const itemListSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": `Best Hangout Places in ${cityName}`,
+        "description": `Curated list of community spaces and cafes in ${cityName} that host Stranger Mingle events.`,
+        "itemListElement": (venues || []).map((venue, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+                "@type": "Place",
+                "name": venue.venue_name,
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": venue.city,
+                    "addressCountry": "IN"
+                }
+            }
+        }))
+    };
+
     return (
         <div className="min-h-screen bg-white">
+            {/* Injection of schemas */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            {venues && venues.length > 0 && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+                />
+            )}
+
             <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 {/* Navigation Back */}
                 <div className="mb-8">
