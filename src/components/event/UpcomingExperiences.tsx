@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Event, getUpcomingEventsForCity, formatEventDate, formatEventTime } from '@/lib/events';
+import { LIVE_CITIES } from '@/lib/cities';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, MapPin, ArrowRight, Star } from 'lucide-react';
@@ -24,6 +25,17 @@ export default function UpcomingExperiences({ city, currentEventId }: UpcomingEx
         });
     }, [city, currentEventId]);
 
+    const citySlug = city.toLowerCase();
+    const isLiveCity = LIVE_CITIES.includes(citySlug);
+    const formattedCityName = citySlug === 'bangalore' ? 'Bengaluru' : city.charAt(0).toUpperCase() + city.slice(1);
+
+    const directoryLinks = [
+        { title: `Meetups & Events in ${formattedCityName}`, href: `/${citySlug}`, desc: 'Weekend stranger meetups & social events' },
+        { title: `House Parties in ${formattedCityName}`, href: `/${citySlug}/house-parties`, desc: 'Platonic house parties & social mixers' },
+        { title: `Make New Friends in ${formattedCityName}`, href: `/${citySlug}/make-new-friends`, desc: 'Offline social groups & friend circles' },
+        { title: `Best Hangout Places in ${formattedCityName}`, href: `/best-hangout-places/${citySlug}`, desc: 'Curated cafes, venues & community hubs' },
+    ];
+
     if (loading) {
         return (
             <div className="py-12 max-w-7xl mx-auto px-4">
@@ -37,7 +49,40 @@ export default function UpcomingExperiences({ city, currentEventId }: UpcomingEx
         );
     }
 
-    if (events.length === 0) return null;
+    if (events.length === 0) {
+        if (!isLiveCity) return null;
+        return (
+            <section className="py-12 max-w-7xl mx-auto px-4">
+                <div className="mt-4">
+                    <h3 className="text-center text-sm font-bold text-gray-900 uppercase tracking-widest mb-6">
+                        Explore {formattedCityName} Directories
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {directoryLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className="p-4 rounded-2xl bg-gray-50/80 hover:bg-blue-600 border border-gray-100 hover:border-blue-600 text-gray-900 hover:text-white transition-all duration-300 group shadow-xs hover:shadow-md flex flex-col justify-between"
+                            >
+                                <div>
+                                    <div className="font-bold text-xs uppercase tracking-wider mb-1 group-hover:text-white">
+                                        {link.title}
+                                    </div>
+                                    <div className="text-[10px] text-gray-500 group-hover:text-blue-100 font-medium leading-relaxed">
+                                        {link.desc}
+                                    </div>
+                                </div>
+                                <div className="mt-3 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-blue-600 group-hover:text-white">
+                                    <span>Browse</span>
+                                    <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="py-12 max-w-7xl mx-auto px-4">
@@ -51,11 +96,6 @@ export default function UpcomingExperiences({ city, currentEventId }: UpcomingEx
                 <p className="text-gray-500 text-xs md:text-sm font-bold uppercase tracking-[0.1em]">Explore curated experiences in {city}</p>
             </div>
 
-            {/* 
-                Grid: 
-                - Mobile: 2 cols, 2 rows max (4 events)
-                - Desktop: 4 cols, 1 row max (4 events)
-            */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 {events.slice(0, 4).map((event) => {
                     const dateDisplay = formatEventDate(event.start_datetime, event.end_datetime);
@@ -139,6 +179,37 @@ export default function UpcomingExperiences({ city, currentEventId }: UpcomingEx
                     Explore More <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
             </div>
+
+            {/* City Directory Navigation Block */}
+            {isLiveCity && (
+                <div className="mt-16 pt-10 border-t border-gray-100">
+                    <h3 className="text-center text-sm font-bold text-gray-900 uppercase tracking-widest mb-6">
+                        Explore {formattedCityName} Directories
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {directoryLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className="p-4 rounded-2xl bg-gray-50/80 hover:bg-blue-600 border border-gray-100 hover:border-blue-600 text-gray-900 hover:text-white transition-all duration-300 group shadow-xs hover:shadow-md flex flex-col justify-between"
+                            >
+                                <div>
+                                    <div className="font-bold text-xs uppercase tracking-wider mb-1 group-hover:text-white">
+                                        {link.title}
+                                    </div>
+                                    <div className="text-[10px] text-gray-500 group-hover:text-blue-100 font-medium leading-relaxed">
+                                        {link.desc}
+                                    </div>
+                                </div>
+                                <div className="mt-3 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-blue-600 group-hover:text-white">
+                                    <span>Browse</span>
+                                    <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

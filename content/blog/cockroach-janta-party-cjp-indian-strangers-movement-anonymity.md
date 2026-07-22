@@ -6,7 +6,7 @@ author: "Trishul D N"
 date: "2026-06-05"
 readTime: "13 min read"
 category: "Indian Society & Youth"
-image: "https://res.cloudinary.com/dxxzhrmpm/image/upload/v1780608864/cjp-strangermingle-cockroach-janta-party.jpg"
+image: "https://res.cloudinary.com/strangermingle/image/upload/v1784748300/cockroach_Janta_Party_fywg5s.png"
 featured: true
 tags: [Cockroach Janta Party, CJP, Abhijeet Dipke, Indian Strangers Movement, Anonymity Matters, Indian Unemployed Youth, Gen Z India, Youth Movement India, Anonymous Chat, Stranger Mingle, Social Satire India, Indian Youth, Mumbai, Delhi, Bangalore, Pune, Hyderabad, Chennai, Kolkata, Ahmedabad, Lucknow, Indore, Nagpur, Surat, Bhopal, Noida, Kanpur]
 keywords: [Cockroach Janta Party, CJP India, Abhijeet Dipke CJP founder, Indian strangers movement 2026, anonymity matters India, Indian unemployed youth movement, CJP Cockroach Janta Party explained, why CJP went viral India, anonymous chat India safe, strangers connecting online India, Stranger Mingle anonymous chat, Indian Gen Z movement, CJP meme to movement India, power of anonymity India, safe space for Indian youth online, make friends anonymously India, youth unemployment India 2026, CJP political satire India]

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { getUpcomingVenuePartners } from '@/lib/events';
+import { LIVE_CITIES } from '@/lib/cities';
 import VenuePartnersDirectory from '@/components/VenuePartnersDirectory';
 import UpcomingExperiences from '@/components/event/UpcomingExperiences';
 import Link from 'next/link';
@@ -32,13 +33,10 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600; // Revalidate every hour
 
-const FEATURED_CITIES = [
-    { name: 'Bangalore', slug: 'bangalore' },
-    { name: 'Mumbai', slug: 'mumbai' },
-    { name: 'Delhi', slug: 'delhi' },
-    { name: 'Pune', slug: 'pune' },
-    { name: 'Hyderabad', slug: 'hyderabad' }
-];
+const CITIES = LIVE_CITIES.map((slug) => ({
+    slug,
+    name: slug === 'bangalore' ? 'Bengaluru' : slug.charAt(0).toUpperCase() + slug.slice(1)
+}));
 
 export default async function BestHangoutPlacesPage() {
     const venues = await getUpcomingVenuePartners();
@@ -65,7 +63,7 @@ export default async function BestHangoutPlacesPage() {
                 {/* City Quick Filters */}
                 <div className="mb-8">
                     <div className="flex flex-wrap justify-center gap-3">
-                        {FEATURED_CITIES.map((city) => (
+                        {CITIES.map((city) => (
                             <Link
                                 key={city.slug}
                                 href={`/best-hangout-places/${city.slug}`}

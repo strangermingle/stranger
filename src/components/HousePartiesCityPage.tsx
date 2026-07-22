@@ -1,5 +1,6 @@
 import { getEventsByCity } from "@/lib/events";
 import EventCard from "@/components/EventCard";
+import UpcomingExperiences from "@/components/event/UpcomingExperiences";
 import { Users, MapPin, Coffee, ShieldCheck, ArrowRight, Info, Music } from "lucide-react";
 import Link from "next/link";
 import { toISTISOString } from "@/lib/date-utils";
@@ -273,6 +274,10 @@ export default async function HousePartiesCityPage({ cityKey, cityName, dbCityNa
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="mt-16 border-t border-slate-200/50 pt-12">
+                    <UpcomingExperiences city={cityName} currentEventId="" />
                 </div>
             </main>
         </div>

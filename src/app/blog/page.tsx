@@ -48,7 +48,7 @@ export default function BlogIndex() {
                         Stranger Mingle Blog
                     </h1>
                     <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                        Stories about connection, community, and the art of making new friends.
+                        Stories about connection, community, and the art of making new friends. Meet <Link href="/authors" className="text-blue-600 font-semibold hover:underline">our authors</Link>.
                     </p>
                 </div>
             </section>

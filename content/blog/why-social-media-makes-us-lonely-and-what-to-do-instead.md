@@ -6,7 +6,7 @@ author: "Trishul D N"
 date: "2026-03-27"
 readTime: "11 min read"
 category: "Social Wellness"
-image: "https://res.cloudinary.com/strangermingle/image/upload/v1774419517/landscape_posters/34cd240b-847b-4a2b-8a41-fd792ee78d41/qyt9pilen6u0glwrqkzz.jpg"
+image: "https://res.cloudinary.com/strangermingle/image/upload/v1782067888/146489_oiqhij.jpg"
 featured: false
 tags: ["Loneliness", "Social Media", "Real Connections", "Mental Health", "Urban Life", "Friendship", "Stranger Meetups"]
 keywords: ["why social media makes us lonely", "social media and loneliness in India", "how to make real friends in 2026", "overcome social media loneliness", "real world connections vs online friendships", "meet new people in Pune Bengaluru Mumbai", "stranger meetup events India", "how to stop feeling lonely in a metro city"]

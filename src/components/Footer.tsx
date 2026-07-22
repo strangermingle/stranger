@@ -22,6 +22,7 @@ export default function Footer() {
         {
             title: "Partner with us",
             links: [
+                { name: "Venue Partners Directory", href: "/venue-partners" },
                 { name: "Sponsor an Event", href: "/sponsor-an-event" },
                 { name: "Media Kit", href: "/media-kit" },
                 { name: "Partner With Us", href: "/partner-with-us" },
@@ -48,6 +49,7 @@ export default function Footer() {
                 { name: "Success Stories", href: "/success-stories" },
                 { name: "Testimonials", href: "/testimonials" },
                 { name: "Our Partners", href: "/our-partners" },
+                { name: "Our Authors", href: "/authors" },
                 { name: "FAQs", href: "/faqs" },
                 { name: "Blog", href: "/blog" },
                 { name: "Team", href: "/team" },
