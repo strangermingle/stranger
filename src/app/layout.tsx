@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ConsentBanner from "@/components/ConsentBanner";
 import GoogleTagManager from "@/components/GoogleTagManager";
+import MetaPixel from "@/components/MetaPixel";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { AuthProvider } from "@/components/AuthProvider";
 import Script from "next/script";
@@ -99,6 +100,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <GoogleTagManager />
+        <MetaPixel />
         <AuthProvider>
           <Navbar />
           {children}
