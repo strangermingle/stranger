@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Nagpur - Meetups, Events & Making Friends in Nagpur with Stranger Mingle",
-    description: "Join curated stranger meetups and events in Nagpur. Meet new people in Dharampeth, Sitabuldi, Ramdaspeth, and Sadar. Small groups. Safe. Fun.",
+    title: "Nagpur Social Meetups & Local Events",
+    description: "Make new friends in Orange City. Join safe, curated stranger meetups in Dharampeth, Ramdaspeth, Sitabuldi & Sadar. Verified community, small groups, zero pressure.",
+    keywords: ["Nagpur meetups", "Dharampeth events", "Ramdaspeth social group", "make friends Nagpur", "Sitabuldi meetups"],
     alternates: {
         canonical: "/nagpur",
     },
     openGraph: {
-        title: "Nagpur - Meetups, Events & Making Friends in Nagpur with Stranger Mingle",
-        description: "Join curated stranger meetups and events in Nagpur. Meet new people in Dharampeth, Sitabuldi, Ramdaspeth, and Sadar. Small groups. Safe. Fun.",
+        title: "Nagpur Social Meetups & Local Events",
+        description: "Make new friends in Orange City. Join safe, curated stranger meetups in Dharampeth, Ramdaspeth, Sitabuldi & Sadar. Verified community, small groups, zero pressure.",
         url: "/nagpur",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function NagpurCityPage() {
     const cityEvents = await getEventsByCity("Nagpur");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Nagpur-related posts
     const nagpurPosts = allPosts.filter(post =>
@@ -248,8 +249,10 @@ export default async function NagpurCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

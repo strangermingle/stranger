@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: "House Parties in Kolkata | Local Social Mixers & Meetups",
-    description: "Looking for house parties in Kolkata? Join weekend stranger meetups, offline social mixers, and fun in-person house parties in Kolkata.",
+    description: "Looking for house parties in Kolkata? Join safe, curated platonic house parties, rooftop mixers, and board game nights in Park Street, Salt Lake & Ballygunge.",
+    keywords: ["house parties in Kolkata", "social mixers Kolkata", "Kolkata weekend parties", "platonic house party Kolkata", "board game night Kolkata"],
     alternates: {
         canonical: '/kolkata/house-parties',
     }

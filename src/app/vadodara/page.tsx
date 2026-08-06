@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Vadodara - Meetups, Events & Making New Friends in Vadodara",
-    description: "Join curated stranger meetups and social events in Vadodara. Meet new people in Alkapuri, Sayajigunj, Fatehgunj, and Manjalpur. Small groups. Verified members. Genuinely fun.",
+    title: "Vadodara Social Meetups & Community Events",
+    description: "Connect with warm, interesting souls in Baroda. Join curated stranger meetups across Alkapuri, Sayajigunj, Fatehgunj & Manjalpur. Small groups, verified crowd, real friendships.",
+    keywords: ["Vadodara meetups", "Alkapuri events", "Fatehgunj social group", "make friends Vadodara", "Sayajigunj meetups"],
     alternates: {
         canonical: "/vadodara",
     },
     openGraph: {
-        title: "Vadodara - Meetups, Events & Making New Friends in Vadodara",
-        description: "Join curated stranger meetups and social events in Vadodara. Meet new people in Alkapuri, Sayajigunj, Fatehgunj, and Manjalpur. Small groups. Verified members. Genuinely fun.",
+        title: "Vadodara Social Meetups & Community Events",
+        description: "Connect with warm, interesting souls in Baroda. Join curated stranger meetups across Alkapuri, Sayajigunj, Fatehgunj & Manjalpur. Small groups, verified crowd, real friendships.",
         url: "/vadodara",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function VadodaraCityPage() {
     const cityEvents = await getEventsByCity("Vadodara");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Vadodara-related posts
     const vadodaraPosts = allPosts.filter(post =>
@@ -184,7 +185,7 @@ export default async function VadodaraCityPage() {
             <section className="py-24 max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Vadodara Needs Stranger Mingle</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Vadodara has always been a city of art, education, and culture — from the Maharaja Sayajirao University to the grandeur of Laxmi Vilas Palace. But for all its warmth, meeting new people here as a working adult is a different challenge altogether. That is where we come in.</p>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Connecting warm, creative souls in Baroda.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-12">
@@ -192,27 +193,27 @@ export default async function VadodaraCityPage() {
                         <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Users className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Friendships Over Followers</h3>
+                        <h3 className="text-xl font-bold mb-4">Baroda Social Culture</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            This is not a networking event with business cards and forced smiles. It is not a dating app either. We keep groups small and the format easy so that real friendships grow naturally — the kind Vadodara&apos;s warm, community-first culture is already known for.
+                            Connecting warm, interesting souls across Alkapuri, Sayajigunj & Fatehgunj.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <ShieldCheck className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Verified Members, Zero Tolerance Policy</h3>
+                        <h3 className="text-xl font-bold mb-4">Verified Member Screening</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            Every person who joins a Stranger Mingle event in Vadodara is verified beforehand. Our partner venues across Baroda are hand-picked to ensure you feel comfortable from the moment you walk in, with zero tolerance for any misconduct.
+                            Safe, friendly, and respectful environment for first-timers.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <MapPin className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">The Best Cafes and Spots in Baroda</h3>
+                        <h3 className="text-xl font-bold mb-4">Relaxed Weekend Addas</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            From cosy corners in Alkapuri to garden cafes near Sayajigunj, we spend time finding venues that set the right mood. Good spaces make conversations easy — and Vadodara has plenty of them.
+                            Cozy coffee meetups, board game nights & cultural conversations.
                         </p>
                     </div>
                 </div>
@@ -248,8 +249,10 @@ export default async function VadodaraCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

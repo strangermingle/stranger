@@ -11,14 +11,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Stranger Meetups and Events in Pune",
-    description: "Join weekend events and meet new people in Viman Nagar, Baner, Hinjewadi, and Koregaon Park. Small groups. Safe. Fun.",
+    title: "Stranger Meetups & Weekend Events in Pune",
+    description: "Beat loneliness in Pune. Join safe, curated meetups in Viman Nagar, Baner, Hinjewadi, Koregaon Park & Wakad. Small groups of verified young professionals having real conversations.",
+    keywords: ["Pune meetups", "Viman Nagar events", "Baner social group", "Hinjewadi meetups", "Koregaon Park events", "make friends Pune"],
     alternates: {
         canonical: "/pune",
     },
     openGraph: {
-        title: "Pune - Weekend Events and Stranger Meetups for making new friends",
-        description: "Join weekend events and meet new people in Viman Nagar, Baner, Hinjewadi, and Koregaon Park. Small groups. Safe. Fun.",
+        title: "Stranger Meetups & Weekend Events in Pune",
+        description: "Beat loneliness in Pune. Join safe, curated meetups in Viman Nagar, Baner, Hinjewadi, Koregaon Park & Wakad. Small groups of verified young professionals having real conversations.",
         url: "/pune",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
 
 export default async function PuneCityPage() {
     const cityEvents = await getEventsByCity("Pune");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Pune-related posts
     const punePosts = allPosts.filter(post =>
@@ -184,7 +185,7 @@ export default async function PuneCityPage() {
             <section className="py-24 max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Pune Needs Stranger Mingle</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Modern life in Pune can be lonely. We build the bridges you need.</p>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Beat IT corridor loneliness and build your Pune tribe.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-12">
@@ -192,27 +193,27 @@ export default async function PuneCityPage() {
                         <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Users className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Community Focused</h3>
+                        <h3 className="text-xl font-bold mb-4">Beat IT Corridor Loneliness</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            It&apos;s not a dating app. It&apos;s a friendship platform. We focus on small groups where real conversations happen naturally.
+                            Connecting techies, students & creatives in Baner, Hinjewadi & Viman Nagar.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <ShieldCheck className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Safe & Verified</h3>
+                        <h3 className="text-xl font-bold mb-4">Safe & Screened Community</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            Every participant is verified. We ensure a safe environment for everyone, with zero tolerance for any misconduct.
+                            Verified young professionals with zero-harassment rules.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <MapPin className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Cozier Locations</h3>
+                        <h3 className="text-xl font-bold mb-4">Cozy Cafe & Treks Circles</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            We pick the best cafes and spaces in Pune to ensure you&apos;re comfortable and the vibes are just right.
+                            Weekend board game nights, cafe addas & trekking meetups across Pune.
                         </p>
                     </div>
                 </div>
@@ -249,8 +250,10 @@ export default async function PuneCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

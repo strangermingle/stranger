@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Meetups & Weekend Events in Hyderabad",
-    description: "Join curated stranger meetups and social events in Hyderabad. Meet new people in Jubilee Hills, Hitech City, Gachibowli, and Banjara Hills. Small groups. Safe. Fun.",
+    title: "Hyderabad Meetups & Weekend Social Events",
+    description: "Make genuine friends in Cyberabad. Join curated stranger meetups in Jubilee Hills, Hitech City, Gachibowli & Banjara Hills. Safe offline circles for young professionals.",
+    keywords: ["Hyderabad meetups", "Hitech City events", "Jubilee Hills social group", "make friends Hyderabad", "Gachibowli meetups"],
     alternates: {
         canonical: "/hyderabad",
     },
     openGraph: {
-        title: "Hyderabad - Meetups, Events & Making Friends in Hyderabad",
-        description: "Join curated stranger meetups and social events in Hyderabad. Meet new people in Jubilee Hills, Hitech City, Gachibowli, and Banjara Hills. Small groups. Safe. Fun.",
+        title: "Hyderabad Meetups & Weekend Social Events",
+        description: "Make genuine friends in Cyberabad. Join curated stranger meetups in Jubilee Hills, Hitech City, Gachibowli & Banjara Hills. Safe offline circles for young professionals.",
         url: "/hyderabad",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function HyderabadCityPage() {
     const cityEvents = await getEventsByCity("Hyderabad");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Hyderabad-related posts
     const hyderabadPosts = allPosts.filter(post =>
@@ -184,7 +185,7 @@ export default async function HyderabadCityPage() {
             <section className="py-24 max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Hyderabad Needs Stranger Mingle</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Modern life in Hyderabad can be lonely. We build the bridges you need.</p>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Making Cyberabad feel like home for everyone.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-12">
@@ -192,27 +193,27 @@ export default async function HyderabadCityPage() {
                         <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Users className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Community Focused</h3>
+                        <h3 className="text-xl font-bold mb-4">Beat Cyberabad Work Fatigue</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            It&apos;s not a dating app. It&apos;s a friendship platform. We focus on small groups where real conversations happen naturally.
+                            Connecting IT professionals & creatives in Hitech City, Gachibowli & Jubilee Hills.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <ShieldCheck className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Safe & Verified</h3>
+                        <h3 className="text-xl font-bold mb-4">Verified & Safe Community</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            Every participant is verified. We ensure a safe environment for everyone, with zero tolerance for any misconduct.
+                            Strict zero-harassment policy with mandatory profile screening.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <MapPin className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Cozier Locations</h3>
+                        <h3 className="text-xl font-bold mb-4">Casual Weekend Chai & Games</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            We pick the best cafes and spaces in Hyderabad to ensure you&apos;re comfortable and the vibes are just right.
+                            Relaxed offline meetups over tea, board games & open conversations.
                         </p>
                     </div>
                 </div>
@@ -248,8 +249,10 @@ export default async function HyderabadCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

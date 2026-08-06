@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Delhi - Meet New People at Social Events in Delhi for making new friends",
-    description: "Join curated stranger meetups and events in Delhi. Meet new people in Connaught Place, Hauz Khas, Saket, and Vasant Kunj. Small groups. Safe. Fun.",
+    title: "Delhi Stranger Meetups & Social Events",
+    description: "Find your tribe in Delhi NCR. Join safe, verified stranger meetups in Connaught Place, Hauz Khas Village, Saket & Vasant Kunj. Small groups, no pretense, real conversations.",
+    keywords: ["Delhi meetups", "Connaught Place events", "Hauz Khas social group", "make friends Delhi", "Saket meetups", "Vasant Kunj events"],
     alternates: {
         canonical: "/delhi",
     },
     openGraph: {
-        title: "Delhi - Meet New People at Social Events in Delhi for making new friends",
-        description: "Join curated stranger meetups and events in Delhi. Meet new people in Connaught Place, Hauz Khas, Saket, and Vasant Kunj. Small groups. Safe. Fun.",
+        title: "Delhi Stranger Meetups & Social Events",
+        description: "Find your tribe in Delhi NCR. Join safe, verified stranger meetups in Connaught Place, Hauz Khas Village, Saket & Vasant Kunj. Small groups, no pretense, real conversations.",
         url: "/delhi",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function DelhiCityPage() {
     const cityEvents = await getEventsByCity("Delhi");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Delhi-related posts
     const delhiPosts = allPosts.filter(post =>
@@ -190,8 +191,8 @@ export default async function DelhiCityPage() {
             {/* Why Stranger Mingle? */}
             <section className="py-24 max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Delhi Needs Stranger Mingle</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Modern life in Delhi can be fast and isolating. We build the bridges you need.</p>
+                    <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Delhi NCR Needs Stranger Mingle</h2>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Shorten social distances in India's capital region.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-12">
@@ -199,27 +200,27 @@ export default async function DelhiCityPage() {
                         <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Users className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Community Focused</h3>
+                        <h3 className="text-xl font-bold mb-4">Shorten Social Distances</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            It&apos;s not a dating app. It&apos;s a friendship platform. We focus on small groups where real conversations happen naturally.
+                            Bringing people across CP, Hauz Khas, Saket & Vasant Kunj together without hassle.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <ShieldCheck className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Safe & Verified</h3>
+                        <h3 className="text-xl font-bold mb-4">Safe & Screened Third Spaces</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            Every participant is verified. We ensure a safe environment for everyone, with zero tolerance for any misconduct.
+                            Verified, respectful community ensuring comfort for women & newcomers.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <MapPin className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Cozier Locations</h3>
+                        <h3 className="text-xl font-bold mb-4">Curated Weekend Circles</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            We pick the best cafes and spaces in Delhi to ensure you&apos;re comfortable and the vibes are just right.
+                            Heritage walks, cafe meetups & game nights focused on real human connection.
                         </p>
                     </div>
                 </div>
@@ -258,8 +259,10 @@ export default async function DelhiCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

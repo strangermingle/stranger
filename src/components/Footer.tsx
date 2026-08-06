@@ -1,6 +1,30 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import SocialLinks from './SocialLinks';
+import { LIVE_CITIES } from '@/lib/cities';
+
+const CITY_DISPLAY_NAMES: Record<string, string> = {
+    bangalore: 'Bengaluru',
+    ahmedabad: 'Ahmedabad',
+    bhopal: 'Bhopal',
+    chennai: 'Chennai',
+    coimbatore: 'Coimbatore',
+    delhi: 'Delhi',
+    hyderabad: 'Hyderabad',
+    indore: 'Indore',
+    jaipur: 'Jaipur',
+    kanpur: 'Kanpur',
+    kolkata: 'Kolkata',
+    lucknow: 'Lucknow',
+    ludhiana: 'Ludhiana',
+    mumbai: 'Mumbai',
+    nagpur: 'Nagpur',
+    patna: 'Patna',
+    pune: 'Pune',
+    surat: 'Surat',
+    vadodara: 'Vadodara',
+    visakhapatnam: 'Visakhapatnam',
+};
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -32,14 +56,16 @@ export default function Footer() {
             ]
         },
         {
-            title: "Popular City Pages",
+            title: "Popular Cities",
             links: [
-                { name: "Bengaluru", href: "/bangalore" },
-                { name: "Mumbai", href: "/mumbai" },
-                { name: "Delhi", href: "/delhi" },
-                { name: "Hyderabad", href: "/hyderabad" },
-                { name: "Pune", href: "/pune" },
-                { name: "Kolkata", href: "/kolkata" },
+                { name: "Bengaluru Meetups", href: "/bangalore" },
+                { name: "Mumbai Meetups", href: "/mumbai" },
+                { name: "Delhi Meetups", href: "/delhi" },
+                { name: "Hyderabad Meetups", href: "/hyderabad" },
+                { name: "Pune Meetups", href: "/pune" },
+                { name: "Kolkata Meetups", href: "/kolkata" },
+                { name: "Ahmedabad Meetups", href: "/ahmedabad" },
+                { name: "Chennai Meetups", href: "/chennai" },
             ]
         },
         {
@@ -71,14 +97,14 @@ export default function Footer() {
 
     return (
         <footer className="w-full border-t border-gray-200 bg-gray-50/80 backdrop-blur-xl z-10 relative">
-            <div className="max-w-7xl mx-auto px-4 py-4 sm:px- lg:px-8">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-2 text-center">
+            <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-8 text-center md:text-left">
                     {sections.map((section) => (
                         <div key={section.title}>
-                            <h3 className="mt-3 text-sm font-semibold text-gray-900 tracking-wider uppercase mb-1 text-center">
+                            <h3 className="mt-3 text-sm font-semibold text-gray-900 tracking-wider uppercase mb-3 text-center md:text-left">
                                 {section.title}
                             </h3>
-                            <ul className="space-y-0.5">
+                            <ul className="space-y-1.5">
                                 {section.links.map((link) => (
                                     <li key={link.name}>
                                         <Link
@@ -96,7 +122,33 @@ export default function Footer() {
                         </div>
                     ))}
                 </div>
-                <div className="pt-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-2">
+
+                {/* City Directories SEO Linking Section */}
+                <div className="py-8 border-t border-gray-200/80">
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-4 text-center md:text-left">
+                        Explore City Friendships & House Parties
+                    </h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-6 text-xs text-gray-500">
+                        {LIVE_CITIES.map((cSlug) => {
+                            const cName = CITY_DISPLAY_NAMES[cSlug] || cSlug.charAt(0).toUpperCase() + cSlug.slice(1);
+                            return (
+                                <div key={cSlug} className="space-y-1">
+                                    <Link href={`/${cSlug}`} className="font-bold text-gray-800 hover:text-blue-600 block transition-colors">
+                                        {cName} Meetups
+                                    </Link>
+                                    <Link href={`/${cSlug}/make-new-friends`} className="hover:text-gray-900 block text-[11px]">
+                                        Make New Friends in {cName}
+                                    </Link>
+                                    <Link href={`/${cSlug}/house-parties`} className="hover:text-gray-900 block text-[11px]">
+                                        House Parties in {cName}
+                                    </Link>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="pt-6 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
                     {/* Left: Branding */}
                     <div className="pt-2 flex-1 flex flex-col items-center md:items-start gap-4 max-w-sm">
                         <Link href="/">
@@ -142,3 +194,4 @@ export default function Footer() {
         </footer>
     );
 }
+

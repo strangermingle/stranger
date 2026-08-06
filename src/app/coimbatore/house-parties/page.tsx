@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: "House Parties in Coimbatore | Local Social Mixers & Meetups",
-    description: "Looking for house parties in Coimbatore? Join weekend stranger meetups, offline social mixers, and fun in-person house parties in Coimbatore.",
+    description: "Looking for house parties in Coimbatore? Join safe, curated platonic house parties, rooftop mixers, and board game nights in RS Puram, Peelamedu & Saibaba Colony.",
+    keywords: ["house parties in Coimbatore", "social mixers Coimbatore", "Coimbatore weekend parties", "platonic house party Coimbatore", "board game night Coimbatore"],
     alternates: {
         canonical: '/coimbatore/house-parties',
     }

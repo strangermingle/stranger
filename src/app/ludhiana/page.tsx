@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Ludhiana - Meetups, Events & Making New Friends in Ludhiana",
-    description: "Join curated stranger meetups and social events in Ludhiana. Meet interesting people in Sarabha Nagar, Model Town, Civil Lines, and BRS Nagar. Small groups. Safe. Genuinely fun.",
+    title: "Ludhiana Social Meetups & Friend Circles",
+    description: "Connect with friendly locals in Ludhiana. Join curated weekend meetups in Sarabha Nagar, Model Town, Civil Lines & BRS Nagar. Safe, verified, small-group events.",
+    keywords: ["Ludhiana meetups", "Sarabha Nagar events", "Model Town social group", "make friends Ludhiana", "BRS Nagar meetups"],
     alternates: {
         canonical: "/ludhiana",
     },
     openGraph: {
-        title: "Ludhiana - Meetups, Events & Making New Friends in Ludhiana",
-        description: "Join curated stranger meetups and social events in Ludhiana. Meet interesting people in Sarabha Nagar, Model Town, Civil Lines, and BRS Nagar. Small groups. Safe. Genuinely fun.",
+        title: "Ludhiana Social Meetups & Friend Circles",
+        description: "Connect with friendly locals in Ludhiana. Join curated weekend meetups in Sarabha Nagar, Model Town, Civil Lines & BRS Nagar. Safe, verified, small-group events.",
         url: "/ludhiana",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function LudhianaCityPage() {
     const cityEvents = await getEventsByCity("Ludhiana");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Ludhiana-related posts
     const ludhianaPosts = allPosts.filter(post =>
@@ -184,7 +185,7 @@ export default async function LudhianaCityPage() {
             <section className="py-24 max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Ludhiana Needs Stranger Mingle</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Ludhiana is India&apos;s textile and hosiery capital — a city that never slows down. Everyone here is busy building something. But hustle culture has a cost, and that cost is often your social life. Stranger Mingle gives you back the time to invest in the right people.</p>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Connecting friendly locals & young entrepreneurs.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-12">
@@ -192,27 +193,27 @@ export default async function LudhianaCityPage() {
                         <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Users className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Small Groups, Big Conversations</h3>
+                        <h3 className="text-xl font-bold mb-4">Vibrant Offline Friendships</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            No awkward networking events, no dating pressure, no forced icebreakers from a chit box. We keep groups small so that real conversations happen the way they do in Ludhiana — over chai, with zero filter.
+                            Bringing youth & young entrepreneurs in Sarabha Nagar & Model Town together.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <ShieldCheck className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Verified Members, Zero Nonsense</h3>
+                        <h3 className="text-xl font-bold mb-4">Verified Member Screening</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            Every person who joins is verified. We take safety seriously — especially for women attending solo. Our venue partners in Ludhiana are trusted, well-lit, and familiar spots where you will feel at ease from the moment you walk in.
+                            Safe, friendly, and respectful environment for first-timers & female attendees.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <MapPin className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Ludhiana&apos;s Best Spots, Hand-Picked</h3>
+                        <h3 className="text-xl font-bold mb-4">Cozy Cafe Socials</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            From proper sit-down cafes in Sarabha Nagar to the buzzing lanes near Ferozepur Road, we choose venues where the vibe is right and the conversations flow. No boring hotel lobbies, no loud clubs — just the right setting.
+                            Swapping virtual scrolling for real weekend conversations over coffee & games.
                         </p>
                     </div>
                 </div>
@@ -248,8 +249,10 @@ export default async function LudhianaCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

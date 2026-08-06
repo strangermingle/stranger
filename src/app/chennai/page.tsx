@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Chennai - Meetups, Events & Making Friends in Chennai",
-    description: "Join curated stranger meetups and social events in Chennai. Meet new people in Anna Nagar, T. Nagar, Adyar, and OMR. Small groups. Safe. Real connections.",
+    title: "Stranger Meetups & Social Circles in Chennai",
+    description: "Looking to build a real social circle in Chennai? Join verified offline meetups in Anna Nagar, Adyar, T. Nagar & OMR. Platonic, curated small groups for coffee & conversations.",
+    keywords: ["Chennai meetups", "Anna Nagar events", "Adyar social group", "make friends Chennai", "OMR meetups", "Besant Nagar meetups"],
     alternates: {
         canonical: "/chennai",
     },
     openGraph: {
-        title: "Chennai - Meetups, Events & Making Friends in Chennai",
-        description: "Join curated stranger meetups and social events in Chennai. Meet new people in Anna Nagar, T. Nagar, Adyar, and OMR. Small groups. Safe. Real connections.",
+        title: "Stranger Meetups & Social Circles in Chennai",
+        description: "Looking to build a real social circle in Chennai? Join verified offline meetups in Anna Nagar, Adyar, T. Nagar & OMR. Platonic, curated small groups for coffee & conversations.",
         url: "/chennai",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function ChennaiCityPage() {
     const cityEvents = await getEventsByCity("Chennai");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Chennai-related posts
     const chennaiPosts = allPosts.filter(post =>
@@ -248,8 +249,10 @@ export default async function ChennaiCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

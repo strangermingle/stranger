@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Meetups & Weekend Events in Coimbatore",
-    description: "Join curated stranger meetups and social events in Coimbatore. Meet interesting people in RS Puram, Peelamedu, Saibaba Colony, and Avinashi Road. Small groups. Safe. Genuinely fun.",
+    title: "Coimbatore Social Meetups & Weekend Events",
+    description: "Expand your circle in Coimbatore. Join verified, small-group stranger meetups around RS Puram, Peelamedu, Saibaba Colony & Race Course. Relaxed offline gatherings.",
+    keywords: ["Coimbatore meetups", "RS Puram events", "Peelamedu social group", "make friends Coimbatore", "Avinashi Road meetups"],
     alternates: {
         canonical: "/coimbatore",
     },
     openGraph: {
-        title: "Coimbatore - Meetups, Events & Making Friends in Coimbatore",
-        description: "Join curated stranger meetups and social events in Coimbatore. Meet interesting people in RS Puram, Peelamedu, Saibaba Colony, and Avinashi Road. Small groups. Safe. Genuinely fun.",
+        title: "Coimbatore Social Meetups & Weekend Events",
+        description: "Expand your circle in Coimbatore. Join verified, small-group stranger meetups around RS Puram, Peelamedu, Saibaba Colony & Race Course. Relaxed offline gatherings.",
         url: "/coimbatore",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function CoimbatoreCityPage() {
     const cityEvents = await getEventsByCity("Coimbatore");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Coimbatore-related posts
     const coimbatorePosts = allPosts.filter(post =>
@@ -185,7 +186,7 @@ export default async function CoimbatoreCityPage() {
             <section className="py-24 max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Coimbatore Needs Stranger Mingle</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Coimbatore is a city of doers — engineers, entrepreneurs, students, and creatives all packed into one place. Yet for all that energy, making real friends here as an adult is harder than it should be. That&apos;s exactly the gap we fill.</p>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Fresh weekend social experiences in South India's Manchester.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-12">
@@ -193,27 +194,27 @@ export default async function CoimbatoreCityPage() {
                         <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Users className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Built for Real Friendships, Not Followers</h3>
+                        <h3 className="text-xl font-bold mb-4">Expand Your Local Circle</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            This is not a dating app, and it is not a networking event with awkward name tags. We keep groups small so that real conversations happen — the kind that go beyond &quot;so what do you do?&quot;
+                            Fresh weekend meetups for young professionals in RS Puram, Peelamedu & Avinashi Road.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <ShieldCheck className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Verified Members, Safe Spaces</h3>
+                        <h3 className="text-xl font-bold mb-4">Strictly Verified Screening</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            Every participant is verified before they join. We hold zero tolerance for any misconduct, and our trusted cafe partners across Coimbatore make sure the environment always feels comfortable and secure.
+                            100% verified crowd ensuring zero awkwardness, safety, and mutual respect.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <MapPin className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">The Best Spots Coimbatore Has to Offer</h3>
+                        <h3 className="text-xl font-bold mb-4">Relaxed Cafe Meetups</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            From filter coffee corners in RS Puram to rooftop cafes near Avinashi Road, we hand-pick every venue. If Coimbatore has a great spot, you will find it on Stranger Mingle first.
+                            Cozy weekend gatherings for board games, coffee, and genuine conversations.
                         </p>
                     </div>
                 </div>
@@ -249,8 +250,10 @@ export default async function CoimbatoreCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: "Make New Friends in Delhi | Local Meetups & Social Groups",
-    description: "Looking to make new friends in Delhi? Join weekend stranger meetups, offline networking groups, and fun social experiences in Delhi.",
+    description: "Looking to make new friends in Delhi? Join weekend stranger meetups, offline networking groups, and social circles in Connaught Place, Hauz Khas & Saket.",
+    keywords: ["make new friends in Delhi", "how to make friends in Delhi", "Delhi social groups", "Delhi meetups", "find friends in Delhi"],
     alternates: {
         canonical: '/delhi/make-new-friends',
     }

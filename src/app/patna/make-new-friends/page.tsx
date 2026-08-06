@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: "Make New Friends in Patna | Local Meetups & Social Groups",
-    description: "Looking to make new friends in Patna? Join weekend stranger meetups, offline networking groups, and fun social experiences in Patna.",
+    description: "Looking to make new friends in Patna? Join weekend stranger meetups, offline networking groups, and social circles in Boring Road, Kankarbagh & Rajendra Nagar.",
+    keywords: ["make new friends in Patna", "how to make friends in Patna", "Patna social groups", "Patna meetups", "find friends in Patna"],
     alternates: {
         canonical: '/patna/make-new-friends',
     }

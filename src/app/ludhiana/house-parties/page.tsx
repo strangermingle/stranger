@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: "House Parties in Ludhiana | Local Social Mixers & Meetups",
-    description: "Looking for house parties in Ludhiana? Join weekend stranger meetups, offline social mixers, and fun in-person house parties in Ludhiana.",
+    description: "Looking for house parties in Ludhiana? Join safe, curated platonic house parties, rooftop mixers, and board game nights in Sarabha Nagar, Model Town & BRS Nagar.",
+    keywords: ["house parties in Ludhiana", "social mixers Ludhiana", "Ludhiana weekend parties", "platonic house party Ludhiana", "board game night Ludhiana"],
     alternates: {
         canonical: '/ludhiana/house-parties',
     }

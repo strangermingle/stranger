@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Stranger Meetups & Social Events in Kolkata",
-    description: "Join curated stranger meetups and social events in Kolkata. Meet new people in Park Street, Salt Lake, Ballygunge, and New Town. Small groups. Safe. Good adda.",
+    title: "Kolkata Adda & Stranger Social Meetups",
+    description: "Bring back the charm of warm Kolkata adda. Join safe, curated stranger meetups in Park Street, Salt Lake, Ballygunge & New Town. Small groups, verified crowd, great conversations.",
+    keywords: ["Kolkata meetups", "Park Street events", "Salt Lake social group", "make friends Kolkata", "Ballygunge adda meetups"],
     alternates: {
         canonical: "/kolkata",
     },
     openGraph: {
-        title: "Kolkata - Meetups, Social weekend Events & Making Friends in Kolkata",
-        description: "Join curated stranger meetups and social events in Kolkata. Meet new people in Park Street, Salt Lake, Ballygunge, and New Town. Small groups. Safe. Good adda.",
+        title: "Kolkata Adda & Stranger Social Meetups",
+        description: "Bring back the charm of warm Kolkata adda. Join safe, curated stranger meetups in Park Street, Salt Lake, Ballygunge & New Town. Small groups, verified crowd, great conversations.",
         url: "/kolkata",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function KolkataCityPage() {
     const cityEvents = await getEventsByCity("Kolkata");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Kolkata-related posts
     const kolkataPosts = allPosts.filter(post =>
@@ -184,7 +185,7 @@ export default async function KolkataCityPage() {
             <section className="py-24 max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Kolkata Needs Stranger Mingle</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Kolkata has always had adda culture. We just bring it back to strangers who haven&apos;t met yet.</p>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Bringing back the warmth of authentic Kolkata Adda.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-12">
@@ -192,27 +193,27 @@ export default async function KolkataCityPage() {
                         <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Users className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Built for Real Bonds, Not Followers</h3>
+                        <h3 className="text-xl font-bold mb-4">Warm & Modern City Adda</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            This is not a networking event or a dating app. It is a space for genuine friendships — small groups, good conversations, no name tags required.
+                            Bringing young Bengalis & relocated professionals in Park Street & Salt Lake together.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <ShieldCheck className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Verified & Fully Safe</h3>
+                        <h3 className="text-xl font-bold mb-4">Verified Platonic Environment</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            Every person who joins is verified beforehand. We take safety seriously — zero tolerance for any misconduct, every single time.
+                            Safe, respectful community designed for genuine friendships.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <MapPin className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Handpicked Kolkata Spots</h3>
+                        <h3 className="text-xl font-bold mb-4">Cozy Cultural Spaces</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            From century-old coffee houses on College Street to rooftop cafes in New Town — every venue is chosen so the city itself becomes part of the experience.
+                            Weekend coffee meetups, board games & open conversations across New Town & Ballygunge.
                         </p>
                     </div>
                 </div>
@@ -248,8 +249,10 @@ export default async function KolkataCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

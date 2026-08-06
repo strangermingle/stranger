@@ -9,7 +9,7 @@ interface BlogSidebarProps {
 }
 
 export default function BlogSidebar({ excludeSlug }: BlogSidebarProps) {
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image']);
     const filteredPosts = excludeSlug
         ? allPosts.filter((post: Partial<Post>) => post.slug !== excludeSlug)
         : allPosts;
@@ -40,8 +40,8 @@ export default function BlogSidebar({ excludeSlug }: BlogSidebarProps) {
                                 <h4 className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 mb-1">
                                     {post.title}
                                 </h4>
-                                <p className="text-xs text-gray-400">
-                                    {formatBlogDate(post.date || '')}
+                                <p className="text-xs text-gray-400 font-medium">
+                                    By {post.author || 'Stranger Mingle Desk'} • {formatBlogDate(post.date || '')}
                                 </p>
                             </div>
                         </Link>

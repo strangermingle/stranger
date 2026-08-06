@@ -14,12 +14,12 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
     title: "Stranger Meetups & Events in Mumbai",
     description: "Break the loneliness in Mumbai. Join safe, curated stranger meetups across Bandra, Andheri, Powai & South Mumbai. Small groups of verified people. No awkwardness, just real connections.",
-    keywords: "Mumbai meetups, make friends Mumbai, Mumbai events, stranger meetup Mumbai, social events Mumbai, Bandra meetups, Andheri events, Powai community",
+    keywords: ["Mumbai meetups", "Bandra events", "Powai social group", "make friends Mumbai", "Andheri meetups", "South Mumbai events"],
     alternates: {
         canonical: "/mumbai",
     },
     openGraph: {
-        title: "Mumbai - Make Real Friends at Curated Meetups & weekend Events",
+        title: "Stranger Meetups & Events in Mumbai",
         description: "Break the loneliness in Mumbai. Join safe, curated stranger meetups across Bandra, Andheri, Powai & South Mumbai. Small groups of verified people. No awkwardness, just real connections.",
         url: "/mumbai",
         siteName: 'Stranger Mingle',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function MumbaiCityPage() {
     const cityEvents = await getEventsByCity("mumbai");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Mumbai-related posts
     const mumbaiPosts = allPosts.filter(post =>

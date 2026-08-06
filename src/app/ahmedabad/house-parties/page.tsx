@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: "House Parties in Ahmedabad | Local Social Mixers & Meetups",
-    description: "Looking for house parties in Ahmedabad? Join weekend stranger meetups, offline social mixers, and fun in-person house parties in Ahmedabad.",
+    description: "Looking for house parties in Ahmedabad? Join safe, curated platonic house parties, rooftop mixers, and board game nights in Satellite, Navrangpura & Bopal.",
+    keywords: ["house parties in Ahmedabad", "social mixers Ahmedabad", "Ahmedabad weekend parties", "platonic house party Ahmedabad", "board game night Ahmedabad"],
     alternates: {
         canonical: '/ahmedabad/house-parties',
     }

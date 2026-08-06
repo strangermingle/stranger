@@ -4,8 +4,9 @@ import HousePartiesCityPage from "@/components/HousePartiesCityPage";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "House Parties in Bangalore | Local Social Mixers & Meetups",
-    description: "Looking for house parties in Bangalore? Join weekend stranger meetups, offline social mixers, and fun in-person house parties in Bangalore.",
+    title: "House Parties in Bengaluru | Local Social Mixers & Meetups",
+    description: "Looking for house parties in Bengaluru? Join safe, curated platonic house parties, rooftop mixers, and board game nights in Koramangala, Indiranagar & HSR Layout.",
+    keywords: ["house parties in Bengaluru", "social mixers Bengaluru", "Bengaluru weekend parties", "platonic house party Bengaluru", "board game night Bengaluru"],
     alternates: {
         canonical: '/bangalore/house-parties',
     }

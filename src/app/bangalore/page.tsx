@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Bengaluru Weekend Meetups & Events for making new friends",
-    description: "Join curated stranger meetups and social events in Bengaluru. Meet interesting people in Koramangala, Indiranagar, HSR Layout, and Whitefield. Small groups. Safe. Fun.",
+    title: "Bengaluru Stranger Meetups & Weekend Social Events",
+    description: "Beat tech city loneliness in Bengaluru. Join safe, curated stranger meetups in Koramangala, Indiranagar, HSR Layout & Whitefield. Small groups, verified crowd, zero awkwardness.",
+    keywords: ["Bengaluru meetups", "Koramangala events", "Indiranagar social group", "make friends Bangalore", "HSR Layout meetups", "Whitefield events"],
     alternates: {
         canonical: "/bangalore",
     },
     openGraph: {
-        title: "Bengaluru Weekend Meetups & Events for making new friends",
-        description: "Join curated stranger meetups and social events in Bengaluru. Meet interesting people in Koramangala, Indiranagar, HSR Layout, and Whitefield. Small groups. Safe. Fun.",
+        title: "Bengaluru Stranger Meetups & Weekend Social Events",
+        description: "Beat tech city loneliness in Bengaluru. Join safe, curated stranger meetups in Koramangala, Indiranagar, HSR Layout & Whitefield. Small groups, verified crowd, zero awkwardness.",
         url: "/bangalore",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function bangaloreCityPage() {
     const cityEvents = await getEventsByCity("bangalore");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Bengaluru-related posts
     const bangalorePosts = allPosts.filter(post =>
@@ -184,7 +185,7 @@ export default async function bangaloreCityPage() {
             <section className="py-24 max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Bengaluru Needs Stranger Mingle</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Modern life in Bengaluru can be lonely. We build the bridges you need.</p>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Beat tech hub loneliness. We build real human bridges in India's Silicon Valley.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-12">
@@ -192,27 +193,27 @@ export default async function bangaloreCityPage() {
                         <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Users className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Community Focused</h3>
+                        <h3 className="text-xl font-bold mb-4">Beat Tech Hub Isolation</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            It&apos;s not a dating app. It&apos;s a friendship platform. We focus on small groups where real conversations happen naturally.
+                            Connecting software engineers, founders & creatives across Koramangala, Indiranagar & HSR Layout.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <ShieldCheck className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Safe & Verified</h3>
+                        <h3 className="text-xl font-bold mb-4">Verified Platonic Circles</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            Every participant is verified. We ensure a safe environment for everyone, with zero tolerance for any misconduct.
+                            Strictly non-dating, curated small groups focused on genuine, pressure-free friendships.
                         </p>
                     </div>
                     <div className="text-center p-8">
                         <div className="w-16 h-16 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <MapPin className="w-8 h-8" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4">Cozier Locations</h3>
+                        <h3 className="text-xl font-bold mb-4">Hyper-Local Weekend Gatherings</h3>
                         <p className="text-gray-600 leading-relaxed">
-                            We pick the best cafes and spaces in Bengaluru to ensure you&apos;re comfortable and the vibes are just right.
+                            Board game nights, cafe circles & micro-event meetups right near your tech park or neighborhood.
                         </p>
                     </div>
                 </div>
@@ -250,8 +251,10 @@ export default async function bangaloreCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}

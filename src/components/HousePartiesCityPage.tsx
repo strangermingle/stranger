@@ -1,7 +1,8 @@
 import { getEventsByCity } from "@/lib/events";
 import EventCard from "@/components/EventCard";
 import UpcomingExperiences from "@/components/event/UpcomingExperiences";
-import { Users, MapPin, Coffee, ShieldCheck, ArrowRight, Info, Music } from "lucide-react";
+import CityDirectoryLinks from "@/components/CityDirectoryLinks";
+import { Users, MapPin, Coffee, ShieldCheck, ArrowRight, Info, Music, Home as HomeIcon, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { toISTISOString } from "@/lib/date-utils";
 
@@ -98,12 +99,21 @@ export default async function HousePartiesCityPage({ cityKey, cityName, dbCityNa
             {/* Header Hero Section */}
             <section className="relative w-full bg-gradient-to-tr from-slate-950 via-purple-950 to-slate-950 pt-32 pb-20 px-4 overflow-hidden">
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] opacity-20"></div>
+                
                 <div className="relative max-w-5xl mx-auto text-center">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-400/20 rounded-full mb-6">
-                        <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
-                        <span className="text-purple-200 text-xs font-bold uppercase tracking-widest">Platonic Mixers</span>
-                    </div>
-                    
+                    {/* Visual HTML Breadcrumbs for Crawlers & UX */}
+                    <nav aria-label="Breadcrumb" className="inline-flex items-center gap-2 text-xs text-slate-300 mb-6 bg-slate-800/60 px-4 py-1.5 rounded-full border border-slate-700/50">
+                        <Link href="/" className="hover:text-white transition-colors flex items-center gap-1">
+                            <HomeIcon size={12} /> Home
+                        </Link>
+                        <ChevronRight size={12} className="text-slate-500" />
+                        <Link href={`/${cityKey}`} className="hover:text-white transition-colors font-medium">
+                            {cityName}
+                        </Link>
+                        <ChevronRight size={12} className="text-slate-500" />
+                        <span className="text-purple-300 font-bold">House Parties</span>
+                    </nav>
+
                     <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight leading-tight uppercase">
                         House Parties in <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400">{cityName}</span>
                     </h1>
@@ -168,6 +178,27 @@ export default async function HousePartiesCityPage({ cityKey, cityName, dbCityNa
                                 </div>
                             </div>
                         )}
+
+                        {/* Cross-Link Card to Make New Friends */}
+                        <div className="p-6 bg-gradient-to-r from-indigo-900 via-slate-900 to-purple-950 rounded-3xl text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6 border border-indigo-500/20">
+                            <div>
+                                <div className="inline-flex items-center gap-2 text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2">
+                                    <Users className="w-4 h-4 text-indigo-400" /> Friendships in {cityName}
+                                </div>
+                                <h3 className="text-xl font-black uppercase tracking-tight text-white mb-1">
+                                    Want to Make New Friends in {cityName}?
+                                </h3>
+                                <p className="text-xs text-slate-300 max-w-md">
+                                    Join weekend coffee meetups, board game nights, and social circles with verified young professionals.
+                                </p>
+                            </div>
+                            <Link
+                                href={`/${cityKey}/make-new-friends`}
+                                className="whitespace-nowrap px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-indigo-500/30 flex items-center gap-2"
+                            >
+                                View Friend Meetups <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </div>
 
                         {/* Rich Editorial SEO Content */}
                         <article className="prose prose-slate max-w-none bg-white rounded-3xl border border-slate-100 p-8 shadow-xs">
@@ -277,9 +308,11 @@ export default async function HousePartiesCityPage({ cityKey, cityName, dbCityNa
                 </div>
 
                 <div className="mt-16 border-t border-slate-200/50 pt-12">
+                    <CityDirectoryLinks citySlug={cityKey} cityName={cityName} />
                     <UpcomingExperiences city={cityName} currentEventId="" />
                 </div>
             </main>
         </div>
     );
 }
+

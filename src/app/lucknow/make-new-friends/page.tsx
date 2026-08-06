@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: "Make New Friends in Lucknow | Local Meetups & Social Groups",
-    description: "Looking to make new friends in Lucknow? Join weekend stranger meetups, offline networking groups, and fun social experiences in Lucknow.",
+    description: "Looking to make new friends in Lucknow? Join weekend stranger meetups, offline networking groups, and social circles in Gomti Nagar, Hazratganj & Aliganj.",
+    keywords: ["make new friends in Lucknow", "how to make friends in Lucknow", "Lucknow social groups", "Lucknow meetups", "find friends in Lucknow"],
     alternates: {
         canonical: '/lucknow/make-new-friends',
     }

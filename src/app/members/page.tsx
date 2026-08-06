@@ -300,7 +300,8 @@ export default function MembersPage() {
         await auth.signOut();
     };
 
-    if (loading) {
+    // Only show full-screen identity check loader if an authenticated user is waiting for membership status to resolve
+    if (loading && user) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="text-center">

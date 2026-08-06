@@ -8,7 +8,7 @@ interface RecentPostsProps {
 }
 
 export default function RecentPosts({ excludeSlug, limit = 4 }: RecentPostsProps) {
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt']);
     const filteredPosts = excludeSlug 
         ? allPosts.filter((post: Partial<Post>) => post.slug !== excludeSlug)
         : allPosts;
@@ -37,8 +37,10 @@ export default function RecentPosts({ excludeSlug, limit = 4 }: RecentPostsProps
                             />
                         </div>
                         <div className="p-4">
-                            <div className="text-xs text-gray-400 mb-2">
-                                {formatBlogDate(post.date || '')}
+                            <div className="text-xs text-gray-400 mb-2 flex items-center gap-1.5 font-medium">
+                                <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                <span>•</span>
+                                <span>{formatBlogDate(post.date || '')}</span>
                             </div>
                             <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
                                 {post.title}

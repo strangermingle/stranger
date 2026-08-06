@@ -12,14 +12,15 @@ import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-    title: "Visakhapatnam - Meetups, Events & Making Friends in Vizag",
-    description: "Join curated stranger meetups and social events in Visakhapatnam. Meet new people in MVP Colony, Rushikonda, Gajuwaka, and Beach Road. Small groups. Verified. Safe. Real fun.",
+    title: "Visakhapatnam Social Meetups & Vizag Friend Circles",
+    description: "Make real friends by the beach in Vizag. Join safe, curated stranger meetups in MVP Colony, Rushikonda, Beach Road & Siripuram. Small groups, verified community.",
+    keywords: ["Vizag meetups", "MVP Colony events", "Rushikonda social group", "make friends Visakhapatnam", "Beach Road meetups"],
     alternates: {
         canonical: "/visakhapatnam",
     },
     openGraph: {
-        title: "Visakhapatnam - Meetups, Events & Making Friends in Vizag",
-        description: "Join curated stranger meetups and social events in Visakhapatnam. Meet new people in MVP Colony, Rushikonda, Gajuwaka, and Beach Road. Small groups. Verified. Safe. Real fun.",
+        title: "Visakhapatnam Social Meetups & Vizag Friend Circles",
+        description: "Make real friends by the beach in Vizag. Join safe, curated stranger meetups in MVP Colony, Rushikonda, Beach Road & Siripuram. Small groups, verified community.",
         url: "/visakhapatnam",
         siteName: 'Stranger Mingle',
         locale: 'en_IN',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default async function VisakhapatnamCityPage() {
     const cityEvents = await getEventsByCity("Visakhapatnam");
-    const allPosts = getAllPosts(['slug', 'title', 'date', 'image', 'excerpt', 'tags']);
+    const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
 
     // Filter for Visakhapatnam-related posts
     const visakhapatnamPosts = allPosts.filter(post =>
@@ -252,8 +253,10 @@ export default async function VisakhapatnamCityPage() {
                                         />
                                     </div>
                                     <div className="p-6">
-                                        <div className="text-sm text-gray-400 mb-2">
-                                            {formatBlogDate(post.date)}
+                                        <div className="flex items-center gap-2 text-xs text-gray-400 mb-2 font-medium">
+                                            <span>By {post.author || 'Stranger Mingle Desk'}</span>
+                                            <span>•</span>
+                                            <span>{formatBlogDate(post.date)}</span>
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                                             {post.title}
