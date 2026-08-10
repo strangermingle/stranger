@@ -15,6 +15,11 @@ const WhatsAppFloat = () => {
 
     const handleClick = () => {
         sendGAEvent({
+            action: 'generate_lead',
+            category: 'lead',
+            label: 'WhatsApp Channel Float'
+        });
+        sendGAEvent({
             action: 'whatsapp_float_click',
             category: 'whatsapp_float',
             label: 'WhatsApp Channel Float'

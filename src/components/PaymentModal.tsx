@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Event, formatEventDate } from '@/lib/events';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { sendGAEvent } from '@/lib/gtag';
 
 interface PaymentModalProps {
     isOpen: boolean;
@@ -133,6 +134,13 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
         e.preventDefault();
         setError(null);
         setLoading(true);
+
+        sendGAEvent({
+            action: 'qualify_lead',
+            category: 'checkout',
+            label: `Qualified Lead: ${event.title}`,
+            value: totalPrice
+        });
 
         try {
             const tickets = Object.entries(selectedTickets)

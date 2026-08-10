@@ -7,6 +7,11 @@ import { sendGAEvent } from "@/lib/gtag";
 const BookingFloat = () => {
     const handleClick = () => {
         sendGAEvent({
+            action: 'generate_lead',
+            category: 'lead',
+            label: 'Floating Book Button'
+        });
+        sendGAEvent({
             action: 'booking_float_click',
             category: 'booking_float',
             label: 'Floating Book Button'

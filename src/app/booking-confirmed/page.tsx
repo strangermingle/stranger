@@ -143,6 +143,12 @@ function BookingContent() {
                             items: items
                         }
                     });
+                    win.dataLayer.push({
+                        event: "convert_lead",
+                        transaction_id: bookingDetails.booking_ref,
+                        value: totalValue,
+                        currency: "INR"
+                    });
                 }
             }
         }
