@@ -11,11 +11,11 @@ interface AdProps {
 
 const MOCK_ADS: AdProps[] = [
     {
-        title: "Free Pet Care Tools, Guide and Hacks",
-        description: "Explore Our Pet Care Resources. Comprehensive guides and resources.",
-        imageUrl: "https://res.cloudinary.com/strangermingle/image/upload/v1774305947/og-image_gbcusn.png",
-        link: "https://www.nearbypetcare.com/",
-        sponsorName: "NearByPetCare"
+        title: "Smart Electric Standing Desk",
+        description: "Elevate your workspace with Fittrock. Where elegance meets functionality.",
+        imageUrl: "/images/fittrock-landscape-image.png",
+        link: "https://www.fittrock.com/",
+        sponsorName: "Fittrock"
     }
 ];
 
@@ -29,27 +29,29 @@ export default function SponsoredAd() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 flex items-center gap-1">
                         <Info size={10} /> Sponsored
                     </span>
-                    <span className="text-[10px] font-bold text-blue-600">{ad.sponsorName}</span>
+                    <span className="text-[10px] font-bold text-amber-700">{ad.sponsorName}</span>
                 </div>
                 
-                <div className="relative aspect-[2/1] w-full">
+                <div className="w-full bg-stone-900 overflow-hidden">
                     <Image 
                         src={ad.imageUrl} 
                         alt={ad.title} 
-                        fill 
-                        sizes="(max-width: 768px) 100vw, 300px"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        width={1600}
+                        height={900}
+                        unoptimized
+                        priority
+                        className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                 </div>
                 
                 <div className="p-4">
-                    <h4 className="font-bold text-gray-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">
+                    <h4 className="font-bold text-gray-900 mb-2 leading-tight group-hover:text-amber-700 transition-colors">
                         {ad.title}
                     </h4>
                     <p className="text-xs text-gray-500 mb-4 line-clamp-2">
                         {ad.description}
                     </p>
-                    <div className="flex items-center justify-center gap-2 w-full py-4 bg-blue-600 hover:bg-yellow-300 hover:text-black text-white rounded-xl text-[14px] font-black uppercase tracking-widest group-hover:bg-blue-600 transition-all">
+                    <div className="flex items-center justify-center gap-2 w-full py-3 bg-amber-700 hover:bg-amber-800 text-white rounded-xl text-[14px] font-black uppercase tracking-widest transition-all">
                         Explore Now <ExternalLink size={12} />
                     </div>
                 </div>
