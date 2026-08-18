@@ -19,14 +19,23 @@ import Link from 'next/link';
 import { CreateGroupModal } from '@/components/groups/CreateGroupModal';
 import { GroupCard } from '@/components/groups/GroupCard';
 
+import { useRouter } from 'next/navigation';
+
 export default function GroupsPage() {
-    const { user } = useAuth();
+    const { user, loading: authLoading, isMemberVerified } = useAuth();
+    const router = useRouter();
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     
     const [myGroups, setMyGroups] = useState<{ owned: any[], joined: any[] }>({ owned: [], joined: [] });
     const [discoverGroups, setDiscoverGroups] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        if (!authLoading && (!user || !isMemberVerified)) {
+            router.push('/members');
+        }
+    }, [user, isMemberVerified, authLoading, router]);
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -48,8 +57,8 @@ export default function GroupsPage() {
     }, []);
 
     useEffect(() => {
-        if (user) fetchData();
-    }, [user, fetchData]);
+        if (user && isMemberVerified) fetchData();
+    }, [user, isMemberVerified, fetchData]);
 
     const filteredDiscover = discoverGroups.filter(g => 
         g.name.toLowerCase().includes(searchQuery.toLowerCase()) &&

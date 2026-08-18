@@ -14,16 +14,16 @@ const MOCK_COUPONS = [
 ];
 
 export default function CouponsPage() {
-    const { user, loading } = useAuth();
+    const { user, loading, isMemberVerified } = useAuth();
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
     useEffect(() => {
-        if (!loading && !user) {
+        if (!loading && (!user || !isMemberVerified)) {
             router.push('/members');
         }
-    }, [user, loading, router]);
+    }, [user, isMemberVerified, loading, router]);
 
     const filteredCoupons = MOCK_COUPONS.filter(coupon => {
         const matchesCategory = !activeCategory || coupon.category === activeCategory;

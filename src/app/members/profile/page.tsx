@@ -34,7 +34,7 @@ export default function ProfilePage() {
     const [cancelReason, setCancelReason] = useState('');
 
     useEffect(() => {
-        if (!authLoading && !user) {
+        if (!authLoading && (!user || !isMemberVerified)) {
             router.push('/members');
             return;
         }

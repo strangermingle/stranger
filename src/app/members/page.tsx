@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/components/AuthProvider';
-import { LogOut, Shield, Loader2, AlertCircle, CheckCircle, Mail, Lock, MessageSquare, MapPin, Gamepad2, User, Ticket } from 'lucide-react';
+import { LogOut, Shield, Loader2, AlertCircle, CheckCircle, Mail, Lock, MessageSquare, MapPin, Gamepad2, User, Ticket, Tag, Check, X, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import NextImage from 'next/image';
 
@@ -48,6 +48,21 @@ export default function MembersPage() {
     const [applyPassword, setApplyPassword] = useState('');
     const [selectedPlan, setSelectedPlan] = useState<string>(PLAN_YEARLY);
     const [showSuccess, setShowSuccess] = useState(false);
+
+    // Promo code state
+    const [promoCodeInput, setPromoCodeInput] = useState('');
+    const [appliedPromo, setAppliedPromo] = useState<{
+        code: string;
+        discount_type: 'percentage' | 'fixed_amount';
+        discount_value: number;
+        duration_type: 'once' | 'forever' | 'repeating';
+        duration_in_cycles?: number | null;
+        discountAmount: number;
+        finalAmount: number;
+    } | null>(null);
+    const [promoLoading, setPromoLoading] = useState(false);
+    const [promoError, setPromoError] = useState<string | null>(null);
+    const [showPromoInput, setShowPromoInput] = useState(false);
 
     // ==========================================
     // GLOBAL UI STATE
@@ -149,7 +164,8 @@ export default function MembersPage() {
     const verifyMembershipPayment = async (
         payload: {
             razorpay_payment_id: string;
-            razorpay_subscription_id: string;
+            razorpay_order_id?: string;
+            razorpay_subscription_id?: string;
             razorpay_signature: string;
         },
         maxAttempts = 3
@@ -182,6 +198,91 @@ export default function MembersPage() {
         throw lastError || new Error('Payment verification failed');
     };
 
+    const getBasePlanPrice = (plan: string) => {
+        return plan === PLAN_YEARLY ? 1999 : 499;
+    };
+
+    const validatePromoCode = async (codeToValidate: string, targetPlan: string) => {
+        if (!codeToValidate.trim()) return null;
+        const basePrice = getBasePlanPrice(targetPlan);
+        const res = await fetch('/api/subscription/validate-promo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                code: codeToValidate.trim(),
+                planId: targetPlan,
+                email: applyEmail.trim().toLowerCase() || undefined,
+                amount: basePrice
+            })
+        });
+        return await res.json();
+    };
+
+    const handleApplyPromo = async (e?: FormEvent) => {
+        if (e) e.preventDefault();
+        if (!promoCodeInput.trim()) return;
+        setPromoLoading(true);
+        setPromoError(null);
+        try {
+            const data = await validatePromoCode(promoCodeInput, selectedPlan);
+            if (!data?.valid) {
+                setPromoError(data?.error || 'Invalid or inapplicable promo code');
+                setAppliedPromo(null);
+            } else {
+                setAppliedPromo({
+                    code: data.discountCode.code,
+                    discount_type: data.discountCode.discount_type,
+                    discount_value: data.discountCode.discount_value,
+                    duration_type: data.discountCode.duration_type,
+                    duration_in_cycles: data.discountCode.duration_in_cycles,
+                    discountAmount: data.discountAmount,
+                    finalAmount: data.finalAmount
+                });
+                setPromoError(null);
+            }
+        } catch (err: any) {
+            setPromoError(err.message || 'Failed to apply promo code');
+            setAppliedPromo(null);
+        } finally {
+            setPromoLoading(false);
+        }
+    };
+
+    const handleRemovePromo = () => {
+        setAppliedPromo(null);
+        setPromoCodeInput('');
+        setPromoError(null);
+    };
+
+    const handlePlanSelect = async (newPlan: string) => {
+        setSelectedPlan(newPlan);
+        if (appliedPromo) {
+            setPromoLoading(true);
+            try {
+                const data = await validatePromoCode(appliedPromo.code, newPlan);
+                if (data?.valid) {
+                    setAppliedPromo({
+                        code: data.discountCode.code,
+                        discount_type: data.discountCode.discount_type,
+                        discount_value: data.discountCode.discount_value,
+                        duration_type: data.discountCode.duration_type,
+                        duration_in_cycles: data.discountCode.duration_in_cycles,
+                        discountAmount: data.discountAmount,
+                        finalAmount: data.finalAmount
+                    });
+                    setPromoError(null);
+                } else {
+                    setPromoError(data?.error || 'Promo code not applicable for this plan');
+                    setAppliedPromo(null);
+                }
+            } catch {
+                setAppliedPromo(null);
+            } finally {
+                setPromoLoading(false);
+            }
+        }
+    };
+
     const handleApplyAndPay = async (e: FormEvent) => {
         e.preventDefault();
 
@@ -199,7 +300,9 @@ export default function MembersPage() {
             const isScriptLoaded = await loadRazorpayScript();
             if (!isScriptLoaded) throw new Error("Razorpay SDK failed to load.");
 
-            // 1. Create Subscription on Backend
+            const basePrice = getBasePlanPrice(selectedPlan);
+
+            // 1. Create Order on Backend
             const res = await fetch('/api/subscription', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -207,17 +310,21 @@ export default function MembersPage() {
                     planId: selectedPlan,
                     name: applyName,
                     email: cleanEmail,
-                    phone: applyPhone
+                    phone: applyPhone,
+                    discountCode: appliedPromo?.code || undefined,
+                    amount: basePrice
                 })
             });
 
             const data = await res.json();
-            if (!data.success) throw new Error(data.error || "Failed to initiate subscription");
+            if (!data.success) throw new Error(data.error || "Failed to initiate membership payment");
 
-            // 2. Open Razorpay Checkout
-            const options = {
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-                subscription_id: data.subscriptionId,
+            // 2. Open Standard Razorpay Checkout
+            const options: any = {
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || data.keyId,
+                amount: data.amount,
+                currency: data.currency || "INR",
+                order_id: data.orderId,
                 name: "Stranger Mingle",
                 description: "Premium Community Membership",
                 prefill: {
@@ -231,7 +338,7 @@ export default function MembersPage() {
                     try {
                         await verifyMembershipPayment({
                             razorpay_payment_id: response.razorpay_payment_id,
-                            razorpay_subscription_id: response.razorpay_subscription_id,
+                            razorpay_order_id: response.razorpay_order_id || data.orderId,
                             razorpay_signature: response.razorpay_signature,
                         });
 
@@ -249,13 +356,16 @@ export default function MembersPage() {
                         }
 
                         setShowSuccess(true);
-                    } catch (err: unknown) {
-                        const message =
-                            err instanceof Error
-                                ? err.message
-                                : 'Verification failed. If payment was deducted, check your email shortly or contact support.';
-                        setError(message);
+                        await checkMembershipStatus();
+                    } catch (verifyErr: any) {
+                        console.error('[Membership] Post-Payment Verification Flow Failed:', verifyErr);
+                        setError(verifyErr.message || "Payment verification failed. Please contact support.");
                     } finally {
+                        setAuthLoading(false);
+                    }
+                },
+                modal: {
+                    ondismiss: function () {
                         setAuthLoading(false);
                     }
                 }
@@ -263,14 +373,15 @@ export default function MembersPage() {
 
             const rzp = new (window as any).Razorpay(options);
             rzp.on('payment.failed', function (resp: any) {
-                setError(resp.error.description);
+                console.error('Payment Failed:', resp.error);
+                setError(resp.error?.description || "Payment failed. Please try again.");
                 setAuthLoading(false);
             });
             rzp.open();
-            setAuthLoading(false);
 
         } catch (err: any) {
-            setError(err.message || 'Payment initiation failed.');
+            console.error('[Membership] Checkout Error:', err);
+            setError(err.message || "Failed to process application. Please try again.");
             setAuthLoading(false);
         }
     };
@@ -316,47 +427,105 @@ export default function MembersPage() {
     if (showSuccess) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-white p-6">
-                <div className="max-w-md w-full text-center space-y-6">
-                    <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto">
+                <div className="max-w-md w-full text-center space-y-6 animate-in zoom-in duration-300">
+                    <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
                         <CheckCircle className="w-12 h-12" />
                     </div>
-                    <h1 className="text-3xl font-black text-gray-900 tracking-tighter uppercase italic">Welcome to the Club!</h1>
-                    <p className="text-gray-600 font-medium">
-                        Your membership is now active! We've sent a <b>Verification Link</b> to your email. Please verify your official email to unlock all premium features.
+                    <h1 className="text-3xl font-bold text-green-600 tracking-wide uppercase">Welcome to the Club!</h1>
+                    <p className="text-gray-600 font-medium leading-relaxed">
+                        Your payment was successful! We've sent a <b>Verification Link</b> to your email. Please click the link in your email to verify and unlock your full dashboard.
                     </p>
-                    <Link
-                        href="/members"
-                        className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-3 hover:bg-black transition-all"
+                    <button
+                        type="button"
+                        onClick={() => setShowSuccess(false)}
+                        className="w-full py-4 bg-yellow-400 text-black font-bold uppercase tracking-wider rounded-2xl flex items-center justify-center gap-3 hover:bg-yellow-300 transition-all shadow-md active:scale-95 text-sm"
                     >
-                        Success! Go to Dashboard
-                    </Link>
+                        Continue to Verification
+                    </button>
                 </div>
             </div>
         );
     }
 
-    // Dashboard View if User + Member
-    if (user && isMember) {
+    // Holding View if User + Member but NOT yet email verified
+    if (user && isMember && !isMemberVerified) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6 pt-24 pb-12">
+                <div className="max-w-md w-full bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-xl text-center space-y-6 animate-in zoom-in duration-300">
+                    <div className="w-20 h-20 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                        <Mail className="w-10 h-10" />
+                    </div>
+                    <div>
+                        <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1 bg-yellow-50 border border-yellow-200 rounded-full text-yellow-700 text-[10px] font-black uppercase tracking-widest mb-3">
+                            <AlertCircle className="w-3.5 h-3.5" />
+                            <span>Verification Required</span>
+                        </div>
+                        <h1 className="text-2xl font-black text-gray-900 tracking-tight">Verify Your Email</h1>
+                        <p className="text-gray-500 text-sm mt-3 leading-relaxed">
+                            We've sent a verification link to <b className="text-gray-900 font-semibold">{user.email}</b>. Please click the link in your inbox to activate and enter your member dashboard.
+                        </p>
+                    </div>
+
+                    {successMessage && (
+                        <div className="p-3.5 bg-green-50 text-green-700 rounded-2xl text-xs font-semibold flex items-center gap-2 border border-green-100 text-left">
+                            <CheckCircle className="w-4 h-4 shrink-0" />
+                            <span>{successMessage}</span>
+                        </div>
+                    )}
+
+                    {error && (
+                        <div className="p-3.5 bg-red-50 text-red-600 rounded-2xl text-xs font-semibold flex items-center gap-2 border border-red-100 text-left">
+                            <AlertCircle className="w-4 h-4 shrink-0" />
+                            <span>{error}</span>
+                        </div>
+                    )}
+
+                    <div className="space-y-3 pt-2">
+                        <button
+                            type="button"
+                            onClick={async () => {
+                                setAuthLoading(true);
+                                await checkMembershipStatus();
+                                setAuthLoading(false);
+                            }}
+                            disabled={authLoading}
+                            className="w-full py-4 bg-yellow-400 text-black font-black uppercase tracking-wider rounded-2xl flex items-center justify-center gap-2 hover:bg-yellow-300 transition-all shadow-md active:scale-95 disabled:opacity-50 text-sm"
+                        >
+                            {authLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
+                            <span>I've Verified My Email</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={handleResendVerification}
+                            disabled={authLoading}
+                            className="w-full py-3.5 bg-gray-100 text-gray-700 font-bold uppercase tracking-wider rounded-2xl flex items-center justify-center gap-2 hover:bg-gray-200 transition-all active:scale-95 disabled:opacity-50 text-xs"
+                        >
+                            <Mail className="w-4 h-4" />
+                            <span>Resend Verification Link</span>
+                        </button>
+                    </div>
+
+                    <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
+                        <span>Logged in as <b>{user.email?.split('@')[0]}</b></span>
+                        <button
+                            type="button"
+                            onClick={handleLogout}
+                            className="text-red-500 font-bold hover:underline"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Dashboard View ONLY if User + Member + Verified
+    if (user && isMember && isMemberVerified) {
         return (
             <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 selection:bg-yellow-200">
                 <div className="max-w-7xl mx-auto">
-                    {/* Verification Banner */}
-                    {!isMemberVerified && (
-                        <div className="mb-8 p-4 bg-yellow-400 text-black rounded-2xl flex items-center justify-between shadow-lg shadow-yellow-200/50 animate-pulse">
-                            <div className="flex items-center gap-3 font-black uppercase tracking-tighter text-sm">
-                                <AlertCircle className="w-5 h-5" />
-                                <span>Action Required: Please verify your official email to unlock full access</span>
-                            </div>
-                            <button
-                                type="button"
-                                onClick={handleResendVerification}
-                                disabled={authLoading}
-                                className="px-4 py-1.5 bg-black text-white text-[10px] font-black uppercase rounded-lg hover:bg-gray-800 transition-all disabled:opacity-50"
-                            >
-                                Resend Link
-                            </button>
-                        </div>
-                    )}
 
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-1">
                         <div className="animate-in fade-in slide-in-from-left duration-700">
@@ -669,39 +838,31 @@ export default function MembersPage() {
                                 {/* Plan Selection */}
                                 <div className="grid grid-cols-2 gap-3 pt-2">
                                     {/* Offer Deadline Banner */}
-                                    <div className="col-span-2 flex items-center justify-center gap-1.5 bg-red-50 border border-red-100 rounded-xl px-3 py-2">
-                                        <svg className="w-3.5 h-3.5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
-                                        </svg>
+                                    <div className="col-span-2 flex items-center justify-center gap-1.5 bg-red-50 border border-red-100 rounded-xl px-3 py-2 text-center">
+                                        <Sparkles className="w-3.5 h-3.5 text-red-500 shrink-0" />
                                         <span className="text-[11px] font-bold text-red-500 uppercase tracking-wide">
-                                            Offer ends 30 June · {(() => {
-                                                const now = new Date();
-                                                const end = new Date('2026-06-30T23:59:59');
-                                                const diff = Math.max(0, end.getTime() - now.getTime());
-                                                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                                                return `${d}d ${h}h ${m}m left`;
-                                            })()}
+                                            Follow us and comment on instagram post to get FREE membership
                                         </span>
                                     </div>
 
                                     <div
-                                        onClick={() => setSelectedPlan(PLAN_MONTHLY)}
+                                        onClick={() => handlePlanSelect(PLAN_MONTHLY)}
                                         className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${selectedPlan === PLAN_MONTHLY ? 'border-yellow-400 bg-yellow-50 shadow-md' : 'border-gray-50 bg-gray-50 hover:border-gray-200'}`}
                                     >
                                         <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Monthly</div>
                                         <div className="flex items-baseline gap-1.5">
-                                            <span className="text-xl font-black text-gray-900">₹49</span>
-                                            <span className="text-xs font-semibold text-gray-400 line-through">₹499</span>
+                                            <span className="text-xl font-black text-gray-900">
+                                                {appliedPromo && selectedPlan === PLAN_MONTHLY ? `₹${appliedPromo.finalAmount}` : '₹499'}
+                                            </span>
+                                            <span className="text-xs font-semibold text-gray-400">/mo</span>
                                         </div>
                                         <div className={`text-[10px] font-bold mt-0.5 ${selectedPlan === PLAN_MONTHLY ? 'text-yellow-600' : 'text-gray-400'}`}>
-                                            90% OFF
+                                            {appliedPromo && selectedPlan === PLAN_MONTHLY ? 'PROMO APPLIED' : '1 Month Access'}
                                         </div>
                                     </div>
 
                                     <div
-                                        onClick={() => setSelectedPlan(PLAN_YEARLY)}
+                                        onClick={() => handlePlanSelect(PLAN_YEARLY)}
                                         className={`p-4 rounded-2xl border-2 cursor-pointer transition-all relative overflow-hidden ${selectedPlan === PLAN_YEARLY ? 'border-yellow-400 bg-yellow-400 shadow-lg shadow-yellow-200' : 'border-gray-50 bg-gray-50 hover:border-gray-200'}`}
                                     >
                                         {selectedPlan === PLAN_YEARLY && (
@@ -713,21 +874,119 @@ export default function MembersPage() {
                                             Yearly
                                         </div>
                                         <div className="flex items-baseline gap-1.5">
-                                            <span className={`text-xl font-black transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black' : 'text-gray-900'}`}>₹499</span>
-                                            <span className={`text-xs font-semibold line-through transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black/40' : 'text-gray-400'}`}>₹1,999</span>
+                                            <span className={`text-xl font-black transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black' : 'text-gray-900'}`}>
+                                                {appliedPromo && selectedPlan === PLAN_YEARLY ? `₹${appliedPromo.finalAmount}` : '₹1,999'}
+                                            </span>
+                                            <span className={`text-xs font-semibold transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black/60' : 'text-gray-400'}`}>/yr</span>
                                         </div>
                                         <div className={`text-[10px] font-bold mt-0.5 transition-all ${selectedPlan === PLAN_YEARLY ? 'text-black/70' : 'text-gray-400'}`}>
-                                            75% OFF
+                                            {appliedPromo && selectedPlan === PLAN_YEARLY ? 'PROMO APPLIED' : 'Full Year Access'}
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* Promo Code Section */}
+                                <div className="pt-1">
+                                    {!appliedPromo ? (
+                                        <div>
+                                            {!showPromoInput ? (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowPromoInput(true)}
+                                                    className="flex items-center gap-1.5 text-xs font-bold text-yellow-700 hover:text-yellow-800 transition-colors py-1"
+                                                >
+                                                    <Tag className="w-3.5 h-3.5" />
+                                                    <span>Have a discount code?</span>
+                                                </button>
+                                            ) : (
+                                                <div className="space-y-1.5 animate-in fade-in duration-200">
+                                                    <div className="flex gap-2">
+                                                        <div className="relative flex-1">
+                                                            <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                                                            <input
+                                                                type="text"
+                                                                value={promoCodeInput}
+                                                                onChange={e => setPromoCodeInput(e.target.value.toUpperCase())}
+                                                                placeholder="ENTER DISCOUNT CODE"
+                                                                className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-yellow-400 outline-none text-xs font-bold uppercase tracking-wider text-gray-900 placeholder:normal-case placeholder:font-normal"
+                                                            />
+                                                        </div>
+                                                        <button
+                                                            type="button"
+                                                            onClick={handleApplyPromo}
+                                                            disabled={promoLoading || !promoCodeInput.trim()}
+                                                            className="px-4 py-2.5 bg-gray-900 hover:bg-black text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all disabled:opacity-50 flex items-center justify-center min-w-[70px]"
+                                                        >
+                                                            {promoLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Apply'}
+                                                        </button>
+                                                    </div>
+                                                    {promoError && (
+                                                        <p className="text-[11px] text-red-500 font-medium pl-1 flex items-center gap-1">
+                                                            <AlertCircle className="w-3 h-3 shrink-0" />
+                                                            {promoError}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="bg-green-50 border border-green-200 rounded-xl p-3 flex items-center justify-between animate-in zoom-in-95 duration-200">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center">
+                                                    <Check className="w-3.5 h-3.5" />
+                                                </div>
+                                                <div>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <span className="text-xs font-black text-green-900 uppercase tracking-wide">{appliedPromo.code}</span>
+                                                        <span className="text-[10px] font-bold bg-green-200 text-green-800 px-1.5 py-0.5 rounded">
+                                                            {appliedPromo.discount_type === 'percentage' ? `${appliedPromo.discount_value}% OFF` : `₹${appliedPromo.discount_value} OFF`}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-[10px] text-green-700 font-medium">
+                                                        {appliedPromo.duration_type === 'once'
+                                                            ? 'Discount applied on 1st billing cycle'
+                                                            : appliedPromo.duration_type === 'forever'
+                                                            ? 'Discount applied on every recurring cycle'
+                                                            : `Discount applied for ${appliedPromo.duration_in_cycles || 'recurring'} cycles`}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={handleRemovePromo}
+                                                className="p-1 hover:bg-green-100 rounded-lg text-green-700 hover:text-red-500 transition-colors"
+                                                title="Remove discount"
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Price Summary Breakdown */}
+                                {appliedPromo && (
+                                    <div className="bg-gray-50 border border-gray-100 rounded-xl p-3 space-y-1 text-xs">
+                                        <div className="flex justify-between text-gray-500">
+                                            <span>Base Price:</span>
+                                            <span>₹{getBasePlanPrice(selectedPlan)}</span>
+                                        </div>
+                                        <div className="flex justify-between text-green-600 font-semibold">
+                                            <span>Discount:</span>
+                                            <span>- ₹{appliedPromo.discountAmount}</span>
+                                        </div>
+                                        <div className="pt-1 border-t border-gray-200 flex justify-between font-black text-gray-900 text-sm">
+                                            <span>Total Payable Today:</span>
+                                            <span className="text-green-700">₹{appliedPromo.finalAmount}</span>
+                                        </div>
+                                    </div>
+                                )}
 
                                 <button
                                     type="submit"
                                     disabled={authLoading}
                                     className="w-full mt-4 py-4 bg-yellow-400 hover:bg-yellow-500 text-black font-black rounded-2xl transition-all active:scale-95 uppercase tracking-widest text-xs flex justify-center items-center shadow-lg shadow-yellow-200"
                                 >
-                                    {authLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Pay & Join Now'}
+                                    {authLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : (appliedPromo ? `Pay ₹${appliedPromo.finalAmount} & Join Now` : 'Pay & Join Now')}
                                 </button>
                                 <p className="text-[10px] text-gray-400 text-center leading-relaxed">
                                     By proceeding, you agree to verified screening. Access granted post-payment.

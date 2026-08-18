@@ -41,7 +41,7 @@ interface Member {
 }
 
 export default function ChatPage() {
-    const { user, mappedUserId, loading: authLoading } = useAuth();
+    const { user, mappedUserId, loading: authLoading, isMemberVerified } = useAuth();
     const router = useRouter();
     
     const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -68,16 +68,16 @@ export default function ChatPage() {
 
     // 1. Initial Load: Fetch Conversations and Available Members
     useEffect(() => {
-        if (!authLoading && !user) {
+        if (!authLoading && (!user || !isMemberVerified)) {
             router.push('/members');
             return;
         }
 
-        if (user && mappedUserId) {
+        if (user && mappedUserId && isMemberVerified) {
             fetchConversations();
             fetchAvailableMembers();
         }
-    }, [user, mappedUserId, authLoading, router]);
+    }, [user, mappedUserId, authLoading, isMemberVerified, router]);
 
     // 2. Fetch Conversations
     async function fetchConversations() {

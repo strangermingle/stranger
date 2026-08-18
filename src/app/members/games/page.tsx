@@ -7,14 +7,14 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function GamesPage() {
-    const { user, loading } = useAuth();
+    const { user, loading, isMemberVerified } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
-        if (!loading && !user) {
+        if (!loading && (!user || !isMemberVerified)) {
             router.push('/members');
         }
-    }, [user, loading, router]);
+    }, [user, isMemberVerified, loading, router]);
 
     if (loading) {
         return (
