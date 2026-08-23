@@ -6,7 +6,7 @@ author: "Trishul D N"
 date: "2026-06-26"
 readTime: "13 min read"
 category: "Relationships & Society"
-image: "https://res.cloudinary.com/strangermingle/image/upload/v1782421466/10686_abo4ir.jpg"
+image: "https://res.cloudinary.com/strangermingle/image/upload/v1787446103/signs-you-are-with-an-avoidant-partner_ydpbt2.png"
 featured: false
 tags: [Relationships, Attachment Theory, Mental Health, Indian Society, Self-Awareness, Urban Life, Dating, Mumbai, Delhi, Bangalore, Hyderabad, Pune, Chennai, Ahmedabad, Kolkata, Lucknow, Kanpur, Surat, Vadodara, Nagpur, Indore, Bhopal, Noida]
 keywords: [avoidant partner signs India, avoidant attachment style relationship India, how to know if partner is avoidant, dismissive avoidant relationship signs, avoidant attachment and intimacy, why partner pulls away after getting close, avoidant partner emotional withdrawal, attachment styles in Indian relationships, fearful avoidant partner signs, why does my partner avoid intimacy, one-sided relationship India, emotionally unavailable partner India, avoidant attachment style signs, anxious avoidant relationship India, how to deal with avoidant partner]
