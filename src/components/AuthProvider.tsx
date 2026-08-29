@@ -59,6 +59,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsMemberVerified(!!data.is_verified);
         setMembershipExpiry(data.expiry || null);
         setCancelAtPeriodEnd(!!data.cancel_at_period_end);
+        if (data.userId) {
+          setMappedUserId(data.userId);
+        }
         return true;
       }
       setIsMember(false);
@@ -124,7 +127,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       // Get the fresh JWT and set it as an HTTP cookie
       const token = await currentUser.getIdToken();
-      document.cookie = `auth-token=${token}; path=/; max-age=1209600; Secure; SameSite=Strict`;
+      const isSecure = typeof window !== 'undefined' && window.location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = `auth-token=${token}; path=/; max-age=1209600${isSecure}; SameSite=Lax`;
       
       // Check membership status immediately
       const detectedEmail = (currentUser.email || 

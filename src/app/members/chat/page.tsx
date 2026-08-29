@@ -83,9 +83,12 @@ export default function ChatPage() {
     async function fetchConversations() {
         try {
             const result = await callRpc('chatService', 'getConversations', []);
-            setConversations(result || []);
+            const convs = result || [];
+            setConversations(convs);
+            return convs;
         } catch (error) {
             console.error('Failed to fetch conversations:', error);
+            return [];
         } finally {
             setIsLoadingConv(false);
         }
@@ -237,9 +240,9 @@ export default function ChatPage() {
         try {
             const convId = await callRpc('chatService', 'startConversation', [targetUserId]);
             setIsSearching(false);
-            fetchConversations();
+            const freshConvs = await fetchConversations();
             // Find the conversation object to set as active
-            const conv = conversations.find(c => c.id === convId);
+            const conv = freshConvs.find((c: Conversation) => c.id === convId);
             if (conv) {
                 setActiveConversation(conv);
             } else {
