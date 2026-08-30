@@ -44,7 +44,7 @@ export default function ProfilePage() {
             try {
                 const data = await callRpc('userProfile', 'getUserProfileByUserId', [mappedUserId]);
                 if (!data) return;
-                
+
                 // Initialize form values
                 setUsername(data.username || '');
                 setEmail(data.email || '');
@@ -106,7 +106,7 @@ export default function ProfilePage() {
             const result = await callRpc('userProfile', 'updateUserProfile', [mappedUserId, updatePayload]);
 
             if (!result) throw new Error('Update failed on backend');
-            
+
             setSuccess('Profile updated successfully!');
             setTimeout(() => setSuccess(null), 3000);
         } catch (err) {
@@ -158,7 +158,7 @@ export default function ProfilePage() {
             setUploading(false);
         }
     };
-    
+
     const handleManagePayment = async () => {
         setManagingPayment(true);
         setError(null);
@@ -210,7 +210,7 @@ export default function ProfilePage() {
 
             setSuccess(data.message || 'Subscription cancelled successfully');
             setShowCancelConfirm(false);
-            
+
             // Refresh subscription data
             if (mappedUserId) {
                 const subData = await callRpc('userProfile', 'getUserSubscription', [mappedUserId]);
@@ -255,16 +255,16 @@ export default function ProfilePage() {
                         <Undo className="w-6 h-6 text-gray-400 group-hover:text-gray-900 group-hover:-translate-x-1 transition-all" />
                     </Link>
                     <div>
-                        <h1 className="text-4xl font-black text-gray-900 tracking-tighter uppercase leading-none mb-1">Identity Vault</h1>
+                        <h1 className="text-2xl font-bold text-gray-900 tracking-wide uppercase leading-none mb-1">Identity Vault</h1>
                         <p className="text-gray-500 font-medium tracking-tight">Manage your verified member credentials.</p>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8 mb-8">
-                    <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 p-8 rounded-[2rem] shadow-2xl shadow-yellow-200/50 flex flex-col md:flex-row justify-between items-center text-black gap-6">
+                <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-2 mb-8">
+                    <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 p-4 rounded-[1rem] shadow-2xl shadow-yellow-200/50 flex flex-col md:flex-row justify-between items-center text-black gap-6">
                         <div className="text-center md:text-left">
-                            <div className="text-xs font-black uppercase tracking-[0.2em] mb-1 opacity-60">Account Standing</div>
-                            <div className="text-4xl font-black tracking-tighter">
+                            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-1 opacity-60">Account Standing</div>
+                            <div className="text-4xl font-bold tracking-wide">
                                 {subscription ? (
                                     subscription.razorpay_plan_id === process.env.NEXT_PUBLIC_RAZORPAY_PLAN_YEARLY ? 'PLATINUM YEARLY' : 'PLATINUM MONTHLY'
 
@@ -275,8 +275,8 @@ export default function ProfilePage() {
                         </div>
                         <div className="flex items-center gap-8">
                             <div className="text-center md:text-right">
-                                <div className="text-[10px] font-black uppercase tracking-widest opacity-60">Status</div>
-                                <div className={`font-black uppercase tracking-tight flex items-center gap-1.5 ${subscription?.status === 'active' ? 'text-green-700' : 'text-orange-700'}`}>
+                                <div className="text-[10px] font-bold uppercase tracking-widest opacity-60">Status</div>
+                                <div className={`font-bold uppercase tracking-wide flex items-center gap-1.5 ${subscription?.status === 'active' ? 'text-green-700' : 'text-orange-700'}`}>
                                     {subscription?.status || 'None'}
                                     {isMemberVerified && <CheckCircle className="w-3 h-3 text-green-700" />}
                                 </div>
@@ -284,8 +284,8 @@ export default function ProfilePage() {
                             <div className="text-center md:text-right">
                                 <div className="text-[10px] font-black uppercase tracking-widest opacity-60">Renewal</div>
                                 <div className="font-bold">
-                                    {(subscription?.current_period_end || membershipExpiry) 
-                                        ? new Date(subscription?.current_period_end || membershipExpiry!).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' }) 
+                                    {(subscription?.current_period_end || membershipExpiry)
+                                        ? new Date(subscription?.current_period_end || membershipExpiry!).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
                                         : 'Active'}
                                 </div>
                             </div>
@@ -333,7 +333,7 @@ export default function ProfilePage() {
                                     />
                                 </label>
                             </div>
-                            <span className="text-xs font-black text-gray-400 uppercase tracking-widest mt-4">Change Profile Picture</span>
+                            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-4">Change Profile Picture</span>
                         </div>
 
                         {/* Notifications */}
@@ -353,38 +353,38 @@ export default function ProfilePage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Read-only Identity Section */}
                             <div className="md:col-span-2">
-                                <div className="flex items-center gap-2 mb-4">
-                                    <Shield className="w-4 h-4 text-blue-600" />
-                                    <span className="text-xs font-black text-blue-600 uppercase tracking-widest">Verified Identity (Locked)</span>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Shield className="w-4 h-4 text-red-600" />
+                                    <span className="text-xs font-bold text-red-600 uppercase tracking-widest">Verified Identity (Locked)</span>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div>
-                                        <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                        <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
                                             Full Name
                                         </label>
-                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-bold flex items-center justify-between">
+                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-semibold flex items-center justify-between">
                                             <span>{username || 'Anonymous'}</span>
-                                            <Lock className="w-4 h-4 opacity-30" />
+                                            <Lock className="w-4 h-4 text-red-500 opacity-90" />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                        <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
                                             Official Email
                                         </label>
-                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-bold flex items-center justify-between">
+                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-semibold flex items-center justify-between">
                                             <span className="truncate">{email || 'Not verified'}</span>
-                                            <Lock className="w-4 h-4 opacity-30" />
+                                            <Lock className="w-4 h-4 text-red-500 opacity-90" />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                        <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
                                             Anonymous Alias
                                         </label>
-                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-bold flex items-center justify-between">
-                                            <span>{anonymousAlias || 'CoolStranger007'}</span>
-                                            <Lock className="w-4 h-4 opacity-30" />
+                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-semibold flex items-center justify-between">
+                                            <span>{anonymousAlias || (loading ? 'Loading...' : 'Anonymous Member')}</span>
+                                            <Lock className="w-4 h-4 text-red-500 opacity-90" />
                                         </div>
                                     </div>
                                 </div>
@@ -392,10 +392,10 @@ export default function ProfilePage() {
 
                             {/* Separator */}
                             <div className="md:col-span-2 border-t border-gray-50 my-2" />
-                            
+
                             {/* Editable Fields */}
                             <div>
-                                <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
                                     Phone Number
                                 </label>
                                 <input
@@ -408,7 +408,7 @@ export default function ProfilePage() {
                             </div>
 
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
                                     Bio
                                 </label>
                                 <textarea
@@ -421,7 +421,7 @@ export default function ProfilePage() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
                                     Gender
                                 </label>
                                 <select
@@ -438,7 +438,7 @@ export default function ProfilePage() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
                                     Date of Birth
                                 </label>
                                 <input
@@ -450,11 +450,11 @@ export default function ProfilePage() {
                             </div>
                         </div>
 
-                        <div className="pt-4 border-t border-gray-50 flex justify-end">
+                        <div className="pt-4 border-t border-gray-50 flex justify-center">
                             <button
                                 type="submit"
                                 disabled={saving}
-                                className="px-10 py-4 bg-gray-900 hover:bg-black text-white font-black rounded-2xl transition-all shadow-xl shadow-gray-900/10 active:scale-95 flex items-center gap-2 uppercase tracking-widest text-sm"
+                                className="px-10 py-4 bg-gray-900 hover:bg-black text-white font-bold rounded-2xl transition-all shadow-xl shadow-gray-900/10 active:scale-95 flex items-center gap-2 uppercase tracking-widest text-sm"
                             >
                                 {saving ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -477,22 +477,22 @@ export default function ProfilePage() {
                                 <CreditCard className="w-5 h-5 text-blue-600" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-black text-gray-900 tracking-tight">MEMBERSHIP ACTIONS</h3>
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Self-service control panel</p>
+                                <h3 className="text-xl font-bold text-gray-900 tracking-tight">MEMBERSHIP ACTIONS</h3>
+                                <p className="text-xs font-regular text-gray-800 uppercase tracking-widest">Self-service control panel</p>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Update Payment Method */}
-                            <div className="p-6 bg-gray-50 rounded-[2rem] border border-gray-100 flex flex-col justify-between group">
+                            <div className="p-6 bg-gray-50 rounded-[1rem] border border-gray-100 flex flex-col justify-between group">
                                 <div>
-                                    <h4 className="font-black text-gray-900 mb-1">Update Payment Method</h4>
-                                    <p className="text-sm text-gray-500 font-medium mb-6">Securely update your card or mandate via Razorpay.</p>
+                                    <h4 className="font-bold text-gray-900 mb-1">Update Payment Method</h4>
+                                    <p className="text-sm text-gray-500 font-regular mb-4">Securely update your card or mandate via Razorpay.</p>
                                 </div>
-                                <button 
+                                <button
                                     onClick={handleManagePayment}
                                     disabled={managingPayment}
-                                    className="w-full py-3 bg-white hover:bg-blue-600 hover:text-white text-gray-900 font-black rounded-xl border border-gray-200 shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+                                    className="w-full py-3 bg-white hover:bg-blue-600 hover:text-white text-gray-900 font-bold rounded-xl border border-gray-200 shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
                                 >
                                     {managingPayment ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
                                     <span>MANAGE AUTOPAY</span>
@@ -502,8 +502,8 @@ export default function ProfilePage() {
                             {/* Cancel Subscription */}
                             <div className="p-6 bg-red-50/30 rounded-[2rem] border border-red-100/50 flex flex-col justify-between">
                                 <div>
-                                    <h4 className="font-black text-red-900 mb-1">Cancel Autopay</h4>
-                                    <p className="text-sm text-red-700/70 font-medium mb-6">Stop future charges. You keep access until current expiry.</p>
+                                    <h4 className="font-bold text-red-900 mb-1">Cancel Autopay</h4>
+                                    <p className="text-sm text-red-700/70 font-regular mb-4">Stop future charges. You keep access until current expiry.</p>
                                 </div>
                                 {subscription.cancel_at_period_end ? (
                                     <div className="w-full py-3 bg-red-100 text-red-700 font-black rounded-xl border border-red-200 flex items-center justify-center gap-2">
@@ -511,9 +511,9 @@ export default function ProfilePage() {
                                         <span>CANCELLATION PENDING</span>
                                     </div>
                                 ) : (
-                                    <button 
+                                    <button
                                         onClick={() => setShowCancelConfirm(true)}
-                                        className="w-full py-3 bg-white hover:bg-red-600 hover:text-white text-red-600 font-black rounded-xl border border-red-200 shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95"
+                                        className="w-full py-3 bg-white hover:bg-red-600 hover:text-white text-red-600 font-semibold rounded-xl border border-red-200 shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                         <span>CANCEL MEMBERSHIP</span>
@@ -544,15 +544,15 @@ export default function ProfilePage() {
                                     className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 outline-none focus:bg-white focus:border-red-500 transition-all text-sm font-medium"
                                     rows={3}
                                 />
-                                
+
                                 <div className="grid grid-cols-2 gap-4">
-                                    <button 
+                                    <button
                                         onClick={() => setShowCancelConfirm(false)}
                                         className="py-4 bg-gray-100 hover:bg-gray-200 text-gray-900 font-black rounded-2xl transition-all active:scale-95 uppercase tracking-widest text-xs"
                                     >
                                         Keep Membership
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={handleCancelSubscription}
                                         disabled={cancelling}
                                         className="py-4 bg-red-600 hover:bg-red-700 text-white font-black rounded-2xl transition-all shadow-xl shadow-red-200 active:scale-95 flex items-center justify-center gap-2 uppercase tracking-widest text-xs"
