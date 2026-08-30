@@ -4,9 +4,20 @@ import { } from "lucide-react"; // No icons used anymore
 export default function EventAgendaList({ agenda }: { agenda: EventAgenda[] }) {
     if (!agenda || agenda.length === 0) return null;
 
-    const formatTime = (isoString: string | null) => {
-        if (!isoString) return "";
-        const date = new Date(isoString);
+    const formatTime = (timeStr: string | null) => {
+        if (!timeStr) return "";
+        const trimmed = timeStr.trim();
+        // Check if it's a pure time string like "19:00" or "19:00:00"
+        if (/^\d{1,2}:\d{2}(:\d{2})?$/.test(trimmed)) {
+            const parts = trimmed.split(':');
+            const hours = parseInt(parts[0], 10);
+            const minutes = parts[1];
+            const ampm = hours >= 12 ? 'pm' : 'am';
+            const h12 = hours % 12 || 12;
+            return `${h12}:${minutes} ${ampm}`;
+        }
+        const date = new Date(trimmed);
+        if (isNaN(date.getTime())) return trimmed;
         return date.toLocaleTimeString('en-IN', { 
             hour: '2-digit', 
             minute: '2-digit', 

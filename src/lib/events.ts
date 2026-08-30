@@ -460,13 +460,13 @@ export async function getEventById(id: string): Promise<Event | null> {
 
 // Public event query - only returns 'published' or 'completed' events (not 'cancelled')
 export async function getPublicEventById(id: string): Promise<Event | null> {
-    return callRpc('events', 'getPublicEventById', [id]);
+    return callRpc('events', 'getPublicEventById', [id], { useCookies: false, cache: 'no-store' });
 }
 
 
 // Public event query by slug - only returns 'published' or 'completed' events (not 'cancelled')
 export async function getPublicEventBySlug(slug: string): Promise<Event | null> {
-    return callRpc('events', 'getPublicEventBySlug', [slug]);
+    return callRpc('events', 'getPublicEventBySlug', [slug], { useCookies: false, cache: 'no-store' });
 }
 
 export async function createBooking(bookingData: {

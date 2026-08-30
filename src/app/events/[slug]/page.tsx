@@ -8,8 +8,8 @@ import EventDetailsPage from '@/components/EventDetailsPage';
 import UpcomingExperiences from '@/components/event/UpcomingExperiences';
 import FacebookGroupCTA from '@/components/FacebookGroupCTA';
 
-export const dynamic = 'force-static';
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 type Props = {
   params: Promise<{ slug: string }>;
