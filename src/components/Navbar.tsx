@@ -6,7 +6,7 @@ import { useState } from 'react';
 import SocialLinks from './SocialLinks';
 import SearchBar from './SearchBar';
 import { useAuth } from './AuthProvider';
-import { UserCircle, LogOut, LayoutDashboard } from 'lucide-react';
+import { UserCircle, LogOut, LayoutDashboard, PhoneCall } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
@@ -58,6 +58,11 @@ export default function Navbar() {
 
                     {/* Desktop Menu */}
                     <div className="flex items-center gap-4 sm:gap-6 text-sm font-semibold text-gray-600">
+                        <Link href="/phone-a-friend" className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors font-bold text-xs uppercase tracking-wider border border-rose-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            <PhoneCall className="w-3.5 h-3.5" />
+                            <span>Phone a Friend</span>
+                        </Link>
                         <Link href="/events" className="hover:text-yellow-700 transition-colors hidden sm:block">
                             Events
                         </Link>
@@ -137,6 +142,15 @@ export default function Navbar() {
                     </div>
 
                     <div className="flex flex-col gap-2 mb-6">
+                        <Link
+                            href="/phone-a-friend"
+                            className="px-4 py-3 text-base font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors flex items-center gap-2"
+                            onClick={closeMobileMenu}
+                        >
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                            <PhoneCall className="w-4 h-4" />
+                            Phone a Friend
+                        </Link>
                         <Link
                             href="/events"
                             className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
