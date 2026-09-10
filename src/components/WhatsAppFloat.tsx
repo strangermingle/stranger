@@ -1,15 +1,18 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { sendGAEvent } from "@/lib/gtag";
 
 const WhatsAppFloat = () => {
+    const pathname = usePathname();
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
         const frame = requestAnimationFrame(() => setMounted(true));
         return () => cancelAnimationFrame(frame);
     }, []);
+
+    if (pathname?.startsWith('/phone-a-friend')) return null;
 
     const channelLink = "https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U";
 

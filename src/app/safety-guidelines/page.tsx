@@ -18,7 +18,8 @@ import {
     Beer,
     Smartphone,
     IndianRupee,
-    HeartHandshake
+    HeartHandshake,
+    PhoneCall
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -319,6 +320,64 @@ export default function SafetyGuidelines() {
                                             <li>Theft or property damage</li>
                                             <li>Any activity that violates Indian law</li>
                                         </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Phone a Friend Safety Guidelines */}
+                    <section className="bg-white p-8 rounded-3xl shadow-sm border border-rose-100 hover:shadow-md transition-shadow">
+                        <div className="flex items-start gap-4">
+                            <div className="p-3 bg-rose-50 rounded-2xl text-rose-600 shrink-0">
+                                <PhoneCall className="w-6 h-6" />
+                            </div>
+                            <div className="w-full">
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Phone a Friend (1-on-1 Audio Calling) Safety Rules</h2>
+                                <p className="leading-relaxed font-semibold mb-6 text-gray-700">
+                                    Our Phone a Friend voice service is built on mutual respect, empathy, and strict caller anonymity. All callers and hosts must follow these mandatory rules:
+                                </p>
+
+                                <div className="space-y-6">
+                                    <div className="bg-red-50 p-6 rounded-2xl border border-red-200">
+                                        <h3 className="text-base font-bold text-red-950 mb-2 flex items-center gap-2">
+                                            <AlertTriangle className="w-5 h-5 text-red-600 shrink-0" />
+                                            Harassment Against Hosts Leads to Immediate Legal Action
+                                        </h3>
+                                        <p className="text-red-900 text-sm leading-relaxed mb-3">
+                                            Harassment, abusive or vulgar language, sexual remarks, threats, or intimidation directed at hosts is strictly prohibited. Any caller engaging in harassment will face immediate permanent account termination, IP/device ban, and formal reporting to Indian Cyber Crime authorities and local police for criminal prosecution under the Information Technology Act and criminal laws.
+                                        </p>
+                                    </div>
+
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                                            <h3 className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-2">
+                                                <HeartHandshake className="w-4 h-4 text-emerald-600" />
+                                                Caller Etiquette & Mutual Respect
+                                            </h3>
+                                            <p className="text-gray-600 text-xs leading-relaxed">
+                                                Callers must remain polite, courteous, and calm. Hosts offer a supportive listening ear; treat them with dignity. Keep conversations strictly platonic, safe, and positive.
+                                            </p>
+                                        </div>
+
+                                        <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                                            <h3 className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-2">
+                                                <Lock className="w-4 h-4 text-indigo-600" />
+                                                Do Not Share Personal Contact Details
+                                            </h3>
+                                            <p className="text-gray-600 text-xs leading-relaxed">
+                                                Never share or request phone numbers, WhatsApp contacts, residential addresses, social media profiles (Instagram, LinkedIn), or banking/UPI details.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-amber-50 p-5 rounded-2xl border border-amber-200">
+                                        <h3 className="text-sm font-bold text-amber-950 mb-2">
+                                            No Personal In-Person Meetings — Stranger Mingle Disclaimer
+                                        </h3>
+                                        <p className="text-amber-900 text-xs leading-relaxed">
+                                            Stranger Mingle facilitates audio calls only. Stranger Mingle will not be responsible or legally liable if a host and caller choose to settle or arrange anything apart from calls, such as personal in-person meetings, offline get-togethers, or private transactions. In-person meetings are completely unendorsed and at your own personal risk.
+                                        </p>
                                     </div>
                                 </div>
                             </div>

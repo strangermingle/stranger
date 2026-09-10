@@ -5,12 +5,15 @@ import { useAuth } from '@/components/AuthProvider';
 import { 
     MessageSquare, Send, Ghost, Loader2, Undo, 
     Search, Plus, MoreVertical, CheckCheck, 
-    Check, X, User as UserIcon, Shield, ChevronLeft as ArrowLeft
+    Check, X, User as UserIcon, Shield, ChevronLeft as ArrowLeft,
+    ShieldAlert, CheckCircle2, AlertTriangle
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { callRpc } from '@/lib/rpc-client';
 import { supabase } from '@/lib/supabaseClient';
+import { submitReportApi } from '@/lib/callService';
+import { getDeviceFingerprint } from '@/lib/deviceFingerprint';
 
 interface Conversation {
     id: string;
@@ -55,6 +58,40 @@ export default function ChatPage() {
     const [isLoadingConv, setIsLoadingConv] = useState(true);
     const [isLoadingMessages, setIsLoadingMessages] = useState(false);
     const [isSending, setIsSending] = useState(false);
+    
+    // Harassment / Misconduct Reporting State
+    const [showReportModal, setShowReportModal] = useState(false);
+    const [reportReason, setReportReason] = useState('verbal_harassment');
+    const [reportDetails, setReportDetails] = useState('');
+    const [isSubmittingReport, setIsSubmittingReport] = useState(false);
+    const [reportSubmitted, setReportSubmitted] = useState(false);
+
+    const handleSubmitReport = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const reporterId = mappedUserId || user?.uid;
+        if (!activeConversation || !reporterId) {
+            alert('Unable to identify user session. Please re-login.');
+            return;
+        }
+        setIsSubmittingReport(true);
+        try {
+            const dfp = getDeviceFingerprint();
+            await submitReportApi({
+                reporterId,
+                reportedId: activeConversation.other_participant.id,
+                reportedType: 'user',
+                reason: reportReason,
+                details: reportDetails,
+                conversationId: activeConversation.id,
+                deviceFingerprint: dfp,
+            });
+            setReportSubmitted(true);
+        } catch (err: any) {
+            alert(err.message || 'Failed to submit report. Please try again.');
+        } finally {
+            setIsSubmittingReport(false);
+        }
+    };
     
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const pollingInterval = useRef<NodeJS.Timeout | null>(null);
@@ -404,8 +441,17 @@ export default function ChatPage() {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <button className="p-3 hover:bg-white/5 rounded-2xl transition-colors border border-transparent hover:border-white/10">
-                                        <Shield className="w-5 h-5 text-red-500" />
+                                    <button 
+                                        onClick={() => {
+                                            setShowReportModal(true);
+                                            setReportSubmitted(false);
+                                            setReportDetails('');
+                                        }}
+                                        className="flex items-center gap-1.5 px-3 py-1.5 bg-red-950/40 hover:bg-red-900/60 text-red-400 hover:text-red-300 rounded-2xl transition-all border border-red-800/60 text-xs font-semibold shadow-xs"
+                                        title="Report User for Harassment or Misconduct"
+                                    >
+                                        <ShieldAlert className="w-4 h-4 text-red-400" />
+                                        <span className="hidden sm:inline">Report</span>
                                     </button>
                                 </div>
                             </div>
@@ -500,6 +546,107 @@ export default function ChatPage() {
                     )}
                 </div>
             </div>
+
+            {/* Harassment / Misconduct Reporting Modal */}
+            {showReportModal && activeConversation && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150 text-white">
+                    <div className="bg-zinc-950 text-white rounded-3xl w-full max-w-md border border-zinc-800 p-6 space-y-4 shadow-2xl relative">
+                        <button
+                            onClick={() => setShowReportModal(false)}
+                            className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-zinc-200 rounded-full hover:bg-zinc-900 transition-colors"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+
+                        {reportSubmitted ? (
+                            <div className="text-center py-6 space-y-3">
+                                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                                    <CheckCircle2 className="w-6 h-6" />
+                                </div>
+                                <h3 className="text-base font-bold text-white">
+                                    Report Submitted
+                                </h3>
+                                <p className="text-xs text-zinc-400 leading-relaxed max-w-xs mx-auto">
+                                    Thank you for protecting our community. Our trust & safety team will audit this conversation immediately and take strict disciplinary or legal action.
+                                </p>
+                                <div className="pt-2 flex items-center justify-center gap-3">
+                                    <button
+                                        onClick={() => setShowReportModal(false)}
+                                        className="px-5 py-2 rounded-xl bg-zinc-800 text-zinc-200 hover:bg-zinc-700 text-xs font-semibold transition-colors"
+                                    >
+                                        Back to Chat
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setShowReportModal(false);
+                                            setActiveConversation(null);
+                                        }}
+                                        className="px-5 py-2 rounded-xl bg-red-600/20 text-red-400 hover:bg-red-600/30 border border-red-500/30 text-xs font-semibold transition-colors"
+                                    >
+                                        Leave Conversation
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmitReport} className="space-y-4">
+                                <div className="flex items-center gap-2 text-red-400 font-bold text-base">
+                                    <ShieldAlert className="w-5 h-5" />
+                                    <span>Report {activeConversation.other_participant.anonymous_alias}</span>
+                                </div>
+
+                                <p className="text-xs text-zinc-400 leading-relaxed">
+                                    Stranger Mingle strictly prohibits harassment, abuse, spam, or scams. Reports are directly audited alongside chat telemetry.
+                                </p>
+
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-semibold text-zinc-300">Reason for Reporting</label>
+                                    <select
+                                        value={reportReason}
+                                        onChange={(e) => setReportReason(e.target.value)}
+                                        className="w-full px-3 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white focus:outline-none focus:border-red-500/80 transition-colors"
+                                    >
+                                        <option value="verbal_harassment">Verbal Harassment / Abusive Messages</option>
+                                        <option value="sexual_inappropriate">Inappropriate / Sexual Remarks</option>
+                                        <option value="demanding_contact">Asking for WhatsApp / Phone / Personal Contacts</option>
+                                        <option value="scam_financial">Financial Scam / Requesting Money / Begging</option>
+                                        <option value="threats_hate">Threats / Hate Speech / Hostile Behavior</option>
+                                        <option value="spam_commercial">Spam / Commercial Promotion</option>
+                                        <option value="other">Other Community Guideline Violation</option>
+                                    </select>
+                                </div>
+
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-semibold text-zinc-300">Additional Details</label>
+                                    <textarea
+                                        rows={3}
+                                        value={reportDetails}
+                                        onChange={(e) => setReportDetails(e.target.value)}
+                                        placeholder="Describe what occurred in this chat..."
+                                        className="w-full px-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-red-500/80 resize-none transition-colors"
+                                    />
+                                </div>
+
+                                <div className="flex items-center gap-2 pt-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowReportModal(false)}
+                                        className="flex-1 py-2.5 rounded-xl border border-zinc-800 hover:bg-zinc-900 text-zinc-300 text-xs font-medium transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmittingReport}
+                                        className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1.5 shadow-lg shadow-red-600/20"
+                                    >
+                                        {isSubmittingReport ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Submit Report'}
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+                    </div>
+                </div>
+            )}
 
             <style jsx global>{`
                 .custom-scrollbar::-webkit-scrollbar {

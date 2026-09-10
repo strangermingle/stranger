@@ -14,7 +14,8 @@ import {
     RefreshCw,
     ExternalLink,
     AlertTriangle,
-    Baby
+    Baby,
+    PhoneCall
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -345,6 +346,58 @@ export default function PrivacyPolicy() {
                         </div>
                     </section>
 
+                    {/* Phone a Friend Audio Calling Privacy */}
+                    <section className="bg-white p-8 rounded-3xl shadow-sm border border-indigo-100 hover:shadow-md transition-shadow">
+                        <div className="flex items-start gap-4">
+                            <div className="p-3 bg-indigo-50 rounded-2xl text-indigo-600 shrink-0">
+                                <PhoneCall className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">5. &quot;Phone a Friend&quot; 1-on-1 Calling Privacy &amp; Data Security</h2>
+                                <p className="leading-relaxed mb-6 text-gray-600">
+                                    Our <strong>Phone a Friend</strong> audio calling feature connects callers with community hosts for meaningful, supportive conversations. We take rigorous steps to preserve your privacy and anonymity:
+                                </p>
+
+                                <div className="space-y-6">
+                                    <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Caller &amp; Host Anonymity (Phone Number Masking)</h3>
+                                        <p className="leading-relaxed text-gray-600 text-sm">
+                                            All calls are established through encrypted in-app channels. Neither your phone number, email address, nor exact location is ever revealed to the other participant. Only your chosen display name is visible.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Audio Streaming &amp; Non-Recording Policy</h3>
+                                        <p className="leading-relaxed text-gray-600 text-sm">
+                                            Audio conversations are streamed peer-to-peer or via secured real-time media servers (WebRTC/Secure Real-Time Media Network) using industry-standard transport layer encryption. We do not listen to, record, or store the audio content of your private conversations during regular service operations.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Prohibition of Contact &amp; Financial Exchange</h3>
+                                        <p className="leading-relaxed text-gray-600 text-sm">
+                                            Users are strictly prohibited from asking for or disclosing private personal contact information (e.g., phone numbers, WhatsApp, home address, social handles) or financial credentials during calls. All transactions and platform communications must remain strictly within Stranger Mingle.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-amber-50 p-5 rounded-2xl border border-amber-200">
+                                        <h3 className="text-lg font-bold text-amber-900 mb-2">Independent Off-Platform Arrangements Disclaimer</h3>
+                                        <p className="leading-relaxed text-amber-800 text-sm">
+                                            Stranger Mingle provides audio calling strictly as an in-app social service. If participants choose to negotiate, arrange, or settle anything outside of the platform—including personal in-person meetings, off-platform financial transactions, or third-party communications—they do so at their sole discretion and risk. Stranger Mingle disclaims all liability and responsibility for any events, agreements, or outcomes arising from off-platform interactions.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-red-50 p-5 rounded-2xl border border-red-200">
+                                        <h3 className="text-lg font-bold text-red-900 mb-2">Abuse, Harassment &amp; Legal Compliance Logs</h3>
+                                        <p className="leading-relaxed text-red-800 text-sm">
+                                            We maintain audit logs of call metadata (such as timestamps, call duration, user IDs, ratings, and abuse/harassment reports) to safeguard platform integrity. Any harassment, vulgarity, threat, or sexual misconduct reported against a host or caller will lead to immediate account termination and will be submitted alongside identifying records to law enforcement and cybercrime authorities under applicable statutes.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
                     {/* Your Rights */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
@@ -352,7 +405,7 @@ export default function PrivacyPolicy() {
                                 <Scale className="w-6 h-6" />
                             </div>
                             <div className="w-full">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">5. Your Rights and Choices</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">6. Your Rights and Choices</h2>
 
                                 <div className="grid md:grid-cols-2 gap-4 mb-6">
                                     <div className="p-4 rounded-xl border border-gray-100 bg-gray-50">
@@ -393,7 +446,7 @@ export default function PrivacyPolicy() {
                                 <Cookie className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Cookies and Tracking Technologies</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Cookies and Tracking Technologies</h2>
 
                                 <div className="space-y-4">
                                     <p className="leading-relaxed text-gray-600">
@@ -428,7 +481,7 @@ export default function PrivacyPolicy() {
                                 <ExternalLink className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Third-Party Services and Links</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Third-Party Services and Links</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
                                     Our website may contain links to third-party websites or integrate with third-party services (payment gateways, map services, social media platforms). We are not responsible for the privacy practices of these external sites.
                                 </p>
@@ -446,7 +499,7 @@ export default function PrivacyPolicy() {
                                 <Baby className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Children&apos;s Privacy</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Children&apos;s Privacy</h2>
                                 <p className="leading-relaxed text-gray-700">
                                     Stranger Mingle is intended for users aged 18 and above. We do not knowingly collect personal information from anyone under 18 years of age. If we discover that we have inadvertently collected information from someone under 18, we will delete it immediately. If you believe we have collected information from a minor, please contact us.
                                 </p>
@@ -461,7 +514,7 @@ export default function PrivacyPolicy() {
                                 <Camera className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Photography and Media Consent</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Photography and Media Consent</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
                                     Events may be photographed or recorded for promotional purposes. By attending events, you consent to being photographed and to the use of such images on our website, social media, and marketing materials.
                                 </p>
@@ -482,7 +535,7 @@ export default function PrivacyPolicy() {
                                 <Globe className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">10. International Users</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">11. International Users</h2>
                                 <p className="leading-relaxed text-gray-600">
                                     Stranger Mingle operates primarily in India. If you are accessing our services from outside India, please be aware that your information may be transferred to, stored, and processed in India. By using our services, you consent to the transfer of your information to India and agree that Indian law governs the collection and use of your information.
                                 </p>
@@ -497,7 +550,7 @@ export default function PrivacyPolicy() {
                                 <RefreshCw className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Changes to This Privacy Policy</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Changes to This Privacy Policy</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
                                     We may update this Privacy Policy from time to time to reflect changes in our practices, technology, legal requirements, or other factors. We will notify you of any material changes by:
                                 </p>
@@ -520,7 +573,7 @@ export default function PrivacyPolicy() {
                                 <AlertTriangle className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Data Breach Notification</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">13. Data Breach Notification</h2>
                                 <p className="leading-relaxed text-gray-700">
                                     In the unlikely event of a data breach that affects your personal information, we will notify you promptly in accordance with applicable laws. We will inform you about the nature of the breach, the data affected, and the steps we&apos;re taking to address it.
                                 </p>
@@ -536,7 +589,7 @@ export default function PrivacyPolicy() {
                                 <Mail className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold mb-4">13. Contact Us About Privacy</h2>
+                                <h2 className="text-2xl font-bold mb-4">14. Contact Us About Privacy</h2>
                                 <p className="mb-4 leading-relaxed text-blue-50">
                                     If you have questions, concerns, or requests regarding this Privacy Policy or how we handle your personal information, please contact us:
                                 </p>

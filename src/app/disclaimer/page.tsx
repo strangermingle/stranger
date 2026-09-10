@@ -16,7 +16,8 @@ import {
     RefreshCw,
     Mail,
     Bell,
-    HeartHandshake
+    HeartHandshake,
+    PhoneCall
 } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -156,6 +157,54 @@ export default function Disclaimer() {
                                 <p className="leading-relaxed text-gray-700">
                                     We facilitate initial connections in structured, safe environments. What happens beyond that is your personal choice and responsibility. We encourage respectful, safe, and consensual interactions at all times.
                                 </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Phone a Friend and Off-Platform Interaction Disclaimer */}
+                    <section className="bg-gradient-to-br from-rose-50 to-amber-50 p-8 rounded-3xl border border-rose-100 relative overflow-hidden">
+                        <div className="flex items-start gap-4 relative z-10">
+                            <div className="p-3 bg-white rounded-2xl text-rose-600 shrink-0 shadow-sm">
+                                <PhoneCall className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Phone a Friend (1-on-1 Audio Calling) & Off-Platform Disclaimer</h2>
+                                <p className="mb-4 leading-relaxed text-gray-700">
+                                    The <strong>Phone a Friend</strong> feature facilitates real-time 1-on-1, audio-only conversations between community members and approved community hosts. By using this service, you explicitly agree to the following disclaimers:
+                                </p>
+
+                                <div className="space-y-4 mb-4">
+                                    <div className="bg-white/80 p-5 rounded-2xl border border-rose-200">
+                                        <h3 className="font-bold text-gray-900 mb-1 text-base flex items-center gap-2">
+                                            <AlertTriangle className="w-4 h-4 text-red-600" />
+                                            Zero Responsibility for In-Person Meetings & Off-Platform Arrangements
+                                        </h3>
+                                        <p className="text-gray-700 text-sm leading-relaxed mb-2 font-medium">
+                                            Stranger Mingle strictly provides online, audio-only technology. <strong>Stranger Mingle will not be responsible or legally liable under any circumstances if a host and caller choose to settle, negotiate, or arrange anything apart from platform calls—such as personal in-person meetings, offline get-togethers, financial transactions, private messaging, or commercial agreements.</strong>
+                                        </p>
+                                        <p className="text-gray-600 text-xs leading-relaxed">
+                                            Any in-person meeting or third-party communication (via WhatsApp, phone, Instagram, or social media) between callers and hosts is strictly prohibited under our safety guidelines and is completely unendorsed and unsupported by Stranger Mingle. Any individual who chooses to meet offline does so solely at their own independent risk.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-white/80 p-5 rounded-2xl border border-rose-200">
+                                        <h3 className="font-bold text-gray-900 mb-1 text-base">
+                                            Peer Listening Only — Not Professional Medical or Legal Advice
+                                        </h3>
+                                        <p className="text-gray-700 text-sm leading-relaxed">
+                                            Phone a Friend hosts are empathetic community peers who offer an active, friendly listening ear. Hosts are <strong>not</strong> licensed therapists, psychologists, psychiatrists, medical professionals, or legal advisors. Conversations must not be considered a substitute for professional mental healthcare, clinical diagnosis, medical treatment, or legal counsel.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-white/80 p-5 rounded-2xl border border-rose-200">
+                                        <h3 className="font-bold text-red-950 mb-1 text-base">
+                                            Zero Tolerance for Harassment & Legal Warning
+                                        </h3>
+                                        <p className="text-red-900 text-sm leading-relaxed">
+                                            Harassment, verbal abuse, sexual advances, obscenity, or threats against hosts will lead to immediate account termination, permanent device/IP ban, and immediate criminal and cybercrime reporting to Indian law enforcement authorities under the IT Act and Bharatiya Nyaya Sanhita (BNS) / IPC.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>

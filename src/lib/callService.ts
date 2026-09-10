@@ -18,6 +18,11 @@ export async function createCallPaymentOrderApi(payload: {
   callType?: 'instant' | 'scheduled';
   slotId?: string | null;
   amount?: number;
+  durationMinutes?: number;
+  callerName?: string;
+  callerEmail?: string;
+  callerPhone?: string;
+  deviceFingerprint?: string;
 }) {
   const res = await fetch(`${BACKEND_URL}/api/calls`, {
     method: 'POST',
@@ -38,6 +43,11 @@ export async function initiateCallSession(payload: {
   callType?: 'instant' | 'scheduled';
   slotId?: string | null;
   amount?: number;
+  durationMinutes?: number;
+  callerName?: string;
+  callerEmail?: string;
+  callerPhone?: string;
+  deviceFingerprint?: string;
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
   razorpaySignature?: string;
@@ -101,3 +111,28 @@ export async function submitCallRatingApi(payload: {
   }
   return res.json();
 }
+
+export async function submitReportApi(payload: {
+  reporterId: string;
+  reportedId: string;
+  reportedType?: string;
+  reason: string;
+  details?: string;
+  callId?: string;
+  callRef?: string;
+  conversationId?: string;
+  deviceFingerprint?: string;
+}) {
+  const res = await fetch(`${BACKEND_URL}/api/reports`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error || 'Failed to submit report');
+  }
+  return res.json();
+}
+

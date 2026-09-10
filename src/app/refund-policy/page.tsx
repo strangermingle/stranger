@@ -12,7 +12,8 @@ import {
     Tent,
     GraduationCap,
     Gift,
-    ArrowRightLeft
+    ArrowRightLeft,
+    PhoneCall
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -278,6 +279,45 @@ export default function RefundPolicy() {
                         </div>
                     </section>
 
+                    {/* Phone a Friend Refund Policy */}
+                    <section className="bg-white p-8 rounded-3xl shadow-sm border border-rose-100 hover:shadow-md transition-shadow">
+                        <div className="flex items-start gap-4">
+                            <div className="p-3 bg-rose-50 rounded-2xl text-rose-600 shrink-0">
+                                <PhoneCall className="w-6 h-6" />
+                            </div>
+                            <div className="w-full">
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">5. Phone a Friend (1-on-1 Audio Calling) Refund Policy</h2>
+
+                                <div className="space-y-6">
+                                    <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
+                                        <h3 className="text-lg font-bold text-emerald-950 mb-2">Instant Calls (Unanswered or Declined)</h3>
+                                        <p className="text-emerald-900 text-sm leading-relaxed mb-2">
+                                            If a host declines your instant call or fails to answer within the 45-second ringing window, your session charge is automatically reversed or refunded 100% to your original payment method (via Razorpay) within 3-5 business days without any cancellation fee.
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Scheduled Call Slots</h3>
+                                        <ul className="space-y-2 text-gray-700 text-sm ml-6 list-disc">
+                                            <li><strong>Cancellation by Caller (2+ hours before slot):</strong> 100% full refund or free slot reschedule to another available timing.</li>
+                                            <li><strong>Cancellation by Caller (&lt; 2 hours before slot or no-show):</strong> Non-refundable, as the host has reserved that dedicated time window exclusively for you.</li>
+                                            <li><strong>Cancellation or No-Show by Host:</strong> 100% full refund or free priority reschedule with another host.</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-red-50 p-6 rounded-2xl border border-red-200">
+                                        <h3 className="text-base font-bold text-red-950 mb-2 flex items-center gap-2">
+                                            <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+                                            Strict Non-Refundability for Harassment & Conduct Violations
+                                        </h3>
+                                        <p className="text-red-900 text-sm leading-relaxed">
+                                            If a call is terminated early by the host or platform due to caller harassment, abusive or vulgar language, sexual remarks, threats, or violation of our Safety Guidelines, the session fee is <strong>strictly non-refundable</strong>. The caller forfeits all paid amounts, and the account is permanently banned and reported to authorities.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
                     {/* Refund Processing */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -286,7 +326,7 @@ export default function RefundPolicy() {
                                 <CreditCard className="w-6 h-6" />
                             </div>
                             <div className="w-full">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">5. Refund Processing and Timeline</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">6. Refund Processing and Timeline</h2>
 
                                 <div className="space-y-6">
                                     <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100 mb-6">
@@ -343,7 +383,7 @@ export default function RefundPolicy() {
                                 <ShieldAlert className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">6. Exceptional Circumstances and Case-by-Case Review</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">7. Exceptional Circumstances and Case-by-Case Review</h2>
                                 <p className="leading-relaxed mb-6 text-amber-900 font-medium">
                                     We understand that genuine emergencies happen. While our policy is clear, we review exceptional cases individually.
                                 </p>
@@ -383,7 +423,7 @@ export default function RefundPolicy() {
                                 <XCircle className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Non-Refundable Situations</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Non-Refundable Situations</h2>
 
                                 <p className="leading-relaxed mb-4 text-red-900 font-medium">
                                     Refunds will <strong>NOT</strong> be issued in the following situations:
@@ -410,7 +450,7 @@ export default function RefundPolicy() {
                                 <HelpCircle className="w-6 h-6" />
                             </div>
                             <div className="w-full">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">8. How to Request a Cancellation or Refund</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">9. How to Request a Cancellation or Refund</h2>
 
                                 <div className="space-y-6">
                                     <div className="bg-cyan-50 p-6 rounded-2xl">
@@ -462,7 +502,7 @@ export default function RefundPolicy() {
                                 <ShieldAlert className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Refund Disputes and Resolution</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Refund Disputes and Resolution</h2>
                                 <p className="leading-relaxed mb-4 text-gray-600">
                                     If you believe a refund decision was made in error or you&apos;re unsatisfied with the resolution:
                                 </p>
@@ -483,7 +523,7 @@ export default function RefundPolicy() {
                                 <CreditCard className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Payment Gateway Charges</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Payment Gateway Charges</h2>
                                 <p className="leading-relaxed mb-4 text-gray-700">
                                     All payments are processed through secure third-party payment gateways. Please note:
                                 </p>
@@ -504,7 +544,7 @@ export default function RefundPolicy() {
                                 <RefreshCcw className="w-6 h-6" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Changes to This Policy</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Changes to This Policy</h2>
                                 <p className="leading-relaxed mb-4 text-gray-600">
                                     We reserve the right to modify this refund policy at any time. Changes will be effective immediately upon posting on this page. However:
                                 </p>

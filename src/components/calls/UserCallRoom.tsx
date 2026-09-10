@@ -13,11 +13,16 @@ import {
   Star, 
   Loader2, 
   CheckCircle2,
-  ShieldCheck
+  ShieldCheck,
+  ShieldAlert,
+  AlertTriangle,
+  X,
+  FileText
 } from 'lucide-react'
 import { useAgoraVoiceCall } from '@/hooks/useAgoraVoiceCall'
-import { endCallSessionApi, submitCallRatingApi } from '@/lib/callService'
+import { endCallSessionApi, submitCallRatingApi, submitReportApi } from '@/lib/callService'
 import { createClientClient } from '@/lib/supabaseClient'
+import { getDeviceFingerprint } from '@/lib/deviceFingerprint'
 
 interface UserCallRoomProps {
   call: any
@@ -38,6 +43,20 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
   const [review, setReview] = useState('')
   const [isSubmittingRating, setIsSubmittingRating] = useState(false)
 
+  // Harassment reporting modal state
+  const [showReportModal, setShowReportModal] = useState(false)
+  const [reportReason, setReportReason] = useState('verbal_harassment')
+  const [reportDetails, setReportDetails] = useState('')
+  const [isSubmittingReport, setIsSubmittingReport] = useState(false)
+  const [reportSubmitted, setReportSubmitted] = useState(false)
+
+  // Dynamic session duration & auto-drop calculations
+  const paidDurationMinutes = Number(call?.duration_minutes) || 15
+  const maxAllowedSeconds = paidDurationMinutes * 60
+  const reminderThreshold = Math.max(0, maxAllowedSeconds - 15)
+  const isGracefulReminderActive = secondsElapsed >= reminderThreshold && secondsElapsed < maxAllowedSeconds
+  const secondsRemaining = Math.max(0, maxAllowedSeconds - secondsElapsed)
+
   const {
     isConnected,
     isMuted,
@@ -50,14 +69,21 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
     error,
   } = useAgoraVoiceCall(agoraParams)
 
-  // Timer
+  // Timer & dynamic auto-drop
   useEffect(() => {
     if (!isConnected) return
     const interval = setInterval(() => {
-      setSecondsElapsed((prev) => prev + 1)
+      setSecondsElapsed((prev) => {
+        const next = prev + 1
+        if (next >= maxAllowedSeconds && !isEnding) {
+          // Gracefully auto drop the call
+          handleEndCall()
+        }
+        return next
+      })
     }, 1000)
     return () => clearInterval(interval)
-  }, [isConnected])
+  }, [isConnected, maxAllowedSeconds, isEnding])
 
   // Remote termination listener (when host ends or rejects the call)
   useEffect(() => {
@@ -129,6 +155,29 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
     }
   }
 
+  const handleSubmitReport = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmittingReport(true)
+    try {
+      const dfp = getDeviceFingerprint()
+      await submitReportApi({
+        reporterId: agoraParams.account,
+        reportedId: call.host_id,
+        reportedType: 'host',
+        reason: reportReason,
+        details: reportDetails,
+        callId: call.id,
+        callRef: call.call_ref,
+        deviceFingerprint: dfp,
+      })
+      setReportSubmitted(true)
+    } catch (err: any) {
+      alert(err.message || 'Failed to submit report. Please try again.')
+    } finally {
+      setIsSubmittingReport(false)
+    }
+  }
+
   const hostName = call.host?.display_name || 'Your Host'
   const hostImage = call.host?.profile_image
 
@@ -159,8 +208,20 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
           </div>
         </div>
 
-        {/* Network & Duration */}
+        {/* Network & Duration & Report */}
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              setShowReportModal(true)
+              setReportSubmitted(false)
+            }}
+            className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-950/60 border border-red-800/80 text-red-400 hover:bg-red-900/60 text-[11px] font-medium transition-colors"
+            title="Report Harassment, Spam or Misconduct"
+          >
+            <ShieldAlert className="w-3.5 h-3.5 text-red-400" />
+            <span className="hidden sm:inline">Report</span>
+          </button>
+
           <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[11px] font-normal text-zinc-400">
             <Wifi className={`w-3 h-3 ${networkQuality === 'good' ? 'text-emerald-400' : 'text-amber-400'}`} />
             <span>{networkQuality === 'good' ? 'Clear' : 'Weak'}</span>
@@ -172,6 +233,14 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
           </div>
         </div>
       </header>
+
+      {/* 15-Second Graceful Reminder Banner */}
+      {isGracefulReminderActive && (
+        <div className="relative z-20 max-w-sm mx-auto w-full mt-2 p-2.5 bg-amber-500/20 border border-amber-500/50 rounded-xl text-amber-200 text-xs font-semibold text-center animate-pulse flex items-center justify-center gap-2 shadow-lg">
+          <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+          <span>Graceful Reminder: Call concludes in {secondsRemaining}s. Please wrap up!</span>
+        </div>
+      )}
 
       {/* Center Stage: Host Avatar & Dynamic Sound Waveform */}
       <main className="relative z-10 my-auto flex flex-col items-center justify-center text-center space-y-4 max-w-sm mx-auto w-full px-2">
@@ -234,6 +303,17 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
           />
           <span>{isMuted ? 'Your mic is off' : 'Your mic is on'}</span>
         </div>
+
+        {/* PDF Call Pass Download Link */}
+        <a
+          href={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}/api/calls/ticket/${call.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-[11px] text-zinc-400 hover:text-zinc-200 transition-colors pt-1"
+        >
+          <FileText className="w-3.5 h-3.5 text-rose-400" />
+          <span>Download Call Pass (PDF)</span>
+        </a>
       </main>
 
       {/* Bottom Controls Dock */}
@@ -265,6 +345,104 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
           End Call
         </button>
       </footer>
+
+      {/* Harassment Report Modal */}
+      {showReportModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-zinc-900 text-white rounded-2xl w-full max-w-md border border-zinc-800 p-6 space-y-4 shadow-2xl relative">
+            <button
+              onClick={() => setShowReportModal(false)}
+              className="absolute top-4 right-4 p-1 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {reportSubmitted ? (
+              <div className="text-center py-4 space-y-3">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-base font-bold text-white">Report Submitted</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Thank you. Your report has been dispatched to our Trust &amp; Safety and cyber cell compliance team with high priority.
+                </p>
+                <div className="pt-3 flex gap-2">
+                  <button
+                    onClick={() => setShowReportModal(false)}
+                    className="flex-1 py-2 rounded-xl bg-zinc-800 text-zinc-200 text-xs font-medium hover:bg-zinc-700"
+                  >
+                    Back to Call
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowReportModal(false)
+                      handleEndCall()
+                    }}
+                    className="flex-1 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-semibold"
+                  >
+                    End Call Immediately
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmitReport} className="space-y-4">
+                <div className="flex items-center gap-2 text-red-400 font-bold text-base">
+                  <ShieldAlert className="w-5 h-5" />
+                  <span>Report Host Harassment / Misconduct</span>
+                </div>
+
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Stranger Mingle maintains a strict zero-tolerance policy. Reports are audited directly alongside session logs.
+                </p>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-zinc-300">Reason</label>
+                  <select
+                    value={reportReason}
+                    onChange={(e) => setReportReason(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-zinc-800 border border-zinc-700 text-xs text-white focus:outline-none focus:border-rose-500"
+                  >
+                    <option value="verbal_harassment">Verbal Harassment / Abuse</option>
+                    <option value="sexual_inappropriate">Inappropriate / Sexual Remarks</option>
+                    <option value="demanding_contact">Asking for WhatsApp / Phone / Bank Details</option>
+                    <option value="spam_commercial">Spam / Commercial Promotion</option>
+                    <option value="threats_hate">Threats / Hostile Behavior</option>
+                    <option value="other">Other Concern</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-zinc-300">Additional Details</label>
+                  <textarea
+                    rows={3}
+                    value={reportDetails}
+                    onChange={(e) => setReportDetails(e.target.value)}
+                    placeholder="Describe what happened during the call..."
+                    className="w-full px-3 py-2 rounded-xl bg-zinc-800 border border-zinc-700 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500 resize-none"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowReportModal(false)}
+                    className="flex-1 py-2 rounded-xl border border-zinc-700 hover:bg-zinc-800 text-zinc-300 text-xs font-medium"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSubmittingReport}
+                    className="flex-1 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    {isSubmittingReport ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Submit Report'}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Post-call Rating Modal */}
       {showRatingModal && (

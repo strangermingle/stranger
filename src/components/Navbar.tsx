@@ -66,14 +66,7 @@ export default function Navbar() {
                         <Link href="/events" className="hover:text-yellow-700 transition-colors hidden sm:block">
                             Events
                         </Link>
-                        <Link href="/best-hangout-places" className="hover:text-red-600 transition-colors hidden sm:block">
-                            Hangout Places
-                        </Link>
-                        
-                        <Link href="/know-your-host" className="hover:text-blue-600 transition-colors hidden sm:block">
-                            Know Your Host
-                        </Link>
-                        
+
                         {!user ? (
                             <Link href="/members" className="hidden sm:flex px-5 py-2.5 bg-yellow-400 text-black rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-yellow-500 transition-all items-center gap-2 shadow-sm active:scale-95">
                                 <UserCircle className="w-4 h-4" />
@@ -85,7 +78,7 @@ export default function Navbar() {
                                     <LayoutDashboard className="w-4 h-4 text-green-600" />
                                     <span>Dashboard</span>
                                 </Link>
-                                <button 
+                                <button
                                     onClick={handleSignOut}
                                     className="px-3 py-1.5 border border-gray-300 bg-red-500 text-white rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-black transition-all flex items-center gap-2 active:scale-95"
                                 >
@@ -100,7 +93,7 @@ export default function Navbar() {
                             <div className="sm:hidden">
                                 <SearchBar locationOnly={true} />
                             </div>
-                            
+
                             <button
                                 onClick={toggleMobileMenu}
                                 className="sm:hidden flex flex-col gap-1.5 p-2 rounded-xl hover:bg-gray-100 transition-colors shrink-0"
@@ -144,7 +137,7 @@ export default function Navbar() {
                     <div className="flex flex-col gap-2 mb-6">
                         <Link
                             href="/phone-a-friend"
-                            className="px-4 py-3 text-base font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors flex items-center gap-2"
+                            className="px-4 py-3 text-base font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors flex items-center gap-2"
                             onClick={closeMobileMenu}
                         >
                             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -159,39 +152,11 @@ export default function Navbar() {
                             Events
                         </Link>
                         <Link
-                            href="/best-hangout-places"
-                            className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
-                            onClick={closeMobileMenu}
-                        >
-                            Hangouts
-                        </Link>
-                        <Link
                             href="/know-your-host"
                             className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
                             onClick={closeMobileMenu}
                         >
                             Know Your Host
-                        </Link>
-                        <Link
-                            href="/pune"
-                            className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
-                            onClick={closeMobileMenu}
-                        >
-                            Pune
-                        </Link>
-                        <Link
-                            href="/mumbai"
-                            className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
-                            onClick={closeMobileMenu}
-                        >
-                            Mumbai
-                        </Link>
-                        <Link
-                            href="/delhi"
-                            className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
-                            onClick={closeMobileMenu}
-                        >
-                            Delhi
                         </Link>
                     </div>
 
@@ -199,7 +164,7 @@ export default function Navbar() {
                         {!user ? (
                             <Link
                                 href="/members"
-                                className="block w-full px-4 py-3 bg-yellow-400 text-black text-center rounded-full font-bold hover:bg-black hover:text-white transition-colors mb-6 shadow-sm"
+                                className="block w-full px-4 py-3 bg-yellow-400 text-semibold text-center rounded-full font-semibold hover:bg-black hover:text-white transition-colors mb-6 shadow-sm"
                                 onClick={closeMobileMenu}
                             >
                                 Member Login
