@@ -179,3 +179,21 @@ export async function verifyCreditsOrderApi(payload: {
   return res.json();
 }
 
+export async function cancelCallSessionApi(callId: string, requesterId?: string) {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/calls`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'cancel',
+        callId,
+        requesterId,
+      }),
+      cache: 'no-store',
+    });
+    return res.json();
+  } catch (err) {
+    console.warn('Error cancelling call session:', err);
+    return { success: false };
+  }
+}

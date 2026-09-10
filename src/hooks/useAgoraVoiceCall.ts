@@ -98,12 +98,20 @@ export function useAgoraVoiceCall({ appId, channelName, token, account }: AgoraC
   }, [])
 
   useEffect(() => {
-    if (!appId || !channelName || !token) return
+    if (!appId) {
+      setError('Agora App ID is missing on the backend. Please verify AGORA_APP_ID is configured in Vercel environment variables.')
+      return
+    }
+    if (!channelName || !token) {
+      setError('Agora session credentials missing. Unable to join audio call.')
+      return
+    }
 
     let isMounted = true
 
     async function initAudioCall() {
       try {
+        console.log('[AgoraVoiceCall] Connecting to voice channel:', channelName, 'with App ID:', appId?.slice(0, 6) + '...')
         const AgoraRTC = (await import('agora-rtc-sdk-ng')).default
 
         // Autoplay failure callback

@@ -34,6 +34,7 @@ import {
 import { createClientClient } from '@/lib/supabaseClient'
 import { 
   initiateCallSession, 
+  cancelCallSessionApi,
   createCreditsOrderApi, 
   verifyCreditsOrderApi 
 } from '@/lib/callService'
@@ -416,18 +417,27 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               router.push(`/phone-a-friend/call/${ringingCall.id}?uid=${ringingCall.user_id}`)
             } else if (payload.new.status === 'rejected') {
               stopOutgoingRing()
-              setCallError('The host is busy right now. Please try again in a few minutes or choose another host.')
+              setCallError('The host was unable to take your call. Your credits have been returned to your wallet.')
               setRingingCall(null)
+              if (checkMembershipStatus) {
+                checkMembershipStatus().catch(() => {})
+              }
             }
           }
         }
       )
       .subscribe()
 
-    const timeout = setTimeout(() => {
+    const timeout = setTimeout(async () => {
       stopOutgoingRing()
+      if (ringingCall?.id) {
+        await cancelCallSessionApi(ringingCall.id, ringingCall.user_id).catch(() => {})
+      }
       setCallError('No answer from host. Your credits remain safe in your wallet. Please try another online host.')
       setRingingCall(null)
+      if (checkMembershipStatus) {
+        checkMembershipStatus().catch(() => {})
+      }
     }, 45000)
 
     return () => {
@@ -1273,9 +1283,16 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
             </p>
 
             <button
-              onClick={() => {
+              onClick={async () => {
                 stopOutgoingRing()
+                const callToCancel = ringingCall
                 setRingingCall(null)
+                if (callToCancel?.id) {
+                  await cancelCallSessionApi(callToCancel.id, callToCancel.user_id).catch(() => {})
+                }
+                if (checkMembershipStatus) {
+                  checkMembershipStatus().catch(() => {})
+                }
               }}
               className="w-full py-3 rounded-full bg-zinc-800 hover:bg-zinc-700 active:scale-95 text-xs font-bold text-zinc-300 transition-all border border-zinc-700"
             >
