@@ -17,7 +17,8 @@ import {
   ShieldAlert,
   AlertTriangle,
   X,
-  FileText
+  FileText,
+  Volume2
 } from 'lucide-react'
 import { useAgoraVoiceCall } from '@/hooks/useAgoraVoiceCall'
 import { endCallSessionApi, submitCallRatingApi, submitReportApi } from '@/lib/callService'
@@ -36,7 +37,10 @@ interface UserCallRoomProps {
 
 export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
   const router = useRouter()
-  const [secondsElapsed, setSecondsElapsed] = useState(0)
+  const initialElapsed = call?.actual_start_time
+    ? Math.max(0, Math.floor((Date.now() - new Date(call.actual_start_time).getTime()) / 1000))
+    : 0
+  const [secondsElapsed, setSecondsElapsed] = useState(initialElapsed)
   const [isEnding, setIsEnding] = useState(false)
   const [showRatingModal, setShowRatingModal] = useState(false)
   const [rating, setRating] = useState(5)
@@ -67,23 +71,27 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
     remoteVolume,
     networkQuality,
     error,
+    isMicBlocked,
+    isAutoplayBlocked,
+    resumeAutoplay,
+    requestMicPermission,
   } = useAgoraVoiceCall(agoraParams)
 
-  // Timer & dynamic auto-drop
+  // Timer & dynamic auto-drop (ticks smoothly from start timestamp)
   useEffect(() => {
-    if (!isConnected) return
+    const startTs = call?.actual_start_time
+      ? new Date(call.actual_start_time).getTime()
+      : Date.now() - (initialElapsed * 1000)
+
     const interval = setInterval(() => {
-      setSecondsElapsed((prev) => {
-        const next = prev + 1
-        if (next >= maxAllowedSeconds && !isEnding) {
-          // Gracefully auto drop the call
-          handleEndCall()
-        }
-        return next
-      })
+      const elapsed = Math.max(0, Math.floor((Date.now() - startTs) / 1000))
+      setSecondsElapsed(elapsed)
+      if (elapsed >= maxAllowedSeconds && !isEnding) {
+        handleEndCall()
+      }
     }, 1000)
     return () => clearInterval(interval)
-  }, [isConnected, maxAllowedSeconds, isEnding])
+  }, [call?.actual_start_time, maxAllowedSeconds, isEnding, initialElapsed])
 
   // Remote termination listener (when host ends or rejects the call)
   useEffect(() => {
@@ -292,6 +300,68 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
             {remoteAudioActive ? 'Speaking now...' : 'Listening to you...'}
           </p>
         </div>
+
+        {/* Prominent Live Call Time Display */}
+        <div className="flex flex-col items-center gap-1.5 py-1.5 px-4 rounded-2xl bg-zinc-900/90 border border-zinc-800 shadow-xl w-full max-w-[280px]">
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-1.5">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Live Call</span>
+            </div>
+            <span className="text-zinc-700 font-light">|</span>
+            <span className="font-mono text-lg font-bold text-white tracking-widest">
+              {formatTimer(secondsElapsed)}
+            </span>
+            <span className="text-zinc-600 font-mono text-xs">/</span>
+            <span className="font-mono text-xs text-zinc-400">
+              {formatTimer(maxAllowedSeconds)}
+            </span>
+          </div>
+          <div className="flex items-center gap-1 text-[11px] text-zinc-400">
+            <Clock className="w-3 h-3 text-rose-400" />
+            <span>{secondsRemaining > 0 ? `${formatTimer(secondsRemaining)} remaining` : 'Ending call...'}</span>
+          </div>
+        </div>
+
+        {/* Autoplay blocked banner */}
+        {isAutoplayBlocked && (
+          <div className="p-3 rounded-xl bg-rose-500/20 border border-rose-500/50 text-rose-200 text-xs flex items-center justify-between gap-3 w-full shadow-lg animate-pulse">
+            <div className="flex items-center gap-2">
+              <Volume2 className="w-4 h-4 text-rose-400 shrink-0" />
+              <span>Audio is muted by browser</span>
+            </div>
+            <button
+              type="button"
+              onClick={resumeAutoplay}
+              className="px-3 py-1 rounded-lg bg-rose-500 text-white font-bold text-xs hover:bg-rose-600 transition-colors shrink-0"
+            >
+              Tap to Hear
+            </button>
+          </div>
+        )}
+
+        {/* Microphone blocked banner */}
+        {isMicBlocked && (
+          <div className="p-3 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-200 text-xs flex flex-col items-center gap-1.5 w-full shadow-lg">
+            <div className="flex items-center gap-1.5 font-bold text-amber-300">
+              <MicOff className="w-4 h-4" />
+              <span>Microphone Access Blocked</span>
+            </div>
+            <p className="text-[11px] text-zinc-300 text-center">
+              Please allow microphone permissions in your browser URL bar, then click below.
+            </p>
+            <button
+              type="button"
+              onClick={requestMicPermission}
+              className="mt-1 px-3 py-1 rounded-lg bg-amber-500 text-zinc-950 font-bold text-xs hover:bg-amber-400 transition-colors"
+            >
+              Enable Microphone
+            </button>
+          </div>
+        )}
 
         {/* Local mic status indicator */}
         <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900/70 border border-zinc-800 text-[11px] font-normal text-zinc-400">

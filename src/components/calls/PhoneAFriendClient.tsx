@@ -10,6 +10,7 @@ import {
   ShieldCheck, 
   Star, 
   Volume2, 
+  Mic,
   Lock, 
   X, 
   Loader2, 
@@ -177,6 +178,19 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
 
     setIsInitiating(true)
     setCallError(null)
+
+    // Pre-call Microphone Permission Verification
+    try {
+      if (typeof window !== 'undefined' && navigator?.mediaDevices?.getUserMedia) {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+        stream.getTracks().forEach((track) => track.stop())
+      }
+    } catch (permErr: any) {
+      console.warn('Microphone permission denied before starting call:', permErr)
+      setIsInitiating(false)
+      setCallError('Microphone permission is required to start a voice call. Please allow microphone access in your browser and try again.')
+      return
+    }
 
     try {
       const callerUid = getCallerUid()
@@ -1083,19 +1097,25 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                   </div>
 
                   {userHasCredits ? (
-                    <button
-                      type="button"
-                      disabled={isInitiating}
-                      onClick={() => handleStartCallWithCredits(activeCallHost, checkoutDuration)}
-                      className="w-full py-3.5 rounded-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 active:scale-98 text-white text-xs font-bold transition-all shadow-md shadow-rose-200 flex items-center justify-center gap-2"
-                    >
-                      {isInitiating ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Phone className="w-4 h-4" />
-                      )}
-                      Redeem {creditsNeeded} Credits & Start Call
-                    </button>
+                    <>
+                      <button
+                        type="button"
+                        disabled={isInitiating}
+                        onClick={() => handleStartCallWithCredits(activeCallHost, checkoutDuration)}
+                        className="w-full py-3.5 rounded-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 active:scale-98 text-white text-xs font-bold transition-all shadow-md shadow-rose-200 flex items-center justify-center gap-2"
+                      >
+                        {isInitiating ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Phone className="w-4 h-4" />
+                        )}
+                        Redeem {creditsNeeded} Credits & Start Call
+                      </button>
+                      <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-500 pt-1">
+                        <Mic className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Microphone access will be verified before connecting</span>
+                      </div>
+                    </>
                   ) : (
                     <div className="space-y-2">
                       <div className="text-[11px] text-amber-800 text-center font-medium bg-amber-100/50 p-2.5 rounded-xl border border-amber-200">
