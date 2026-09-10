@@ -56,11 +56,11 @@ const DEFAULT_FAQS = [
   },
   {
     q: 'How does Phone a Friend work?',
-    a: 'Simply choose any active online host and click "Call Now" to connect instantly for a 1-on-1 private audio conversation using your call credits. If you need credits, you can recharge your credit wallet in seconds with transparent pricing.'
+    a: 'Simply choose any active online host and click "Call Now" to connect instantly for a 1-on-1 private audio conversation using your talk balance. If you need to top up, you can add talk time in seconds with transparent pricing.'
   },
   {
     q: 'What are the charges and session duration?',
-    a: 'Calls are credit-based, typically 490 credits (equivalent to ₹49) for a 15-minute focused session. 1 INR equals 10 credits. You can recharge credit packs anytime and redeem them seamlessly whenever you wish to talk.'
+    a: 'Calls are typically ₹49 for a 15-minute focused session. You can top up talk time anytime and connect seamlessly whenever you wish to talk.'
   },
   {
     q: 'Is Phone a Friend 100% anonymous and private?',
@@ -76,7 +76,7 @@ const DEFAULT_FAQS = [
   },
   {
     q: 'What happens if a host does not answer or declines my call?',
-    a: 'If a host is busy or declines your call, the ringing stops immediately, you are notified, and your credits remain intact in your wallet. You can immediately call another available online host.'
+    a: 'If a host is busy or declines your call, the ringing stops immediately, you are notified, and your balance remains 100% intact in your wallet. You can immediately call another available online host.'
   },
   {
     q: 'How can I apply to become a Phone a Friend host?',
@@ -272,7 +272,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               await checkMembershipStatus()
             }
 
-            setRechargeSuccessMessage(`+${pack.credits} credits added to your wallet!`)
+            setRechargeSuccessMessage(`+${pack.credits} pts added to your wallet!`)
             setTimeout(() => {
               setRechargeSuccessMessage(null)
               setShowRechargeModal(false)
@@ -286,7 +286,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
       const rzp = new (window as any).Razorpay(options)
       rzp.open()
     } catch (err: any) {
-      alert(err.message || 'Credit purchase failed.')
+      alert(err.message || 'Payment failed.')
     } finally {
       setIsRecharging(false)
     }
@@ -417,7 +417,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               router.push(`/phone-a-friend/call/${ringingCall.id}?uid=${ringingCall.user_id}`)
             } else if (payload.new.status === 'rejected') {
               stopOutgoingRing()
-              setCallError('The host was unable to take your call. Your credits have been returned to your wallet.')
+              setCallError('The host was unable to take your call. Your balance has been returned to your wallet.')
               setRingingCall(null)
               if (checkMembershipStatus) {
                 checkMembershipStatus().catch(() => {})
@@ -433,7 +433,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
       if (ringingCall?.id) {
         await cancelCallSessionApi(ringingCall.id, ringingCall.user_id).catch(() => {})
       }
-      setCallError('No answer from host. Your credits remain safe in your wallet. Please try another online host.')
+      setCallError('No answer from host. Your balance remains safe in your wallet. Please try another online host.')
       setRingingCall(null)
       if (checkMembershipStatus) {
         checkMembershipStatus().catch(() => {})
@@ -482,11 +482,11 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
 
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
             Need Someone Just for a Talk? <br className="hidden sm:inline" />
-            <span className="text-rose-600">Credit-Based Anonymous Calling</span>
+            <span className="text-rose-600">Anonymous Calling with Real People</span>
           </h1>
 
           <p className="text-sm sm:text-base text-gray-600 font-medium leading-relaxed max-w-2xl mx-auto">
-            Feeling stressed, lonely, bored, or just want to vent? Connect 1-on-1 with verified, empathetic listeners across India instantly using your call credits. 100% anonymous, zero judgment, and no video camera required.
+            Feeling stressed, lonely, bored, or just want to talk? Connect 1-on-1 with verified, empathetic listeners across India instantly. 100% anonymous, zero judgment, and no video camera required.
           </p>
 
           {/* Trust Badges */}
@@ -505,7 +505,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
             </span>
             <span className="inline-flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
               <Coins className="w-4 h-4 text-amber-600" />
-              Credit-Based (490 Credits / 15m)
+              Affordable & Direct (₹49 / 15m)
             </span>
           </div>
         </div>
@@ -518,7 +518,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
           {/* Main Area: Wallet Card + Hosts List + Guidelines + FAQs */}
           <div className="lg:col-span-8 space-y-6">
             
-            {/* User Call Credit Wallet Card */}
+            {/* User Call Balance Wallet Card */}
             <div className="bg-gradient-to-r from-amber-500/10 via-amber-50 to-orange-50/30 border border-amber-200 rounded-3xl p-5 sm:p-6 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
@@ -528,7 +528,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded-full">
-                        Your Call Credits
+                        Your Calling Balance
                       </span>
                       {user && (
                         <span className="text-xs text-gray-500 font-medium">
@@ -538,12 +538,12 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                     </div>
                     <div className="text-2xl sm:text-3xl font-black text-gray-900 mt-1 flex items-baseline gap-2">
                       <span>{(credits || 0).toLocaleString()}</span>
-                      <span className="text-xs font-bold text-gray-500">Credits Available</span>
+                      <span className="text-xs font-bold text-gray-500">Balance Available</span>
                     </div>
                     <p className="text-xs text-gray-600 font-medium mt-0.5">
                       {(credits || 0) >= 490 
-                        ? `Ready to call! You have enough credits for ~${Math.floor((credits || 0) / 490)} session(s).`
-                        : 'Recharge credits to connect instantly with available online hosts.'}
+                        ? `Ready to call! You have enough balance for ~${Math.floor((credits || 0) / 490)} session(s).`
+                        : 'Top up talk time to connect instantly with available online hosts.'}
                     </p>
                   </div>
                 </div>
@@ -556,7 +556,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                       className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm shadow-amber-200"
                     >
                       <PlusCircle className="w-4 h-4" />
-                      Recharge Credits
+                      Add Talk Time
                     </button>
                   ) : (
                     <button
@@ -565,7 +565,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                       className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-zinc-900 hover:bg-zinc-800 active:scale-95 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
                     >
                       <LogIn className="w-4 h-4" />
-                      Sign In to Use Credits
+                      Sign In to Call
                     </button>
                   )}
                 </div>
@@ -870,7 +870,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                     Frequently Asked Questions (FAQs)
                   </h2>
                   <p className="text-xs text-gray-500 font-normal mt-0.5">
-                    Everything you need to know about anonymous 1-on-1 audio calling, credits, and community safety.
+                    Everything you need to know about anonymous 1-on-1 audio calling, safety, and private conversations.
                   </p>
                 </div>
               </div>
@@ -937,7 +937,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                  <span><strong>Credit-Based Simplicity:</strong> No per-call payment checkouts if you have credits.</span>
+                  <span><strong>Instant 1-Click Calling:</strong> No per-call payment checkouts when balance is available.</span>
                 </li>
               </ul>
             </div>
@@ -1082,7 +1082,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               </div>
             </div>
 
-            {/* Credit Cost Summary */}
+            {/* Cost Summary */}
             {(() => {
               const baseRate = activeCallHost.rate_per_session || 49
               const calculatedRate = Math.round((baseRate / 15) * checkoutDuration)
@@ -1094,14 +1094,14 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                   <div className="bg-amber-50/70 border border-amber-100 rounded-2xl p-4 flex items-center justify-between text-xs">
                     <div>
                       <span className="text-gray-500 font-medium">Session Cost ({checkoutDuration}m):</span>
-                      <div className="text-base font-black text-amber-700">
-                        🪙 {creditsNeeded} Credits
+                      <div className="text-base font-black text-gray-900">
+                        ₹{calculatedRate} <span className="text-xs text-amber-700 font-bold">(🪙 {creditsNeeded} pts)</span>
                       </div>
                     </div>
                     <div className="text-right">
                       <span className="text-gray-500 font-medium">Your Balance:</span>
                       <div className="text-sm font-bold text-gray-900">
-                        🪙 {credits || 0}
+                        🪙 {credits || 0} pts
                       </div>
                     </div>
                   </div>
@@ -1119,7 +1119,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                         ) : (
                           <Phone className="w-4 h-4" />
                         )}
-                        Redeem {creditsNeeded} Credits & Start Call
+                        Start {checkoutDuration}-Min Call
                       </button>
                       <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-500 pt-1">
                         <Mic className="w-3.5 h-3.5 text-emerald-600" />
@@ -1129,7 +1129,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                   ) : (
                     <div className="space-y-2">
                       <div className="text-[11px] text-amber-800 text-center font-medium bg-amber-100/50 p-2.5 rounded-xl border border-amber-200">
-                        🪙 You need {creditsNeeded - (credits || 0)} more credits for this {checkoutDuration}-min call.
+                        You need additional balance for this {checkoutDuration}-min call.
                       </div>
                       <button
                         type="button"
@@ -1140,7 +1140,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                         className="w-full py-3.5 rounded-full bg-amber-500 hover:bg-amber-600 active:scale-98 text-white text-xs font-bold transition-all shadow-md shadow-amber-200 flex items-center justify-center gap-2"
                       >
                         <PlusCircle className="w-4 h-4" />
-                        Top Up Credits Now
+                        Add Talk Time Now
                       </button>
                     </div>
                   )}
@@ -1166,9 +1166,9 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-2 text-2xl font-bold">
                 🪙
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Recharge Call Credits</h3>
+              <h3 className="text-xl font-bold text-gray-900">Add Talk Time & Calling Balance</h3>
               <p className="text-xs text-gray-500 font-medium">
-                1 INR = 10 Credits • 490 Credits per 15-minute call
+                Direct & Private Calling • ₹49 per 15-minute session
               </p>
             </div>
 
@@ -1199,7 +1199,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                           </span>
                         )}
                         <div className="text-base font-black text-amber-700">
-                          🪙 {pack.credits}
+                          🪙 {pack.credits} pts
                         </div>
                         <div className="text-xs font-bold text-gray-900 mt-1">
                           ₹{pack.priceInr}
@@ -1214,13 +1214,13 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
 
                 <div className="bg-gray-50 rounded-2xl p-3.5 text-xs text-gray-600 space-y-1 border border-gray-100">
                   <div className="flex justify-between items-center">
-                    <span>Current Wallet Balance:</span>
-                    <span className="font-bold text-gray-900">🪙 {credits || 0}</span>
+                    <span>Current Calling Balance:</span>
+                    <span className="font-bold text-gray-900">🪙 {credits || 0} pts</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span>Balance After Recharge:</span>
+                    <span>Balance After Top-up:</span>
                     <span className="font-bold text-emerald-600">
-                      🪙 {(credits || 0) + selectedPack.credits}
+                      🪙 {(credits || 0) + selectedPack.credits} pts
                     </span>
                   </div>
                 </div>
@@ -1237,7 +1237,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                     ) : (
                       <Coins className="w-4 h-4" />
                     )}
-                    Pay ₹{selectedPack.priceInr} & Add {selectedPack.credits} Credits
+                    Pay ₹{selectedPack.priceInr} & Get {selectedPack.label}
                   </button>
                 ) : (
                   <button

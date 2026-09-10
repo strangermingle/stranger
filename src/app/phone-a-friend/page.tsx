@@ -67,11 +67,11 @@ const FAQS_DATA = [
   },
   {
     q: 'How does Phone a Friend work?',
-    a: 'Simply choose any active online host and click "Call Now" to connect instantly for a 1-on-1 private audio conversation using your call credits. If you need credits, you can recharge your credit wallet in seconds with transparent pricing.'
+    a: 'Simply choose any active online host and click "Call Now" to connect instantly for a 1-on-1 private audio conversation using your talk balance. You can top up talk time in seconds with transparent pricing.'
   },
   {
     q: 'What are the charges and session duration?',
-    a: 'Calls are credit-based, typically 490 credits (equivalent to ₹49) for a 15-minute focused session. 1 INR equals 10 credits. You can recharge credit packs anytime and redeem them seamlessly whenever you wish to talk.'
+    a: 'Calls are typically ₹49 for a 15-minute focused session. You can top up talk time anytime and connect seamlessly whenever you wish to talk.'
   },
   {
     q: 'Is Phone a Friend 100% anonymous and private?',
@@ -87,7 +87,7 @@ const FAQS_DATA = [
   },
   {
     q: 'What happens if a host does not answer or declines my call?',
-    a: 'If a host is busy or declines your call, the ringing stops immediately, you are notified, and your credits remain intact in your wallet. You can immediately call another available online host.'
+    a: 'If a host is busy or declines your call, the ringing stops immediately, you are notified, and your balance remains 100% intact in your wallet. You can immediately call another available online host.'
   },
   {
     q: 'How can I apply to become a Phone a Friend host?',
