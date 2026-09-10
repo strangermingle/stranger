@@ -67,11 +67,11 @@ const FAQS_DATA = [
   },
   {
     q: 'How does Phone a Friend work?',
-    a: 'You can either choose an active online host and click "Call Now" for an instant 1-on-1 audio conversation or switch to "Book a Slot" to schedule a convenient 15-minute time window. Payments are securely completed upfront via Razorpay, and voice calls are streamed privately with zero personal contact exchange.'
+    a: 'Simply choose any active online host and click "Call Now" to connect instantly for a 1-on-1 private audio conversation using your call credits. If you need credits, you can recharge your credit wallet in seconds with transparent pricing.'
   },
   {
     q: 'What are the charges and session duration?',
-    a: 'Calls are charged per 15-minute session at rates set by individual hosts, typically ranging from ₹49 to ₹199 per session. Each session provides 15 minutes of uninterrupted conversation with transparent upfront pricing and no recurring subscriptions.'
+    a: 'Calls are credit-based, typically 490 credits (equivalent to ₹49) for a 15-minute focused session. 1 INR equals 10 credits. You can recharge credit packs anytime and redeem them seamlessly whenever you wish to talk.'
   },
   {
     q: 'Is Phone a Friend 100% anonymous and private?',
@@ -87,11 +87,11 @@ const FAQS_DATA = [
   },
   {
     q: 'What happens if a host does not answer or declines my call?',
-    a: 'If a host is busy or declines your instant call, the ringing stops immediately and you are notified without being connected to an empty room. You can choose another online host or schedule an upcoming slot.'
+    a: 'If a host is busy or declines your call, the ringing stops immediately, you are notified, and your credits remain intact in your wallet. You can immediately call another available online host.'
   },
   {
     q: 'How can I apply to become a Phone a Friend host?',
-    a: 'If you are an empathetic, articulate communicator who enjoys active listening, you can apply through Stranger Mingle\'s Host Partner portal. Approved hosts set their own rates, manage their availability slots, and earn per completed session.'
+    a: 'If you are an empathetic, articulate communicator who enjoys active listening, you can apply through Stranger Mingle\'s Host Partner portal. Approved hosts set their own rates, go online whenever free, and earn per completed session.'
   }
 ]
 

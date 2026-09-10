@@ -6,9 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { 
   Phone, 
-  PhoneCall, 
   Clock, 
-  Calendar, 
   ShieldCheck, 
   Star, 
   Volume2, 
@@ -26,16 +24,18 @@ import {
   ChevronUp,
   ShieldAlert,
   ArrowRight,
-  Headphones,
   CheckCircle2,
   Users,
-  Info,
-  Shield,
-  FileText,
-  Download
+  Coins,
+  PlusCircle,
+  LogIn
 } from 'lucide-react'
 import { createClientClient } from '@/lib/supabaseClient'
-import { initiateCallSession, fetchHostCallingDetails, createCallPaymentOrderApi } from '@/lib/callService'
+import { 
+  initiateCallSession, 
+  createCreditsOrderApi, 
+  verifyCreditsOrderApi 
+} from '@/lib/callService'
 import { useAuth } from '@/components/AuthProvider'
 import { getDeviceFingerprint } from '@/lib/deviceFingerprint'
 import WeekendEvents from '@/components/event/WeekendEvents'
@@ -54,11 +54,11 @@ const DEFAULT_FAQS = [
   },
   {
     q: 'How does Phone a Friend work?',
-    a: 'You can either choose an active online host and click "Call Now" for an instant 1-on-1 audio conversation or switch to "Book a Slot" to schedule a convenient 15-minute time window. Payments are securely completed upfront via Razorpay, and voice calls are streamed privately with zero personal contact exchange.'
+    a: 'Simply choose any active online host and click "Call Now" to connect instantly for a 1-on-1 private audio conversation using your call credits. If you need credits, you can recharge your credit wallet in seconds with transparent pricing.'
   },
   {
     q: 'What are the charges and session duration?',
-    a: 'Calls are charged per 15-minute session at rates set by individual hosts, typically ranging from ₹49 to ₹199 per session. Each session provides 15 minutes of uninterrupted conversation with transparent upfront pricing and no recurring subscriptions.'
+    a: 'Calls are credit-based, typically 490 credits (equivalent to ₹49) for a 15-minute focused session. 1 INR equals 10 credits. You can recharge credit packs anytime and redeem them seamlessly whenever you wish to talk.'
   },
   {
     q: 'Is Phone a Friend 100% anonymous and private?',
@@ -74,12 +74,19 @@ const DEFAULT_FAQS = [
   },
   {
     q: 'What happens if a host does not answer or declines my call?',
-    a: 'If a host is busy or declines your instant call, the ringing stops immediately and you are notified without being connected to an empty room. You can choose another online host or schedule an upcoming slot.'
+    a: 'If a host is busy or declines your call, the ringing stops immediately, you are notified, and your credits remain intact in your wallet. You can immediately call another available online host.'
   },
   {
     q: 'How can I apply to become a Phone a Friend host?',
-    a: 'If you are an empathetic, articulate communicator who enjoys active listening, you can apply through Stranger Mingle\'s Host Partner portal. Approved hosts set their own rates, manage their availability slots, and earn per completed session.'
+    a: 'If you are an empathetic, articulate communicator who enjoys active listening, you can apply through Stranger Mingle\'s Host Partner portal. Approved hosts set their own rates, go online whenever free, and earn per completed session.'
   }
+]
+
+const CREDIT_PACKS = [
+  { id: '1call', credits: 490, priceInr: 49, label: '1 Call (15m)', popular: false },
+  { id: '2calls', credits: 1000, priceInr: 99, label: '~2 Calls (30m)', popular: true },
+  { id: '5calls', credits: 2500, priceInr: 249, label: '~5 Calls (75m)', popular: false },
+  { id: '10calls', credits: 5000, priceInr: 499, label: '~10 Calls (150m)', popular: false },
 ]
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -98,16 +105,26 @@ const loadRazorpayScript = (): Promise<boolean> => {
   })
 }
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'
-
 export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }: PhoneAFriendClientProps) {
   const router = useRouter()
-  const { user, mappedUserId } = useAuth()
+  const { user, mappedUserId, credits, checkMembershipStatus } = useAuth()
   const [hosts, setHosts] = useState(initialHosts)
   const [selectedLanguage, setSelectedLanguage] = useState('All')
   const [selectedTopic, setSelectedTopic] = useState('All')
-  const [activeTab, setActiveTab] = useState<'online' | 'slots'>('online')
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
+
+  // Active call & Ringing state
+  const [activeCallHost, setActiveCallHost] = useState<any | null>(null)
+  const [checkoutDuration, setCheckoutDuration] = useState<number>(15)
+  const [isInitiating, setIsInitiating] = useState(false)
+  const [callError, setCallError] = useState<string | null>(null)
+  const [ringingCall, setRingingCall] = useState<any | null>(null)
+
+  // Credit Recharge Modal
+  const [showRechargeModal, setShowRechargeModal] = useState(false)
+  const [isRecharging, setIsRecharging] = useState(false)
+  const [selectedPack, setSelectedPack] = useState(CREDIT_PACKS[1])
+  const [rechargeSuccessMessage, setRechargeSuccessMessage] = useState<string | null>(null)
 
   // Helper to get or generate a valid UUID caller ID
   const getCallerUid = () => {
@@ -118,7 +135,6 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
     }
 
     let callerUid = localStorage.getItem('sm_caller_uid')
-    // If empty or an old non-UUID string like 'user_dn7xs16', generate a standard UUID
     if (!callerUid || !UUID_REGEX.test(callerUid)) {
       callerUid = typeof crypto !== 'undefined' && crypto.randomUUID
         ? crypto.randomUUID()
@@ -129,93 +145,98 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
     return callerUid
   }
 
-  // Caller contact info & duration state for checkout
-  const [checkoutDuration, setCheckoutDuration] = useState<number>(15)
-  const [callerName, setCallerName] = useState<string>('')
-  const [callerEmail, setCallerEmail] = useState<string>('')
-  const [callerPhone, setCallerPhone] = useState<string>('')
-  const [contactError, setContactError] = useState<string | null>(null)
+  // Quick 1-click Google Sign-in to load credits
+  const handleGoogleSignIn = async () => {
+    try {
+      const { auth } = await import('@/lib/firebase')
+      const { GoogleAuthProvider, signInWithPopup } = await import('firebase/auth')
+      const provider = new GoogleAuthProvider()
+      await signInWithPopup(auth, provider)
+    } catch (err: any) {
+      console.error('[PhoneAFriend] Google Sign-in error:', err)
+      alert(err.message || 'Could not complete sign in')
+    }
+  }
 
-  useEffect(() => {
-    if (user?.displayName && !callerName) setCallerName(user.displayName)
-    if (user?.email && !callerEmail) setCallerEmail(user.email)
-    if ((user as any)?.phone && !callerPhone) setCallerPhone((user as any).phone)
-  }, [user])
+  // Start Call directly using Credits
+  const handleStartCallWithCredits = async (host: any, duration: number = checkoutDuration) => {
+    const baseRate = host.rate_per_session || 49
+    const calculatedRate = Math.round((baseRate / 15) * duration)
+    const creditsNeeded = calculatedRate * 10
 
-  // Pay via Razorpay and initiate call session
-  const payAndInitiateCall = async ({
-    hostId,
-    hostName,
-    callType,
-    slotId = null,
-    amount,
-    durationMinutes = 15,
-    name,
-    email,
-    phone,
-    onSuccess,
-  }: {
-    hostId: string
-    hostName: string
-    callType: 'instant' | 'scheduled'
-    slotId?: string | null
-    amount: number
-    durationMinutes?: number
-    name?: string
-    email?: string
-    phone?: string
-    onSuccess: (res: any) => void
-  }) => {
-    const isLoaded = await loadRazorpayScript()
-    if (!isLoaded) {
-      throw new Error('Could not load payment gateway. Please check your internet connection.')
+    if (!user) {
+      await handleGoogleSignIn()
+      return
     }
 
-    const callerUid = getCallerUid()
-    const dfp = getDeviceFingerprint()
-
-    // 1. Create Razorpay order on backend
-    const orderData = await createCallPaymentOrderApi({
-      userId: callerUid,
-      hostId,
-      callType,
-      slotId,
-      amount,
-      durationMinutes,
-      callerName: name,
-      callerEmail: email,
-      callerPhone: phone,
-      deviceFingerprint: dfp,
-    })
-
-    if (!orderData?.orderId) {
-      throw new Error('Failed to create payment order. Please try again.')
+    if ((credits || 0) < creditsNeeded) {
+      setActiveCallHost(null)
+      setShowRechargeModal(true)
+      return
     }
 
-    // 2. Open Razorpay Checkout
-    return new Promise<void>((resolve, reject) => {
+    setIsInitiating(true)
+    setCallError(null)
+
+    try {
+      const callerUid = getCallerUid()
+      const dfp = typeof window !== 'undefined' ? localStorage.getItem('sm_dfp') || undefined : undefined
+
+      const res = await initiateCallSession({
+        userId: callerUid,
+        hostId: host.host_id,
+        callType: 'instant',
+        durationMinutes: duration,
+        callerName: user.displayName || 'Caller',
+        callerEmail: user.email || undefined,
+        callerPhone: (user as any).phoneNumber || undefined,
+        amount: calculatedRate,
+        deviceFingerprint: dfp,
+        paymentMethod: 'credits',
+      })
+
+      if (checkMembershipStatus) {
+        checkMembershipStatus().catch(() => {})
+      }
+
+      setActiveCallHost(null)
+      setRingingCall(res.call)
+    } catch (err: any) {
+      setCallError(err.message || 'Could not start call using credits.')
+    } finally {
+      setIsInitiating(false)
+    }
+  }
+
+  // Purchase Credits via Razorpay
+  const handlePurchaseCredits = async (pack: typeof CREDIT_PACKS[0]) => {
+    setIsRecharging(true)
+    try {
+      const isLoaded = await loadRazorpayScript()
+      if (!isLoaded) throw new Error('Payment gateway could not be loaded.')
+
+      const callerUid = getCallerUid()
+      const orderData = await createCreditsOrderApi({
+        amountInr: pack.priceInr,
+        credits: pack.credits,
+        userId: callerUid,
+        email: user?.email || undefined,
+        name: user?.displayName || undefined,
+      })
+
       const options = {
         key: orderData.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: orderData.amount,
         currency: orderData.currency || 'INR',
         name: 'Stranger Mingle',
-        description:
-          callType === 'instant'
-            ? `1-on-1 Audio Call with ${hostName} (${durationMinutes}m)`
-            : `Scheduled Call Slot with ${hostName}`,
+        description: `Recharge ${pack.credits} Call Credits`,
         order_id: orderData.orderId,
         prefill: {
-          name: name || user?.displayName || '',
-          email: email || user?.email || '',
-          contact: phone || (user as any)?.phone || '',
+          name: user?.displayName || '',
+          email: user?.email || '',
         },
         theme: {
-          color: '#f43f5e',
-        },
-        modal: {
-          ondismiss: () => {
-            reject(new Error('Payment was cancelled.'))
-          },
+          color: '#f59e0b',
         },
         handler: async (response: {
           razorpay_order_id: string
@@ -223,51 +244,38 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
           razorpay_signature: string
         }) => {
           try {
-            // 3. Initiate call with verified payment
-            const res = await initiateCallSession({
-              userId: callerUid,
-              hostId,
-              callType,
-              slotId,
-              amount,
-              durationMinutes,
-              callerName: name,
-              callerEmail: email,
-              callerPhone: phone,
-              deviceFingerprint: dfp,
+            await verifyCreditsOrderApi({
               razorpayOrderId: response.razorpay_order_id,
               razorpayPaymentId: response.razorpay_payment_id,
               razorpaySignature: response.razorpay_signature,
+              userId: callerUid,
+              email: user?.email || undefined,
+              creditsToAdd: pack.credits,
             })
-            onSuccess(res)
-            resolve()
-          } catch (err: any) {
-            reject(err)
+
+            if (checkMembershipStatus) {
+              await checkMembershipStatus()
+            }
+
+            setRechargeSuccessMessage(`+${pack.credits} credits added to your wallet!`)
+            setTimeout(() => {
+              setRechargeSuccessMessage(null)
+              setShowRechargeModal(false)
+            }, 1800)
+          } catch (verErr: any) {
+            alert(verErr.message || 'Payment verification failed.')
           }
         },
       }
 
       const rzp = new (window as any).Razorpay(options)
-      rzp.on('payment.failed', (resp: any) => {
-        reject(new Error(resp.error?.description || 'Payment failed'))
-      })
       rzp.open()
-    })
+    } catch (err: any) {
+      alert(err.message || 'Credit purchase failed.')
+    } finally {
+      setIsRecharging(false)
+    }
   }
-
-  // Active Instant Call host target
-  const [activeCallHost, setActiveCallHost] = useState<any | null>(null)
-  const [isInitiating, setIsInitiating] = useState(false)
-  const [callError, setCallError] = useState<string | null>(null)
-
-  // Ringing Call object (stores call record when host is being rung)
-  const [ringingCall, setRingingCall] = useState<any | null>(null)
-
-  // Booking slots modal state
-  const [slotHostDetails, setSlotHostDetails] = useState<any | null>(null)
-  const [selectedSlot, setSelectedSlot] = useState<any | null>(null)
-  const [isBookingSlot, setIsBookingSlot] = useState(false)
-  const [isLoadingSlots, setIsLoadingSlots] = useState(false)
 
   // Unique languages and topics
   const allLanguages = ['All', ...Array.from(new Set(hosts.flatMap((h) => h.languages || [])))]
@@ -314,7 +322,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
     }
   }, [])
 
-  // Audio elements for outgoing ring tone
+  // Outgoing Audio Ringtone
   const audioCtxRef = useRef<AudioContext | null>(null)
   const ringIntervalRef = useRef<any>(null)
 
@@ -404,7 +412,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
 
     const timeout = setTimeout(() => {
       stopOutgoingRing()
-      setCallError('No answer from host. Please try another host or book an upcoming slot.')
+      setCallError('No answer from host. Your credits remain safe in your wallet. Please try another online host.')
       setRingingCall(null)
     }, 45000)
 
@@ -428,66 +436,6 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
 
   const onlineHosts = filteredHosts.filter((h) => h.is_online)
 
-  const handleStartInstantCall = async () => {
-    if (!activeCallHost) return
-
-    if (!callerName.trim() || callerName.trim().length < 2) {
-      setContactError('Please enter your full name.')
-      return
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!callerEmail.trim() || !emailRegex.test(callerEmail.trim())) {
-      setContactError('Please provide a valid email address.')
-      return
-    }
-    const cleanedPhone = callerPhone.replace(/\D/g, '')
-    if (!cleanedPhone || cleanedPhone.length < 10) {
-      setContactError('Please enter a valid 10-digit mobile number.')
-      return
-    }
-    setContactError(null)
-
-    const baseRate = activeCallHost.rate_per_session || 49
-    const calculatedRate = Math.round((baseRate / 15) * checkoutDuration)
-
-    setIsInitiating(true)
-    setCallError(null)
-
-    try {
-      await payAndInitiateCall({
-        hostId: activeCallHost.host_id,
-        hostName: activeCallHost.host?.display_name || 'Host',
-        callType: 'instant',
-        durationMinutes: checkoutDuration,
-        name: callerName.trim(),
-        email: callerEmail.trim(),
-        phone: cleanedPhone,
-        amount: calculatedRate,
-        onSuccess: (res) => {
-          setRingingCall(res.call)
-        },
-      })
-    } catch (err: any) {
-      if (err.message !== 'Payment was cancelled.') {
-        setCallError(err.message || 'Could not start call. Please try again.')
-      }
-    } finally {
-      setIsInitiating(false)
-    }
-  }
-
-  const handleOpenSlots = async (host: any) => {
-    setIsLoadingSlots(true)
-    try {
-      const details = await fetchHostCallingDetails(host.host_id)
-      setSlotHostDetails({ ...host, ...details })
-    } catch {
-      // Fallback
-    } finally {
-      setIsLoadingSlots(false)
-    }
-  }
-
   return (
     <div className="min-h-screen bg-gray-50/50 text-gray-900 pb-20 font-sans">
       
@@ -500,21 +448,21 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
         </nav>
       </div>
 
-      {/* Hero Section — Optimized for SEO, AEO & GEO */}
+      {/* Hero Section */}
       <section className="bg-white border-b border-gray-100 pt-8 pb-10 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-rose-50 text-rose-600 text-sm font-regular border border-rose-100 shadow-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            Just Talk — Phone a Friend Online
+            Just Talk — Anonymous 1-on-1 Audio Calls
           </div>
 
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
             Need Someone Just for a Talk? <br className="hidden sm:inline" />
-            <span className="text-rose-600">1-on-1 Anonymous Voice Calls</span>
+            <span className="text-rose-600">Credit-Based Anonymous Calling</span>
           </h1>
 
           <p className="text-sm sm:text-base text-gray-600 font-medium leading-relaxed max-w-2xl mx-auto">
-            Feeling stressed, lonely, bored, or just want to share your thoughts? Talk 1-on-1 with verified, empathetic listeners across India over private, secure audio calls. 100% anonymous, zero judgment, and no video camera required.
+            Feeling stressed, lonely, bored, or just want to vent? Connect 1-on-1 with verified, empathetic listeners across India instantly using your call credits. 100% anonymous, zero judgment, and no video camera required.
           </p>
 
           {/* Trust Badges */}
@@ -532,48 +480,76 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               Hindi, English & Regional
             </span>
             <span className="inline-flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
-              <Clock className="w-4 h-4 text-amber-600" />
-              15-Min Focused Sessions
+              <Coins className="w-4 h-4 text-amber-600" />
+              Credit-Based (490 Credits / 15m)
             </span>
           </div>
         </div>
       </section>
 
-      {/* Main Layout Container: Main Content (8 cols) + Sidebar with Ads (4 cols) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-2 pt-2">
+      {/* Main Layout Container */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-2 pt-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Main Area: Hosts List + Guidelines + FAQs */}
-          <div className="lg:col-span-8 space-y-10">
+          {/* Main Area: Wallet Card + Hosts List + Guidelines + FAQs */}
+          <div className="lg:col-span-8 space-y-6">
             
-            {/* Navigation Tabs (Talk Now vs Book a Slot) */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-center sm:justify-start gap-2">
-                <button
-                  onClick={() => setActiveTab('online')}
-                  className={`flex-1 sm:flex-none px-6 py-2.5 rounded-full text-xs font-semibold transition-all flex items-center justify-center gap-2 border ${
-                    activeTab === 'online'
-                      ? 'bg-rose-500 text-white border-rose-500 shadow-sm shadow-rose-200'
-                      : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
-                  }`}
-                >
-                  <span className={`w-2 h-2 rounded-full ${activeTab === 'online' ? 'bg-white' : 'bg-emerald-500'} animate-pulse`} />
-                  Talk Now ({onlineHosts.length} Online)
-                </button>
-                <button
-                  onClick={() => setActiveTab('slots')}
-                  className={`flex-1 sm:flex-none px-6 py-2.5 rounded-full text-xs font-semibold transition-all flex items-center justify-center gap-2 border ${
-                    activeTab === 'slots'
-                      ? 'bg-rose-500 text-white border-rose-500 shadow-sm shadow-rose-200'
-                      : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
-                  }`}
-                >
-                  <Calendar className="w-3.5 h-3.5" />
-                  Book a Slot
-                </button>
-              </div>
+            {/* User Call Credit Wallet Card */}
+            <div className="bg-gradient-to-r from-amber-500/10 via-amber-50 to-orange-50/30 border border-amber-200 rounded-3xl p-5 sm:p-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-black text-2xl shadow-md shadow-amber-200">
+                    🪙
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded-full">
+                        Your Call Credits
+                      </span>
+                      {user && (
+                        <span className="text-xs text-gray-500 font-medium">
+                          ({user.email})
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-2xl sm:text-3xl font-black text-gray-900 mt-1 flex items-baseline gap-2">
+                      <span>{(credits || 0).toLocaleString()}</span>
+                      <span className="text-xs font-bold text-gray-500">Credits Available</span>
+                    </div>
+                    <p className="text-xs text-gray-600 font-medium mt-0.5">
+                      {(credits || 0) >= 490 
+                        ? `Ready to call! You have enough credits for ~${Math.floor((credits || 0) / 490)} session(s).`
+                        : 'Recharge credits to connect instantly with available online hosts.'}
+                    </p>
+                  </div>
+                </div>
 
-              {/* Language Filters */}
+                <div className="flex items-center gap-2">
+                  {user ? (
+                    <button
+                      type="button"
+                      onClick={() => setShowRechargeModal(true)}
+                      className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm shadow-amber-200"
+                    >
+                      <PlusCircle className="w-4 h-4" />
+                      Recharge Credits
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleGoogleSignIn}
+                      className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-zinc-900 hover:bg-zinc-800 active:scale-95 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+                    >
+                      <LogIn className="w-4 h-4" />
+                      Sign In to Use Credits
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Language & Topic Filters */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
               <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-xs">
                 <span className="text-gray-400 font-medium whitespace-nowrap pl-1">Language:</span>
                 {allLanguages.map((lang) => (
@@ -590,47 +566,53 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                   </button>
                 ))}
               </div>
+
+              <div className="text-xs text-gray-500 font-semibold">
+                <span className="text-rose-600 font-bold">{onlineHosts.length}</span> Hosts Online
+              </div>
             </div>
 
-            {/* Tab 1: Talk Now (Online Hosts) */}
-            {activeTab === 'online' && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between text-xs text-gray-500 font-normal px-1">
-                  <span>Online hosts available for instant 1-on-1 audio call</span>
-                  <span>Transparent rates • Paid via Razorpay</span>
-                </div>
+            {/* Error banner if any */}
+            {callError && (
+              <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium text-center flex items-center justify-between gap-3">
+                <span>{callError}</span>
+                <button onClick={() => setCallError(null)} className="text-red-500 hover:text-red-700 font-bold text-sm">
+                  ✕
+                </button>
+              </div>
+            )}
 
-                {onlineHosts.length === 0 ? (
-                  <div className="bg-white rounded-2xl border border-gray-200/80 p-8 text-center space-y-3 shadow-xs">
-                    <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto">
-                      <PhoneOff className="w-5 h-5" />
-                    </div>
-                    <div className="space-y-1">
-                      <h3 className="text-base font-semibold text-gray-900">No hosts online right this second</h3>
-                      <p className="text-xs text-gray-500 font-normal max-w-sm mx-auto">
-                        Our hosts are currently in calls or taking a short break. Please switch to &quot;Book a Slot&quot; to pick an upcoming time.
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setActiveTab('slots')}
-                      className="px-5 py-2.5 rounded-full bg-gray-900 text-white text-xs font-semibold hover:bg-gray-800 transition-colors inline-flex items-center gap-2 shadow-xs"
-                    >
-                      <Calendar className="w-3.5 h-3.5" />
-                      View Upcoming Slots
-                    </button>
+            {/* Online Hosts Grid */}
+            <div className="space-y-4">
+              {onlineHosts.length === 0 ? (
+                <div className="bg-white rounded-3xl border border-gray-200/80 p-10 text-center space-y-4 shadow-xs">
+                  <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center mx-auto">
+                    <PhoneOff className="w-6 h-6" />
                   </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {onlineHosts.map((item) => {
-                      const host = item.host || {}
-                      return (
-                        <div
-                          key={item.id}
-                          className="bg-white rounded-2xl border border-gray-200/80 p-4 sm:p-5 shadow-xs hover:border-rose-300 hover:shadow-md transition-all flex flex-col justify-between space-y-3 group"
-                        >
-                          {/* Host Header */}
-                          <div className="flex items-center gap-3">
-                            <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-bold text-gray-900">No hosts online right now</h3>
+                    <p className="text-xs text-gray-500 font-normal max-w-sm mx-auto">
+                      Our friendly hosts are currently in calls or taking a short break. Please check back in a few minutes!
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {onlineHosts.map((item) => {
+                    const host = item.host || {}
+                    const rateInr = item.rate_per_session || 49
+                    const rateCredits = Math.round(rateInr * 10)
+                    const userHasCredits = (credits || 0) >= rateCredits
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="bg-white rounded-3xl border border-gray-200/80 p-5 shadow-sm hover:border-rose-200 hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+                      >
+                        <div>
+                          {/* Host Avatar & Details */}
+                          <div className="flex items-center gap-3.5 mb-3">
+                            <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-gray-100 shrink-0 border border-gray-100 shadow-inner">
                               {host.profile_image ? (
                                 <Image
                                   src={host.profile_image}
@@ -639,25 +621,28 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                                   className="object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center font-bold text-rose-600 bg-rose-50 text-sm">
+                                <div className="w-full h-full flex items-center justify-center font-black text-rose-500 bg-rose-50 text-base">
                                   {(host.display_name || 'H').substring(0, 2)}
                                 </div>
                               )}
+                              <span className="absolute bottom-1 right-1 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full ring-2 ring-emerald-500/20" />
                             </div>
 
                             <div className="min-w-0 flex-1">
                               <div className="flex items-center gap-1.5">
-                                <h3 className="text-sm font-bold text-gray-900 truncate group-hover:text-rose-600 transition-colors">
+                                <h3 className="text-sm font-bold text-gray-900 truncate">
                                   {host.display_name}
                                 </h3>
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 animate-pulse" title="Online" />
+                                <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                  ONLINE
+                                </span>
                               </div>
 
-                              <div className="flex items-center gap-2 text-xs text-gray-500 font-normal">
+                              <div className="flex items-center gap-2 text-xs text-gray-500 font-normal mt-0.5">
                                 <span>{host.city || 'India'}</span>
                                 <span>•</span>
                                 <div className="flex items-center gap-0.5 text-amber-500 font-medium">
-                                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                                   <span className="text-gray-700">{item.rating_avg || '5.0'}</span>
                                 </div>
                               </div>
@@ -665,128 +650,82 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                           </div>
 
                           {/* Bio */}
-                          <p className="text-xs text-gray-600 font-normal line-clamp-2 leading-relaxed">
+                          <p className="text-xs text-gray-600 font-normal line-clamp-2 leading-relaxed mb-3">
                             {item.bio || host.description || 'Warm, empathetic listener ready to talk about anything on your mind.'}
                           </p>
 
                           {/* Spoken Languages & Topics */}
                           <div className="flex flex-wrap gap-1">
                             {(item.languages || ['Hindi', 'English']).map((lang: string) => (
-                              <span key={lang} className="text-[11px] font-normal px-2 py-0.5 rounded-md bg-gray-100 text-gray-600">
+                              <span key={lang} className="text-[10px] font-medium px-2 py-0.5 rounded-lg bg-gray-100 text-gray-600">
                                 {lang}
                               </span>
                             ))}
                             {(item.topics || ['Casual Chat']).slice(0, 2).map((t: string) => (
-                              <span key={t} className="text-[11px] font-normal px-2 py-0.5 rounded-md bg-rose-50 text-rose-700">
+                              <span key={t} className="text-[10px] font-medium px-2 py-0.5 rounded-lg bg-rose-50 text-rose-700 border border-rose-100">
                                 {t}
                               </span>
                             ))}
                           </div>
-
-                          {/* Bottom Price & Call Button */}
-                          <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                            <div className="text-xs text-gray-500 font-normal">
-                              <span className="text-sm font-bold text-gray-900">₹{item.rate_per_session || 49}</span>
-                              <span className="text-[11px]"> / {item.session_duration_minutes || 15}m</span>
-                            </div>
-
-                            <button
-                              onClick={() => setActiveCallHost(item)}
-                              className="px-4 py-2 rounded-full bg-rose-500 hover:bg-rose-600 active:scale-95 text-white text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm shadow-rose-200"
-                            >
-                              <Phone className="w-3.5 h-3.5" />
-                              Call Now
-                            </button>
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Tab 2: Book a Slot */}
-            {activeTab === 'slots' && (
-              <div className="space-y-4">
-                <div className="text-xs text-gray-500 font-normal px-1">
-                  Select an empathetic host to view their available 15-minute call slots
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {filteredHosts.map((item) => {
-                    const host = item.host || {}
-                    return (
-                      <div
-                        key={item.id}
-                        className="bg-white rounded-2xl border border-gray-200/80 p-4 sm:p-5 shadow-xs hover:border-gray-300 transition-all flex flex-col justify-between space-y-3"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
-                            {host.profile_image ? (
-                              <Image
-                                src={host.profile_image}
-                                alt={host.display_name || 'Host'}
-                                fill
-                                className="object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center font-bold text-gray-600 bg-gray-100 text-sm">
-                                {(host.display_name || 'H').substring(0, 2)}
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="min-w-0 flex-1">
-                            <h3 className="text-sm font-bold text-gray-900 truncate">
-                              {host.display_name}
-                            </h3>
-                            <div className="flex items-center gap-2 text-xs text-gray-500 font-normal">
-                              <span>{host.city || 'India'}</span>
-                              <span>•</span>
-                              <div className="flex items-center gap-0.5 text-amber-500 font-medium">
-                                <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                                <span className="text-gray-700">{item.rating_avg || '5.0'}</span>
-                              </div>
-                            </div>
-                          </div>
                         </div>
 
-                        <p className="text-xs text-gray-600 font-normal line-clamp-2 leading-relaxed">
-                          {item.bio || host.description || 'Friendly, non-judgmental listener ready to talk with you.'}
-                        </p>
-
-                        <div className="flex flex-wrap gap-1">
-                          {(item.languages || ['Hindi', 'English']).map((lang: string) => (
-                            <span key={lang} className="text-[11px] font-normal px-2 py-0.5 rounded-md bg-gray-100 text-gray-600">
-                              {lang}
-                            </span>
-                          ))}
-                        </div>
-
+                        {/* Bottom Price in Credits & Instant Call Action */}
                         <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                          <div className="text-xs text-gray-500 font-normal">
-                            <span className="text-sm font-bold text-gray-900">₹{item.rate_per_session || 49}</span>
-                            <span className="text-[11px]"> / {item.session_duration_minutes || 15}m</span>
+                          <div>
+                            <div className="text-xs font-black text-gray-900 flex items-center gap-1">
+                              <span className="text-amber-600 text-sm">🪙 {rateCredits}</span>
+                              <span className="text-[11px] text-gray-400 font-medium">/ 15m</span>
+                            </div>
+                            <div className="text-[10px] text-gray-400">
+                              (₹{rateInr} value)
+                            </div>
                           </div>
 
-                          <button
-                            onClick={() => handleOpenSlots(item)}
-                            className="px-4 py-2 rounded-full border border-gray-300 hover:border-gray-900 hover:bg-gray-900 hover:text-white text-gray-800 text-xs font-semibold transition-all flex items-center gap-1.5"
-                          >
-                            <Calendar className="w-3.5 h-3.5 text-gray-500 group-hover:text-white" />
-                            Pick a Time
-                          </button>
+                          {user ? (
+                            userHasCredits ? (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setActiveCallHost(item)
+                                  setCheckoutDuration(15)
+                                }}
+                                className="px-4 py-2 rounded-full bg-rose-500 hover:bg-rose-600 active:scale-95 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm shadow-rose-200"
+                              >
+                                <Phone className="w-3.5 h-3.5" />
+                                Call Now
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setShowRechargeModal(true)
+                                }}
+                                className="px-3.5 py-2 rounded-full bg-amber-500 hover:bg-amber-600 active:scale-95 text-white text-xs font-bold transition-all flex items-center gap-1 shadow-sm shadow-amber-200"
+                              >
+                                <Coins className="w-3.5 h-3.5" />
+                                Top Up & Call
+                              </button>
+                            )
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={handleGoogleSignIn}
+                              className="px-4 py-2 rounded-full bg-zinc-900 hover:bg-zinc-800 active:scale-95 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+                            >
+                              <LogIn className="w-3.5 h-3.5" />
+                              Sign In to Call
+                            </button>
+                          )}
                         </div>
                       </div>
                     )
                   })}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            {/* What is Stranger Mingle Phone a Friend? (Moved below host section) */}
-            <div className="bg-linear-to-r from-rose-50/70 via-white to-amber-50/50 rounded-3xl p-6 sm:p-7 border border-rose-100/90 shadow-xs space-y-3">
+            {/* About Phone a Friend */}
+            <div className="bg-gradient-to-r from-rose-50/70 via-white to-amber-50/50 rounded-3xl p-6 sm:p-7 border border-rose-100/90 shadow-xs space-y-3">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100/60 text-rose-700 text-xs font-semibold">
                 <Sparkles className="w-3.5 h-3.5 text-rose-600" />
                 About Phone a Friend
@@ -799,7 +738,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               </p>
             </div>
 
-            {/* Clear Instruction Set & Legal Disclaimer Section */}
+            {/* Caller Instructions & Safety Rules */}
             <section className="bg-white rounded-3xl border border-gray-200/90 p-6 sm:p-8 space-y-6 shadow-xs">
               <div className="flex items-start gap-3.5 pb-4 border-b border-gray-100">
                 <div className="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 shrink-0">
@@ -810,7 +749,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                     Caller Instructions, Safety Rules & Legal Disclaimer
                   </h2>
                   <p className="text-xs text-gray-500 font-normal mt-0.5">
-                    Please read these mandatory guidelines carefully before starting or booking any call on Stranger Mingle.
+                    Please read these mandatory guidelines carefully before starting any call on Stranger Mingle.
                   </p>
                 </div>
               </div>
@@ -832,7 +771,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                     Harassment Against Hosts Leads to Serious Legal Action
                   </h3>
                   <p className="text-[11px] text-red-900 leading-relaxed font-normal">
-                    Any form of harassment, verbal abuse, obscenity, sexual remarks, threats, or intimidation toward hosts is strictly prohibited. Violators face immediate permanent banning, IP blacklisting, and referral to Indian Cyber Crime authorities and law enforcement for formal criminal proceedings under the IT Act and applicable penal laws.
+                    Any form of harassment, verbal abuse, obscenity, sexual remarks, threats, or intimidation toward hosts is strictly prohibited. Violators face immediate permanent banning, IP blacklisting, and referral to Indian Cyber Crime authorities for formal criminal proceedings under the IT Act.
                   </p>
                 </div>
 
@@ -851,7 +790,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                     Callers Must Be Polite, Courteous & Respectful
                   </h3>
                   <p className="text-[11px] text-emerald-900 leading-relaxed font-normal">
-                    Hosts are empathetic peers offering a listening ear. Callers are required to be gentle, polite, and calm. Maintain a platonic, constructive atmosphere where both sides feel safe, heard, and respected throughout the 15-minute conversation.
+                    Hosts are empathetic peers offering a listening ear. Callers are required to be gentle, polite, and calm. Maintain a platonic, constructive atmosphere where both sides feel safe, heard, and respected throughout the session.
                   </p>
                 </div>
 
@@ -896,7 +835,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               </div>
             </section>
 
-            {/* Comprehensive FAQs Section */}
+            {/* FAQs Section */}
             <section className="bg-white rounded-3xl border border-gray-200/90 p-6 sm:p-8 space-y-6 shadow-xs">
               <div className="flex items-start gap-3.5 pb-4 border-b border-gray-100">
                 <div className="w-10 h-10 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600 shrink-0">
@@ -907,7 +846,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                     Frequently Asked Questions (FAQs)
                   </h2>
                   <p className="text-xs text-gray-500 font-normal mt-0.5">
-                    Everything you need to know about anonymous 1-on-1 audio calling, pricing, and community safety.
+                    Everything you need to know about anonymous 1-on-1 audio calling, credits, and community safety.
                   </p>
                 </div>
               </div>
@@ -945,7 +884,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
 
           </div>
 
-          {/* Sidebar Area: Ad Cards + Trust + Host Onboarding */}
+          {/* Sidebar Area: Safety + Ads + Host Application */}
           <aside className="lg:col-span-4 space-y-6">
             
             {/* Safety & Assurance Card */}
@@ -974,12 +913,12 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                  <span><strong>Secure Checkout:</strong> Instant payment validation via Razorpay UPI & Cards.</span>
+                  <span><strong>Credit-Based Simplicity:</strong> No per-call payment checkouts if you have credits.</span>
                 </li>
               </ul>
             </div>
 
-            {/* Sponsored Ad Card in Sidebar */}
+            {/* Sponsored Ad */}
             <div className="space-y-2">
               <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
                 Featured Partner
@@ -988,7 +927,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
             </div>
 
             {/* Become a Host Card */}
-            <div className="bg-linear-to-br from-rose-900 via-rose-800 to-indigo-900 rounded-3xl p-6 text-white relative overflow-hidden shadow-xl border border-white/10 space-y-4">
+            <div className="bg-gradient-to-br from-rose-900 via-rose-800 to-indigo-900 rounded-3xl p-6 text-white relative overflow-hidden shadow-xl border border-white/10 space-y-4">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 text-[10px] font-black uppercase tracking-widest text-white backdrop-blur-md">
@@ -1001,7 +940,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                   Become a Phone a Friend Host
                 </h3>
                 <p className="text-xs text-rose-100/90 leading-relaxed font-normal">
-                  Turn your active listening skills and empathy into income. Set your own session price (₹49 - ₹199 per 15 mins), open your available slots, and talk to people across India.
+                  Turn your active listening skills and empathy into income. Set your session price, go online whenever free, and receive calls from users across India.
                 </p>
               </div>
 
@@ -1013,7 +952,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               </Link>
             </div>
 
-            {/* Stranger Mingle Club / Membership Ad Card */}
+            {/* Membership Ad */}
             <div className="space-y-2">
               <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 px-1">
                 Community Access
@@ -1024,7 +963,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
           </aside>
         </div>
 
-        {/* Upcoming Weekend Meetups Section */}
+        {/* Offline Weekend Meetups Section */}
         <section className="mt-16 pt-12 border-t border-gray-200 space-y-6">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-100">
@@ -1044,14 +983,13 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
 
       </div>
 
-      {/* Instant Call Modal */}
+      {/* Direct Credit Call Modal (Duration Selector) */}
       {activeCallHost && !ringingCall && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-white rounded-t-3xl sm:rounded-2xl w-full max-w-md border border-gray-200 p-6 space-y-4 shadow-xl relative max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-md border border-gray-200 p-6 space-y-5 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => {
                 setActiveCallHost(null)
-                setContactError(null)
                 setCallError(null)
               }}
               className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full"
@@ -1060,7 +998,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
             </button>
 
             <div className="text-center space-y-2 pt-1">
-              <div className="relative w-16 h-16 rounded-full overflow-hidden mx-auto border border-gray-200">
+              <div className="relative w-16 h-16 rounded-2xl overflow-hidden mx-auto border border-gray-200 shadow-inner">
                 {activeCallHost.host?.profile_image ? (
                   <Image
                     src={activeCallHost.host?.profile_image}
@@ -1085,9 +1023,9 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               </div>
             </div>
 
-            {/* Duration Selector (15m @ ₹49, 30m @ ₹98, 45m @ ₹147, 60m @ ₹196) */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-semibold text-gray-700">
+            {/* Duration Selector */}
+            <div className="space-y-2">
+              <label className="block text-xs font-bold text-gray-700">
                 Select Call Duration
               </label>
               <div className="grid grid-cols-4 gap-2">
@@ -1098,114 +1036,191 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                   { mins: 60 },
                 ].map(({ mins }) => {
                   const baseRate = activeCallHost.rate_per_session || 49
-                  const rate = Math.round((baseRate / 15) * mins)
+                  const rateInr = Math.round((baseRate / 15) * mins)
+                  const rateCredits = rateInr * 10
                   const isSelected = checkoutDuration === mins
                   return (
                     <button
                       key={mins}
                       type="button"
                       onClick={() => setCheckoutDuration(mins)}
-                      className={`p-2 rounded-xl text-center border transition-all ${
+                      className={`p-2 rounded-2xl text-center border transition-all ${
                         isSelected
-                          ? 'border-rose-500 bg-rose-50/70 text-rose-900 ring-2 ring-rose-500/20 shadow-xs'
+                          ? 'border-rose-500 bg-rose-50 text-rose-900 ring-2 ring-rose-500/20 shadow-xs'
                           : 'border-gray-200 hover:border-gray-300 text-gray-700 bg-white'
                       }`}
                     >
                       <div className="text-xs font-bold">{mins}m</div>
-                      <div className="text-[11px] font-semibold text-gray-900 mt-0.5">₹{rate}</div>
+                      <div className="text-[10px] font-bold text-amber-700 mt-0.5">🪙 {rateCredits}</div>
                     </button>
                   )
                 })}
               </div>
             </div>
 
-            {/* Caller Contact Information */}
-            <div className="space-y-2 pt-1">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-gray-700">
-                  Your Details (For Ticket & Membership)
-                </label>
-                <span className="text-[10px] text-emerald-600 font-medium">Free 1-Mo Club Pass</span>
-              </div>
+            {/* Credit Cost Summary */}
+            {(() => {
+              const baseRate = activeCallHost.rate_per_session || 49
+              const calculatedRate = Math.round((baseRate / 15) * checkoutDuration)
+              const creditsNeeded = calculatedRate * 10
+              const userHasCredits = (credits || 0) >= creditsNeeded
 
-              <div className="space-y-2">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Your Full Name"
-                    value={callerName}
-                    onChange={(e) => {
-                      setCallerName(e.target.value)
-                      if (contactError) setContactError(null)
-                    }}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 bg-gray-50/50"
-                  />
+              return (
+                <div className="space-y-4">
+                  <div className="bg-amber-50/70 border border-amber-100 rounded-2xl p-4 flex items-center justify-between text-xs">
+                    <div>
+                      <span className="text-gray-500 font-medium">Session Cost ({checkoutDuration}m):</span>
+                      <div className="text-base font-black text-amber-700">
+                        🪙 {creditsNeeded} Credits
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-gray-500 font-medium">Your Balance:</span>
+                      <div className="text-sm font-bold text-gray-900">
+                        🪙 {credits || 0}
+                      </div>
+                    </div>
+                  </div>
+
+                  {userHasCredits ? (
+                    <button
+                      type="button"
+                      disabled={isInitiating}
+                      onClick={() => handleStartCallWithCredits(activeCallHost, checkoutDuration)}
+                      className="w-full py-3.5 rounded-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 active:scale-98 text-white text-xs font-bold transition-all shadow-md shadow-rose-200 flex items-center justify-center gap-2"
+                    >
+                      {isInitiating ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Phone className="w-4 h-4" />
+                      )}
+                      Redeem {creditsNeeded} Credits & Start Call
+                    </button>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="text-[11px] text-amber-800 text-center font-medium bg-amber-100/50 p-2.5 rounded-xl border border-amber-200">
+                        🪙 You need {creditsNeeded - (credits || 0)} more credits for this {checkoutDuration}-min call.
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveCallHost(null)
+                          setShowRechargeModal(true)
+                        }}
+                        className="w-full py-3.5 rounded-full bg-amber-500 hover:bg-amber-600 active:scale-98 text-white text-xs font-bold transition-all shadow-md shadow-amber-200 flex items-center justify-center gap-2"
+                      >
+                        <PlusCircle className="w-4 h-4" />
+                        Top Up Credits Now
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <input
-                    type="email"
-                    placeholder="Email Address (Ticket sent here)"
-                    value={callerEmail}
-                    onChange={(e) => {
-                      setCallerEmail(e.target.value)
-                      if (contactError) setContactError(null)
-                    }}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 bg-gray-50/50"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="tel"
-                    placeholder="10-digit Mobile Number"
-                    maxLength={10}
-                    value={callerPhone}
-                    onChange={(e) => {
-                      setCallerPhone(e.target.value.replace(/\D/g, ''))
-                      if (contactError) setContactError(null)
-                    }}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 bg-gray-50/50"
-                  />
-                </div>
-              </div>
-            </div>
+              )
+            })()}
+          </div>
+        </div>
+      )}
 
-            {contactError && (
-              <div className="p-2.5 rounded-xl bg-red-50 text-red-700 text-xs font-medium text-center border border-red-100">
-                {contactError}
-              </div>
-            )}
-
-            {callError && (
-              <div className="p-2.5 rounded-xl bg-red-50 text-red-700 text-xs font-normal text-center border border-red-100">
-                {callError}
-              </div>
-            )}
-
-            <div className="bg-gray-50/80 rounded-xl p-3 space-y-1.5 text-xs text-gray-600 border border-gray-100">
-              <div className="flex justify-between items-center">
-                <span>Total Charges ({checkoutDuration} mins):</span>
-                <span className="font-bold text-gray-900 text-sm">
-                  ₹{Math.round(((activeCallHost.rate_per_session || 49) / 15) * checkoutDuration)}
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 text-[11px] text-emerald-700">
-                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                <span>Ticket PDF emailed directly + 1-Month Free Club Pass</span>
-              </div>
-            </div>
-
+      {/* Credit Recharge Modal */}
+      {showRechargeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-white rounded-3xl w-full max-w-md border border-gray-200 p-6 sm:p-8 space-y-6 shadow-2xl relative">
             <button
-              onClick={handleStartInstantCall}
-              disabled={isInitiating}
-              className="w-full py-3 rounded-full bg-rose-500 hover:bg-rose-600 active:scale-98 text-white text-xs font-semibold transition-all flex items-center justify-center gap-2 shadow-sm shadow-rose-200"
+              onClick={() => setShowRechargeModal(false)}
+              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full"
             >
-              {isInitiating ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Phone className="w-3.5 h-3.5" />
-              )}
-              Pay ₹{Math.round(((activeCallHost.rate_per_session || 49) / 15) * checkoutDuration)} & Start Call
+              <X className="w-5 h-5" />
             </button>
+
+            <div className="text-center space-y-1">
+              <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-2 text-2xl font-bold">
+                🪙
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Recharge Call Credits</h3>
+              <p className="text-xs text-gray-500 font-medium">
+                1 INR = 10 Credits • 490 Credits per 15-minute call
+              </p>
+            </div>
+
+            {rechargeSuccessMessage ? (
+              <div className="py-8 text-center space-y-2">
+                <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto animate-bounce" />
+                <h4 className="text-base font-bold text-gray-900">{rechargeSuccessMessage}</h4>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  {CREDIT_PACKS.map((pack) => {
+                    const isSelected = selectedPack.id === pack.id
+                    return (
+                      <button
+                        key={pack.id}
+                        type="button"
+                        onClick={() => setSelectedPack(pack)}
+                        className={`p-4 rounded-2xl border text-left transition-all relative ${
+                          isSelected
+                            ? 'border-amber-500 bg-amber-50/70 ring-2 ring-amber-500/30'
+                            : 'border-gray-200 hover:border-gray-300 bg-white'
+                        }`}
+                      >
+                        {pack.popular && (
+                          <span className="absolute -top-2 right-2 text-[9px] font-black uppercase tracking-wider bg-amber-500 text-white px-2 py-0.5 rounded-full shadow-xs">
+                            Popular
+                          </span>
+                        )}
+                        <div className="text-base font-black text-amber-700">
+                          🪙 {pack.credits}
+                        </div>
+                        <div className="text-xs font-bold text-gray-900 mt-1">
+                          ₹{pack.priceInr}
+                        </div>
+                        <div className="text-[10px] text-gray-500 font-medium mt-0.5">
+                          {pack.label}
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
+
+                <div className="bg-gray-50 rounded-2xl p-3.5 text-xs text-gray-600 space-y-1 border border-gray-100">
+                  <div className="flex justify-between items-center">
+                    <span>Current Wallet Balance:</span>
+                    <span className="font-bold text-gray-900">🪙 {credits || 0}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Balance After Recharge:</span>
+                    <span className="font-bold text-emerald-600">
+                      🪙 {(credits || 0) + selectedPack.credits}
+                    </span>
+                  </div>
+                </div>
+
+                {user ? (
+                  <button
+                    type="button"
+                    disabled={isRecharging}
+                    onClick={() => handlePurchaseCredits(selectedPack)}
+                    className="w-full py-3.5 rounded-full bg-amber-500 hover:bg-amber-600 active:scale-98 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-amber-200 flex items-center justify-center gap-2"
+                  >
+                    {isRecharging ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Coins className="w-4 h-4" />
+                    )}
+                    Pay ₹{selectedPack.priceInr} & Add {selectedPack.credits} Credits
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleGoogleSignIn}
+                    className="w-full py-3.5 rounded-full bg-zinc-900 hover:bg-zinc-800 active:scale-98 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2"
+                  >
+                    <LogIn className="w-4 h-4" />
+                    Sign In with Google to Purchase
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -1214,263 +1229,42 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
       {ringingCall && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/90 backdrop-blur-md animate-in fade-in duration-150 text-white">
           <div className="bg-zinc-900 rounded-3xl w-full max-w-sm border border-zinc-800 p-8 space-y-5 text-center shadow-2xl">
-            <div className="relative mx-auto w-24 h-24 rounded-full flex items-center justify-center">
+            <div className="relative w-24 h-24 mx-auto">
               <div className="absolute inset-0 rounded-full bg-rose-500/20 animate-ping" />
-              <div className="relative w-20 h-20 rounded-full overflow-hidden border border-rose-400 shadow-lg">
-                {activeCallHost?.host?.profile_image ? (
-                  <Image
-                    src={activeCallHost.host?.profile_image}
-                    alt={activeCallHost.host?.display_name || 'Host'}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-rose-300 font-semibold text-xl bg-zinc-800">
-                    {(activeCallHost?.host?.display_name || 'H').substring(0, 2)}
-                  </div>
-                )}
+              <div className="relative w-full h-full rounded-full border-2 border-rose-500 flex items-center justify-center bg-zinc-800 shadow-xl shadow-rose-500/10">
+                <Phone className="w-10 h-10 text-rose-500 animate-pulse" />
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <div className="inline-block px-3 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[11px] font-medium animate-pulse">
-                Calling...
-              </div>
-              <h3 className="text-lg font-bold text-white">
-                {activeCallHost?.host?.display_name}
+            <div className="space-y-1">
+              <span className="text-[10px] font-black uppercase tracking-widest text-rose-400">
+                Outgoing Call
+              </span>
+              <h3 className="text-xl font-bold text-white">
+                Ringing Host...
               </h3>
-              <p className="text-xs text-zinc-400 font-normal">
-                Please wait while the host picks up your call...
+              <p className="text-xs text-zinc-400 font-mono">
+                Ref: {ringingCall.call_ref}
               </p>
-              <div className="pt-2 text-[11px] text-emerald-400 font-medium">
-                📧 Ticket and confirmation sent to {callerEmail || 'your email'}.
-              </div>
-              <div>
-                <a
-                  href={`${BACKEND_URL}/api/calls/ticket/${ringingCall.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[11px] text-rose-400 hover:text-rose-300 hover:underline pt-1"
-                >
-                  <Download className="w-3.5 h-3.5" /> Download Call Ticket PDF
-                </a>
-              </div>
             </div>
+
+            <p className="text-xs text-zinc-400 font-medium leading-relaxed">
+              We have alerted the host on their mobile device. Please hold on while they answer...
+            </p>
 
             <button
               onClick={() => {
                 stopOutgoingRing()
                 setRingingCall(null)
               }}
-              className="py-2 px-6 rounded-full border border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800 text-xs font-normal transition-colors inline-flex items-center gap-1.5"
+              className="w-full py-3 rounded-full bg-zinc-800 hover:bg-zinc-700 active:scale-95 text-xs font-bold text-zinc-300 transition-all border border-zinc-700"
             >
-              <PhoneOff className="w-3.5 h-3.5 text-red-400" />
               Cancel Call
             </button>
           </div>
         </div>
       )}
 
-      {/* Book Slots Modal */}
-      {slotHostDetails && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-white rounded-t-3xl sm:rounded-2xl w-full max-w-sm border border-gray-200 p-6 space-y-4 shadow-xl relative max-h-[85vh] overflow-y-auto">
-            <button
-              onClick={() => {
-                setSlotHostDetails(null)
-                setSelectedSlot(null)
-              }}
-              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="flex items-center gap-3 border-b border-gray-100 pb-3">
-              <div className="relative w-11 h-11 rounded-full overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
-                {slotHostDetails.host?.profile_image ? (
-                  <Image
-                    src={slotHostDetails.host?.profile_image}
-                    alt={slotHostDetails.host?.display_name || 'Host'}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center font-bold text-gray-600 bg-gray-100 text-xs">
-                    {(slotHostDetails.host?.display_name || 'H').substring(0, 2)}
-                  </div>
-                )}
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-gray-900">
-                  {slotHostDetails.host?.display_name}
-                </h3>
-                <p className="text-xs text-gray-500 font-normal">
-                  Select a convenient 15-minute slot
-                </p>
-              </div>
-            </div>
-
-            {(!slotHostDetails.slots || slotHostDetails.slots.length === 0) ? (
-              <div className="py-8 text-center text-gray-500 font-normal text-xs">
-                No slots open right now for this host. Please check back later.
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {slotHostDetails.slots.map((s: any) => {
-                  const isBooked = s.status === 'booked'
-                  return (
-                    <div
-                      key={s.id}
-                      onClick={() => {
-                        if (!isBooked) setSelectedSlot(s)
-                      }}
-                      className={`p-3 rounded-xl border transition-all flex items-center justify-between text-xs ${
-                        isBooked
-                          ? 'bg-gray-50 border-gray-200 text-gray-400 cursor-not-allowed opacity-75'
-                          : selectedSlot?.id === s.id
-                          ? 'border-rose-500 bg-rose-50/50 text-rose-900 cursor-pointer'
-                          : 'border-gray-200 hover:border-gray-300 text-gray-700 cursor-pointer'
-                      }`}
-                    >
-                      <div>
-                        <div className="font-medium flex items-center gap-2">
-                          <span>
-                            {new Date(s.slot_date).toLocaleDateString('en-IN', {
-                              weekday: 'short',
-                              day: 'numeric',
-                              month: 'short',
-                            })}
-                          </span>
-                          {isBooked && (
-                            <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-gray-200 text-gray-600">
-                              Booked
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-gray-500 text-[11px]">
-                          {new Date(s.start_time).toLocaleTimeString('en-IN', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </div>
-                      </div>
-                      <div className="font-bold text-gray-900">
-                        {isBooked ? <span className="text-gray-400">Booked</span> : `₹${s.price}`}
-                      </div>
-                    </div>
-                  )
-                })}
-
-                {selectedSlot && (
-                  <div className="space-y-3 pt-3 border-t border-gray-100">
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-xs font-semibold text-gray-700 block">
-                          Your Details (For Ticket & Membership)
-                        </label>
-                        <span className="text-[10px] text-emerald-600 font-medium">Free 1-Mo Club Pass</span>
-                      </div>
-
-                      <input
-                        type="text"
-                        placeholder="Your Full Name"
-                        value={callerName}
-                        onChange={(e) => {
-                          setCallerName(e.target.value)
-                          if (contactError) setContactError(null)
-                        }}
-                        className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 bg-gray-50/50"
-                      />
-                      <input
-                        type="email"
-                        placeholder="Email Address (Ticket sent here)"
-                        value={callerEmail}
-                        onChange={(e) => {
-                          setCallerEmail(e.target.value)
-                          if (contactError) setContactError(null)
-                        }}
-                        className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 bg-gray-50/50"
-                      />
-                      <input
-                        type="tel"
-                        placeholder="10-digit Mobile Number"
-                        maxLength={10}
-                        value={callerPhone}
-                        onChange={(e) => {
-                          setCallerPhone(e.target.value.replace(/\D/g, ''))
-                          if (contactError) setContactError(null)
-                        }}
-                        className="w-full px-3 py-2 text-xs rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 bg-gray-50/50"
-                      />
-                    </div>
-
-                    {contactError && (
-                      <div className="p-2.5 rounded-xl bg-red-50 text-red-700 text-xs font-medium text-center border border-red-100">
-                        {contactError}
-                      </div>
-                    )}
-
-                    <div className="text-[11px] text-emerald-700 flex items-center gap-1.5 bg-emerald-50/60 p-2 rounded-xl border border-emerald-100">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                      <span>Ticket emailed automatically + 1-Month Free Club Pass</span>
-                    </div>
-
-                    <button
-                      disabled={isBookingSlot}
-                      onClick={async () => {
-                        if (!callerName.trim() || callerName.trim().length < 2) {
-                          setContactError('Please enter your full name.')
-                          return
-                        }
-                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-                        if (!callerEmail.trim() || !emailRegex.test(callerEmail.trim())) {
-                          setContactError('Please provide a valid email address.')
-                          return
-                        }
-                        const cleanedPhone = callerPhone.replace(/\D/g, '')
-                        if (!cleanedPhone || cleanedPhone.length < 10) {
-                          setContactError('Please enter a valid 10-digit mobile number.')
-                          return
-                        }
-                        setContactError(null)
-
-                        setIsBookingSlot(true)
-                        try {
-                          await payAndInitiateCall({
-                            hostId: slotHostDetails.host_id,
-                            hostName: slotHostDetails.host?.display_name || 'Host',
-                            callType: 'scheduled',
-                            slotId: selectedSlot.id,
-                            durationMinutes: 15,
-                            name: callerName.trim(),
-                            email: callerEmail.trim(),
-                            phone: cleanedPhone,
-                            amount: selectedSlot.price || 49,
-                            onSuccess: (res) => {
-                              setSlotHostDetails(null)
-                              router.push(`/phone-a-friend?booked=true&ref=${res.call?.call_ref}`)
-                            },
-                          })
-                        } catch (err: any) {
-                          if (err.message !== 'Payment was cancelled.') {
-                            alert(err.message || 'Payment or booking failed')
-                          }
-                        } finally {
-                          setIsBookingSlot(false)
-                        }
-                      }}
-                      className="w-full py-3 rounded-full bg-rose-500 hover:bg-rose-600 active:scale-98 text-white text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-2"
-                    >
-                      {isBookingSlot ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                      Pay & Confirm Slot (₹{selectedSlot.price || 49})
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   )
 }

@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/components/AuthProvider';
-import { LogOut, Shield, Loader2, AlertCircle, CheckCircle, Mail, Lock, MessageSquare, MapPin, Gamepad2, User, Ticket, Tag, Check, X, Sparkles } from 'lucide-react';
+import { LogOut, Shield, Loader2, AlertCircle, CheckCircle, Mail, Lock, MessageSquare, MapPin, Gamepad2, User, Ticket, Tag, Check, X, Sparkles, Phone } from 'lucide-react';
 import Link from 'next/link';
 import NextImage from 'next/image';
 
@@ -585,28 +585,44 @@ export default function MembersPage() {
                         </button>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                         {[
                             {
-                                title: 'Anonymous Chat', desc: 'One-on-One private messaging',
-                                icon: '💬', href: '/members/chat', color: 'from-blue-500 to-indigo-600'
+                                title: 'Phone a Friend',
+                                desc: '1-on-1 confidential voice calls with verified listeners.',
+                                icon: '📞',
+                                href: '/phone-a-friend',
+                                color: 'from-rose-500 to-pink-600',
                             },
                             {
-                                title: 'Local Groups', desc: 'Turf, Trek, Cycling & Activity circles',
-                                icon: '🤝', href: '/members/groups', color: 'from-emerald-500 to-teal-600'
+                                title: 'Anonymous Chat',
+                                desc: 'One-on-One private messaging',
+                                icon: '💬',
+                                href: '/members/chat',
+                                color: 'from-blue-500 to-indigo-600',
                             },
                             {
-                                title: 'Identity Vault', desc: 'Manage your profile & preferences',
-                                icon: '🛡️', href: '/members/profile', color: 'from-gray-800 to-black'
-                            }
+                                title: 'Local Groups',
+                                desc: 'Turf, Trek, Cycling & Activity circles',
+                                icon: '🤝',
+                                href: '/members/groups',
+                                color: 'from-emerald-500 to-teal-600',
+                            },
+                            {
+                                title: 'Identity Vault',
+                                desc: 'Manage your profile & preferences',
+                                icon: '🛡️',
+                                href: '/members/profile',
+                                color: 'from-gray-800 to-black',
+                            },
                         ].map((card, i) => (
                             <Link key={i} href={card.href} className="group relative overflow-hidden bg-white p-6 rounded-2xl border border-gray-300 shadow-xl shadow-gray-200/50 hover:-translate-y-2 transition-all">
                                 <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-10 transition-opacity rounded-bl-[5rem]`} />
 
                                 <div className="relative z-10">
-                                    <div className="text-5xl filter grayscale group-hover:grayscale-0 transition-all duration-500 mb-2">{card.icon}</div>
-                                    <h3 className="text-2xl font-black text-gray-800 hover:text-blue-600 mb-2 truncate">{card.title}</h3>
-                                    <p className="text-gray-600 font-medium leading-relaxed mb-2">{card.desc}</p>
+                                    <div className="text-4xl filter grayscale group-hover:grayscale-0 transition-all duration-500 mb-2">{card.icon}</div>
+                                    <h3 className="text-xl font-black text-gray-800 hover:text-rose-600 mb-2 truncate">{card.title}</h3>
+                                    <p className="text-gray-600 font-medium text-xs leading-relaxed mb-2">{card.desc}</p>
                                 </div>
                             </Link>
                         ))}
@@ -645,6 +661,7 @@ export default function MembersPage() {
                     {/* Membership Features List OVER IMAGE */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 animate-in fade-in slide-in-from-left duration-700 delay-300">
                         {[
+                            { icon: <Phone className="w-5 h-5 text-yellow-400" />, title: 'Phone a Friend', desc: '1-on-1 confidential audio calls' },
                             { icon: <MessageSquare className="w-5 h-5 text-yellow-400" />, title: 'Anonymous Chat', desc: 'One-on-One private messaging' },
                             { icon: <MapPin className="w-5 h-5 text-yellow-400" />, title: 'City Activity Groups', desc: 'Turf, Trek, Cycling & Circles' },
                             { icon: <Gamepad2 className="w-5 h-5 text-yellow-400" />, title: 'Online Live Games', desc: 'Play live games with strangers' },

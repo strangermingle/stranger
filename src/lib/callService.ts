@@ -51,6 +51,7 @@ export async function initiateCallSession(payload: {
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
   razorpaySignature?: string;
+  paymentMethod?: 'razorpay' | 'credits';
 }) {
   const res = await fetch(`${BACKEND_URL}/api/calls`, {
     method: 'POST',
@@ -132,6 +133,48 @@ export async function submitReportApi(payload: {
   if (!res.ok) {
     const err = await res.json();
     throw new Error(err.error || 'Failed to submit report');
+  }
+  return res.json();
+}
+
+export async function createCreditsOrderApi(payload: {
+  amountInr: number;
+  credits: number;
+  userId?: string | null;
+  email?: string;
+  phone?: string;
+  name?: string;
+}) {
+  const res = await fetch(`${BACKEND_URL}/api/credits/create-order`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Failed to create credit order');
+  }
+  return res.json();
+}
+
+export async function verifyCreditsOrderApi(payload: {
+  razorpayOrderId: string;
+  razorpayPaymentId: string;
+  razorpaySignature: string;
+  userId?: string | null;
+  email?: string;
+  creditsToAdd: number;
+}) {
+  const res = await fetch(`${BACKEND_URL}/api/credits/verify`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Failed to verify credit payment');
   }
   return res.json();
 }
