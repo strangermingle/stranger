@@ -21,7 +21,7 @@ const PLAN_YEARLY = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_YEARLY || '';
 
 
 export default function MembersPage() {
-    const { user, isMember, isMemberVerified, membershipExpiry, cancelAtPeriodEnd, loading, checkMembershipStatus } = useAuth();
+    const { user, isMember, isMemberVerified, membershipExpiry, cancelAtPeriodEnd, credits, loading, checkMembershipStatus } = useAuth();
 
     // Auth mode: standard login for existing members, or new application
     const [authMode, setAuthMode] = useState<'login' | 'apply'>('apply');
@@ -565,6 +565,13 @@ export default function MembersPage() {
                                     {membershipExpiry
                                         ? new Date(membershipExpiry).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                                         : 'Active'}
+                                </span>
+                            </div>
+                            <div className="w-px h-8 bg-gray-100" />
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Available Credits</span>
+                                <span className="text-sm font-black text-amber-600 flex items-center gap-1">
+                                    🪙 {credits || 0}
                                 </span>
                             </div>
                         </div>

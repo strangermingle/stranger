@@ -15,6 +15,7 @@ interface AuthContextType {
   isMemberVerified: boolean;
   membershipExpiry: string | null;
   cancelAtPeriodEnd: boolean;
+  credits: number;
   loading: boolean;
   checkMembershipStatus: (email?: string) => Promise<boolean>;
 }
@@ -26,6 +27,7 @@ const AuthContext = createContext<AuthContextType>({
   isMemberVerified: false,
   membershipExpiry: null,
   cancelAtPeriodEnd: false,
+  credits: 0,
   loading: true,
   checkMembershipStatus: async () => false
 });
@@ -37,6 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isMemberVerified, setIsMemberVerified] = useState(false);
   const [membershipExpiry, setMembershipExpiry] = useState<string | null>(null);
   const [cancelAtPeriodEnd, setCancelAtPeriodEnd] = useState(false);
+  const [credits, setCredits] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   const checkMembershipStatus = useCallback(async (email?: string) => {
@@ -54,6 +57,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       
       const data = await res.json();
+      if (typeof data.credits === 'number') {
+        setCredits(data.credits);
+      }
+
       if (data.success && data.isMember) {
         setIsMember(true);
         setIsMemberVerified(!!data.is_verified);
@@ -90,6 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsMemberVerified(false);
         setMembershipExpiry(null);
         setCancelAtPeriodEnd(false);
+        setCredits(0);
         // Clear the HTTP cookie for SSR context
         document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         
@@ -145,7 +153,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [checkMembershipStatus]);
 
   return (
-    <AuthContext.Provider value={{ user, mappedUserId, isMember, isMemberVerified, membershipExpiry, cancelAtPeriodEnd, loading, checkMembershipStatus }}>
+    <AuthContext.Provider value={{ user, mappedUserId, isMember, isMemberVerified, membershipExpiry, cancelAtPeriodEnd, credits, loading, checkMembershipStatus }}>
       {children}
     </AuthContext.Provider>
   );

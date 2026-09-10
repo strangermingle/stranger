@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function ProfilePage() {
-    const { user, mappedUserId, loading: authLoading, isMemberVerified, membershipExpiry } = useAuth();
+    const { user, mappedUserId, loading: authLoading, isMemberVerified, membershipExpiry, credits } = useAuth();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -287,6 +287,12 @@ export default function ProfilePage() {
                                     {(subscription?.current_period_end || membershipExpiry)
                                         ? new Date(subscription?.current_period_end || membershipExpiry!).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
                                         : 'Active'}
+                                </div>
+                            </div>
+                            <div className="text-center md:text-right">
+                                <div className="text-[10px] font-black uppercase tracking-widest opacity-60">Credits</div>
+                                <div className="font-bold text-amber-600 flex items-center justify-center md:justify-end gap-1">
+                                    🪙 {credits || 0}
                                 </div>
                             </div>
                         </div>
