@@ -76,12 +76,16 @@ export function useAgoraVoiceCall({ appId, channelName, token, account }: AgoraC
       const AgoraRTC = (await import('agora-rtc-sdk-ng')).default
       if (!clientRef.current) return
 
-      const micTrack = await AgoraRTC.createMicrophoneAudioTrack({
-        encoderConfig: 'high_quality_stereo',
-        AEC: true,
-        ANS: true,
-        AGC: true,
-      })
+      let micTrack: any
+      try {
+        micTrack = await AgoraRTC.createMicrophoneAudioTrack({
+          AEC: true,
+          ANS: true,
+          AGC: true,
+        })
+      } catch {
+        micTrack = await AgoraRTC.createMicrophoneAudioTrack()
+      }
 
       localAudioTrackRef.current = micTrack
       await clientRef.current.publish([micTrack])
@@ -175,14 +179,18 @@ export function useAgoraVoiceCall({ appId, channelName, token, account }: AgoraC
           setError(null)
         }
 
-        // Capture microphone with noise suppression and echo cancellation
+        // Create microphone audio track with AEC, ANS, AGC and fallback
         try {
-          const micTrack = await AgoraRTC.createMicrophoneAudioTrack({
-            encoderConfig: 'high_quality_stereo',
-            AEC: true,
-            ANS: true,
-            AGC: true,
-          })
+          let micTrack: any
+          try {
+            micTrack = await AgoraRTC.createMicrophoneAudioTrack({
+              AEC: true,
+              ANS: true,
+              AGC: true,
+            })
+          } catch {
+            micTrack = await AgoraRTC.createMicrophoneAudioTrack()
+          }
           localAudioTrackRef.current = micTrack
 
           // Publish local mic
