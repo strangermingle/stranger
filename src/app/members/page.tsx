@@ -11,17 +11,49 @@ import {
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/components/AuthProvider';
-import { LogOut, Shield, Loader2, AlertCircle, CheckCircle, Mail, Lock, MessageSquare, MapPin, Gamepad2, User, Ticket, Tag, Check, X, Sparkles, Phone } from 'lucide-react';
+import { 
+    LogOut, Shield, Loader2, AlertCircle, CheckCircle, Mail, Lock, 
+    MessageSquare, MapPin, Gamepad2, User, Ticket, Tag, Check, X, 
+    Sparkles, Phone, PhoneCall, Coins, ChevronRight, ArrowRight
+} from 'lucide-react';
 import Link from 'next/link';
 import NextImage from 'next/image';
+import { 
+    fetchOnlineMembersApi, 
+    toggleAvailabilityApi, 
+    sendHeartbeatApi, 
+    fetchMemberCallToken, 
+    OnlineMember 
+} from '@/lib/memberCallService';
+import { createCreditsOrderApi, verifyCreditsOrderApi } from '@/lib/callService';
+import MemberIncomingCallModal from '@/components/members/MemberIncomingCallModal';
+import MemberCallRoom from '@/components/members/MemberCallRoom';
 
 //currently plan IDs stored in the .env.local are test IDs
 const PLAN_MONTHLY = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_MONTHLY || '';
 const PLAN_YEARLY = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_YEARLY || '';
 
+const CREDIT_PACKS = [
+    { credits: 50, priceInr: 49, minutes: 5 },
+    { credits: 100, priceInr: 99, minutes: 10, popular: true },
+    { credits: 200, priceInr: 189, minutes: 20 },
+    { credits: 500, priceInr: 449, minutes: 50 },
+];
 
 export default function MembersPage() {
-    const { user, isMember, isMemberVerified, membershipExpiry, cancelAtPeriodEnd, credits, loading, checkMembershipStatus } = useAuth();
+    const { user, mappedUserId, isMember, isMemberVerified, membershipExpiry, cancelAtPeriodEnd, credits, loading, checkMembershipStatus } = useAuth();
+
+    // Member Calling State
+    const [isCallAvailable, setIsCallAvailable] = useState(false);
+    const [isTogglingCallAvailable, setIsTogglingCallAvailable] = useState(false);
+    const [onlineMembers, setOnlineMembers] = useState<OnlineMember[]>([]);
+    const [activeMemberCall, setActiveMemberCall] = useState<any | null>(null);
+    const [activeAgoraParams, setActiveAgoraParams] = useState<any | null>(null);
+
+    // Credit Recharge Modal State
+    const [showRechargeModal, setShowRechargeModal] = useState(false);
+    const [rechargingPack, setRechargingPack] = useState<number | null>(null);
+    const [rechargeSuccess, setRechargeSuccess] = useState<string | null>(null);
 
     // Auth mode: standard login for existing members, or new application
     const [authMode, setAuthMode] = useState<'login' | 'apply'>('apply');
@@ -411,6 +443,144 @@ export default function MembersPage() {
         await auth.signOut();
     };
 
+    // ==========================================
+    // MEMBER CALLING EFFECTS & HANDLERS (UNCONDITIONAL HOOKS)
+    // ==========================================
+    const currentMemberId = mappedUserId || user?.uid || '';
+
+    // Fetch Online Members and Heartbeat Interval
+    useEffect(() => {
+        if (!user || !isMember || !isMemberVerified || !currentMemberId) return;
+
+        const loadMembers = async () => {
+            try {
+                const list = await fetchOnlineMembersApi(currentMemberId);
+                setOnlineMembers(list);
+            } catch (err) {
+                console.warn('[MembersPage] Error fetching online members:', err);
+            }
+        };
+
+        loadMembers();
+        const pollInterval = setInterval(loadMembers, 20000); // 20s refresh
+
+        // 300s heartbeat window -> heartbeat sent every 60s when user has enabled calls
+        let heartbeatInterval: any = null;
+        if (isCallAvailable) {
+            sendHeartbeatApi(currentMemberId);
+            heartbeatInterval = setInterval(() => {
+                sendHeartbeatApi(currentMemberId);
+            }, 60000);
+        }
+
+        return () => {
+            clearInterval(pollInterval);
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+        };
+    }, [user, isMember, isMemberVerified, currentMemberId, isCallAvailable]);
+
+    const handleToggleCallAvailability = async () => {
+        if (!currentMemberId || isTogglingCallAvailable) return;
+        setIsTogglingCallAvailable(true);
+        const nextState = !isCallAvailable;
+        try {
+            await toggleAvailabilityApi(currentMemberId, nextState);
+            setIsCallAvailable(nextState);
+            const list = await fetchOnlineMembersApi(currentMemberId);
+            setOnlineMembers(list);
+        } catch (err: any) {
+            alert(err.message || 'Failed to update availability status.');
+        } finally {
+            setIsTogglingCallAvailable(false);
+        }
+    };
+
+    const handleIncomingCallAccepted = async (call: any) => {
+        if (!currentMemberId) return;
+        try {
+            const tokenData = await fetchMemberCallToken(call.id, currentMemberId);
+            setActiveAgoraParams(tokenData);
+            setActiveMemberCall(call);
+        } catch (err: any) {
+            alert(err.message || 'Failed to retrieve voice credentials.');
+        }
+    };
+
+    const handleCallClosed = async () => {
+        setActiveMemberCall(null);
+        setActiveAgoraParams(null);
+        if (checkMembershipStatus) {
+            await checkMembershipStatus();
+        }
+        if (currentMemberId) {
+            const list = await fetchOnlineMembersApi(currentMemberId);
+            setOnlineMembers(list);
+        }
+    };
+
+    const handleBuyCreditPack = async (pack: { credits: number; priceInr: number }) => {
+        try {
+            setRechargingPack(pack.credits);
+            const isLoaded = await loadRazorpayScript();
+            if (!isLoaded) throw new Error('Payment gateway could not be loaded.');
+
+            const orderData = await createCreditsOrderApi({
+                amountInr: pack.priceInr,
+                credits: pack.credits,
+                userId: currentMemberId,
+                email: user?.email || undefined,
+                name: user?.displayName || undefined,
+            });
+
+            const options = {
+                key: orderData.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                amount: orderData.amount,
+                currency: orderData.currency || 'INR',
+                name: 'Stranger Mingle',
+                description: `Recharge ${pack.credits} Call Credits`,
+                order_id: orderData.orderId,
+                prefill: {
+                    name: user?.displayName || '',
+                    email: user?.email || '',
+                },
+                theme: {
+                    color: '#10b981',
+                },
+                handler: async (response: any) => {
+                    try {
+                        await verifyCreditsOrderApi({
+                            razorpayOrderId: response.razorpay_order_id,
+                            razorpayPaymentId: response.razorpay_payment_id,
+                            razorpaySignature: response.razorpay_signature,
+                            userId: currentMemberId,
+                            email: user?.email || undefined,
+                            creditsToAdd: pack.credits,
+                        });
+
+                        if (checkMembershipStatus) {
+                            await checkMembershipStatus();
+                        }
+
+                        setRechargeSuccess(`+${pack.credits} credits added to your wallet!`);
+                        setTimeout(() => {
+                            setRechargeSuccess(null);
+                            setShowRechargeModal(false);
+                        }, 1800);
+                    } catch (verErr: any) {
+                        alert(verErr.message || 'Payment verification failed.');
+                    }
+                },
+            };
+
+            const rzp = new (window as any).Razorpay(options);
+            rzp.open();
+        } catch (err: any) {
+            alert(err.message || 'Payment initiation failed.');
+        } finally {
+            setRechargingPack(null);
+        }
+    };
+
     // Only show full-screen identity check loader if an authenticated user is waiting for membership status to resolve
     if (loading && user) {
         return (
@@ -521,113 +691,306 @@ export default function MembersPage() {
         );
     }
 
-    // Dashboard View ONLY if User + Member + Verified
+
+    // ==========================================
+    // SLIM, SLEEK MOBILE-FIRST MEMBER DASHBOARD
+    // ==========================================
     if (user && isMember && isMemberVerified) {
         return (
-            <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 selection:bg-yellow-200">
-                <div className="max-w-7xl mx-auto">
+            <div className="min-h-screen bg-[#fafbfc] text-gray-900 pt-20 sm:pt-24 pb-16 px-3 sm:px-6 font-sans">
+                <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
 
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-1">
-                        <div className="animate-in fade-in slide-in-from-left duration-700">
-                            <div className="flex items-center gap-3 text-indigo-500 font-black uppercase tracking-[0.3em] text-[10px] mb-3">
-                                <Shield className="w-5 h-5" />
-                                <span>{isMemberVerified ? `${user.displayName || 'Verified Member'}'s Dashboard` : `${user.displayName || 'Member'}'s Dashboard`}</span>
-                                {isMemberVerified && <CheckCircle className="w-4 h-4 text-green-500 fill-green-50" />}
+                    {/* TOP HEADER: SLIM & SLEEK */}
+                    <header className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-3">
+                            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-gray-100 to-gray-50 border border-gray-200/80 flex items-center justify-center text-lg shadow-sm">
+                                👤
                             </div>
-                            <div className="flex items-center gap-4">
-                                <h1 className="text-xl md:text-lg font-medium text-gray-900 tracking-wide leading-none mb-2">
-                                    Welcome, <br /><span className="text-3xl md:text-4xl font-bold text-red-500 tracking-wider leading-none mb-2 uppercase">{user.displayName || user.email?.split('@')[0]}</span>
-                                </h1>
-                                {isMemberVerified && (
-                                    <div className="px-3 py-1 bg-green-100 text-green-700 rounded-full flex items-center gap-1 text-[10px] font-black uppercase tracking-widest border border-green-200">
-                                        <CheckCircle className="w-3 h-3" />
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <h1 className="text-base sm:text-lg font-normal text-gray-900 tracking-tight leading-snug">
+                                        {user.displayName || user.email?.split('@')[0]}
+                                    </h1>
+                                    <span className="inline-flex items-center gap-1 text-[10px] font-normal text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">
+                                        <CheckCircle className="w-3 h-3 text-emerald-500" />
                                         Verified
-                                    </div>
-                                )}
-                            </div>
-                            <p className="text-gray-500 font-medium tracking-tight">Your premium access to Stranger Mingle.</p>
-                        </div>
-
-                        {/* Membership Info Badge */}
-                        <div className="bg-white border border-gray-100 rounded-[2rem] p-4 px-6 shadow-sm flex items-center gap-6">
-                            <div className="flex flex-col">
-                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Plan Status</span>
-                                <span className={`text-sm font-bold uppercase ${cancelAtPeriodEnd ? 'text-orange-500' : 'text-green-500'}`}>
-                                    {cancelAtPeriodEnd ? 'Expiring' : 'Active'}
-                                </span>
-                            </div>
-                            <div className="w-px h-8 bg-gray-100" />
-                            <div className="flex flex-col">
-                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">
-                                    {cancelAtPeriodEnd ? 'Expiry Date' : 'Renewal Date'}
-                                </span>
-                                <span className="text-sm font-bold text-gray-900">
-                                    {membershipExpiry
-                                        ? new Date(membershipExpiry).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-                                        : 'Active'}
-                                </span>
-                            </div>
-                            <div className="w-px h-8 bg-gray-100" />
-                            <div className="flex flex-col">
-                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Available Credits</span>
-                                <span className="text-sm font-black text-amber-600 flex items-center gap-1">
-                                    🪙 {credits || 0}
-                                </span>
+                                    </span>
+                                </div>
+                                <p className="text-xs text-gray-400 font-light mt-0.5">
+                                    Member pass active {membershipExpiry ? `• Renews ${new Date(membershipExpiry).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : ''}
+                                </p>
                             </div>
                         </div>
 
                         <button
                             onClick={handleLogout}
-                            className="flex mb-6 items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-100 text-red-400 font-bold uppercase tracking-widest text-[10px] rounded-2xl hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-all active:scale-95 shadow-sm"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200/70 hover:border-rose-200 text-gray-400 hover:text-rose-600 hover:bg-rose-50/50 text-xs font-light transition-all active:scale-95"
                         >
-                            <LogOut className="w-4 h-4" />
-                            <span>Secure Logout</span>
+                            <LogOut className="w-3.5 h-3.5" />
+                            <span className="hidden sm:inline">Logout</span>
                         </button>
+                    </header>
+
+                    {/* AVAILABILITY TOGGLE & CREDITS WALLET (SLIM CARD) */}
+                    <div className="bg-white rounded-2xl border border-gray-200/70 p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        
+                        {/* Availability Switch */}
+                        <div className="flex items-center justify-between sm:justify-start gap-4">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xs sm:text-sm font-medium text-gray-900">
+                                        Available to Call
+                                    </span>
+                                    {isCallAvailable ? (
+                                        <span className="inline-flex items-center gap-1 text-[10px] font-light text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                            Online
+                                        </span>
+                                    ) : (
+                                        <span className="text-[10px] font-light text-gray-400 bg-gray-50 border border-gray-100 px-2 py-0.5 rounded-full">
+                                            Offline
+                                        </span>
+                                    )}
+                                </div>
+                                <p className="text-[11px] text-gray-400 font-light mt-0.5">
+                                    {isCallAvailable 
+                                        ? 'Other members can call you • Answering calls is free' 
+                                        : 'Turn on so other members can find and call you'}
+                                </p>
+                            </div>
+
+                            <button
+                                onClick={handleToggleCallAvailability}
+                                disabled={isTogglingCallAvailable}
+                                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                                    isCallAvailable ? 'bg-emerald-500' : 'bg-gray-200'
+                                }`}
+                                role="switch"
+                                aria-checked={isCallAvailable}
+                            >
+                                <span
+                                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                                        isCallAvailable ? 'translate-x-5' : 'translate-x-0'
+                                    }`}
+                                />
+                            </button>
+                        </div>
+
+                        <div className="h-px sm:h-8 w-full sm:w-px bg-gray-100" />
+
+                        {/* Credits Balance & Recharge */}
+                        <div className="flex items-center justify-between sm:justify-end gap-3">
+                            <div className="flex flex-col sm:items-end">
+                                <span className="text-[10px] text-gray-400 uppercase tracking-wider font-light leading-none mb-1">
+                                    Credit Balance
+                                </span>
+                                <span className="text-sm font-medium text-gray-900 flex items-center gap-1">
+                                    🪙 <b className="font-semibold text-amber-600">{credits || 0}</b>
+                                    <span className="text-xs text-gray-400 font-light">credits</span>
+                                </span>
+                            </div>
+
+                            <button
+                                onClick={() => setShowRechargeModal(true)}
+                                className="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 text-emerald-700 text-xs font-normal transition-all active:scale-95 shadow-sm"
+                            >
+                                + Add Credits
+                            </button>
+                        </div>
+
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                    {/* CALL TO MEMBERS - DEDICATED PROMINENT CARD (NO BULKY INLINE LIST) */}
+                    <Link
+                        href="/members/calls"
+                        className="block p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-white border border-emerald-200/80 hover:border-emerald-300 transition-all shadow-none hover:shadow-sm group"
+                    >
+                        <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-3.5 min-w-0">
+                                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-md shadow-emerald-500/20 shrink-0">
+                                    <PhoneCall className="w-5 h-5 sm:w-6 sm:h-6" />
+                                </div>
+                                <div className="min-w-0">
+                                    <div className="flex items-center gap-2">
+                                        <h2 className="text-sm sm:text-base font-medium text-gray-900 group-hover:text-emerald-700 transition-colors">
+                                            Call to Members
+                                        </h2>
+                                        <span className="text-[10px] text-emerald-700 bg-emerald-100/70 border border-emerald-200 px-2 py-0.5 rounded-full font-light">
+                                            1-on-1 private calling
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-gray-500 font-light mt-0.5">
+                                        10 credits / min • Answering is free • <span className="text-emerald-600 font-normal">{onlineMembers.length} members online now</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500 group-hover:bg-emerald-600 text-white text-xs font-normal shadow-sm shadow-emerald-500/20 transition-all">
+                                <span>Start Call</span>
+                                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* APP SECTIONS: SLIM, SLEEK 5-GRID */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                         {[
                             {
-                                title: 'Phone a Friend',
-                                desc: '1-on-1 confidential voice calls with verified listeners.',
+                                title: 'Call to Members',
+                                desc: '1-on-1 private calling',
                                 icon: '📞',
+                                badge: `${onlineMembers.length} online`,
+                                href: '/members/calls',
+                            },
+                            {
+                                title: 'Phone a Friend',
+                                desc: 'Talk with verified listeners',
+                                icon: '🎧',
                                 href: '/phone-a-friend',
-                                color: 'from-rose-500 to-pink-600',
                             },
                             {
                                 title: 'Anonymous Chat',
-                                desc: 'One-on-One private messaging',
+                                desc: 'Free 1-on-1 private chat',
                                 icon: '💬',
                                 href: '/members/chat',
-                                color: 'from-blue-500 to-indigo-600',
                             },
                             {
                                 title: 'Local Groups',
-                                desc: 'Turf, Trek, Cycling & Activity circles',
+                                desc: 'Circles & meetups',
                                 icon: '🤝',
                                 href: '/members/groups',
-                                color: 'from-emerald-500 to-teal-600',
                             },
                             {
-                                title: 'Identity Vault',
-                                desc: 'Manage your profile & preferences',
-                                icon: '🛡️',
+                                title: 'Profile',
+                                desc: 'Photo, age & details',
+                                icon: '👤',
                                 href: '/members/profile',
-                                color: 'from-gray-800 to-black',
                             },
                         ].map((card, i) => (
-                            <Link key={i} href={card.href} className="group relative overflow-hidden bg-white p-6 rounded-2xl border border-gray-300 shadow-xl shadow-gray-200/50 hover:-translate-y-2 transition-all">
-                                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-10 transition-opacity rounded-bl-[5rem]`} />
-
-                                <div className="relative z-10">
-                                    <div className="text-4xl filter grayscale group-hover:grayscale-0 transition-all duration-500 mb-2">{card.icon}</div>
-                                    <h3 className="text-xl font-black text-gray-800 hover:text-rose-600 mb-2 truncate">{card.title}</h3>
-                                    <p className="text-gray-600 font-medium text-xs leading-relaxed mb-2">{card.desc}</p>
+                            <Link
+                                key={i}
+                                href={card.href}
+                                className="group p-3.5 rounded-2xl bg-white border border-gray-200/70 hover:border-gray-300 shadow-none hover:shadow-sm transition-all"
+                            >
+                                <div className="flex items-center justify-between mb-1.5">
+                                    <span className="text-xl">{card.icon}</span>
+                                    {card.badge && (
+                                        <span className="text-[9px] text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.2 rounded-full font-light">
+                                            {card.badge}
+                                        </span>
+                                    )}
                                 </div>
+                                <h3 className="text-xs sm:text-sm font-medium text-gray-900 group-hover:text-rose-600 transition-colors">
+                                    {card.title}
+                                </h3>
+                                <p className="text-[11px] text-gray-400 font-light leading-snug mt-0.5">
+                                    {card.desc}
+                                </p>
                             </Link>
                         ))}
                     </div>
+
                 </div>
+
+                {/* INCOMING CALL ALERT (GLOBAL LISTENER) */}
+                <MemberIncomingCallModal
+                    currentUserId={currentMemberId}
+                    onCallAccepted={handleIncomingCallAccepted}
+                />
+
+                {/* ACTIVE VOICE CALL ROOM */}
+                {activeMemberCall && activeAgoraParams && (
+                    <MemberCallRoom
+                        call={activeMemberCall}
+                        currentUserId={currentMemberId}
+                        userCredits={credits || 0}
+                        agoraParams={activeAgoraParams}
+                        onCallClosed={handleCallClosed}
+                    />
+                )}
+
+                {/* RECHARGE CREDITS MODAL (SLIM & SLEEK) */}
+                {showRechargeModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in">
+                        <div className="w-full max-w-sm bg-white rounded-3xl border border-gray-100 p-5 shadow-2xl text-left animate-in zoom-in-95 duration-200">
+                            <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-1.5 text-gray-900 text-sm font-medium">
+                                    <Coins className="w-4 h-4 text-amber-500" />
+                                    <span>Recharge Credits</span>
+                                </div>
+                                <button
+                                    onClick={() => setShowRechargeModal(false)}
+                                    className="text-gray-400 hover:text-gray-600 p-1"
+                                >
+                                    <X className="w-4 h-4" />
+                                </button>
+                            </div>
+
+                            <p className="text-xs text-gray-400 font-light mb-4">
+                                Rate: 10 credits / minute for member calls. Credits never expire.
+                            </p>
+
+                            {rechargeSuccess && (
+                                <div className="mb-3 p-2.5 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-light text-center">
+                                    {rechargeSuccess}
+                                </div>
+                            )}
+
+                            <div className="space-y-2 mb-4">
+                                {CREDIT_PACKS.map((pack) => (
+                                    <button
+                                        key={pack.credits}
+                                        onClick={() => handleBuyCreditPack(pack)}
+                                        disabled={rechargingPack !== null}
+                                        className={`w-full p-3 rounded-2xl border text-left flex items-center justify-between transition-all active:scale-98 ${
+                                            pack.popular
+                                                ? 'border-emerald-300 bg-emerald-50/40 hover:bg-emerald-50'
+                                                : 'border-gray-200/80 bg-white hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-2.5">
+                                            <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-sm">
+                                                🪙
+                                            </div>
+                                            <div>
+                                                <div className="text-xs font-medium text-gray-900 flex items-center gap-1.5">
+                                                    <span>{pack.credits} Credits</span>
+                                                    {pack.popular && (
+                                                        <span className="text-[9px] bg-emerald-500 text-white px-1.5 py-0.2 rounded-full font-light">
+                                                            Popular
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <span className="text-[11px] text-gray-400 font-light">
+                                                    ~{pack.minutes} mins of calling
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-xs font-medium text-gray-900">
+                                                ₹{pack.priceInr}
+                                            </span>
+                                            {rechargingPack === pack.credits ? (
+                                                <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600" />
+                                            ) : (
+                                                <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
+                                            )}
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={() => setShowRechargeModal(false)}
+                                className="w-full py-2.5 rounded-xl border border-gray-200 text-gray-500 text-xs font-light hover:bg-gray-50 transition-colors"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
+
             </div>
         );
     }

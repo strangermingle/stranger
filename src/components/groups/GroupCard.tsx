@@ -36,109 +36,111 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isJoined, isOwned, 
     const effectiveIsJoined = isJoined || group.is_joined;
 
     return (
-        <div className="bg-white rounded-[2rem] p-4 shadow-sm border border-gray-200 hover:border-indigo-900 hover:shadow-xl hover:shadow-indigo-50 transition-all group/card">
-            <div className="flex justify-between items-start mb-2">
-                <div className="flex flex-col gap-2">
-                    {group.image_url ? (
-                        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-indigo-50 shadow-sm transition-all group-hover/card:ring-4 group-hover/card:ring-indigo-100">
-                             <img src={group.image_url} alt={group.name} className="w-full h-full object-cover" />
+        <div className="bg-white rounded-2xl p-4 border border-gray-200/80 hover:border-gray-300 hover:shadow-sm transition-all group/card flex flex-col justify-between">
+            <div>
+                <div className="flex justify-between items-start mb-3">
+                    <div className="flex items-center gap-3">
+                        {group.image_url ? (
+                            <div className="w-11 h-11 rounded-xl overflow-hidden border border-gray-100 shadow-xs shrink-0">
+                                <img src={group.image_url} alt={group.name} className="w-full h-full object-cover" />
+                            </div>
+                        ) : (
+                            <div className="w-11 h-11 bg-indigo-50 border border-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 font-medium text-sm shrink-0">
+                                {group.name.charAt(0).toUpperCase()}
+                            </div>
+                        )}
+                        <div className="min-w-0">
+                            <h3 className="text-sm font-medium text-gray-900 group-hover/card:text-indigo-600 transition-colors truncate">
+                                {group.name}
+                            </h3>
+                            {group.category && (
+                                <span 
+                                    className="inline-block mt-0.5 px-2 py-0.5 text-[10px] font-light rounded-md border"
+                                    style={{ 
+                                        backgroundColor: `${group.category.color_hex}10`, 
+                                        color: group.category.color_hex,
+                                        borderColor: `${group.category.color_hex}30`
+                                    }}
+                                >
+                                    {group.category.name}
+                                </span>
+                            )}
                         </div>
-                    ) : (
-                        <div className="w-14 h-14 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 font-black text-xl group-hover/card:bg-indigo-600 group-hover/card:text-white transition-all duration-300">
-                            {group.name.charAt(0).toUpperCase()}
-                        </div>
-                    )}
-                </div>
-                <div className="flex flex-col items-end gap-2">
-                    <div className="flex items-center gap-2">
+                    </div>
+
+                    <div className="flex items-center gap-1.5 shrink-0">
                         {effectiveIsOwned && (
-                             <Settings className="w-4 h-4 text-gray-400 hover:text-indigo-600 cursor-pointer transition-colors" />
+                            <Settings className="w-3.5 h-3.5 text-gray-400 hover:text-gray-700 cursor-pointer transition-colors" />
                         )}
                         {effectiveIsOwned ? (
-                            <span className="px-3 py-1 bg-amber-50 text-amber-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-amber-100">
+                            <span className="px-2 py-0.5 bg-amber-50 text-amber-700 text-[10px] font-light rounded-md border border-amber-200/70">
                                 Owner
                             </span>
                         ) : effectiveIsJoined ? (
-                            <span className="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-regular uppercase tracking-widest rounded-full border border-indigo-100">
+                            <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-light rounded-md border border-emerald-200/70">
                                 Member
                             </span>
                         ) : null}
                     </div>
-                    
-                    {group.category && (
-                        <span 
-                            className="px-3 py-1 text-[10px] font-regular uppercase tracking-widest rounded-full border"
-                            style={{ 
-                                backgroundColor: `${group.category.color_hex}10`, 
-                                color: group.category.color_hex,
-                                borderColor: `${group.category.color_hex}30`
-                            }}
-                        >
-                            {group.category.name}
-                        </span>
-                    )}
                 </div>
-            </div>
 
-            <h3 className="text-xl font-bold text-gray-900 group-hover/card:text-indigo-600 transition-colors uppercase">
-                {group.name}
-            </h3>
-            <p className="text-gray-500 font-medium text-sm mt-2 line-clamp-2 min-h-[2.5rem]">
-                {group.description || 'No description provided.'}
-            </p>
+                <p className="text-gray-500 font-light text-xs line-clamp-2 min-h-[2rem]">
+                    {group.description || 'A friendly local group.'}
+                </p>
 
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-6 pt-6 border-t border-gray-50">
-                <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-green-500" />
-                    <span className="text-xs font-regular text-gray-600">
-                        {group.members_count?.[0]?.count || 0} Members
-                    </span>
-                </div>
-                
-                {group.location && (
-                    <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-blue-500" />
-                        <span className="text-xs font-regular text-gray-600">
-                            {group.location.city}, {group.location.country}
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-3 pt-3 border-t border-gray-100 text-[11px] text-gray-500 font-light">
+                    <div className="flex items-center gap-1">
+                        <Users className="w-3 h-3 text-emerald-500" />
+                        <span>
+                            {group.members_count?.[0]?.count || 0} members
                         </span>
                     </div>
-                )}
+                    
+                    {group.location && (
+                        <div className="flex items-center gap-1">
+                            <MapPin className="w-3 h-3 text-blue-500" />
+                            <span>
+                                {group.location.city}
+                            </span>
+                        </div>
+                    )}
 
-                <div className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-purple-500" />
-                    <span className="text-xs font-regular text-gray-600">
-                        by {group.owner?.username || 'Stranger'}
-                    </span>
+                    <div className="flex items-center gap-1">
+                        <User className="w-3 h-3 text-purple-500" />
+                        <span>
+                            by {group.owner?.username || 'Member'}
+                        </span>
+                    </div>
                 </div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-4">
                 {effectiveIsOwned || effectiveIsJoined ? (
                     <Link 
                         href={`/members/groups/${group.id}`}
-                        className="w-full py-4 bg-gray-50 rounded-2xl font-black text-sm text-gray-900 hover:bg-gray-100 transition-all flex items-center justify-center gap-2 group-hover/card:shadow-lg"
+                        className="w-full py-2 bg-gray-50 hover:bg-gray-100 rounded-xl text-xs font-normal text-gray-800 transition-all flex items-center justify-center gap-1.5 border border-gray-200/70"
                     >
-                        Open Group
-                        <ArrowUpRight className="w-4 h-4" />
+                        <span>Open Group</span>
+                        <ArrowUpRight className="w-3 h-3 text-gray-500" />
                     </Link>
                 ) : (
                     <button 
                         onClick={handleJoin}
                         disabled={loading}
-                        className="w-full py-4 bg-indigo-600 rounded-2xl font-black text-sm text-white hover:bg-indigo-700 transition-all shadow-md hover:shadow-xl shadow-indigo-100 hover:shadow-indigo-200 flex items-center justify-center gap-2 disabled:opacity-50"
+                        className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 rounded-xl text-xs font-normal text-white transition-all shadow-xs flex items-center justify-center gap-1.5 disabled:opacity-50"
                     >
                         {loading ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
                         ) : (
                             <>
-                                <Plus className="w-4 h-4" />
-                                Join Group
+                                <Plus className="w-3.5 h-3.5" />
+                                <span>Join Group</span>
                             </>
                         )}
                     </button>
                 )}
                 {actionError && (
-                    <p className="text-red-500 text-[10px] font-black text-center mt-2 uppercase">
+                    <p className="text-rose-500 text-[11px] font-light text-center mt-1.5">
                         {actionError}
                     </p>
                 )}

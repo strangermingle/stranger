@@ -12,7 +12,7 @@ const WhatsAppFloat = () => {
         return () => cancelAnimationFrame(frame);
     }, []);
 
-    if (pathname?.startsWith('/phone-a-friend')) return null;
+    if (pathname?.startsWith('/phone-a-friend') || pathname?.startsWith('/members')) return null;
 
     const channelLink = "https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U";
 

@@ -248,88 +248,107 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 selection:bg-yellow-200">
-            <div className="max-w-4xl mx-auto">
-                <div className="flex items-center gap-6 mb-12 animate-in fade-in slide-in-from-left duration-700">
-                    <Link href="/members" className="p-3 bg-white hover:bg-gray-50 rounded-2xl transition-all border border-gray-100 shadow-sm active:scale-95 group">
-                        <Undo className="w-6 h-6 text-gray-400 group-hover:text-gray-900 group-hover:-translate-x-1 transition-all" />
+        <div className="min-h-screen bg-[#fafbfc] pt-20 sm:pt-24 pb-16 px-3 sm:px-6 font-sans">
+            <div className="max-w-3xl mx-auto space-y-4">
+                
+                {/* TOP NAV & HEADER */}
+                <div className="flex items-center gap-3">
+                    <Link 
+                        href="/members" 
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200/80 bg-white hover:bg-gray-50 text-gray-600 text-xs font-normal transition-all active:scale-95 shadow-none"
+                    >
+                        <Undo className="w-3.5 h-3.5" />
+                        <span>Dashboard</span>
                     </Link>
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 tracking-wide uppercase leading-none mb-1">Identity Vault</h1>
-                        <p className="text-gray-500 font-medium tracking-tight">Manage your verified member credentials.</p>
+                        <h1 className="text-base sm:text-lg font-medium text-gray-900 tracking-tight leading-snug">
+                            Profile
+                        </h1>
+                        <p className="text-xs text-gray-400 font-light mt-0.5">
+                            Manage your photo, age, gender, and details
+                        </p>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-2 mb-8">
-                    <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 p-4 rounded-[1rem] shadow-2xl shadow-yellow-200/50 flex flex-col md:flex-row justify-between items-center text-black gap-6">
-                        <div className="text-center md:text-left">
-                            <div className="text-xs font-bold uppercase tracking-[0.2em] mb-1 opacity-60">Account Standing</div>
-                            <div className="text-4xl font-bold tracking-wide">
-                                {subscription ? (
-                                    subscription.razorpay_plan_id === process.env.NEXT_PUBLIC_RAZORPAY_PLAN_YEARLY ? 'PLATINUM YEARLY' : 'PLATINUM MONTHLY'
-
-                                ) : (
-                                    'GUEST MEMBER'
+                {/* MEMBERSHIP SUMMARY CARD (SLIM & SLEEK) */}
+                <div className="bg-white rounded-2xl border border-gray-200/70 p-4 shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <div className="text-[10px] text-gray-400 uppercase tracking-wider font-light leading-none mb-1">
+                                Membership Plan
+                            </div>
+                            <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                                <span>
+                                    {subscription ? (
+                                        subscription.razorpay_plan_id === process.env.NEXT_PUBLIC_RAZORPAY_PLAN_YEARLY ? 'Yearly Member' : 'Monthly Member'
+                                    ) : (
+                                        'Verified Member'
+                                    )}
+                                </span>
+                                {isMemberVerified && (
+                                    <span className="inline-flex items-center gap-1 text-[10px] font-light text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">
+                                        <CheckCircle className="w-3 h-3 text-emerald-500" />
+                                        Verified
+                                    </span>
                                 )}
                             </div>
                         </div>
-                        <div className="flex items-center gap-8">
-                            <div className="text-center md:text-right">
-                                <div className="text-[10px] font-bold uppercase tracking-widest opacity-60">Status</div>
-                                <div className={`font-bold uppercase tracking-wide flex items-center gap-1.5 ${subscription?.status === 'active' ? 'text-green-700' : 'text-orange-700'}`}>
-                                    {subscription?.status || 'None'}
-                                    {isMemberVerified && <CheckCircle className="w-3 h-3 text-green-700" />}
+
+                        <div className="flex items-center gap-5 pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100 text-xs">
+                            <div>
+                                <div className="text-[10px] text-gray-400 uppercase font-light">Status</div>
+                                <div className="font-normal text-emerald-600 capitalize">
+                                    {subscription?.status || 'Active'}
                                 </div>
                             </div>
-                            <div className="text-center md:text-right">
-                                <div className="text-[10px] font-black uppercase tracking-widest opacity-60">Renewal</div>
-                                <div className="font-bold">
+                            <div>
+                                <div className="text-[10px] text-gray-400 uppercase font-light">Renews on</div>
+                                <div className="font-normal text-gray-700">
                                     {(subscription?.current_period_end || membershipExpiry)
-                                        ? new Date(subscription?.current_period_end || membershipExpiry!).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
+                                        ? new Date(subscription?.current_period_end || membershipExpiry!).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                                         : 'Active'}
                                 </div>
                             </div>
-                            <div className="text-center md:text-right">
-                                <div className="text-[10px] font-black uppercase tracking-widest opacity-60">Credits</div>
-                                <div className="font-bold text-amber-600 flex items-center justify-center md:justify-end gap-1">
+                            <div>
+                                <div className="text-[10px] text-gray-400 uppercase font-light">Credits</div>
+                                <div className="font-medium text-amber-600 flex items-center gap-1">
                                     🪙 {credits || 0}
                                 </div>
                             </div>
                         </div>
-                        <div className="w-16 h-16 bg-black/10 rounded-2xl flex items-center justify-center shrink-0">
-                            <Shield className="w-8 h-8" />
-                        </div>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8">
-                    <form onSubmit={handleUpdateProfile} className="space-y-8">
-                        {/* Avatar Upload */}
+                {/* EDIT PROFILE FORM */}
+                <div className="bg-white rounded-2xl border border-gray-200/70 p-4 sm:p-6 shadow-sm">
+                    <form onSubmit={handleUpdateProfile} className="space-y-5">
+                        
+                        {/* Profile Picture */}
                         <div className="flex flex-col items-center">
                             <div className="relative group">
-                                <div className="w-32 h-32 rounded-3xl overflow-hidden bg-gray-100 border-4 border-white shadow-lg relative">
+                                <div className="w-24 h-24 rounded-2xl overflow-hidden bg-gray-100 border-2 border-gray-200/80 shadow-sm relative">
                                     {avatarUrl ? (
                                         <Image
                                             src={avatarUrl}
                                             alt="Profile"
                                             fill
-                                            sizes="128px"
+                                            sizes="96px"
                                             className="object-cover"
                                             unoptimized
                                         />
                                     ) : (
                                         <div className="flex items-center justify-center h-full">
-                                            <UserIcon className="w-12 h-12 text-gray-300" />
+                                            <UserIcon className="w-10 h-10 text-gray-300" />
                                         </div>
                                     )}
                                     {uploading && (
                                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                            <Loader2 className="w-8 h-8 text-white animate-spin" />
+                                            <Loader2 className="w-6 h-6 text-white animate-spin" />
                                         </div>
                                     )}
                                 </div>
-                                <label className="absolute -bottom-2 -right-2 w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center shadow-lg cursor-pointer transition-all active:scale-90 z-10">
-                                    <Camera className="w-5 h-5" />
+                                <label className="absolute -bottom-1 -right-1 w-8 h-8 bg-gray-900 hover:bg-black text-white rounded-xl flex items-center justify-center shadow-md cursor-pointer transition-all active:scale-95 z-10">
+                                    <Camera className="w-4 h-4" />
                                     <input
                                         type="file"
                                         className="hidden"
@@ -339,101 +358,88 @@ export default function ProfilePage() {
                                     />
                                 </label>
                             </div>
-                            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-4">Change Profile Picture</span>
+                            <span className="text-[11px] text-gray-400 font-light mt-2">Tap camera icon to change photo</span>
                         </div>
 
                         {/* Notifications */}
                         {error && (
-                            <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600 font-medium">
-                                <AlertCircle className="w-5 h-5" />
+                            <div className="p-3 bg-rose-50 border border-rose-100 rounded-xl flex items-center gap-2 text-rose-600 text-xs font-light">
+                                <AlertCircle className="w-4 h-4 shrink-0" />
                                 <span>{error}</span>
                             </div>
                         )}
                         {success && (
-                            <div className="p-4 bg-green-50 border border-green-100 rounded-2xl flex items-center gap-3 text-green-600 font-medium">
-                                <CheckCircle className="w-5 h-5" />
+                            <div className="p-3 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center gap-2 text-emerald-700 text-xs font-light">
+                                <CheckCircle className="w-4 h-4 shrink-0" />
                                 <span>{success}</span>
                             </div>
                         )}
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Read-only Identity Section */}
-                            <div className="md:col-span-2">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <Shield className="w-4 h-4 text-red-600" />
-                                    <span className="text-xs font-bold text-red-600 uppercase tracking-widest">Verified Identity (Locked)</span>
+                            <div className="sm:col-span-2 space-y-3">
+                                <div className="flex items-center gap-1.5 text-xs text-gray-500 font-normal">
+                                    <Shield className="w-3.5 h-3.5 text-emerald-600" />
+                                    <span>Verified Account Details (Cannot be edited)</span>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                     <div>
-                                        <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                        <label className="block text-[11px] text-gray-400 font-light mb-1">
                                             Full Name
                                         </label>
-                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-semibold flex items-center justify-between">
-                                            <span>{username || 'Anonymous'}</span>
-                                            <Lock className="w-4 h-4 text-red-500 opacity-90" />
+                                        <div className="w-full px-3 py-2 rounded-xl border border-gray-200/70 bg-gray-50 text-gray-600 text-xs font-normal flex items-center justify-between">
+                                            <span className="truncate">{username || 'Anonymous'}</span>
+                                            <Lock className="w-3 h-3 text-gray-400 shrink-0" />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
-                                            Official Email
+                                        <label className="block text-[11px] text-gray-400 font-light mb-1">
+                                            Email Address
                                         </label>
-                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-semibold flex items-center justify-between">
+                                        <div className="w-full px-3 py-2 rounded-xl border border-gray-200/70 bg-gray-50 text-gray-600 text-xs font-normal flex items-center justify-between">
                                             <span className="truncate">{email || 'Not verified'}</span>
-                                            <Lock className="w-4 h-4 text-red-500 opacity-90" />
+                                            <Lock className="w-3 h-3 text-gray-400 shrink-0" />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
-                                            Anonymous Alias
+                                        <label className="block text-[11px] text-gray-400 font-light mb-1">
+                                            Screen Name (Visible to others)
                                         </label>
-                                        <div className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-100/50 text-gray-500 font-semibold flex items-center justify-between">
-                                            <span>{anonymousAlias || (loading ? 'Loading...' : 'Anonymous Member')}</span>
-                                            <Lock className="w-4 h-4 text-red-500 opacity-90" />
+                                        <div className="w-full px-3 py-2 rounded-xl border border-gray-200/70 bg-gray-50 text-gray-600 text-xs font-normal flex items-center justify-between">
+                                            <span className="truncate">{anonymousAlias || (loading ? 'Loading...' : 'Anonymous Member')}</span>
+                                            <Lock className="w-3 h-3 text-gray-400 shrink-0" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Separator */}
-                            <div className="md:col-span-2 border-t border-gray-50 my-2" />
+                            <div className="sm:col-span-2 border-t border-gray-100 my-1" />
 
                             {/* Editable Fields */}
                             <div>
-                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                <label className="block text-[11px] text-gray-500 font-light mb-1">
                                     Phone Number
                                 </label>
                                 <input
                                     type="tel"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
-                                    className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 transition-all outline-none font-bold"
+                                    className="w-full px-3 py-2 rounded-xl border border-gray-200/80 bg-white focus:outline-none focus:border-gray-400 text-xs text-gray-800 transition-all font-light"
                                     placeholder="+91 00000 00000"
                                 />
                             </div>
 
-                            <div className="md:col-span-2">
-                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
-                                    Bio
-                                </label>
-                                <textarea
-                                    value={bio}
-                                    onChange={(e) => setBio(e.target.value)}
-                                    rows={3}
-                                    className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 transition-all outline-none font-medium text-gray-700"
-                                    placeholder="Tell clinical strangers more about yourself..."
-                                />
-                            </div>
-
                             <div>
-                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                                <label className="block text-[11px] text-gray-500 font-light mb-1">
                                     Gender
                                 </label>
                                 <select
                                     value={gender}
                                     onChange={(e) => setGender(e.target.value)}
-                                    className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 transition-all outline-none font-bold"
+                                    className="w-full px-3 py-2 rounded-xl border border-gray-200/80 bg-white focus:outline-none focus:border-gray-400 text-xs text-gray-800 transition-all font-light"
                                 >
                                     <option value="">Select Gender</option>
                                     <option value="male">Male</option>
@@ -444,29 +450,42 @@ export default function ProfilePage() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
-                                    Date of Birth
+                                <label className="block text-[11px] text-gray-500 font-light mb-1">
+                                    Date of Birth (Used to show your age)
                                 </label>
                                 <input
                                     type="date"
                                     value={dob}
                                     onChange={(e) => setDob(e.target.value)}
-                                    className="w-full px-4 py-3 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-blue-500 transition-all outline-none font-bold"
+                                    className="w-full px-3 py-2 rounded-xl border border-gray-200/80 bg-white focus:outline-none focus:border-gray-400 text-xs text-gray-800 transition-all font-light"
+                                />
+                            </div>
+
+                            <div className="sm:col-span-2">
+                                <label className="block text-[11px] text-gray-500 font-light mb-1">
+                                    About Me
+                                </label>
+                                <textarea
+                                    value={bio}
+                                    onChange={(e) => setBio(e.target.value)}
+                                    rows={2}
+                                    className="w-full px-3 py-2 rounded-xl border border-gray-200/80 bg-white focus:outline-none focus:border-gray-400 text-xs text-gray-800 transition-all font-light resize-none"
+                                    placeholder="Tell other members a little about yourself..."
                                 />
                             </div>
                         </div>
 
-                        <div className="pt-4 border-t border-gray-50 flex justify-center">
+                        <div className="pt-3 border-t border-gray-100 flex justify-end">
                             <button
                                 type="submit"
                                 disabled={saving}
-                                className="px-10 py-4 bg-gray-900 hover:bg-black text-white font-bold rounded-2xl transition-all shadow-xl shadow-gray-900/10 active:scale-95 flex items-center gap-2 uppercase tracking-widest text-sm"
+                                className="px-5 py-2.5 bg-gray-900 hover:bg-black text-white text-xs font-normal rounded-xl transition-all active:scale-95 flex items-center gap-2 shadow-sm"
                             >
                                 {saving ? (
-                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                    <Loader2 className="w-4 h-4 animate-spin" />
                                 ) : (
                                     <>
-                                        <Save className="w-5 h-5" />
+                                        <Save className="w-4 h-4" />
                                         <span>Save Profile</span>
                                     </>
                                 )}
@@ -477,52 +496,52 @@ export default function ProfilePage() {
 
                 {/* Membership Management Section */}
                 {subscription && subscription.status === 'active' && (
-                    <div className="mt-8 bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8 animate-in fade-in slide-in-from-bottom duration-700">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
-                                <CreditCard className="w-5 h-5 text-blue-600" />
+                    <div className="bg-white rounded-2xl border border-gray-200/70 p-4 sm:p-5 shadow-sm">
+                        <div className="flex items-center gap-2.5 mb-4">
+                            <div className="w-8 h-8 bg-blue-50 rounded-xl flex items-center justify-center">
+                                <CreditCard className="w-4 h-4 text-blue-600" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900 tracking-tight">MEMBERSHIP ACTIONS</h3>
-                                <p className="text-xs font-regular text-gray-800 uppercase tracking-widest">Self-service control panel</p>
+                                <h3 className="text-sm font-medium text-gray-900">Membership Settings</h3>
+                                <p className="text-[11px] text-gray-400 font-light">Manage your subscription and payments</p>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {/* Update Payment Method */}
-                            <div className="p-6 bg-gray-50 rounded-[1rem] border border-gray-100 flex flex-col justify-between group">
-                                <div>
-                                    <h4 className="font-bold text-gray-900 mb-1">Update Payment Method</h4>
-                                    <p className="text-sm text-gray-500 font-regular mb-4">Securely update your card or mandate via Razorpay.</p>
+                            <div className="p-4 bg-gray-50/70 rounded-xl border border-gray-100 flex flex-col justify-between">
+                                <div className="mb-3">
+                                    <h4 className="text-xs font-medium text-gray-900 mb-0.5">Payment Method</h4>
+                                    <p className="text-[11px] text-gray-400 font-light">Update your card or autopay via Razorpay.</p>
                                 </div>
                                 <button
                                     onClick={handleManagePayment}
                                     disabled={managingPayment}
-                                    className="w-full py-3 bg-white hover:bg-blue-600 hover:text-white text-gray-900 font-bold rounded-xl border border-gray-200 shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+                                    className="w-full py-2 bg-white hover:bg-gray-100 text-gray-800 text-xs font-normal rounded-xl border border-gray-200 transition-all flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-50"
                                 >
-                                    {managingPayment ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
-                                    <span>MANAGE AUTOPAY</span>
+                                    {managingPayment ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ExternalLink className="w-3.5 h-3.5" />}
+                                    <span>Update Payment Method</span>
                                 </button>
                             </div>
 
                             {/* Cancel Subscription */}
-                            <div className="p-6 bg-red-50/30 rounded-[2rem] border border-red-100/50 flex flex-col justify-between">
-                                <div>
-                                    <h4 className="font-bold text-red-900 mb-1">Cancel Autopay</h4>
-                                    <p className="text-sm text-red-700/70 font-regular mb-4">Stop future charges. You keep access until current expiry.</p>
+                            <div className="p-4 bg-rose-50/30 rounded-xl border border-rose-100/60 flex flex-col justify-between">
+                                <div className="mb-3">
+                                    <h4 className="text-xs font-medium text-rose-900 mb-0.5">Cancel Membership</h4>
+                                    <p className="text-[11px] text-rose-700/70 font-light">Stop future charges. You keep access until current expiry.</p>
                                 </div>
                                 {subscription.cancel_at_period_end ? (
-                                    <div className="w-full py-3 bg-red-100 text-red-700 font-black rounded-xl border border-red-200 flex items-center justify-center gap-2">
-                                        <Ban className="w-4 h-4" />
-                                        <span>CANCELLATION PENDING</span>
+                                    <div className="w-full py-2 bg-rose-100 text-rose-700 text-xs font-normal rounded-xl border border-rose-200 flex items-center justify-center gap-1.5">
+                                        <Ban className="w-3.5 h-3.5" />
+                                        <span>Cancellation Scheduled</span>
                                     </div>
                                 ) : (
                                     <button
                                         onClick={() => setShowCancelConfirm(true)}
-                                        className="w-full py-3 bg-white hover:bg-red-600 hover:text-white text-red-600 font-semibold rounded-xl border border-red-200 shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95"
+                                        className="w-full py-2 bg-white hover:bg-rose-50 text-rose-600 text-xs font-normal rounded-xl border border-rose-200 transition-all flex items-center justify-center gap-1.5 active:scale-95"
                                     >
-                                        <Trash2 className="w-4 h-4" />
-                                        <span>CANCEL MEMBERSHIP</span>
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                        <span>Cancel Membership</span>
                                     </button>
                                 )}
                             </div>
@@ -532,38 +551,40 @@ export default function ProfilePage() {
 
                 {/* Cancellation Modal */}
                 {showCancelConfirm && (
-                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
-                        <div className="bg-white rounded-[2.5rem] max-w-md w-full p-8 shadow-2xl border border-gray-100 animate-in zoom-in duration-300">
-                            <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6">
-                                <AlertCircle className="w-8 h-8 text-red-600" />
+                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-200">
+                        <div className="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200">
+                            <div className="w-10 h-10 bg-rose-50 rounded-2xl flex items-center justify-center mb-3">
+                                <AlertCircle className="w-5 h-5 text-rose-600" />
                             </div>
-                            <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-2">Wait, Stranger!</h2>
-                            <p className="text-gray-500 font-medium mb-6 leading-relaxed">
-                                Are you sure you want to cancel? You'll lose access to exclusive meetups and verification status once your current period ends on <b>{new Date(subscription?.current_period_end).toLocaleDateString()}</b>.
+                            <h2 className="text-base font-medium text-gray-900 tracking-tight mb-1">
+                                Are you sure you want to cancel?
+                            </h2>
+                            <p className="text-xs text-gray-500 font-light mb-4 leading-relaxed">
+                                You will still have access to member calls, chats, and meetups until <b>{new Date(subscription?.current_period_end).toLocaleDateString()}</b>.
                             </p>
 
-                            <div className="space-y-4">
+                            <div className="space-y-3">
                                 <textarea
-                                    placeholder="Optional: Why are you leaving us?"
+                                    placeholder="Optional: Why would you like to cancel?"
                                     value={cancelReason}
                                     onChange={(e) => setCancelReason(e.target.value)}
-                                    className="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 outline-none focus:bg-white focus:border-red-500 transition-all text-sm font-medium"
-                                    rows={3}
+                                    className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200/80 outline-none focus:bg-white focus:border-gray-400 transition-all text-xs font-light resize-none"
+                                    rows={2}
                                 />
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-2 gap-2.5">
                                     <button
                                         onClick={() => setShowCancelConfirm(false)}
-                                        className="py-4 bg-gray-100 hover:bg-gray-200 text-gray-900 font-black rounded-2xl transition-all active:scale-95 uppercase tracking-widest text-xs"
+                                        className="py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-normal rounded-xl transition-all active:scale-95 text-xs"
                                     >
                                         Keep Membership
                                     </button>
                                     <button
                                         onClick={handleCancelSubscription}
                                         disabled={cancelling}
-                                        className="py-4 bg-red-600 hover:bg-red-700 text-white font-black rounded-2xl transition-all shadow-xl shadow-red-200 active:scale-95 flex items-center justify-center gap-2 uppercase tracking-widest text-xs"
+                                        className="py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-normal rounded-xl transition-all shadow-sm active:scale-95 flex items-center justify-center gap-1.5 text-xs"
                                     >
-                                        {cancelling ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Confirm Cancel'}
+                                        {cancelling ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Confirm Cancel'}
                                     </button>
                                 </div>
                             </div>

@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Identity Vault',
-    description: 'Manage your verified member credentials and public anonymous alias.',
+    title: 'Profile',
+    description: 'Manage your verified member profile and private details.',
     alternates: {
         canonical: '/members/profile',
     },
     openGraph: {
-        title: 'Identity Vault',
-        description: 'Manage your verified member credentials and public anonymous alias.',
+        title: 'Profile',
+        description: 'Manage your verified member profile and private details.',
         url: '/members/profile',
         siteName: 'Stranger Mingle',
         locale: 'en_IN',

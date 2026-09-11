@@ -414,32 +414,32 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
           )}
           End Call
         </button>
-      </footer>
-
-      {/* Harassment Report Modal */}
+      </footer>      {/* Harassment / Misconduct Reporting Modal */}
       {showReportModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-zinc-900 text-white rounded-2xl w-full max-w-md border border-zinc-800 p-6 space-y-4 shadow-2xl relative">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150 text-white">
+          <div className="bg-zinc-950 text-white rounded-3xl w-full max-w-sm border border-zinc-800 p-5 space-y-3 shadow-2xl relative">
             <button
               onClick={() => setShowReportModal(false)}
-              className="absolute top-4 right-4 p-1 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white"
+              className="absolute top-4 right-4 p-1.5 text-zinc-400 hover:text-zinc-200 rounded-full hover:bg-zinc-900 transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
 
             {reportSubmitted ? (
-              <div className="text-center py-4 space-y-3">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto">
+              <div className="text-center py-6 space-y-3">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-bold text-white">Report Submitted</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed">
-                  Thank you. Your report has been dispatched to our Trust &amp; Safety and cyber cell compliance team with high priority.
+                <h3 className="text-base font-normal text-white">
+                  Report Sent
+                </h3>
+                <p className="text-xs text-zinc-400 leading-relaxed max-w-xs mx-auto">
+                  Thank you. Our team will review this call and take strict action against this user.
                 </p>
-                <div className="pt-3 flex gap-2">
+                <div className="pt-2 flex items-center justify-center gap-3">
                   <button
                     onClick={() => setShowReportModal(false)}
-                    className="flex-1 py-2 rounded-xl bg-zinc-800 text-zinc-200 text-xs font-medium hover:bg-zinc-700"
+                    className="px-4 py-2 rounded-xl bg-zinc-800 text-zinc-200 hover:bg-zinc-700 text-xs font-normal"
                   >
                     Back to Call
                   </button>
@@ -448,64 +448,89 @@ export default function UserCallRoom({ call, agoraParams }: UserCallRoomProps) {
                       setShowReportModal(false)
                       handleEndCall()
                     }}
-                    className="flex-1 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-semibold"
+                    className="px-4 py-2 rounded-xl bg-red-600/20 text-red-400 hover:bg-red-600/30 border border-red-500/30 text-xs font-normal"
                   >
-                    End Call Immediately
+                    End Call Now
                   </button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmitReport} className="space-y-4">
-                <div className="flex items-center gap-2 text-red-400 font-bold text-base">
-                  <ShieldAlert className="w-5 h-5" />
-                  <span>Report Host Harassment / Misconduct</span>
+              <form onSubmit={handleSubmitReport} className="space-y-3">
+                <div className="flex items-center gap-2 text-red-400 text-sm font-medium">
+                  <ShieldAlert className="w-4 h-4" />
+                  <span>Report Host</span>
                 </div>
 
-                <p className="text-xs text-zinc-400 leading-relaxed">
-                  Stranger Mingle maintains a strict zero-tolerance policy. Reports are audited directly alongside session logs.
+                <p className="text-[11px] text-zinc-400 font-light leading-relaxed">
+                  We do not allow bad language, threats, asking for money, or personal numbers.
                 </p>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Reason</label>
-                  <select
-                    value={reportReason}
-                    onChange={(e) => setReportReason(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-zinc-800 border border-zinc-700 text-xs text-white focus:outline-none focus:border-rose-500"
-                  >
-                    <option value="verbal_harassment">Verbal Harassment / Abuse</option>
-                    <option value="sexual_inappropriate">Inappropriate / Sexual Remarks</option>
-                    <option value="demanding_contact">Asking for WhatsApp / Phone / Bank Details</option>
-                    <option value="spam_commercial">Spam / Commercial Promotion</option>
-                    <option value="threats_hate">Threats / Hostile Behavior</option>
-                    <option value="other">Other Concern</option>
-                  </select>
+                <div>
+                  <label className="text-[11px] text-zinc-400 font-light block mb-2">
+                    What went wrong?
+                  </label>
+                  <div className="space-y-1.5">
+                    {[
+                      { value: 'demanding_contact', label: 'Asking for phone number or money' },
+                      { value: 'verbal_harassment', label: 'Rude or abusive words' },
+                      { value: 'sexual_inappropriate', label: 'Inappropriate behavior' },
+                      { value: 'spam_commercial', label: 'Spam or advertisement' },
+                      { value: 'other', label: 'Other issue' },
+                    ].map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setReportReason(opt.value)}
+                        className={`w-full p-2.5 rounded-xl border text-left text-xs transition-all flex items-center justify-between ${
+                          reportReason === opt.value
+                            ? 'border-red-500/60 bg-red-950/40 text-red-200'
+                            : 'border-zinc-800 bg-zinc-900 text-zinc-300 hover:bg-zinc-850'
+                        }`}
+                      >
+                        <span>{opt.label}</span>
+                        <span
+                          className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
+                            reportReason === opt.value
+                              ? 'border-red-500 bg-red-500'
+                              : 'border-zinc-700'
+                          }`}
+                        >
+                          {reportReason === opt.value && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                          )}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-300">Additional Details</label>
+                <div>
+                  <label className="text-[11px] text-zinc-400 font-light block mb-1">
+                    Tell us more (optional)
+                  </label>
                   <textarea
-                    rows={3}
+                    rows={2}
                     value={reportDetails}
                     onChange={(e) => setReportDetails(e.target.value)}
-                    placeholder="Describe what happened during the call..."
-                    className="w-full px-3 py-2 rounded-xl bg-zinc-800 border border-zinc-700 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500 resize-none"
+                    placeholder="Tell us what happened during the call..."
+                    className="w-full px-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-red-500/80 resize-none"
                   />
                 </div>
 
-                <div className="flex items-center gap-2 pt-2">
+                <div className="flex items-center gap-2 pt-1">
                   <button
                     type="button"
                     onClick={() => setShowReportModal(false)}
-                    className="flex-1 py-2 rounded-xl border border-zinc-700 hover:bg-zinc-800 text-zinc-300 text-xs font-medium"
+                    className="flex-1 py-2.5 rounded-xl border border-zinc-800 hover:bg-zinc-900 text-zinc-300 text-xs font-light"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmittingReport}
-                    className="flex-1 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1.5"
+                    className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-normal transition-colors flex items-center justify-center gap-1.5 shadow-lg shadow-red-600/20 active:scale-95 disabled:opacity-50"
                   >
-                    {isSubmittingReport ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Submit Report'}
+                    {isSubmittingReport ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Send Report'}
                   </button>
                 </div>
               </form>
