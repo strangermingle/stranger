@@ -8,15 +8,17 @@ export interface OnlineMember {
   id: string;
   anonymousAlias: string;
   avatarUrl: string | null;
+  bio?: string;
   gender: string;
   age: string;
-  callStatus: 'idle' | 'ringing' | 'in_call';
+  callStatus: 'idle' | 'ringing' | 'in_call' | 'offline';
   ratingAvg: string;
   ratingCount: number;
 }
 
-export async function fetchOnlineMembersApi(currentUserId: string): Promise<OnlineMember[]> {
-  const res = await fetch(`${BACKEND_URL}/api/members/calls?currentUserId=${encodeURIComponent(currentUserId)}`, {
+export async function fetchOnlineMembersApi(currentUserId?: string): Promise<OnlineMember[]> {
+  const queryParam = currentUserId ? `?currentUserId=${encodeURIComponent(currentUserId)}` : '';
+  const res = await fetch(`${BACKEND_URL}/api/members/calls${queryParam}`, {
     cache: 'no-store',
   });
   if (!res.ok) throw new Error('Failed to fetch online members');

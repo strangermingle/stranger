@@ -20,9 +20,7 @@ import Link from 'next/link';
 import NextImage from 'next/image';
 import { 
     fetchOnlineMembersApi, 
-    toggleAvailabilityApi, 
-    sendHeartbeatApi, 
-    fetchMemberCallToken, 
+    fetchMemberCallToken,
     OnlineMember 
 } from '@/lib/memberCallService';
 import { createCreditsOrderApi, verifyCreditsOrderApi } from '@/lib/callService';
@@ -44,8 +42,6 @@ export default function MembersPage() {
     const { user, mappedUserId, isMember, isMemberVerified, membershipExpiry, cancelAtPeriodEnd, credits, loading, checkMembershipStatus } = useAuth();
 
     // Member Calling State
-    const [isCallAvailable, setIsCallAvailable] = useState(false);
-    const [isTogglingCallAvailable, setIsTogglingCallAvailable] = useState(false);
     const [onlineMembers, setOnlineMembers] = useState<OnlineMember[]>([]);
     const [activeMemberCall, setActiveMemberCall] = useState<any | null>(null);
     const [activeAgoraParams, setActiveAgoraParams] = useState<any | null>(null);
@@ -64,6 +60,16 @@ export default function MembersPage() {
             checkMembershipStatus();
         }
     }, [user, isMember, checkMembershipStatus]);
+
+    // Respect mode=login in URL
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('mode') === 'login') {
+                setAuthMode('login');
+            }
+        }
+    }, []);
 
     // ==========================================
     // LOGIN STATE (Existing Members)
@@ -464,36 +470,10 @@ export default function MembersPage() {
         loadMembers();
         const pollInterval = setInterval(loadMembers, 20000); // 20s refresh
 
-        // 300s heartbeat window -> heartbeat sent every 60s when user has enabled calls
-        let heartbeatInterval: any = null;
-        if (isCallAvailable) {
-            sendHeartbeatApi(currentMemberId);
-            heartbeatInterval = setInterval(() => {
-                sendHeartbeatApi(currentMemberId);
-            }, 60000);
-        }
-
         return () => {
             clearInterval(pollInterval);
-            if (heartbeatInterval) clearInterval(heartbeatInterval);
         };
-    }, [user, isMember, isMemberVerified, currentMemberId, isCallAvailable]);
-
-    const handleToggleCallAvailability = async () => {
-        if (!currentMemberId || isTogglingCallAvailable) return;
-        setIsTogglingCallAvailable(true);
-        const nextState = !isCallAvailable;
-        try {
-            await toggleAvailabilityApi(currentMemberId, nextState);
-            setIsCallAvailable(nextState);
-            const list = await fetchOnlineMembersApi(currentMemberId);
-            setOnlineMembers(list);
-        } catch (err: any) {
-            alert(err.message || 'Failed to update availability status.');
-        } finally {
-            setIsTogglingCallAvailable(false);
-        }
-    };
+    }, [user, isMember, isMemberVerified, currentMemberId]);
 
     const handleIncomingCallAccepted = async (call: any) => {
         if (!currentMemberId) return;
@@ -731,73 +711,29 @@ export default function MembersPage() {
                         </button>
                     </header>
 
-                    {/* AVAILABILITY TOGGLE & CREDITS WALLET (SLIM CARD) */}
-                    <div className="bg-white rounded-2xl border border-gray-200/70 p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        
-                        {/* Availability Switch */}
-                        <div className="flex items-center justify-between sm:justify-start gap-4">
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-xs sm:text-sm font-medium text-gray-900">
-                                        Available to Call
-                                    </span>
-                                    {isCallAvailable ? (
-                                        <span className="inline-flex items-center gap-1 text-[10px] font-light text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                            Online
-                                        </span>
-                                    ) : (
-                                        <span className="text-[10px] font-light text-gray-400 bg-gray-50 border border-gray-100 px-2 py-0.5 rounded-full">
-                                            Offline
-                                        </span>
-                                    )}
-                                </div>
-                                <p className="text-[11px] text-gray-400 font-light mt-0.5">
-                                    {isCallAvailable 
-                                        ? 'Other members can call you • Answering calls is free' 
-                                        : 'Turn on so other members can find and call you'}
-                                </p>
+                    {/* CREDITS WALLET (SLIM CARD) */}
+                    <div className="bg-white rounded-2xl border border-gray-200/70 p-4 shadow-sm flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-lg">
+                                🪙
                             </div>
-
-                            <button
-                                onClick={handleToggleCallAvailability}
-                                disabled={isTogglingCallAvailable}
-                                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                                    isCallAvailable ? 'bg-emerald-500' : 'bg-gray-200'
-                                }`}
-                                role="switch"
-                                aria-checked={isCallAvailable}
-                            >
-                                <span
-                                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                        isCallAvailable ? 'translate-x-5' : 'translate-x-0'
-                                    }`}
-                                />
-                            </button>
-                        </div>
-
-                        <div className="h-px sm:h-8 w-full sm:w-px bg-gray-100" />
-
-                        {/* Credits Balance & Recharge */}
-                        <div className="flex items-center justify-between sm:justify-end gap-3">
-                            <div className="flex flex-col sm:items-end">
-                                <span className="text-[10px] text-gray-400 uppercase tracking-wider font-light leading-none mb-1">
-                                    Credit Balance
+                            <div>
+                                <span className="text-[10px] text-gray-400 uppercase tracking-wider font-light leading-none block mb-0.5">
+                                    Call Credits Balance
                                 </span>
-                                <span className="text-sm font-medium text-gray-900 flex items-center gap-1">
-                                    🪙 <b className="font-semibold text-amber-600">{credits || 0}</b>
+                                <span className="text-sm font-medium text-gray-900 flex items-center gap-1.5">
+                                    <b className="font-semibold text-amber-600 text-base">{credits || 0}</b>
                                     <span className="text-xs text-gray-400 font-light">credits</span>
                                 </span>
                             </div>
-
-                            <button
-                                onClick={() => setShowRechargeModal(true)}
-                                className="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 text-emerald-700 text-xs font-normal transition-all active:scale-95 shadow-sm"
-                            >
-                                + Add Credits
-                            </button>
                         </div>
 
+                        <button
+                            onClick={() => setShowRechargeModal(true)}
+                            className="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 text-emerald-700 text-xs font-medium transition-all active:scale-95 shadow-sm"
+                        >
+                            + Add Credits
+                        </button>
                     </div>
 
                     {/* CALL TO MEMBERS - DEDICATED PROMINENT CARD (NO BULKY INLINE LIST) */}

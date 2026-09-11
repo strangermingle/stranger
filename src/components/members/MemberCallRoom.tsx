@@ -46,6 +46,9 @@ export default function MemberCallRoom({
   const otherGender = isCaller ? (call.receiverGender || 'Not specified') : (call.callerGender || 'Not specified')
   const otherAge = isCaller ? (call.receiverAge || 'Not shared') : (call.callerAge || 'Not shared')
 
+  const [currentCall, setCurrentCall] = useState(call)
+  const isCallAccepted = currentCall.status === 'accepted' || currentCall.status === 'in_call' || !!currentCall.started_at
+
   const [secondsElapsed, setSecondsElapsed] = useState(0)
   const [isEnding, setIsEnding] = useState(false)
   const [showRatingModal, setShowRatingModal] = useState(false)
@@ -79,9 +82,15 @@ export default function MemberCallRoom({
     requestMicPermission,
   } = useAgoraVoiceCall(agoraParams)
 
-  // Timer: smoothly ticks every second
+  // Timer: smoothly ticks every second ONLY after both members accepted the call
   useEffect(() => {
-    const startTs = call.started_at ? new Date(call.started_at).getTime() : Date.now()
+    if (!isCallAccepted) {
+      setSecondsElapsed(0)
+      return
+    }
+
+    const startTs = currentCall.started_at ? new Date(currentCall.started_at).getTime() : Date.now()
+    setSecondsElapsed(Math.max(0, Math.floor((Date.now() - startTs) / 1000)))
 
     const interval = setInterval(() => {
       const elapsed = Math.max(0, Math.floor((Date.now() - startTs) / 1000))
@@ -94,9 +103,9 @@ export default function MemberCallRoom({
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [call.started_at, maxAllowedSeconds, isCaller, isEnding])
+  }, [isCallAccepted, currentCall.started_at, maxAllowedSeconds, isCaller, isEnding])
 
-  // Remote termination listener (when the other member hangs up)
+  // Remote call status listener (listens for acceptance, cancellation, and hangup)
   useEffect(() => {
     if (!call?.id) return
     const supabase = createClientClient()
@@ -113,7 +122,10 @@ export default function MemberCallRoom({
           filter: `id=eq.${call.id}`,
         },
         async (payload: any) => {
-          if (payload.new && ['completed', 'cancelled', 'rejected'].includes(payload.new.status)) {
+          if (!payload.new) return
+          setCurrentCall(payload.new)
+
+          if (['completed', 'cancelled', 'rejected'].includes(payload.new.status)) {
             await leaveCall()
             setEndSummary(payload.new)
             setShowRatingModal(true)
@@ -221,8 +233,17 @@ export default function MemberCallRoom({
 
         {/* Center Partner Avatar & Ring */}
         <div className="relative mb-4">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-gray-800 to-gray-700 border border-white/15 flex items-center justify-center shadow-lg">
-            <span className="text-3xl select-none">👤</span>
+          <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-gray-800 to-gray-700 border border-white/15 flex items-center justify-center shadow-lg overflow-hidden">
+            {otherMember?.avatar_url ? (
+              <img
+                src={otherMember.avatar_url}
+                alt={otherAlias}
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <span className="text-3xl select-none">👤</span>
+            )}
           </div>
           {remoteAudioActive && (
             <div className="absolute inset-0 rounded-full border-2 border-emerald-400/60 animate-ping" />
@@ -250,7 +271,14 @@ export default function MemberCallRoom({
           <div className="flex flex-col items-center">
             <span className="text-[10px] text-gray-400 uppercase tracking-wider font-light">Duration</span>
             <span className="text-base font-light tracking-wide text-white">
-              {formatTimer(secondsElapsed)}
+              {isCallAccepted ? (
+                formatTimer(secondsElapsed)
+              ) : (
+                <span className="inline-flex items-center gap-1.5 text-xs text-amber-400 font-normal animate-pulse">
+                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                  Ringing...
+                </span>
+              )}
             </span>
           </div>
 
@@ -261,7 +289,9 @@ export default function MemberCallRoom({
               {isCaller ? 'Cost' : 'Status'}
             </span>
             <span className="text-base font-light tracking-wide text-amber-400">
-              {isCaller ? `${currentCreditCost} 🪙` : 'Free to Listen'}
+              {isCaller 
+                ? (isCallAccepted ? `${currentCreditCost} 🪙` : '0 🪙 (Ringing)') 
+                : (isCallAccepted ? 'Free to Listen' : 'Connecting...')}
             </span>
           </div>
         </div>
@@ -269,10 +299,18 @@ export default function MemberCallRoom({
         {/* Balance Warning for Caller */}
         {isCaller && (
           <div className="text-[11px] text-gray-400 font-light text-center mb-6">
-            <span>Remaining balance time: </span>
-            <span className={secondsRemaining < 60 ? 'text-rose-400 font-normal' : 'text-gray-200'}>
-              {formatTimer(secondsRemaining)}
-            </span>
+            {isCallAccepted ? (
+              <>
+                <span>Remaining balance time: </span>
+                <span className={secondsRemaining < 60 ? 'text-rose-400 font-normal' : 'text-gray-200'}>
+                  {formatTimer(secondsRemaining)}
+                </span>
+              </>
+            ) : (
+              <span className="text-emerald-400/90 font-light">
+                Credits will be counted only after member answers
+              </span>
+            )}
           </div>
         )}
 

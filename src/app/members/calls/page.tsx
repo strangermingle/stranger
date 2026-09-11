@@ -288,8 +288,15 @@ export default function CallToMembersPage() {
 
                     {/* Toggle Switch */}
                     <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-gray-100">
-                        <span className="text-xs text-gray-600 font-normal">
-                            {isCallAvailable ? 'Online to talk' : 'Offline'}
+                        <span className="text-xs text-gray-700 font-medium flex items-center gap-1.5">
+                            {isCallAvailable && (
+                                <img 
+                                    src="/animated-icons/online.gif" 
+                                    alt="Live" 
+                                    className="w-4 h-4 object-contain rounded-full shrink-0" 
+                                />
+                            )}
+                            <span>{isCallAvailable ? 'Online to talk' : 'Offline'}</span>
                         </span>
                         <button
                             onClick={handleToggleCallAvailability}
@@ -355,36 +362,58 @@ export default function CallToMembersPage() {
                                 key={member.id}
                                 className="bg-white p-3.5 rounded-2xl border border-gray-200/70 hover:border-gray-300 transition-all flex items-center justify-between gap-3 shadow-none hover:shadow-sm"
                             >
-                                {/* Left side: Avatar & info */}
-                                <div className="flex items-center gap-3 min-w-0">
-                                    <div className="relative shrink-0 w-11 h-11 rounded-full bg-gradient-to-tr from-gray-100 to-gray-200 flex items-center justify-center text-base border border-gray-200">
-                                        👤
-                                        <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white" />
-                                    </div>
-
-                                    <div className="min-w-0">
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-xs sm:text-sm font-medium text-gray-900 truncate">
-                                                {member.anonymousAlias}
-                                            </span>
-                                            <span className="text-[10px] text-amber-500 flex items-center gap-0.5 font-light">
-                                                <Star className="w-2.5 h-2.5 fill-amber-400" />
-                                                {member.ratingAvg}
-                                            </span>
+                                    {/* Left side: Avatar & info */}
+                                    <div className="flex items-center gap-3 min-w-0">
+                                        <div className="relative shrink-0 w-12 h-12 rounded-full bg-gradient-to-tr from-gray-100 to-gray-200 flex items-center justify-center text-base border border-gray-200 overflow-hidden shadow-inner">
+                                            {member.avatarUrl ? (
+                                                <img
+                                                    src={member.avatarUrl}
+                                                    alt={member.anonymousAlias}
+                                                    className="w-full h-full object-cover"
+                                                    referrerPolicy="no-referrer"
+                                                    onError={(e) => {
+                                                        (e.target as HTMLElement).style.display = 'none';
+                                                    }}
+                                                />
+                                            ) : (
+                                                <span className="text-gray-600 font-semibold text-sm">
+                                                    {member.anonymousAlias ? member.anonymousAlias.charAt(0).toUpperCase() : '👤'}
+                                                </span>
+                                            )}
+                                            <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white ring-1 ring-emerald-500/20" />
                                         </div>
 
-                                        {/* Demographics: Gender & Age (Thin, Sleek Pills) */}
-                                        <div className="flex items-center gap-1.5 mt-1 text-[11px] text-gray-500 font-light">
-                                            <span className="px-2 py-0.5 rounded-md bg-gray-50 border border-gray-200/60">
-                                                {member.gender}
-                                            </span>
-                                            <span>•</span>
-                                            <span className="px-2 py-0.5 rounded-md bg-gray-50 border border-gray-200/60">
-                                                {member.age}
-                                            </span>
+                                        <div className="min-w-0">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-xs sm:text-sm font-medium text-gray-900 truncate">
+                                                    {member.anonymousAlias}
+                                                </span>
+                                                <span className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded-full flex items-center gap-1 font-medium">
+                                                    <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-500" />
+                                                    <span>{member.ratingAvg || '5.0'}</span>
+                                                    <span className="text-gray-400 font-normal">({member.ratingCount || 0} {member.ratingCount === 1 ? 'vote' : 'votes'})</span>
+                                                </span>
+                                            </div>
+
+                                            {/* Demographics: Gender & Age (Thin, Sleek Pills) */}
+                                            <div className="flex items-center gap-1.5 mt-0.5 text-[11px] text-gray-500 font-light">
+                                                <span className="px-2 py-0.5 rounded-md bg-gray-50 border border-gray-200/60">
+                                                    {member.gender}
+                                                </span>
+                                                <span>•</span>
+                                                <span className="px-2 py-0.5 rounded-md bg-gray-50 border border-gray-200/60">
+                                                    {member.age}
+                                                </span>
+                                            </div>
+
+                                            {/* Member Bio Snippet */}
+                                            {member.bio && (
+                                                <p className="text-[11px] text-gray-500 font-light mt-1 line-clamp-2 italic pr-2">
+                                                    "{member.bio}"
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
-                                </div>
 
                                 {/* Right side: Call button */}
                                 <div className="shrink-0">

@@ -30,11 +30,11 @@ export default function HeroButtons() {
                 Upcoming Events
             </Link>
             <Link
-                href="/host-application"
+                href="/phone-a-friend"
                 onClick={handleAboutClick}
-                className="px-8 py-4 bg-indigo-500 backdrop-blur-sm hover:bg-green-500 text-white border border-white/20 rounded-xl font-bold text-lg transition-all hover:scale-105 w-fit"
+                className="px-8 py-4 bg-indigo-500 backdrop-blur-sm hover:bg-emerald-500 text-white border border-white/20 rounded-xl font-bold text-lg transition-all hover:scale-105 w-fit"
             >
-                Become a Host
+                Friends On-Call
             </Link>
         </div>
     );

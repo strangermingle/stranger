@@ -29,7 +29,8 @@ import {
   Users,
   Coins,
   PlusCircle,
-  LogIn
+  LogIn,
+  PhoneCall
 } from 'lucide-react'
 import { createClientClient } from '@/lib/supabaseClient'
 import { 
@@ -43,6 +44,7 @@ import { getDeviceFingerprint } from '@/lib/deviceFingerprint'
 import WeekendEvents from '@/components/event/WeekendEvents'
 import SponsoredAd from '@/components/ads/SponsoredAd'
 import MembershipAd from '@/components/ads/MembershipAd'
+import OnlineMembersShowcase from '@/components/calls/OnlineMembersShowcase'
 
 interface PhoneAFriendClientProps {
   initialHosts: any[]
@@ -522,33 +524,32 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
             <div className="bg-gradient-to-r from-amber-500/10 via-amber-50 to-orange-50/30 border border-amber-200 rounded-3xl p-5 sm:p-6 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-black text-2xl shadow-md shadow-amber-200">
-                    🪙
+                  <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-amber-500/15 border border-amber-300 flex items-center justify-center shadow-sm shrink-0">
+                    <img 
+                      src="/animated-icons/tickets.gif" 
+                      alt="Calling passes" 
+                      className="w-8 h-8 sm:w-9 sm:h-9 object-contain" 
+                    />
                   </div>
                   <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded-full">
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-200/60 px-2.5 py-0.5 rounded-full">
                         Your Calling Balance
                       </span>
-                      {user && (
-                        <span className="text-xs text-gray-500 font-medium">
-                          ({user.email})
-                        </span>
-                      )}
                     </div>
-                    <div className="text-2xl sm:text-3xl font-black text-gray-900 mt-1 flex items-baseline gap-2">
-                      <span>{(credits || 0).toLocaleString()}</span>
-                      <span className="text-xs font-bold text-gray-500">Balance Available</span>
+                    <div className="text-2xl sm:text-3xl font-black text-gray-900 mt-1.5 flex items-baseline gap-2">
+                      <span>{Math.floor((credits || 0) / 490)} Call{Math.floor((credits || 0) / 490) === 1 ? '' : 's'}</span>
+                      <span className="text-xs font-bold text-gray-500">Available</span>
                     </div>
                     <p className="text-xs text-gray-600 font-medium mt-0.5">
                       {(credits || 0) >= 490 
-                        ? `Ready to call! You have enough balance for ~${Math.floor((credits || 0) / 490)} session(s).`
+                        ? `Ready to connect instantly with available online hosts.`
                         : 'Top up talk time to connect instantly with available online hosts.'}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   {user ? (
                     <button
                       type="button"
@@ -591,8 +592,13 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                 ))}
               </div>
 
-              <div className="text-xs text-gray-500 font-semibold">
-                <span className="text-rose-600 font-bold">{onlineHosts.length}</span> Hosts Online
+              <div className="text-xs text-gray-700 font-semibold flex items-center gap-1.5 bg-rose-50 border border-rose-200/60 px-2.5 py-1 rounded-full">
+                <img 
+                  src="/animated-icons/online.gif" 
+                  alt="Live" 
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 object-contain rounded-full shrink-0" 
+                />
+                <span><strong className="text-rose-600 font-bold">{onlineHosts.length}</strong> Hosts Online</span>
               </div>
             </div>
 
@@ -693,15 +699,15 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                           </div>
                         </div>
 
-                        {/* Bottom Price in Credits & Instant Call Action */}
+                        {/* Bottom Price & Instant Call Action */}
                         <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                           <div>
                             <div className="text-xs font-black text-gray-900 flex items-center gap-1">
-                              <span className="text-amber-600 text-sm">🪙 {rateCredits}</span>
-                              <span className="text-[11px] text-gray-400 font-medium">/ 15m</span>
+                              <span className="text-rose-600 font-extrabold text-sm">₹{rateInr}</span>
+                              <span className="text-[11px] text-gray-500 font-medium">/ 15m session</span>
                             </div>
-                            <div className="text-[10px] text-gray-400">
-                              (₹{rateInr} value)
+                            <div className="text-[10px] text-emerald-600 font-medium">
+                              Instant Audio Call
                             </div>
                           </div>
 
@@ -747,6 +753,9 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                 </div>
               )}
             </div>
+
+            {/* Online Members Showcase (Members-only Calling Privileges) */}
+            <OnlineMembersShowcase className="w-full my-2" />
 
             {/* About Phone a Friend */}
             <div className="bg-gradient-to-r from-rose-50/70 via-white to-amber-50/50 rounded-3xl p-6 sm:p-7 border border-rose-100/90 shadow-xs space-y-3">
@@ -990,9 +999,13 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
         {/* Offline Weekend Meetups Section */}
         <section className="mt-16 pt-12 border-t border-gray-200 space-y-6">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-100">
-              <Users className="w-3.5 h-3.5" />
-              Offline In-Person Connections
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-100">
+              <img 
+                src="/animated-icons/meetups.gif" 
+                alt="Meetups" 
+                className="w-4 h-4 sm:w-5 sm:h-5 object-contain rounded-full shrink-0" 
+              />
+              <span>Offline In-Person Connections</span>
             </div>
             <h2 className="text-xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
               Looking for Real-World Friendships?
@@ -1075,7 +1088,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                       }`}
                     >
                       <div className="text-xs font-bold">{mins}m</div>
-                      <div className="text-[10px] font-bold text-amber-700 mt-0.5">🪙 {rateCredits}</div>
+                      <div className="text-[10px] font-bold text-gray-700 mt-0.5">₹{rateInr}</div>
                     </button>
                   )
                 })}
@@ -1095,13 +1108,13 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                     <div>
                       <span className="text-gray-500 font-medium">Session Cost ({checkoutDuration}m):</span>
                       <div className="text-base font-black text-gray-900">
-                        ₹{calculatedRate} <span className="text-xs text-amber-700 font-bold">(🪙 {creditsNeeded} pts)</span>
+                        ₹{calculatedRate}
                       </div>
                     </div>
                     <div className="text-right">
-                      <span className="text-gray-500 font-medium">Your Balance:</span>
+                      <span className="text-gray-500 font-medium">Your Talk Balance:</span>
                       <div className="text-sm font-bold text-gray-900">
-                        🪙 {credits || 0} pts
+                        {Math.floor((credits || 0) / 490)} session(s)
                       </div>
                     </div>
                   </div>
@@ -1151,7 +1164,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
         </div>
       )}
 
-      {/* Credit Recharge Modal */}
+      {/* Talk Time Recharge Modal */}
       {showRechargeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
           <div className="bg-white rounded-3xl w-full max-w-md border border-gray-200 p-6 sm:p-8 space-y-6 shadow-2xl relative">
@@ -1163,12 +1176,12 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
             </button>
 
             <div className="text-center space-y-1">
-              <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-2 text-2xl font-bold">
-                🪙
+              <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-2 font-bold shadow-inner">
+                <PhoneCall className="w-6 h-6 text-amber-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Add Talk Time & Calling Balance</h3>
+              <h3 className="text-xl font-bold text-gray-900">Add Talk Time</h3>
               <p className="text-xs text-gray-500 font-medium">
-                Direct & Private Calling • ₹49 per 15-minute session
+                Direct & Private Calling • 100% Anonymous & Secure
               </p>
             </div>
 
@@ -1198,14 +1211,14 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                             Popular
                           </span>
                         )}
-                        <div className="text-base font-black text-amber-700">
-                          🪙 {pack.credits} pts
+                        <div className="text-sm font-extrabold text-gray-900">
+                          {pack.label}
                         </div>
-                        <div className="text-xs font-bold text-gray-900 mt-1">
+                        <div className="text-sm font-black text-amber-600 mt-0.5">
                           ₹{pack.priceInr}
                         </div>
                         <div className="text-[10px] text-gray-500 font-medium mt-0.5">
-                          {pack.label}
+                          Instant talk pass
                         </div>
                       </button>
                     )
@@ -1214,13 +1227,13 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
 
                 <div className="bg-gray-50 rounded-2xl p-3.5 text-xs text-gray-600 space-y-1 border border-gray-100">
                   <div className="flex justify-between items-center">
-                    <span>Current Calling Balance:</span>
-                    <span className="font-bold text-gray-900">🪙 {credits || 0} pts</span>
+                    <span>Current Available Sessions:</span>
+                    <span className="font-bold text-gray-900">{Math.floor((credits || 0) / 490)} session(s)</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span>Balance After Top-up:</span>
+                    <span>Total After Top-up:</span>
                     <span className="font-bold text-emerald-600">
-                      🪙 {(credits || 0) + selectedPack.credits} pts
+                      ~{Math.floor(((credits || 0) + selectedPack.credits) / 490)} session(s)
                     </span>
                   </div>
                 </div>
@@ -1235,7 +1248,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
                     {isRecharging ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
                     ) : (
-                      <Coins className="w-4 h-4" />
+                      <PhoneCall className="w-4 h-4" />
                     )}
                     Pay ₹{selectedPack.priceInr} & Get {selectedPack.label}
                   </button>
