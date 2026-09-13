@@ -35,7 +35,8 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
     const loadOnlineMembers = async () => {
       try {
         // Fetch real members from backend
-        const list = await fetchOnlineMembersApi();
+        const res = await fetchOnlineMembersApi();
+        const list = Array.isArray(res) ? res : (res?.members || []);
         if (isMounted) {
           setMembers(list);
           setLoading(false);

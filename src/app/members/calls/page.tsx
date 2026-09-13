@@ -60,8 +60,11 @@ export default function CallToMembersPage() {
 
         const loadMembers = async () => {
             try {
-                const list = await fetchOnlineMembersApi(currentMemberId);
-                setOnlineMembers(list);
+                const res = await fetchOnlineMembersApi(currentMemberId);
+                setOnlineMembers(res.members || []);
+                if (res.selfStatus && typeof res.selfStatus.isCallAvailable === 'boolean') {
+                    setIsCallAvailable(res.selfStatus.isCallAvailable);
+                }
             } catch (err) {
                 console.warn('[CallToMembers] Error loading members:', err);
             }
@@ -89,10 +92,10 @@ export default function CallToMembersPage() {
         setIsTogglingCallAvailable(true);
         const nextState = !isCallAvailable;
         try {
-            await toggleAvailabilityApi(currentMemberId, nextState);
-            setIsCallAvailable(nextState);
-            const list = await fetchOnlineMembersApi(currentMemberId);
-            setOnlineMembers(list);
+            const res = await toggleAvailabilityApi(currentMemberId, nextState);
+            setIsCallAvailable(Boolean(res.isCallAvailable));
+            const fresh = await fetchOnlineMembersApi(currentMemberId);
+            setOnlineMembers(fresh.members || []);
         } catch (err: any) {
             alert(err.message || 'Failed to update availability.');
         } finally {
@@ -150,8 +153,11 @@ export default function CallToMembersPage() {
             await checkMembershipStatus();
         }
         if (currentMemberId) {
-            const list = await fetchOnlineMembersApi(currentMemberId);
-            setOnlineMembers(list);
+            const res = await fetchOnlineMembersApi(currentMemberId);
+            setOnlineMembers(res.members || []);
+            if (res.selfStatus && typeof res.selfStatus.isCallAvailable === 'boolean') {
+                setIsCallAvailable(res.selfStatus.isCallAvailable);
+            }
         }
     };
 
@@ -316,6 +322,34 @@ export default function CallToMembersPage() {
                     </div>
                 </div>
 
+                {/* ACTIVE ONLINE STATUS BANNER */}
+                {isCallAvailable ? (
+                    <div className="bg-emerald-50 border border-emerald-200/80 rounded-2xl p-3.5 flex items-center justify-between gap-3 text-emerald-800 text-xs shadow-none">
+                        <div className="flex items-center gap-2.5">
+                            <span className="relative flex h-2.5 w-2.5 shrink-0">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                            </span>
+                            <div>
+                                <p className="font-semibold text-emerald-900">You are currently ONLINE & ready to talk</p>
+                                <p className="text-[11px] text-emerald-700 font-light mt-0.5">
+                                    Verified members across India can discover you and call 1-on-1. Receiving calls is 100% free.
+                                </p>
+                            </div>
+                        </div>
+                        <span className="px-2.5 py-1 rounded-xl bg-emerald-600 text-white text-[10px] font-medium tracking-wide uppercase shrink-0 shadow-sm">
+                            LIVE
+                        </span>
+                    </div>
+                ) : (
+                    <div className="bg-white rounded-2xl border border-gray-200/70 p-3 flex items-center justify-between gap-3 text-gray-500 text-xs font-light">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-gray-300 shrink-0" />
+                            <span>You are currently <strong className="font-medium text-gray-700">Offline</strong>. Toggle the switch ON above so other members can find and call you.</span>
+                        </div>
+                    </div>
+                )}
+
                 {/* SEARCH & REFRESH BAR */}
                 <div className="flex items-center gap-2">
                     <div className="relative flex-1">
@@ -333,8 +367,11 @@ export default function CallToMembersPage() {
                         onClick={async () => {
                             setIsLoadingOnlineMembers(true);
                             try {
-                                const list = await fetchOnlineMembersApi(currentMemberId);
-                                setOnlineMembers(list);
+                                const res = await fetchOnlineMembersApi(currentMemberId);
+                                setOnlineMembers(res.members || []);
+                                if (res.selfStatus && typeof res.selfStatus.isCallAvailable === 'boolean') {
+                                    setIsCallAvailable(res.selfStatus.isCallAvailable);
+                                }
                             } finally {
                                 setIsLoadingOnlineMembers(false);
                             }

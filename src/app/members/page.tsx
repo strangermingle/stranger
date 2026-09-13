@@ -460,7 +460,8 @@ export default function MembersPage() {
 
         const loadMembers = async () => {
             try {
-                const list = await fetchOnlineMembersApi(currentMemberId);
+                const res = await fetchOnlineMembersApi(currentMemberId);
+                const list = Array.isArray(res) ? res : (res?.members || []);
                 setOnlineMembers(list);
             } catch (err) {
                 console.warn('[MembersPage] Error fetching online members:', err);
@@ -493,7 +494,8 @@ export default function MembersPage() {
             await checkMembershipStatus();
         }
         if (currentMemberId) {
-            const list = await fetchOnlineMembersApi(currentMemberId);
+            const res = await fetchOnlineMembersApi(currentMemberId);
+            const list = Array.isArray(res) ? res : (res?.members || []);
             setOnlineMembers(list);
         }
     };

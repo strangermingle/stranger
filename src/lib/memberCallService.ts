@@ -16,14 +16,27 @@ export interface OnlineMember {
   ratingCount: number;
 }
 
-export async function fetchOnlineMembersApi(currentUserId?: string): Promise<OnlineMember[]> {
+export interface FetchOnlineMembersResult {
+  members: OnlineMember[];
+  selfStatus?: {
+    userId: string;
+    isCallAvailable: boolean;
+    callStatus: string;
+    credits: number;
+  } | null;
+}
+
+export async function fetchOnlineMembersApi(currentUserId?: string): Promise<FetchOnlineMembersResult> {
   const queryParam = currentUserId ? `?currentUserId=${encodeURIComponent(currentUserId)}` : '';
   const res = await fetch(`${BACKEND_URL}/api/members/calls${queryParam}`, {
     cache: 'no-store',
   });
   if (!res.ok) throw new Error('Failed to fetch online members');
   const data = await res.json();
-  return data.members || [];
+  return {
+    members: Array.isArray(data.members) ? data.members : [],
+    selfStatus: data.selfStatus || null,
+  };
 }
 
 export async function checkActiveIncomingCallApi(memberId: string) {
