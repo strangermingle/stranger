@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Event, formatEventDate } from '@/lib/events';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { sendGAEvent } from '@/lib/gtag';
+import { sendGAEvent, trackBeginCheckout, trackCartAbandonment, GA4Item } from '@/lib/gtag';
 
 interface PaymentModalProps {
     isOpen: boolean;
@@ -19,6 +19,9 @@ interface RazorpayOptions {
     description: string;
     order_id: string;
     handler: (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => void;
+    modal?: {
+        ondismiss?: () => void;
+    };
     prefill: {
         name: string;
         email: string;
@@ -52,57 +55,76 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
     const router = useRouter();
 
     const totalTickets = Object.values(selectedTickets).reduce((a, b) => a + b, 0);
-    const totalPrice = event.ticket_tiers?.reduce((sum, tier) => sum + (tier.price * (selectedTickets[tier.id] || 0)), 0) || 0;
+    const totalPrice = useMemo(() => {
+        return event.ticket_tiers?.reduce((sum, tier) => {
+            return sum + (tier.price * (selectedTickets[tier.id] || 0));
+        }, 0) || 0;
+    }, [event, selectedTickets]);
+
+    const items: GA4Item[] = useMemo(() => {
+        if (!event || !selectedTickets) return [];
+        return Object.entries(selectedTickets)
+            .filter(([_, qty]) => qty > 0)
+            .map(([tierId, qty]) => {
+                const tier = event.ticket_tiers?.find(t => t.id === tierId);
+                return {
+                    item_id: tierId,
+                    item_name: tier?.name ? `${event.title} - ${tier.name}` : 'Ticket',
+                    item_category: event.category?.name || 'Event',
+                    price: tier?.price || 0,
+                    quantity: qty
+                };
+            });
+    }, [event, selectedTickets]);
+
+    const handleAbandonment = (reason: 'modal_closed' | 'payment_dismissed' | 'payment_failed') => {
+        if (items.length > 0) {
+            trackCartAbandonment({
+                items,
+                value: totalPrice,
+                currency: 'INR',
+                step: 'payment_modal',
+                reason
+            });
+        }
+    };
+
+    const handleUserClose = () => {
+        handleAbandonment('modal_closed');
+        onClose();
+    };
 
     // Load Razorpay script
     useEffect(() => {
-        if (!isOpen || razorpayLoaded) return;
+        if (isOpen && !razorpayLoaded) {
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.async = true;
+            script.onload = () => setRazorpayLoaded(true);
+            document.body.appendChild(script);
 
-        const script = document.createElement('script');
-        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-        script.async = true;
-        script.onload = () => setRazorpayLoaded(true);
-        document.body.appendChild(script);
-
-        return () => {
-            if (document.body.contains(script)) {
-                document.body.removeChild(script);
-            }
-        };
+            return () => {
+                if (document.body.contains(script)) {
+                    document.body.removeChild(script);
+                }
+            };
+        }
     }, [isOpen, razorpayLoaded]);
 
     // GA4 Tracking: Begin Checkout
     useEffect(() => {
-        if (isOpen && !hasFiredRef.current && event && selectedTickets && typeof window !== 'undefined' && window.dataLayer) {
-            const items = Object.entries(selectedTickets)
-                .filter(([_, qty]) => qty > 0)
-                .map(([tierId, qty]) => {
-                    const tier = event.ticket_tiers?.find(t => t.id === tierId);
-                    return {
-                        item_id: tierId,
-                        item_name: tier?.name || 'Ticket',
-                        price: tier?.price || 0,
-                        quantity: qty
-                    };
-                });
-
-            if (items.length > 0) {
-                window.dataLayer.push({ ecommerce: null }); // Clear previous
-                window.dataLayer.push({
-                    event: 'begin_checkout',
-                    ecommerce: {
-                        currency: 'INR',
-                        value: totalPrice,
-                        items: items
-                    }
-                });
-                hasFiredRef.current = true;
-            }
+        if (isOpen && !hasFiredRef.current && items.length > 0) {
+            trackBeginCheckout({
+                items,
+                value: totalPrice,
+                currency: 'INR'
+            });
+            hasFiredRef.current = true;
         }
         if (!isOpen) {
             hasFiredRef.current = false;
         }
-    }, [isOpen, event, selectedTickets, totalPrice]);
+    }, [isOpen, items, totalPrice]);
 
     const handlePaymentSuccess = async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
         setLoading(true);
@@ -176,6 +198,12 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
                 description: `Booking for ${event.title}`,
                 order_id: data.razorpayOrderId,
                 handler: handlePaymentSuccess,
+                modal: {
+                    ondismiss: function () {
+                        handleAbandonment('payment_dismissed');
+                        setLoading(false);
+                    }
+                },
                 prefill: {
                     name,
                     email,
@@ -188,6 +216,7 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
 
             const rzp = new window.Razorpay(options);
             rzp.on('payment.failed', function (response: { error: { description: string } }) {
+                handleAbandonment('payment_failed');
                 setError(response.error.description);
                 setLoading(false);
             });
@@ -202,9 +231,9 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
 
     return (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={handleUserClose} />
             <div className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                <button onClick={onClose} className="absolute top-4 right-4 z-10 text-gray-400 hover:text-gray-600 bg-white rounded-full p-2 shadow-sm">
+                <button onClick={handleUserClose} className="absolute top-4 right-4 z-10 text-gray-400 hover:text-gray-600 bg-white rounded-full p-2 shadow-sm">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="p-8">

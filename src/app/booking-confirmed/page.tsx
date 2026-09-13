@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CheckCircle, Calendar, MapPin } from 'lucide-react';
+import { trackPurchase, sendGAEvent } from '@/lib/gtag';
 
 interface TicketTier {
     id: string;
@@ -118,38 +119,38 @@ function BookingContent() {
     useEffect(() => {
         if (status === 'success' && bookingDetails && eventDetails) {
             // Check if already tracked to avoid duplicate triggers
-            const win = window as unknown as { _ga_purchase_tracked?: boolean; dataLayer?: Record<string, unknown>[] };
-            if (!win._ga_purchase_tracked) {
+            const win = typeof window !== 'undefined' ? (window as unknown as { _ga_purchase_tracked?: boolean }) : null;
+            if (win && !win._ga_purchase_tracked) {
                 win._ga_purchase_tracked = true;
                 
                 const items = bookingDetails.booking_items?.map((item: BookingItem) => ({
                     item_id: item.ticket_tiers?.id || item.id,
-                    item_name: item.ticket_tiers?.name || 'Ticket',
-                    price: item.subtotal / item.quantity,
+                    item_name: item.ticket_tiers?.name ? `${eventDetails.title} - ${item.ticket_tiers.name}` : 'Ticket',
+                    item_category: 'Event Ticket',
+                    price: item.quantity > 0 ? item.subtotal / item.quantity : item.subtotal,
                     quantity: item.quantity
                 })) || [];
 
                 const totalValue = bookingDetails.booking_items?.reduce((sum: number, item: BookingItem) => sum + item.subtotal, 0) || 0;
+                const transactionId = bookingDetails.booking_ref || String(bookingDetails.id);
 
-                // Push GA4 purchase event directly to data layer for GTM
-                if (typeof window !== "undefined" && win.dataLayer) {
-                    win.dataLayer.push({ ecommerce: null }); // Clear previous
-                    win.dataLayer.push({
-                        event: "purchase",
-                        ecommerce: {
-                            transaction_id: bookingDetails.booking_ref,
-                            value: totalValue,
-                            currency: "INR",
-                            items: items
-                        }
-                    });
-                    win.dataLayer.push({
-                        event: "convert_lead",
-                        transaction_id: bookingDetails.booking_ref,
-                        value: totalValue,
-                        currency: "INR"
-                    });
-                }
+                // 1. Fire GA4 standard Ecommerce Purchase event
+                trackPurchase({
+                    transaction_id: transactionId,
+                    value: totalValue,
+                    currency: "INR",
+                    items: items
+                });
+
+                // 2. Fire custom conversion lead event for any existing ad tags
+                sendGAEvent({
+                    action: "convert_lead",
+                    category: "ecommerce",
+                    label: `Purchase: ${transactionId}`,
+                    value: totalValue,
+                    transaction_id: transactionId,
+                    currency: "INR"
+                });
             }
         }
     }, [status, bookingDetails, eventDetails]);

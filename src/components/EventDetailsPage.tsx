@@ -7,7 +7,7 @@ import Link from 'next/link';
 import PaymentModal from './PaymentModal';
 import ContactOrganizerModal from './ContactOrganizerModal';
 import SocialLinks from './SocialLinks';
-import { sendGAEvent } from '@/lib/gtag';
+import { sendGAEvent, trackViewItem, trackAddToCart, trackRemoveFromCart } from '@/lib/gtag';
 import { useAuth } from '@/components/AuthProvider';
 import { Shield } from "lucide-react";
 import EventComments from './event/EventComments';
@@ -44,11 +44,60 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
     const isSoldOut = event.max_capacity ? remainingSpots <= 0 : false;
     const spotsPercentage = event.max_capacity ? (remainingSpots / event.max_capacity) * 100 : 100;
 
+    // GA4 Ecommerce: Track view_item on page load
+    useEffect(() => {
+        if (event) {
+            const firstTier = event.ticket_tiers?.[0];
+            trackViewItem({
+                item: {
+                    item_id: event.id,
+                    item_name: event.title,
+                    item_category: event.category?.name || 'Event',
+                    location_id: event.location?.city || undefined,
+                    price: firstTier?.price || 0,
+                    quantity: 1
+                },
+                value: firstTier?.price || 0
+            });
+        }
+    }, [event]);
+
     const handleTicketChange = (tierId: string, quantity: number) => {
+        const prevQuantity = selectedTickets[tierId] || 0;
+        const tier = event.ticket_tiers?.find(t => t.id === tierId);
+
         setSelectedTickets(prev => ({
             ...prev,
             [tierId]: quantity
         }));
+
+        if (tier) {
+            if (quantity > prevQuantity) {
+                const addedCount = quantity - prevQuantity;
+                trackAddToCart({
+                    items: [{
+                        item_id: tier.id,
+                        item_name: `${event.title} - ${tier.name}`,
+                        item_category: event.category?.name || 'Event',
+                        price: tier.price,
+                        quantity: addedCount
+                    }],
+                    value: tier.price * addedCount
+                });
+            } else if (quantity < prevQuantity) {
+                const removedCount = prevQuantity - quantity;
+                trackRemoveFromCart({
+                    items: [{
+                        item_id: tier.id,
+                        item_name: `${event.title} - ${tier.name}`,
+                        item_category: event.category?.name || 'Event',
+                        price: tier.price,
+                        quantity: removedCount
+                    }],
+                    value: tier.price * removedCount
+                });
+            }
+        }
     };
 
     const totalTickets = Object.values(selectedTickets).reduce((a, b) => a + b, 0);
@@ -249,7 +298,7 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                                     <button
                                         onClick={() => {
                                             sendGAEvent({
-                                                action: 'begin_checkout',
+                                                action: 'click_confirm_booking',
                                                 category: 'event_details',
                                                 label: isSoldOut ? `Sold Out: ${event.title}` : `Book: ${event.title}`,
                                                 value: totalPrice
