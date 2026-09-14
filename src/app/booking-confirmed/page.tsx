@@ -150,7 +150,7 @@ function BookingContent() {
                     order_id: transactionId,
                     value: totalValue,
                     currency: "INR",
-                    content_ids: items.map(i => i.item_id),
+                    content_ids: [eventDetails?.id, ...items.map(i => i.item_id)].filter(Boolean) as string[],
                     content_name: eventDetails?.title,
                     content_type: 'product',
                     num_items: items.reduce((sum, i) => sum + i.quantity, 0),

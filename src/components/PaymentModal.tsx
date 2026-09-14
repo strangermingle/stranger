@@ -135,7 +135,7 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
             });
 
             trackInitiateCheckout({
-                content_ids: items.map(i => i.item_id),
+                content_ids: [event.id, ...items.map(i => i.item_id)],
                 content_name: event.title,
                 num_items: items.reduce((sum, i) => sum + i.quantity, 0),
                 value: totalPrice,
