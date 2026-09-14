@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
+import Script from "next/script";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ConsentBanner from "@/components/ConsentBanner";
 import GoogleTagManager from "@/components/GoogleTagManager";
 import MetaPixel from "@/components/MetaPixel";
+import AnalyticsRouteTracker from "@/components/AnalyticsRouteTracker";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { AuthProvider } from "@/components/AuthProvider";
-import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -101,6 +103,9 @@ export default function RootLayout({
         />
         <GoogleTagManager />
         <MetaPixel />
+        <Suspense fallback={null}>
+          <AnalyticsRouteTracker />
+        </Suspense>
         <AuthProvider>
           <Navbar />
           {children}

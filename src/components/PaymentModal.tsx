@@ -3,6 +3,8 @@ import { Event, formatEventDate } from '@/lib/events';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { sendGAEvent, trackBeginCheckout, trackCartAbandonment, GA4Item } from '@/lib/gtag';
+import { trackInitiateCheckout, trackLead } from '@/lib/metaPixel';
+import { useAuth } from '@/components/AuthProvider';
 
 interface PaymentModalProps {
     isOpen: boolean;
@@ -45,37 +47,44 @@ declare global {
 }
 
 export default function PaymentModal({ isOpen, onClose, event, selectedTickets }: PaymentModalProps) {
-    const hasFiredRef = useRef(false);
-    const [name, setName] = useState('');
+    const router = useRouter();
+    const { user } = useAuth();
+    const [name, setName] = useState(user?.displayName || '');
+    const [email, setEmail] = useState(user?.email || '');
     const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [razorpayLoaded, setRazorpayLoaded] = useState(false);
-    const router = useRouter();
+    const hasFiredRef = useRef(false);
+
+    // Sync user details if they become available
+    useEffect(() => {
+        if (user) {
+            if (!name && user.displayName) setName(user.displayName);
+            if (!email && user.email) setEmail(user.email);
+        }
+    }, [user, name, email]);
 
     const totalTickets = Object.values(selectedTickets).reduce((a, b) => a + b, 0);
-    const totalPrice = useMemo(() => {
-        return event.ticket_tiers?.reduce((sum, tier) => {
-            return sum + (tier.price * (selectedTickets[tier.id] || 0));
-        }, 0) || 0;
-    }, [event, selectedTickets]);
 
     const items: GA4Item[] = useMemo(() => {
-        if (!event || !selectedTickets) return [];
         return Object.entries(selectedTickets)
             .filter(([_, qty]) => qty > 0)
             .map(([tierId, qty]) => {
                 const tier = event.ticket_tiers?.find(t => t.id === tierId);
                 return {
                     item_id: tierId,
-                    item_name: tier?.name ? `${event.title} - ${tier.name}` : 'Ticket',
-                    item_category: event.category?.name || 'Event',
+                    item_name: tier?.name ? `${event.title} - ${tier.name}` : event.title,
+                    item_category: 'Event Ticket',
                     price: tier?.price || 0,
                     quantity: qty
                 };
             });
-    }, [event, selectedTickets]);
+    }, [selectedTickets, event]);
+
+    const totalPrice = useMemo(() => {
+        return items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }, [items]);
 
     const handleAbandonment = (reason: 'modal_closed' | 'payment_dismissed' | 'payment_failed') => {
         if (items.length > 0) {
@@ -94,8 +103,13 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
         onClose();
     };
 
-    // Load Razorpay script
+    // Load Razorpay Script
     useEffect(() => {
+        if (typeof window !== 'undefined' && window.Razorpay) {
+            setRazorpayLoaded(true);
+            return;
+        }
+
         if (isOpen && !razorpayLoaded) {
             const script = document.createElement('script');
             script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -111,7 +125,7 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
         }
     }, [isOpen, razorpayLoaded]);
 
-    // GA4 Tracking: Begin Checkout
+    // GA4 & Meta Tracking: Begin Checkout / InitiateCheckout
     useEffect(() => {
         if (isOpen && !hasFiredRef.current && items.length > 0) {
             trackBeginCheckout({
@@ -119,12 +133,21 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
                 value: totalPrice,
                 currency: 'INR'
             });
+
+            trackInitiateCheckout({
+                content_ids: items.map(i => i.item_id),
+                content_name: event.title,
+                num_items: items.reduce((sum, i) => sum + i.quantity, 0),
+                value: totalPrice,
+                currency: 'INR'
+            });
+
             hasFiredRef.current = true;
         }
         if (!isOpen) {
             hasFiredRef.current = false;
         }
-    }, [isOpen, items, totalPrice]);
+    }, [isOpen, items, totalPrice, event.title]);
 
     const handlePaymentSuccess = async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
         setLoading(true);
@@ -163,6 +186,26 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
             label: `Qualified Lead: ${event.title}`,
             value: totalPrice
         });
+
+        trackLead({
+            content_name: event.title,
+            content_category: 'Event Ticket',
+            value: totalPrice,
+            currency: 'INR'
+        });
+
+        // Push normalized user contact data for Enhanced Conversions
+        if (typeof window !== 'undefined') {
+            const win = window as unknown as { dataLayer?: Record<string, unknown>[] };
+            win.dataLayer = win.dataLayer || [];
+            win.dataLayer.push({
+                event: 'user_provided_data',
+                user_data: {
+                    email: email ? email.trim().toLowerCase() : undefined,
+                    phone_number: phone ? `+91${phone.trim()}` : undefined
+                }
+            });
+        }
 
         try {
             const tickets = Object.entries(selectedTickets)

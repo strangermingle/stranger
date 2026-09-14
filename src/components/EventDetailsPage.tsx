@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Event, formatEventDate, formatEventTime, getSpotsLabel, Booking } from '@/lib/events';
+import { Event, formatEventDate, formatEventTime, getSpotsLabel } from '@/lib/events';
 import Image from 'next/image';
 import Link from 'next/link';
 import PaymentModal from './PaymentModal';
 import ContactOrganizerModal from './ContactOrganizerModal';
 import SocialLinks from './SocialLinks';
 import { sendGAEvent, trackViewItem, trackAddToCart, trackRemoveFromCart } from '@/lib/gtag';
+import { trackViewContent } from '@/lib/metaPixel';
 import { useAuth } from '@/components/AuthProvider';
 import { Shield } from "lucide-react";
 import EventComments from './event/EventComments';
@@ -33,7 +34,7 @@ interface EventDetailsPageProps {
 export default function EventDetailsPage({ event }: EventDetailsPageProps) {
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [showContactModal, setShowContactModal] = useState(false);
-    const { user, mappedUserId } = useAuth();
+    const { mappedUserId } = useAuth();
     const [selectedTickets, setSelectedTickets] = useState<Record<string, number>>({});
 
     const date = formatEventDate(event.start_datetime, event.end_datetime);
@@ -44,20 +45,30 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
     const isSoldOut = event.max_capacity ? remainingSpots <= 0 : false;
     const spotsPercentage = event.max_capacity ? (remainingSpots / event.max_capacity) * 100 : 100;
 
-    // GA4 Ecommerce: Track view_item on page load
+    // GA4 & Meta Ecommerce: Track view_item & ViewContent on page load
     useEffect(() => {
         if (event) {
             const firstTier = event.ticket_tiers?.[0];
+            const itemPrice = firstTier?.price || 0;
             trackViewItem({
                 item: {
                     item_id: event.id,
                     item_name: event.title,
                     item_category: event.category?.name || 'Event',
                     location_id: event.location?.city || undefined,
-                    price: firstTier?.price || 0,
+                    price: itemPrice,
                     quantity: 1
                 },
-                value: firstTier?.price || 0
+                value: itemPrice
+            });
+
+            trackViewContent({
+                content_ids: [event.id],
+                content_name: event.title,
+                content_category: event.category?.name || 'Event',
+                content_type: 'product',
+                value: itemPrice,
+                currency: 'INR'
             });
         }
     }, [event]);

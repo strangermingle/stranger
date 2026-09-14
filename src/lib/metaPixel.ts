@@ -99,11 +99,16 @@ export interface ContactParams extends StandardEventParams {
   [key: string]: unknown;
 }
 
+export interface EventOptions {
+  eventID?: string;
+  [key: string]: unknown;
+}
+
 declare global {
   interface Window {
     fbq?: {
-      (action: 'track', eventName: StandardEventName, params?: StandardEventParams): void;
-      (action: 'trackCustom', eventName: string, params?: Record<string, unknown>): void;
+      (action: 'track', eventName: StandardEventName, params?: StandardEventParams, options?: EventOptions): void;
+      (action: 'trackCustom', eventName: string, params?: Record<string, unknown>, options?: EventOptions): void;
       (action: 'init', pixelId: string, userData?: Record<string, unknown>): void;
       (action: string, ...args: unknown[]): void;
       callMethod?: (...args: unknown[]) => void;
@@ -118,10 +123,18 @@ declare global {
 /**
  * Tracks a standard Meta Pixel event.
  */
-export const trackEvent = (eventName: StandardEventName, params?: StandardEventParams) => {
+export const trackEvent = (
+  eventName: StandardEventName,
+  params?: StandardEventParams,
+  options?: EventOptions
+) => {
   if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-    if (params) {
+    if (params && options) {
+      window.fbq('track', eventName, params, options);
+    } else if (params) {
       window.fbq('track', eventName, params);
+    } else if (options) {
+      window.fbq('track', eventName, undefined, options);
     } else {
       window.fbq('track', eventName);
     }
@@ -131,9 +144,15 @@ export const trackEvent = (eventName: StandardEventName, params?: StandardEventP
 /**
  * Tracks a custom Meta Pixel event.
  */
-export const trackCustomEvent = (eventName: string, params?: Record<string, unknown>) => {
+export const trackCustomEvent = (
+  eventName: string,
+  params?: Record<string, unknown>,
+  options?: EventOptions
+) => {
   if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-    if (params) {
+    if (params && options) {
+      window.fbq('trackCustom', eventName, params, options);
+    } else if (params) {
       window.fbq('trackCustom', eventName, params);
     } else {
       window.fbq('trackCustom', eventName);
@@ -151,48 +170,48 @@ export const trackPageView = () => {
 /**
  * Convenience helper for ViewContent event.
  */
-export const trackViewContent = (params: ViewContentParams) => {
-  trackEvent('ViewContent', params);
+export const trackViewContent = (params: ViewContentParams, options?: EventOptions) => {
+  trackEvent('ViewContent', params, options);
 };
 
 /**
  * Convenience helper for Search event.
  */
-export const trackSearch = (params: SearchParams) => {
-  trackEvent('Search', params);
+export const trackSearch = (params: SearchParams, options?: EventOptions) => {
+  trackEvent('Search', params, options);
 };
 
 /**
  * Convenience helper for InitiateCheckout event.
  */
-export const trackInitiateCheckout = (params: InitiateCheckoutParams) => {
-  trackEvent('InitiateCheckout', params);
+export const trackInitiateCheckout = (params: InitiateCheckoutParams, options?: EventOptions) => {
+  trackEvent('InitiateCheckout', params, options);
 };
 
 /**
  * Convenience helper for Purchase event.
  */
-export const trackPurchase = (params: PurchaseParams) => {
-  trackEvent('Purchase', params);
+export const trackPurchase = (params: PurchaseParams, options?: EventOptions) => {
+  trackEvent('Purchase', params, options);
 };
 
 /**
  * Convenience helper for CompleteRegistration event.
  */
-export const trackCompleteRegistration = (params?: CompleteRegistrationParams) => {
-  trackEvent('CompleteRegistration', params);
+export const trackCompleteRegistration = (params?: CompleteRegistrationParams, options?: EventOptions) => {
+  trackEvent('CompleteRegistration', params, options);
 };
 
 /**
  * Convenience helper for Contact event (e.g. WhatsApp button clicks).
  */
-export const trackContact = (params?: ContactParams) => {
-  trackEvent('Contact', params);
+export const trackContact = (params?: ContactParams, options?: EventOptions) => {
+  trackEvent('Contact', params, options);
 };
 
 /**
  * Convenience helper for Lead event.
  */
-export const trackLead = (params?: LeadParams) => {
-  trackEvent('Lead', params);
+export const trackLead = (params?: LeadParams, options?: EventOptions) => {
+  trackEvent('Lead', params, options);
 };

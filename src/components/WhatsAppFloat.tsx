@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { sendGAEvent } from "@/lib/gtag";
+import { trackContact } from "@/lib/metaPixel";
 
 const WhatsAppFloat = () => {
     const pathname = usePathname();
@@ -26,6 +27,9 @@ const WhatsAppFloat = () => {
             action: 'whatsapp_float_click',
             category: 'whatsapp_float',
             label: 'WhatsApp Channel Float'
+        });
+        trackContact({
+            content_name: 'WhatsApp Channel Float'
         });
     };
 
