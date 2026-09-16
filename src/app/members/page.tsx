@@ -353,8 +353,33 @@ export default function MembersPage() {
             });
 
             const data = await res.json();
-            if (!data.success || !data.orderId) {
+            if (!data.success) {
                 throw new Error(data.error || "Failed to initiate membership payment");
+            }
+
+            if (data.bypassed) {
+                // 100% discount, bypass Razorpay
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(
+                        auth,
+                        cleanEmail,
+                        applyPassword
+                    );
+                    if (userCredential.user) {
+                        await updateProfile(userCredential.user, { displayName: applyName });
+                    }
+                } catch (createErr: unknown) {
+                    console.error('[Auth] Account creation error post-payment bypass:', createErr);
+                }
+
+                setShowSuccess(true);
+                await checkMembershipStatus();
+                setAuthLoading(false);
+                return;
+            }
+
+            if (!data.orderId) {
+                throw new Error("Failed to retrieve order ID");
             }
 
             const razorpayKey = data.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;

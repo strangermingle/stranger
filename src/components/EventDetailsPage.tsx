@@ -212,6 +212,40 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                                     </div>
                                 </section>
 
+                                {/* Location Section */}
+                                {event.location && (
+                                    <section>
+                                        <div className="flex items-center gap-6 mb-4">
+                                            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter shrink-0">Venue & Location</h2>
+                                            <div className="h-0.5 flex-1 bg-gray-50" />
+                                        </div>
+                                        <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                                            <div>
+                                                <h3 className="font-bold text-gray-900 text-lg mb-1">{event.location.venue_name || 'Venue to be announced'}</h3>
+                                                <p className="text-gray-600 leading-relaxed max-w-sm">
+                                                    {[
+                                                        event.location.address_line1,
+                                                        event.location.address_line2,
+                                                        event.location.city,
+                                                        event.location.state,
+                                                        event.location.postal_code
+                                                    ].filter(Boolean).join(', ')}
+                                                </p>
+                                            </div>
+                                            {event.location.google_maps_url && (
+                                                <a
+                                                    href={event.location.google_maps_url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-white border border-gray-200 text-blue-600 font-bold hover:bg-blue-50 transition-colors shrink-0 shadow-sm"
+                                                >
+                                                    View on Google Maps
+                                                </a>
+                                            )}
+                                        </div>
+                                    </section>
+                                )}
+
                                 {/* Host Section */}
                                 <section>
                                     <div className="max-w-full mx-auto sm:mx-0 bg-gray-50/0 p-6 rounded-2xl">
