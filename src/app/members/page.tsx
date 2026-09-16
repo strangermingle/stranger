@@ -336,12 +336,9 @@ export default function MembersPage() {
         setError(null);
 
         try {
-            const isScriptLoaded = await loadRazorpayScript();
-            if (!isScriptLoaded) throw new Error("Razorpay SDK failed to load.");
-
             const basePrice = getBasePlanPrice(selectedPlan);
 
-            // 1. Create Order on Backend
+            // 1. Create Order on Backend first
             const res = await fetch('/api/subscription', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -356,11 +353,22 @@ export default function MembersPage() {
             });
 
             const data = await res.json();
-            if (!data.success) throw new Error(data.error || "Failed to initiate membership payment");
+            if (!data.success || !data.orderId) {
+                throw new Error(data.error || "Failed to initiate membership payment");
+            }
 
-            // 2. Open Standard Razorpay Checkout
+            const razorpayKey = data.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+            if (!razorpayKey) {
+                throw new Error("Payment gateway configuration missing. Please contact support.");
+            }
+
+            // 2. Load Razorpay SDK only after order is confirmed
+            const isScriptLoaded = await loadRazorpayScript();
+            if (!isScriptLoaded) throw new Error("Razorpay SDK failed to load.");
+
+            // 3. Open Standard Razorpay Checkout
             const options: any = {
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || data.keyId,
+                key: razorpayKey,
                 amount: data.amount,
                 currency: data.currency || "INR",
                 order_id: data.orderId,
@@ -504,9 +512,8 @@ export default function MembersPage() {
     const handleBuyCreditPack = async (pack: { credits: number; priceInr: number }) => {
         try {
             setRechargingPack(pack.credits);
-            const isLoaded = await loadRazorpayScript();
-            if (!isLoaded) throw new Error('Payment gateway could not be loaded.');
 
+            // 1. Create Credit Order on Backend first
             const orderData = await createCreditsOrderApi({
                 amountInr: pack.priceInr,
                 credits: pack.credits,
@@ -515,8 +522,21 @@ export default function MembersPage() {
                 name: user?.displayName || undefined,
             });
 
+            if (!orderData || !orderData.orderId) {
+                throw new Error(orderData?.error || 'Failed to create credit order');
+            }
+
+            const razorpayKey = orderData.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+            if (!razorpayKey) {
+                throw new Error('Payment gateway configuration is missing. Please contact support.');
+            }
+
+            // 2. Load Razorpay SDK only after order is confirmed
+            const isLoaded = await loadRazorpayScript();
+            if (!isLoaded) throw new Error('Payment gateway could not be loaded.');
+
             const options = {
-                key: orderData.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                key: razorpayKey,
                 amount: orderData.amount,
                 currency: orderData.currency || 'INR',
                 name: 'Stranger Mingle',

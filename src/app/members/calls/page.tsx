@@ -174,9 +174,8 @@ export default function CallToMembersPage() {
     const handleBuyCreditPack = async (pack: { credits: number; priceInr: number }) => {
         try {
             setRechargingPack(pack.credits);
-            const isLoaded = await loadRazorpayScript();
-            if (!isLoaded) throw new Error('Payment gateway failed to load.');
 
+            // 1. Create Credit Order on Backend first
             const orderData = await createCreditsOrderApi({
                 amountInr: pack.priceInr,
                 credits: pack.credits,
@@ -185,8 +184,21 @@ export default function CallToMembersPage() {
                 name: user?.displayName || undefined,
             });
 
+            if (!orderData || !orderData.orderId) {
+                throw new Error(orderData?.error || 'Failed to create credit order');
+            }
+
+            const razorpayKey = orderData.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+            if (!razorpayKey) {
+                throw new Error('Payment gateway configuration is missing. Please contact support.');
+            }
+
+            // 2. Load Razorpay SDK only after order is confirmed
+            const isLoaded = await loadRazorpayScript();
+            if (!isLoaded) throw new Error('Payment gateway failed to load.');
+
             const options = {
-                key: orderData.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                key: razorpayKey,
                 amount: orderData.amount,
                 currency: orderData.currency || 'INR',
                 name: 'Stranger Mingle',

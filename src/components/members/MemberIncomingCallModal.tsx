@@ -21,31 +21,40 @@ export default function MemberIncomingCallModal({
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  // Initialize ringtone
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const audio = new Audio('/sounds/call-ringtone.mp3')
-      audio.loop = true
-      audioRef.current = audio
-    }
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
-      }
-    }
-  }, [])
-
-  // Play/pause ringtone with incoming call state
+  // Play/pause ringtone with incoming call state (lazy initialized)
   useEffect(() => {
     if (incomingCall) {
-      audioRef.current?.play().catch(() => {
+      if (!audioRef.current && typeof window !== 'undefined') {
+        try {
+          const audio = new Audio('/sounds/call-ringtone.mp3')
+          audio.loop = true
+          audio.onerror = () => {
+            // Fallback to /tone/alert-tone.mp3 if /sounds/ has issues
+            if (audio.src.includes('/sounds/call-ringtone.mp3')) {
+              audio.src = '/tone/alert-tone.mp3'
+              audio.play().catch(() => {})
+            }
+          }
+          audioRef.current = audio
+        } catch (e) {
+          console.warn('[CallModal] Could not initialize ringtone audio:', e)
+        }
+      }
+
+      audioRef.current?.play().catch((err) => {
         // Autoplay policy fallback
+        console.warn('[CallModal] Ringtone autoplay deferred:', err?.message || err)
       })
     } else {
       if (audioRef.current) {
         audioRef.current.pause()
         audioRef.current.currentTime = 0
+      }
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
       }
     }
   }, [incomingCall])
