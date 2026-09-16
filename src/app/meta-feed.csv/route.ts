@@ -67,6 +67,14 @@ export async function GET() {
             'custom_label_1', // Category / Genre
             'custom_label_2', // Event Type (in_person, online)
             'custom_label_3', // Event Date (YYYY-MM-DD)
+            'video',
+            'video_link',
+            'activity_category',
+            'activity_subcategory',
+            'activity_date',
+            'language',
+            'location_name',
+            'performer',
         ];
 
         const rows: string[] = [];
@@ -77,6 +85,11 @@ export async function GET() {
             const eventImage = resolveImageUrl(event.cover_image_url);
             const city = event.location?.city || 'India';
             const categoryName = event.category?.name || 'Social Meetup';
+            const locationName = event.location?.venue_name || city || 'Stranger Mingle Venue';
+            const performerName = event.host?.host_profile?.display_name || event.host?.username || 'Stranger Mingle Host';
+            const activityIsoDate = event.start_datetime
+                ? new Date(event.start_datetime).toISOString()
+                : '';
             const eventDateStr = event.start_datetime
                 ? new Date(event.start_datetime).toISOString().split('T')[0]
                 : '';
@@ -120,7 +133,15 @@ export async function GET() {
                 escapeCsvCell(city),
                 escapeCsvCell(categoryName),
                 escapeCsvCell(event.event_type || 'in_person'),
-                escapeCsvCell(eventDateStr)
+                escapeCsvCell(eventDateStr),
+                escapeCsvCell(''), // video
+                escapeCsvCell(''), // video_link
+                escapeCsvCell(categoryName), // activity_category
+                escapeCsvCell(categoryName), // activity_subcategory
+                escapeCsvCell(activityIsoDate), // activity_date
+                escapeCsvCell('en'), // language
+                escapeCsvCell(locationName), // location_name
+                escapeCsvCell(performerName), // performer
             ].join(','));
 
             // 2. Add individual Ticket Tiers as child variants if available
@@ -153,7 +174,15 @@ export async function GET() {
                         escapeCsvCell(city),
                         escapeCsvCell(categoryName),
                         escapeCsvCell(tier.name), // custom_label_2 has tier variant name
-                        escapeCsvCell(eventDateStr)
+                        escapeCsvCell(eventDateStr),
+                        escapeCsvCell(''), // video
+                        escapeCsvCell(''), // video_link
+                        escapeCsvCell(categoryName), // activity_category
+                        escapeCsvCell(tier.name), // activity_subcategory
+                        escapeCsvCell(activityIsoDate), // activity_date
+                        escapeCsvCell('en'), // language
+                        escapeCsvCell(locationName), // location_name
+                        escapeCsvCell(performerName), // performer
                     ].join(','));
                 });
             }

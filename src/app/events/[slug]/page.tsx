@@ -91,6 +91,8 @@ export default async function EventDetails({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "Event",
     "name": event.title,
+    "inLanguage": "en",
+    "category": event.category?.name || "Social Meetup",
     "description":
       event.description ||
       `${event.title} - an authentic event for making new friends.`,
