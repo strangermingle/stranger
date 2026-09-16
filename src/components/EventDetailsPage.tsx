@@ -23,6 +23,7 @@ import EventDiscussions from './event/EventDiscussions';
 import EventWaitlist from './event/EventWaitlist';
 import BookingFloat from './event/BookingFloat';
 import HostMiniCard from './event/HostMiniCard';
+import UpcomingExperiences from './event/UpcomingExperiences';
 import SponsoredAd from './ads/SponsoredAd';
 import MembershipAd from './ads/MembershipAd';
 import SidebarVideoAd from './ads/SidebarVideoAd';
@@ -36,6 +37,7 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
     const [showContactModal, setShowContactModal] = useState(false);
     const { mappedUserId } = useAuth();
     const [selectedTickets, setSelectedTickets] = useState<Record<string, number>>({});
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
     const date = formatEventDate(event.start_datetime, event.end_datetime);
     const time = formatEventTime(event.start_datetime, event.end_datetime);
@@ -118,7 +120,7 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
         <>
             <div className="min-h-screen bg-transparent pt-8 pb-16">
                 {/* Breadcrumb */}
-                <div className="max-w-7xl mx-auto px-4 mb-8 text-sm text-gray-400">
+                <div className="max-w-7xl mx-auto px-4 mb-6 text-sm text-gray-400">
                     <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap no-scrollbar pb-2">
                         <Link href="/" className="hover:text-blue-600 transition-colors tracking-tight">Home</Link>
                         <span className="text-gray-300">/</span>
@@ -131,10 +133,10 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                 <div className="max-w-7xl mx-auto px-1">
                     <div className="flex flex-col lg:flex-row gap-10">
                         {/* Main Content */}
-                        <div className="flex-1 lg:max-w-[calc(100%-25rem)]">
+                        <div className="flex-1 lg:max-w-[calc(100%-25rem)] flex flex-col">
                             {/* Hero Image Section */}
-                            <div className="relative w-full overflow-hidden mb-6 rounded-xl shadow-xl group border border-gray-100">
-                                <div className="aspect-[2/1] relative w-full">
+                            <div className="order-1 relative w-full overflow-hidden mb-6 rounded-xl shadow-none lg:shadow-xl group border border-gray-100">
+                                <div className="aspect-video lg:aspect-[2/1] relative w-full">
                                     {event.cover_image_url ? (
                                         <Image
                                             src={event.cover_image_url}
@@ -151,22 +153,22 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                             </div>
 
                             {/* Event Metadata & Stats */}
-                            <div className="mb-1">
+                            <div className="order-3 lg:order-2 mb-1 mt-1 lg:mt-0">
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-1">
                                     <div>
-                                        <div className="text-xl font-bold text-red-600 tracking-tight uppercase">
+                                        <div className="text-lg font-medium text-red-600 tracking-tight uppercase">
                                             {date} <span className="text-blue-500 font-medium tracking-tight">{time}</span>
                                         </div>
                                     </div>
-                                    <div className="sm:border-l sm:pl-6 border-gray-200">
+                                    <div className="sm:border-l sm:pl-2 border-gray-200">
                                         <div className="text-lg font-regular text-gray-500 tracking-tight">
-                                            {event.location?.venue_name || 'Venue TBA'}
+                                            {event.location?.venue_name || 'Sharing on WhatsApp'}
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Interaction Icons & Counts */}
-                                <div className="flex items-center gap-6 py-2 mb-2">
+                                <div className="flex items-center gap-1 py-1 mb-0">
                                     <EventInteractions
                                         eventId={event.id}
                                         userId={mappedUserId || undefined}
@@ -176,53 +178,64 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
 
                                     <div className="flex items-center gap-6 ml-auto border-l border-gray-100 pl-6">
                                         <div className="flex flex-col items-center">
-                                            <span className="text-lg font-black text-gray-600 leading-none">{event.views_count || 0}</span>
-                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Views</span>
+                                            <span className="text-xs font-semibold text-green-700 leading-none">{event.views_count || 0}</span>
+                                            <span className="text-[7px] font-regular text-gray-700 uppercase tracking-widest mt-1">Views</span>
                                         </div>
                                         <div className="flex flex-col items-center">
-                                            <span className="text-lg font-black text-gray-600 leading-none">{event.interests_count || 0}</span>
-                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Interested</span>
+                                            <span className="text-xs font-semibold text-blue-600 leading-none">{event.interests_count || 0}</span>
+                                            <span className="text-[7px] font-regular text-gray-700 uppercase tracking-widest mt-1">Interested</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Title and Short Description */}
-                            <div className="mb-3">
-                                <h1 className="text-3xl md:text-5xl font-black text-gray-900 leading-tight tracking-tighter mb-6 text-wrap">
+                            {/* Title */}
+                            <div className="order-2 lg:order-3 mb-1 lg:mb-1 mt-0 lg:mt-0">
+                                <h1 className="text-2xl md:text-4xl font-semibold text-gray-900 leading-tight tracking-tighter lg:mb-2 text-wrap">
                                     {event.title}
                                 </h1>
-                                {event.short_description && (
-                                    <p className="text-lg md:text-xl text-blue-500 italic font-medium leading-relaxed border-l-4 border-blue-500 pl-4 py-2">
-                                        &ldquo; {event.short_description} &rdquo;
-                                    </p>
-                                )}
                             </div>
 
+                            {/* Short Description */}
+                            {event.short_description && (
+                                <div className="order-4 mb-1">
+                                    <p className="text-sm md:text-lg text-blue-500 italic font-regular leading-relaxed border-l-4 border-blue-500 pl-2 py-1">
+                                        &ldquo; {event.short_description} &rdquo;
+                                    </p>
+                                </div>
+                            )}
+
                             {/* Main Content Body */}
-                            <div className="space-y-12">
+                            <div className="order-5 space-y-2">
                                 {/* About Section */}
                                 <section>
-                                    <div className="flex items-center gap-6 mb-2">
-                                        <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter shrink-0">Event Details</h2>
+                                    <div className="hidden lg:flex items-center gap-6 mb-1">
+                                        <h2 className="text-xl font-semibold text-gray-900 uppercase tracking-tighter shrink-0">Event Details</h2>
                                         <div className="h-0.5 flex-1 bg-gray-50" />
                                     </div>
-                                    <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed font-regular whitespace-pre-wrap">
+                                    <div className={`prose prose-md max-w-none text-gray-700 leading-relaxed font-regular whitespace-pre-wrap transition-all duration-300 ${isDescriptionExpanded ? '' : 'line-clamp-4 overflow-hidden'}`}>
                                         {event.description}
                                     </div>
+                                    <button
+                                        onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                                        className="mt-1 text-red-600 font-regular hover:text-blue-700 transition-colors"
+                                    >
+                                        {isDescriptionExpanded ? 'Show Less' : 'Read More'}
+                                    </button>
                                 </section>
 
                                 {/* Location Section */}
+
                                 {event.location && (
                                     <section>
-                                        <div className="flex items-center gap-6 mb-4">
-                                            <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter shrink-0">Venue & Location</h2>
+                                        <div className="text-center gap-6 mb-1">
+                                            <h2 className="text-sm font-semibold text-green-600 uppercase tracking-tighter shrink-0">Location</h2>
                                             <div className="h-0.5 flex-1 bg-gray-50" />
                                         </div>
-                                        <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                                        <div className="bg-gray-0 rounded-2xl p-3 border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                                             <div>
-                                                <h3 className="font-bold text-gray-900 text-lg mb-1">{event.location.venue_name || 'Venue to be announced'}</h3>
-                                                <p className="text-gray-600 leading-relaxed max-w-sm">
+                                                <h3 className="font-medium text-center text-gray-900 text-lg mb-1">{event.location.venue_name || 'Venue to be announced'}</h3>
+                                                <p className="text-center text-gray-500 leading-relaxed max-w-sm">
                                                     {[
                                                         event.location.address_line1,
                                                         event.location.address_line2,
@@ -237,7 +250,7 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                                                     href={event.location.google_maps_url}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-white border border-gray-200 text-blue-600 font-bold hover:bg-blue-50 transition-colors shrink-0 shadow-sm"
+                                                    className="inline-flex items-center justify-center px-4 py-2 rounded-2xl bg-white border border-gray-200 text-blue-600 font-medium hover:bg-blue-50 transition-colors shrink-0 shadow-sm"
                                                 >
                                                     View on Google Maps
                                                 </a>
@@ -248,8 +261,8 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
 
                                 {/* Host Section */}
                                 <section>
-                                    <div className="max-w-full mx-auto sm:mx-0 bg-gray-50/0 p-6 rounded-2xl">
-                                        <div className="text-[16px] font-black text-gray-600 tracking-[0.3em] uppercase mb-2 px-1 text-center">Hosted by</div>
+                                    <div className="max-w-full mx-auto sm:mx-0 bg-gray-50/0 p-2 rounded-2xl">
+                                        <div className="text-10px] font-semibold text-gray-600 tracking-[0.3em] uppercase mb-1 px-1 text-center">Hosted by</div>
                                         {event.host ? (
                                             <HostMiniCard host={event.host} />
                                         ) : (
@@ -265,7 +278,6 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                                     <EventCohosts cohosts={event.event_cohosts || []} />
                                     <EventFAQs faqs={event.event_faqs || []} />
                                     <EventComments eventId={event.id} userId={mappedUserId || undefined} />
-                                    <EventDiscussions eventId={event.id} userId={mappedUserId || undefined} />
                                 </section>
                             </div>
                         </div>
@@ -369,6 +381,11 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                                         Secure Payment via Razorpay
                                     </div>
                                 </div>
+                            </div>
+
+                            {/* Upcoming Activities for Mobile only */}
+                            <div className="block lg:hidden -mx-4">
+                                <UpcomingExperiences city={event.location?.city || 'India'} currentEventId={event.id} />
                             </div>
 
                             {/* Social Card */}

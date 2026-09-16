@@ -46,8 +46,8 @@ const BookingFloat = () => {
             <span className="absolute inset-0 rounded-full bg-red-500 animate-ping opacity-20 group-hover:opacity-40 transition-opacity"></span>
 
             {/* Main Button */}
-            <div className="relative w-20 h-20 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 transform group-hover:scale-110 group-active:scale-95 border-2 border-white/20">
-                <Ticket className="w-7 h-7" />
+            <div className="relative px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-2xl flex items-center justify-center gap-2 transition-all duration-300 transform group-hover:scale-105 group-active:scale-95 border-2 border-white/20">
+                <span className="font-black tracking-[0.2em] uppercase">Book</span>
             </div>
         </button>
     );

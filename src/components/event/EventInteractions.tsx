@@ -79,38 +79,38 @@ export default function EventInteractions({ eventId, userId, initialLikes = 0, i
     };
 
     return (
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-1">
             {/* Like Button */}
             <button
                 onClick={handleLike}
                 disabled={interactLoading}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all active:scale-95 ${liked
+                className={`flex items-center gap-1 px-2 py-1 rounded-xl transition-all active:scale-85 ${liked
                         ? "bg-pink-50 border-pink-100 text-pink-600 shadow-sm shadow-pink-100"
-                        : "bg-white border-gray-100 text-gray-400 hover:border-pink-200 hover:text-pink-500"
+                        : "bg-white border-pink-100 text-pink-600 hover:border-pink-200 hover:text-pink-500"
                     }`}
             >
-                <Heart className={`w-4 h-4 ${liked ? "fill-pink-600" : ""}`} />
-                <span className="text-sm font-bold">{likesCount}</span>
+                <Heart className={`w-4 h-4 ${liked ? "fill-pink-600" : "fill-pink-200"}`} />
+                <span className="text-xs font-semibold text-pink-600">{likesCount}</span>
             </button>
 
             {/* Save Button */}
             <button
                 onClick={handleSave}
                 disabled={interactLoading}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all active:scale-95 ${saved
+                className={`flex items-center gap-1 px-0 py-1 rounded-xl transition-all active:scale-95 ${saved
                         ? "bg-blue-50 border-blue-100 text-blue-600 shadow-sm shadow-blue-100"
                         : "bg-white border-gray-100 text-gray-400 hover:border-blue-200 hover:text-blue-500"
                     }`}
             >
-                <Bookmark className={`w-4 h-4 ${saved ? "fill-blue-600" : ""}`} />
-                <span className="text-sm font-bold">{savesCount}</span>
+                <Bookmark className={`w-4 h-4 ${saved ? "fill-blue-600" : "fill-blue-100"}`} />
+                <span className="text-xs font-semibold">{savesCount}</span>
             </button>
 
             {/* Interest Button (Consolidated) */}
             <button
                 onClick={handleInterestCycle}
                 disabled={interactLoading}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all active:scale-95 ${interest === 'interested'
+                className={`flex items-center gap-1 px-2 py-2 rounded-xl transition-all active:scale-95 ${interest === 'interested'
                         ? "bg-purple-600 text-white border-transparent shadow-lg shadow-purple-100"
                         : interest === 'going'
                             ? "bg-green-600 text-white border-transparent shadow-lg shadow-green-100"
@@ -118,12 +118,12 @@ export default function EventInteractions({ eventId, userId, initialLikes = 0, i
                     }`}
             >
                 {interest === 'going' ? (
-                    <Check className="w-4 h-4 font-bold" />
+                    <Check className="w-2 h-2 font-bold" />
                 ) : (
-                    <Sparkles className="w-4 h-4 font-bold" />
+                    <Sparkles className="w-4 h-4 font-bold text-yellow-600" />
                 )}
-                <span className="text-xs font-bold uppercase tracking-widest leading-none">
-                    {interest === 'going' ? 'Going' : 'Interested'}
+                <span className="text-xs font-semibold uppercase tracking-widest leading-none">
+                    {interest === 'going' ? 'Going' : ''}
                 </span>
             </button>
 
@@ -133,7 +133,7 @@ export default function EventInteractions({ eventId, userId, initialLikes = 0, i
                     onClick={() => setShowShareOptions(!showShareOptions)}
                     className={`flex items-center justify-center p-2 rounded-xl border transition-all active:scale-95 ${showShareOptions
                             ? "bg-gray-900 border-gray-900 text-white"
-                            : "border-gray-100 text-gray-400 hover:bg-gray-50 hover:text-blue-500"
+                            : "border-gray-100 text-blue-600 hover:bg-gray-50 hover:text-blue-500"
                         }`}
                 >
                     <Share2 className="w-5 h-5" />
@@ -142,16 +142,16 @@ export default function EventInteractions({ eventId, userId, initialLikes = 0, i
                 {showShareOptions && (
                     <>
                         <div
-                            className="fixed inset-0 z-40"
+                            className="fixed inset-1 z-40"
                             onClick={() => setShowShareOptions(false)}
                         />
-                        <div className="absolute bottom-full right-0 mb-3 bg-white border border-grey-200 rounded-lg shadow-2xl p-2 z-50 flex items-center gap-1 animate-in fade-in slide-in-from-bottom-3 duration-200">
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-white border border-grey-200 rounded-lg shadow-2xl p-1 z-50 flex items-center gap-0 animate-in fade-in slide-in-from-bottom-3 duration-200">
                             <a
                                 href={`https://wa.me/?text=${encodeURIComponent(`Check out this event: ${typeof window !== 'undefined' ? window.location.href : ''}`)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="WhatsApp"
-                                className="p-2 rounded-xl hover:bg-green-50 text-gray-600 hover:text-green-600 transition-colors group"
+                                className="p-1 rounded-xl hover:bg-green-50 text-green-600 hover:text-green-600 transition-colors group"
                             >
                                 <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             </a>
@@ -160,7 +160,7 @@ export default function EventInteractions({ eventId, userId, initialLikes = 0, i
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="Facebook"
-                                className="p-2 rounded-xl hover:bg-blue-50 text-gray-600 hover:text-blue-600 transition-colors group"
+                                className="p-2 rounded-xl hover:bg-blue-50 text-blue-600 hover:text-blue-600 transition-colors group"
                             >
                                 <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             </a>
@@ -169,7 +169,7 @@ export default function EventInteractions({ eventId, userId, initialLikes = 0, i
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="Twitter"
-                                className="p-2 rounded-xl hover:bg-sky-50 text-gray-600 hover:text-sky-600 transition-colors group"
+                                className="p-2 rounded-xl hover:bg-sky-50 text-blue-400 hover:text-sky-600 transition-colors group"
                             >
                                 <Twitter className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             </a>
@@ -178,11 +178,11 @@ export default function EventInteractions({ eventId, userId, initialLikes = 0, i
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="LinkedIn"
-                                className="p-2 rounded-xl hover:bg-indigo-50 text-gray-600 hover:text-indigo-600 transition-colors group"
+                                className="p-2 rounded-xl hover:bg-indigo-50 text-sky-500 hover:text-indigo-600 transition-colors group"
                             >
                                 <Linkedin className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             </a>
-                            <div className="w-px h-6 bg-gray-500 mx-1" />
+                            <div className="w-px h-6 bg-gray-400 mx-1" />
                             <button
                                 onClick={() => {
                                     navigator.clipboard.writeText(window.location.href);
@@ -192,7 +192,7 @@ export default function EventInteractions({ eventId, userId, initialLikes = 0, i
                                 title="Copy Link"
                                 className={`p-2 rounded-xl transition-all ${copied
                                         ? "bg-green-600 text-white"
-                                        : "hover:bg-gray-100 text-gray-600"
+                                        : "hover:bg-gray-100 text-gray-500"
                                     }`}
                             >
                                 {copied ? <CheckCircle2 className="w-5 h-5" /> : <Copy className="w-5 h-5" />}

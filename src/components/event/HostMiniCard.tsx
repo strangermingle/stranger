@@ -33,7 +33,7 @@ export default function HostMiniCard({ host }: HostMiniCardProps) {
 
     return (
         <Link href={hostLink} className="group block">
-            <div className="flex items-center gap-3 p-6 rounded-2xl border border-gray-700 bg-white hover:border-green-400 hover:shadow-md hover:shadow-gray-50/50 transition-all duration-300">
+            <div className="flex items-center gap-1 p-2 rounded-2xl border border-gray-700 bg-white hover:border-green-400 hover:shadow-md hover:shadow-gray-50/50 transition-all duration-300">
                 {/* Profile Image with Ring Status */}
                 <div className="relative shrink-0">
                     <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-blue-300 shadow-sm bg-gray-100 relative">
@@ -51,7 +51,7 @@ export default function HostMiniCard({ host }: HostMiniCardProps) {
                             </div>
                         )}
                     </div>
-                    <div className="absolute -bottom-1 -right-1 bg-green-500 text-white p-1 rounded-full border-2 border-white shadow-sm">
+                    <div className="absolute -bottom-1 -right-1 bg-green-500 text-white p-1 rounded-full border-1 border-white shadow-sm">
                         <Shield size={20} fill="currentColor" />
                     </div>
                 </div>
@@ -59,7 +59,7 @@ export default function HostMiniCard({ host }: HostMiniCardProps) {
                 {/* Host Info */}
                 <div className="flex-1 min-w-0 pr-2">
                     <div className="flex items-center gap-1.5 mb-0.5">
-                        <h4 className="text-md font-black text-blue-500 truncate tracking-wide uppercase group-hover:text-blue-600 transition-colors">
+                        <h4 className="text-md font-semibold text-blue-500 truncate tracking-wide uppercase group-hover:text-blue-600 transition-colors">
                             {displayName}
                         </h4>
                     </div>
@@ -75,8 +75,8 @@ export default function HostMiniCard({ host }: HostMiniCardProps) {
                 </div>
 
                 {/* Action Indicator */}
-                <div className="shrink-0 w-13 h-13 rounded-full bg-green-500 flex items-center justify-center text-white group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 mr-1">
-                    <ArrowRight size={14} />
+                <div className="shrink-0 w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 mr-1">
+                    <ArrowRight size={25} />
                 </div>
             </div>
         </Link>

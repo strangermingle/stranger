@@ -136,15 +136,15 @@ export default function EventDiscussions({ eventId, userId }: EventDiscussionsPr
 
     return (
         <section id="discussions" className="scroll-mt-32">
-            <div className="flex items-center gap-6 mb-8">
-                <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter">Event Wall</h2>
+            <div className="flex items-center gap-6 mb-4">
+                <h2 className="text-2xl font-semibold text-gray-900 uppercase tracking-tighter">Event Wall</h2>
                 <div className="h-0.5 flex-1 bg-gray-100" />
-                <div className="px-5 py-2 bg-gray-900 text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl">
+                <div className="px-5 py-2 bg-gray-900 text-white rounded-full text-[8px] font-black uppercase tracking-[0.2em] shadow-xl">
                     {messages.length} Messages
                 </div>
             </div>
 
-            <div className="bg-white rounded-[3rem] border border-gray-100 p-8 md:p-12 shadow-2xl shadow-gray-100/50">
+            <div className="bg-white rounded-[2rem] border border-gray-100 p-6 md:p-8 shadow-2xl shadow-gray-100/50">
                 {/* Message Input */}
                 {userId ? (
                     <div className="mb-2">
@@ -157,26 +157,28 @@ export default function EventDiscussions({ eventId, userId }: EventDiscussionsPr
                                 <button onClick={() => setReplyTo(null)} className="hover:text-blue-800 uppercase tracking-widest text-[10px]">Cancel</button>
                             </div>
                         )}
-                        <form onSubmit={handleSubmit} className="relative">
-                            <textarea
+                        <form onSubmit={handleSubmit} className="flex items-center gap-2 bg-gray-50 rounded-full p-2 border border-gray-100 shadow-sm">
+                            <input
+                                type="text"
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
                                 placeholder="Share something about the event..."
-                                className="w-full bg-gray-50 border-none rounded-[2rem] p-6 pr-20 text-sm font-medium focus:ring-2 focus:ring-blue-600/20 transition-all min-h-[120px] resize-none"
+                                className="flex-1 bg-transparent border-none px-6 py-3 text-sm font-medium focus:outline-none focus:ring-0 text-gray-700 placeholder-gray-400"
                             />
                             <button
                                 type="submit"
                                 disabled={!newMessage.trim() || isSubmitting}
-                                className="absolute bottom-4 right-4 bg-gray-900 text-white p-4 rounded-2xl hover:bg-black transition-all shadow-xl active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+                                className="bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-black transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none flex items-center gap-2 shrink-0 font-bold"
                             >
-                                <Send className="w-5 h-5" />
+                                <span className="text-sm hidden sm:inline">Post</span>
+                                <Send className="w-4 h-4" />
                             </button>
                         </form>
                     </div>
                 ) : (
-                    <div className="bg-gray-50 p-8 rounded-[2rem] text-center mb-2 border border-dashed border-gray-200">
-                        <p className="text-gray-400 font-bold uppercase tracking-[0.1em] text-xs mb-4">You must be logged in to participate</p>
-                        <Link href="/login" className="px-8 py-3 bg-gray-900 text-white rounded-xl font-black text-xs uppercase tracking-widest transition-all hover:bg-black shadow-xl inline-block">Login Now</Link>
+                    <div className="bg-gray-50 p-4 rounded-full flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 border border-gray-100">
+                        <p className="text-gray-500 font-bold uppercase tracking-[0.1em] text-xs px-4 text-center sm:text-left">You must be logged in to participate</p>
+                        <Link href="/login" className="px-8 py-3 bg-gray-900 text-white rounded-full font-black text-xs uppercase tracking-widest transition-all hover:bg-black inline-block shrink-0">Login Now</Link>
                     </div>
                 )}
 

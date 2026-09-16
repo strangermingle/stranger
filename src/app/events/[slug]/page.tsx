@@ -235,7 +235,9 @@ export default async function EventDetails({ params }: Props) {
       )}
 
       {/* Upcoming Experiences */}
-      <UpcomingExperiences city={event.location?.city || 'India'} currentEventId={event.id} />
+      <div className="hidden lg:block">
+        <UpcomingExperiences city={event.location?.city || 'India'} currentEventId={event.id} />
+      </div>
       
       {/* Weekend Events */}
       <WeekendEvents />

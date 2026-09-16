@@ -30,38 +30,32 @@ export default function EventComments({ eventId, userId }: EventCommentsProps) {
     };
 
     return (
-        <section className="py-12 border-t border-gray-200">
-            <div className="flex items-center gap-3 mb-2">
-                <MessageSquare className="w-6 h-6 text-gray-900" />
-                <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tighter">Comments</h2>
+        <section className="py-2 border-t border-gray-200">
+            <div className="text-center items-center gap-1 mb-1">
+                <h2 className="text-lg font-medium text-gray-900">Comments</h2>
             </div>
 
-            <div className="bg-gray-50 rounded-[2.5rem] p-8 border border-gray-100 shadow-sm">
-                <form onSubmit={handleSubmit}>
-                    <div className="relative">
-                        <textarea
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                            placeholder="Share your thoughts or ask a question..."
-                            className="w-full bg-white border border-gray-200 rounded-2xl p-6 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none shadow-sm"
-                            rows={3}
-                        />
-                        <button
-                            type="submit"
-                            disabled={isSubmitting || !comment.trim()}
-                            className={`absolute bottom-4 right-4 px-6 py-2 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg active:scale-95 ${
-                                comment.trim() && !isSubmitting
-                                    ? 'bg-blue-600 text-white hover:bg-black hover:shadow-blue-200'
-                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none border border-gray-200'
-                            }`}
-                        >
-                            <span className="text-sm">Comment</span>
-                            <Send size={14} className={isSubmitting ? 'animate-pulse' : ''} />
-                        </button>
-                    </div>
-                    <p className="mt-4 text-xs text-gray-400 font-medium px-2">
-                        Your comment will be visible to everyone after a quick safety check.
-                    </p>
+            <div className="bg-gray-50 rounded-lg p-2 border border-gray-100 shadow-sm">
+                <form onSubmit={handleSubmit} className="flex items-center gap-2">
+                    <input
+                        type="text"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        placeholder="Login to comment"
+                        className="flex-1 bg-transparent border-none px-3 py-1 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-0 text-sm"
+                    />
+                    <button
+                        type="submit"
+                        disabled={isSubmitting || !comment.trim()}
+                        className={`px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all shrink-0 active:scale-95 ${
+                            comment.trim() && !isSubmitting
+                                ? 'bg-blue-600 text-white hover:bg-black hover:shadow-md'
+                                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        }`}
+                    >
+                        <span className="text-sm hidden sm:inline">Comment</span>
+                        <Send size={14} className={isSubmitting ? 'animate-pulse' : ''} />
+                    </button>
                 </form>
             </div>
         </section>
