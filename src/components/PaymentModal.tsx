@@ -55,6 +55,14 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [razorpayLoaded, setRazorpayLoaded] = useState(false);
+    
+    // Promo Code State
+    const [promoCodeInput, setPromoCodeInput] = useState('');
+    const [appliedPromoCode, setAppliedPromoCode] = useState('');
+    const [promoDiscount, setPromoDiscount] = useState(0);
+    const [promoLoading, setPromoLoading] = useState(false);
+    const [promoError, setPromoError] = useState<string | null>(null);
+
     const hasFiredRef = useRef(false);
 
     // Sync user details if they become available
@@ -85,6 +93,8 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
     const totalPrice = useMemo(() => {
         return items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     }, [items]);
+
+    const finalPrice = Math.max(0, totalPrice - promoDiscount);
 
     const handleAbandonment = (reason: 'modal_closed' | 'payment_dismissed' | 'payment_failed') => {
         if (items.length > 0) {
@@ -175,6 +185,42 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
         }
     };
 
+    const handleApplyPromo = async () => {
+        if (!promoCodeInput.trim()) return;
+        setPromoError(null);
+        setPromoLoading(true);
+        try {
+            const response = await fetch('/api/bookings/validate-promo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    eventId: event.id,
+                    code: promoCodeInput,
+                    amount: totalPrice
+                }),
+            });
+            const data = await response.json();
+            if (!response.ok || !data.success) {
+                throw new Error(data.error || 'Invalid promo code');
+            }
+            setAppliedPromoCode(data.code);
+            setPromoDiscount(data.discountAmount);
+        } catch (err: any) {
+            setPromoError(err.message);
+            setAppliedPromoCode('');
+            setPromoDiscount(0);
+        } finally {
+            setPromoLoading(false);
+        }
+    };
+
+    const removePromoCode = () => {
+        setAppliedPromoCode('');
+        setPromoDiscount(0);
+        setPromoCodeInput('');
+        setPromoError(null);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
@@ -221,6 +267,7 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
                     phone,
                     email: email || null,
                     tickets,
+                    promoCode: appliedPromoCode || undefined,
                 }),
             });
 
@@ -302,11 +349,51 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
                                 </div>
                             </div>
                             <div className="text-right">
-                                <div className="text-2xl font-bold text-blue-600">₹{totalPrice}</div>
+                                <div className={`text-2xl font-bold ${promoDiscount > 0 ? 'text-green-600' : 'text-blue-600'}`}>
+                                    ₹{finalPrice}
+                                </div>
+                                {promoDiscount > 0 && (
+                                    <div className="text-sm text-gray-500 line-through">₹{totalPrice}</div>
+                                )}
                                 <div className="text-xs text-gray-400">{totalTickets} ticket(s)</div>
                             </div>
                         </div>
                     </div>
+
+                    <div className="mb-6 pb-6 border-b border-gray-200">
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Promo Code (Optional)</label>
+                        {appliedPromoCode ? (
+                            <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-xl">
+                                <div>
+                                    <span className="font-mono font-bold text-green-700">{appliedPromoCode}</span>
+                                    <span className="ml-2 text-sm text-green-600">(-₹{promoDiscount})</span>
+                                </div>
+                                <button type="button" onClick={removePromoCode} className="text-gray-400 hover:text-red-500 text-sm font-medium">Remove</button>
+                            </div>
+                        ) : (
+                            <div>
+                                <div className="flex gap-2">
+                                    <input 
+                                        type="text" 
+                                        value={promoCodeInput} 
+                                        onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())} 
+                                        className="flex-1 px-4 py-3 border border-gray-300 rounded-xl font-mono uppercase" 
+                                        placeholder="Enter promo code" 
+                                    />
+                                    <button 
+                                        type="button"
+                                        onClick={handleApplyPromo}
+                                        disabled={promoLoading || !promoCodeInput.trim()}
+                                        className="px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-xl font-semibold disabled:opacity-50"
+                                    >
+                                        {promoLoading ? '...' : 'Apply'}
+                                    </button>
+                                </div>
+                                {promoError && <div className="mt-2 text-red-500 text-sm">{promoError}</div>}
+                            </div>
+                        )}
+                    </div>
+
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
@@ -322,7 +409,7 @@ export default function PaymentModal({ isOpen, onClose, event, selectedTickets }
                         </div>
                         {error && <div className="p-4 bg-red-50 text-red-700 text-sm rounded-xl">{error}</div>}
                         <button type="submit" disabled={loading || !razorpayLoaded} className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-lg disabled:opacity-50">
-                            {loading ? 'Processing...' : `Pay ₹${totalPrice}`}
+                            {loading ? 'Processing...' : `Pay ₹${finalPrice}`}
                         </button>
                     </form>
                 </div>
