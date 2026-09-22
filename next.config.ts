@@ -21,12 +21,16 @@ const nextConfig: NextConfig = {
     "@firebase/webchannel-wrapper",
   ],
   images: {
-    loader: process.env.NODE_ENV === 'development' ? 'default' : 'custom',
-    loaderFile: process.env.NODE_ENV === 'development' ? undefined : './src/cloudinaryLoader.ts',
+    loader: 'custom',
+    loaderFile: './src/cloudinaryLoader.ts',
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'uuanzogrkoomekskvxab.supabase.co',
       },
       {
         protocol: 'https',
