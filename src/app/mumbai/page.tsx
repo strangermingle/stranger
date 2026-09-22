@@ -9,7 +9,7 @@ import FacebookGroupCTA from "@/components/FacebookGroupCTA";
 
 import { MapPin, Users, ShieldCheck, ArrowRight, Calendar, Coffee, Heart } from "lucide-react";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
     title: "Stranger Meetups & Events in Mumbai",

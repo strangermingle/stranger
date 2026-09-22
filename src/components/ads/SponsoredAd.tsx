@@ -13,7 +13,7 @@ const MOCK_ADS: AdProps[] = [
     {
         title: "Smart Electric Standing Desk",
         description: "Elevate your workspace with Fittrock. Where elegance meets functionality.",
-        imageUrl: "/images/fittrock-landscape-image.png",
+        imageUrl: "https://res.cloudinary.com/strangermingle/image/upload/v1790098592/fittrock-landscape-image_lvcfyo.png",
         link: "https://www.fittrock.com/",
         sponsorName: "Fittrock"
     }

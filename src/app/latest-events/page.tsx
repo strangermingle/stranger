@@ -3,7 +3,7 @@ import { getAllLiveEvents } from "@/lib/events";
 import EventCard from "@/components/EventCard";
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
     title: "Latest Stranger Meetups & Upcoming Weekend Events",

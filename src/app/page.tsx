@@ -11,7 +11,7 @@ import TrendingEvents from "@/components/event/TrendingEvents";
 import WeekendEvents from "@/components/event/WeekendEvents";
 import FacebookGroupCTA from "@/components/FacebookGroupCTA";
 import SocialMediaQRSection from "@/components/SocialMediaQRSection";
-import OnlineMembersShowcase from "@/components/calls/OnlineMembersShowcase";
+
 import { ArrowRight, Coffee, Mountain, Palette, HandHeart, Monitor, MapPin, ShieldCheck, MessageSquare } from "lucide-react";
 
 const CITIES = [
@@ -38,7 +38,7 @@ const CITIES = [
 ];
 
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
     title: {
@@ -252,10 +252,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Real Online Members Showcase (6 members limit) */}
-        <div className="w-full">
-          <OnlineMembersShowcase maxDisplay={6} />
-        </div>
+
 
         {/* Facebook Group CTA Section */}
         <FacebookGroupCTA />

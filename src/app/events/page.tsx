@@ -8,7 +8,7 @@ import SponsoredAd from "@/components/ads/SponsoredAd";
 import MembershipAd from "@/components/ads/MembershipAd";
 import SidebarVideoAd from "@/components/ads/SidebarVideoAd";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
     title: "Stranger Meetups & Weekend Events in India",

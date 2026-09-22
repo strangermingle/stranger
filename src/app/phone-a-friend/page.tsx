@@ -3,19 +3,19 @@ import PhoneAFriendClient from '@/components/calls/PhoneAFriendClient'
 import { createServerClient } from '@/lib/supabaseClient'
 
 export const metadata: Metadata = {
-  title: 'Phone a Friend Online | 1-on-1 Anonymous Voice Calls with Empathetic Strangers',
-  description: 'Need someone just to talk? Connect 1-on-1 with warm, verified, empathetic listeners across India for private audio calls. 100% anonymous, safe, confidential, and judgment-free emotional support.',
+  title: 'Call a Expert Online | 1-on-1 Anonymous Voice Calls with Verified Experts',
+  description: 'Need to talk with an expert? Connect 1-on-1 with verified experts from various fields across India for private audio calls. 100% anonymous, safe for girls, no phone number required.',
   keywords: [
-    'phone a friend online',
-    'phone a friend india',
-    'talk to strangers online voice call',
+    'call an expert online',
+    'call a expert india',
+    'talk to experts online voice call',
     'anonymous audio call india',
-    'vent to stranger online',
-    'emotional support call online',
-    'talk to someone when lonely',
+    'vent out online',
+    'expert advice call online',
+    'safe anonymous call for girls',
     'platonic voice conversation india',
     'stranger mingle calling',
-    'empathetic listeners online',
+    'verified experts online',
     'just talk voice call',
     'mental wellness talk online india',
     'anonymous calling app'
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Phone a Friend Online | 1-on-1 Anonymous Audio Calling | Stranger Mingle',
-    description: 'Real voices. Zero judgment. Connect 1-on-1 with verified friendly hosts over private, anonymous online audio calls across India.',
+    title: 'Call a Expert Online | 1-on-1 Anonymous Audio Calling | Stranger Mingle',
+    description: 'Real voices. Zero judgment. Connect 1-on-1 with verified experts over private, anonymous online audio calls across India. Safe for girls, no phone number required.',
     url: 'https://strangermingle.com/phone-a-friend',
     siteName: 'Stranger Mingle',
     type: 'website',
@@ -46,14 +46,14 @@ export const metadata: Metadata = {
         url: 'https://strangermingle.com/images/default-event.jpg',
         width: 1200,
         height: 630,
-        alt: 'Phone a Friend - 1-on-1 Voice Calling on Stranger Mingle',
+        alt: 'Call a Expert - 1-on-1 Voice Calling on Stranger Mingle',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Phone a Friend Online | 1-on-1 Audio Calls | Stranger Mingle',
-    description: 'Private, anonymous 1-on-1 audio conversations with warm, verified listeners across India. No camera, no judgment.',
+    title: 'Call a Expert Online | 1-on-1 Audio Calls | Stranger Mingle',
+    description: 'Private, anonymous 1-on-1 audio conversations with verified experts across India. Safe, no camera, no phone number required.',
     images: ['https://strangermingle.com/images/default-event.jpg'],
   },
 }
@@ -62,36 +62,36 @@ export const dynamic = 'force-dynamic'
 
 const FAQS_DATA = [
   {
-    q: 'What is Phone a Friend on Stranger Mingle?',
-    a: 'Phone a Friend is an audio-only, 1-on-1 private calling service by Stranger Mingle connecting users across India with warm, verified, and empathetic listeners. Designed for platonic conversations, venting, stress relief, and combating loneliness, it offers a safe, judgment-free space to speak your mind without video or cameras.'
+    q: 'What is Call a Expert on Stranger Mingle?',
+    a: 'Call a Expert is an audio-only, 1-on-1 private calling service connecting users across India with verified experts from various fields. It offers a safe space to speak your mind, vent out, or get professional advice completely anonymously. Girls can feel absolutely safe as no phone number is required to register.'
   },
   {
-    q: 'How does Phone a Friend work?',
-    a: 'Simply choose any active online host and click "Call Now" to connect instantly for a 1-on-1 private audio conversation using your talk balance. You can top up talk time in seconds with transparent pricing.'
+    q: 'How does Call a Expert work?',
+    a: 'Simply choose any active online expert and click "Call Now" to connect instantly for a 1-on-1 private audio conversation. It is 100% anonymous and safe.'
   },
   {
     q: 'What are the charges and session duration?',
-    a: 'Calls are typically ₹49 for a 15-minute focused session. You can top up talk time anytime and connect seamlessly whenever you wish to talk.'
+    a: 'Calls are typically ₹49 for a 15-minute focused session with an expert. You can top up talk time anytime.'
   },
   {
-    q: 'Is Phone a Friend 100% anonymous and private?',
-    a: 'Yes, completely. Your phone number, full name, email, and personal contact info are never shared with the host. All calls are audio-only with no cameras or video streaming enabled. You are identified only by a private caller alias.'
+    q: 'Is Call a Expert completely anonymous and safe for girls?',
+    a: 'Yes, completely. Your phone number, full name, email, and personal contact info are never shared with the expert. You do not need a phone number to register. All calls are audio-only.'
   },
   {
-    q: 'What is the zero-tolerance harassment policy and legal warning?',
-    a: 'Stranger Mingle strictly prohibits harassment, abusive language, obscenity, hate speech, or sexual misconduct toward hosts. Any violation results in immediate permanent account termination, IP blacklisting, and referral to Indian cybercrime and law enforcement authorities for formal legal proceedings under applicable IT Act and criminal provisions.'
+    q: 'What is the zero-tolerance harassment policy?',
+    a: 'We strictly prohibit harassment, abusive language, or hate speech. Any violation results in immediate permanent account termination and IP blacklisting.'
   },
   {
-    q: 'Can I meet the host in person or contact them outside the platform?',
-    a: 'No. Stranger Mingle strictly facilitates online audio calls. Stranger Mingle holds no responsibility or liability if a caller and host choose to arrange personal in-person meetings, offline deals, financial transactions, or third-party communications outside the platform. Offline meetings with phone-a-friend hosts are completely unendorsed and at your own personal risk.'
+    q: 'Can I meet the expert in person?',
+    a: 'No. The platform strictly facilitates online audio calls. We do not endorse or take responsibility for any offline meetings.'
   },
   {
-    q: 'What happens if a host does not answer or declines my call?',
-    a: 'If a host is busy or declines your call, the ringing stops immediately, you are notified, and your balance remains 100% intact in your wallet. You can immediately call another available online host.'
+    q: 'What happens if an expert does not answer?',
+    a: 'If an expert is busy, the ringing stops and your balance remains 100% intact. You can call another available expert.'
   },
   {
-    q: 'How can I apply to become a Phone a Friend host?',
-    a: 'If you are an empathetic, articulate communicator who enjoys active listening, you can apply through Stranger Mingle\'s Host Partner portal. Approved hosts set their own rates, go online whenever free, and earn per completed session.'
+    q: 'How can I apply to become an Expert?',
+    a: 'If you are an expert in your field with good communication skills, you can apply through our Host Partner portal. Approved experts set their own rates.'
   }
 ]
 
@@ -170,8 +170,8 @@ export default async function PhoneAFriendPage() {
   const serviceSchema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'Phone a Friend - 1-on-1 Audio Calling',
-    serviceType: 'Emotional Support and Casual Audio Calling',
+    name: 'Call a Expert - 1-on-1 Audio Calling',
+    serviceType: 'Expert Advice and Casual Audio Calling',
     provider: {
       '@type': 'Organization',
       name: 'Stranger Mingle',
@@ -184,7 +184,7 @@ export default async function PhoneAFriendPage() {
     },
     audience: {
       '@type': 'Audience',
-      audienceType: 'Individuals seeking safe, anonymous, platonic conversations and venting',
+      audienceType: 'Individuals seeking professional advice or safe, anonymous conversations',
     },
     offers: {
       '@type': 'AggregateOffer',
@@ -193,7 +193,7 @@ export default async function PhoneAFriendPage() {
       highPrice: '199',
       offerCount: '100',
     },
-    description: 'Safe, private 1-on-1 audio calling with verified empathetic hosts across India. 100% anonymous, confidential, and judgment-free.',
+    description: 'Safe, private 1-on-1 audio calling with verified experts across India. 100% anonymous, safe for girls, no phone number required.',
   }
 
   const breadcrumbSchema = {
@@ -209,7 +209,7 @@ export default async function PhoneAFriendPage() {
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Phone a Friend',
+        name: 'Call a Expert',
         item: 'https://strangermingle.com/phone-a-friend',
       },
     ],

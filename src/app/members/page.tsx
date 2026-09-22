@@ -26,6 +26,7 @@ import {
 import { createCreditsOrderApi, verifyCreditsOrderApi } from '@/lib/callService';
 import MemberIncomingCallModal from '@/components/members/MemberIncomingCallModal';
 import MemberCallRoom from '@/components/members/MemberCallRoom';
+import OnlineMembersShowcase from '@/components/calls/OnlineMembersShowcase';
 
 //currently plan IDs stored in the .env.local are test IDs
 const PLAN_MONTHLY = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_MONTHLY || '';
@@ -815,6 +816,8 @@ export default function MembersPage() {
                             </div>
                         </div>
                     </Link>
+
+                    <OnlineMembersShowcase maxDisplay={6} className="mt-4 px-0" />
 
                     {/* APP SECTIONS: SLIM, SLEEK 5-GRID */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">

@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
     "@firebase/webchannel-wrapper",
   ],
   images: {
+    loader: process.env.NODE_ENV === 'development' ? 'default' : 'custom',
+    loaderFile: process.env.NODE_ENV === 'development' ? undefined : './src/cloudinaryLoader.ts',
     remotePatterns: [
       {
         protocol: 'https',

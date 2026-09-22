@@ -44,7 +44,7 @@ import { getDeviceFingerprint } from '@/lib/deviceFingerprint'
 import WeekendEvents from '@/components/event/WeekendEvents'
 import SponsoredAd from '@/components/ads/SponsoredAd'
 import MembershipAd from '@/components/ads/MembershipAd'
-import OnlineMembersShowcase from '@/components/calls/OnlineMembersShowcase'
+
 
 interface PhoneAFriendClientProps {
   initialHosts: any[]
@@ -470,7 +470,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-gray-500 font-medium">
           <Link href="/" className="hover:text-rose-600 transition-colors">Home</Link>
           <span className="text-gray-300">/</span>
-          <span className="text-gray-900 font-semibold">Phone a Friend</span>
+          <span className="text-gray-900 font-semibold">Call a Expert</span>
         </nav>
       </div>
 
@@ -483,12 +483,12 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
           </div>
 
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
-            Need Someone Just for a Talk? <br className="hidden sm:inline" />
-            <span className="text-rose-600">Anonymous Calling with Real People</span>
+            Want to talk to an Expert? <br className="hidden sm:inline" />
+            <span className="text-rose-600">Anonymous Calling with Verified Experts</span>
           </h1>
 
           <p className="text-sm sm:text-base text-gray-600 font-medium leading-relaxed max-w-2xl mx-auto">
-            Feeling stressed, lonely, bored, or just want to talk? Connect 1-on-1 with verified, empathetic listeners across India instantly. 100% anonymous, zero judgment, and no video camera required.
+            Call completely anonymously to vent out or get advice from verified experts across various fields. Safe for girls, no phone number required. 100% anonymous, zero judgment, and no video camera required.
           </p>
 
           {/* Trust Badges */}
@@ -754,20 +754,17 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
               )}
             </div>
 
-            {/* Online Members Showcase (Members-only Calling Privileges) */}
-            <OnlineMembersShowcase className="w-full my-2" />
-
-            {/* About Phone a Friend */}
+            {/* About Call a Expert */}
             <div className="bg-gradient-to-r from-rose-50/70 via-white to-amber-50/50 rounded-3xl p-6 sm:p-7 border border-rose-100/90 shadow-xs space-y-3">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100/60 text-rose-700 text-xs font-semibold">
                 <Sparkles className="w-3.5 h-3.5 text-rose-600" />
-                About Phone a Friend
+                About Call a Expert
               </div>
               <h2 className="text-base sm:text-lg font-bold text-gray-900 tracking-tight">
-                What is Stranger Mingle Phone a Friend?
+                What is Stranger Mingle Call a Expert?
               </h2>
               <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-normal">
-                <strong>Stranger Mingle Phone a Friend</strong> is India&apos;s premier verified 1-on-1 voice calling platform providing safe, platonic, and confidential conversations. Whether you need a warm listener to vent about your workday, combat late-night loneliness, or get neutral life advice, connect instantly with empathetic hosts who listen with an open heart. All calls are audio-only, 100% anonymous, and backed by strict safety standards.
+                <strong>Stranger Mingle Call a Expert</strong> is India&apos;s premier verified 1-on-1 voice calling platform providing safe and confidential conversations. Talk to experts from various fields, vent out, or get professional advice. It&apos;s safe for girls as no phone number is required. All calls are audio-only, 100% anonymous, and backed by strict safety standards.
               </p>
             </div>
 

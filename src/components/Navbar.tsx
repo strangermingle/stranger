@@ -61,7 +61,7 @@ export default function Navbar() {
                         <Link href="/phone-a-friend" className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors font-bold text-xs uppercase tracking-wider border border-rose-200">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                             <PhoneCall className="w-3.5 h-3.5" />
-                            <span>Phone a Friend</span>
+                            <span>Call to expert</span>
                         </Link>
                         <Link href="/events" className="hover:text-yellow-700 transition-colors hidden sm:block">
                             Events
@@ -142,7 +142,7 @@ export default function Navbar() {
                         >
                             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                             <PhoneCall className="w-4 h-4" />
-                            Phone a Friend
+                            Call to expert
                         </Link>
                         <Link
                             href="/events"

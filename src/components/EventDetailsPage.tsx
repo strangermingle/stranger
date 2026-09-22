@@ -11,22 +11,26 @@ import { sendGAEvent, trackViewItem, trackAddToCart, trackRemoveFromCart } from 
 import { trackViewContent } from '@/lib/metaPixel';
 import { useAuth } from '@/components/AuthProvider';
 import { Shield } from "lucide-react";
-import EventComments from './event/EventComments';
+import dynamic from 'next/dynamic';
 
-// New Event Components
-import EventGallery from './event/EventGallery';
-import EventAgendaList from './event/EventAgenda';
-import EventFAQs from './event/EventFAQ';
-import EventCohosts from './event/EventCohosts';
+// Eagerly loaded components (above the fold)
 import EventInteractions from './event/EventInteractions';
-import EventDiscussions from './event/EventDiscussions';
-import EventWaitlist from './event/EventWaitlist';
 import BookingFloat from './event/BookingFloat';
 import HostMiniCard from './event/HostMiniCard';
-import UpcomingExperiences from './event/UpcomingExperiences';
 import SponsoredAd from './ads/SponsoredAd';
 import MembershipAd from './ads/MembershipAd';
 import SidebarVideoAd from './ads/SidebarVideoAd';
+
+// Lazy loaded components (below the fold)
+const EventComments = dynamic(() => import('./event/EventComments'), { ssr: true });
+const EventGallery = dynamic(() => import('./event/EventGallery'), { ssr: true });
+const EventAgendaList = dynamic(() => import('./event/EventAgenda'), { ssr: true });
+const EventFAQs = dynamic(() => import('./event/EventFAQ'), { ssr: true });
+const EventCohosts = dynamic(() => import('./event/EventCohosts'), { ssr: true });
+const EventWaitlist = dynamic(() => import('./event/EventWaitlist'), { ssr: true });
+const UpcomingExperiences = dynamic(() => import('./event/UpcomingExperiences'), { ssr: true });
+
+
 
 interface EventDetailsPageProps {
     event: Event;
@@ -46,6 +50,8 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
     const isFillingFast = event.max_capacity ? remainingSpots <= event.max_capacity * 0.2 && remainingSpots > 0 : false;
     const isSoldOut = event.max_capacity ? remainingSpots <= 0 : false;
     const spotsPercentage = event.max_capacity ? (remainingSpots / event.max_capacity) * 100 : 100;
+    const isExpired = new Date() > new Date(event.end_datetime || event.start_datetime);
+    const isBookingDisabled = isSoldOut || isExpired;
 
     // GA4 & Meta Ecommerce: Track view_item & ViewContent on page load
     useEffect(() => {
@@ -291,7 +297,7 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                                 <div className="mb-6">
                                     <div className="flex justify-between items-end mb-2">
                                         <span className={`text-[10px] font-black uppercase tracking-[0.3em] ${isSoldOut ? 'text-red-500' : 'text-blue-600'}`}>
-                                            {spotsLabel}
+                                            {isExpired ? 'Event Ended' : spotsLabel}
                                         </span>
                                         <span className="text-xs font-black text-gray-900 opacity-70 italic">
                                             {remainingSpots} left
@@ -363,12 +369,12 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                                             if (isSoldOut) setShowContactModal(true);
                                             else setShowPaymentModal(true);
                                         }}
-                                        disabled={isSoldOut || (totalTickets === 0 && !isSoldOut)}
-                                        className={`w-full py-6 rounded-2xl font-black text-md uppercase tracking-[0.2em] transition-all ${isSoldOut || (totalTickets === 0 && !isSoldOut)
+                                        disabled={isBookingDisabled || (totalTickets === 0 && !isSoldOut)}
+                                        className={`w-full py-6 rounded-2xl font-black text-md uppercase tracking-[0.2em] transition-all ${isBookingDisabled || (totalTickets === 0 && !isSoldOut)
                                             ? 'bg-red-600 text-white cursor-not-allowed'
                                             : 'bg-green-600 text-white hover:bg-green-700 hover:-translate-y-1 active:scale-95'}`}
                                     >
-                                        {isSoldOut ? 'Sold Out' : (totalTickets > 0 ? `Confirm Booking` : 'Select Spots')}
+                                        {isExpired ? 'Event Ended' : (isSoldOut ? 'Sold Out' : (totalTickets > 0 ? `Confirm Booking` : 'Select Spots'))}
                                     </button>
                                 </div>
 

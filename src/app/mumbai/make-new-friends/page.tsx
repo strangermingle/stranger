@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import MakeNewFriendsCityPage from "@/components/MakeNewFriendsCityPage";
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
     title: "Make New Friends in Mumbai | Local Meetups & Social Groups",

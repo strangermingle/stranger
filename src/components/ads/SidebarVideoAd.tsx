@@ -14,7 +14,7 @@ export default function SidebarVideoAd() {
 
                 <div className="w-full bg-stone-900 overflow-hidden">
                     <Image
-                        src="/images/fittrock-vertical-image.png"
+                        src="https://res.cloudinary.com/strangermingle/image/upload/v1790098593/fittrock-vertical-image_dltoj2.png"
                         alt="Fittrock Smart Electric Standing Desk"
                         width={1080}
                         height={1920}

@@ -4,7 +4,6 @@ import { getAllLiveEvents } from '@/lib/events';
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.strangermingle.com';
 
 // Force dynamic rendering to ensure fresh data
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
 
 export async function GET() {
