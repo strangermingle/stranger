@@ -1,6 +1,7 @@
 import { supabase as sharedClient, createAdminClient } from './supabaseClient';
 import { callRpc } from './rpc-client';
 import { toISTISOString, formatEventDate, formatEventTime } from './date-utils';
+import { cache } from 'react';
 
 export { toISTISOString, formatEventDate, formatEventTime };
 
@@ -465,9 +466,9 @@ export async function getPublicEventById(id: string): Promise<Event | null> {
 
 
 // Public event query by slug - only returns 'published' or 'completed' events (not 'cancelled')
-export async function getPublicEventBySlug(slug: string): Promise<Event | null> {
-    return callRpc('events', 'getPublicEventBySlug', [slug], { useCookies: false, cache: 'no-store' });
-}
+export const getPublicEventBySlug = cache(async (slug: string): Promise<Event | null> => {
+    return callRpc('events', 'getPublicEventBySlug', [slug], { useCookies: false });
+});
 
 export async function createBooking(bookingData: {
     event_id: string;
