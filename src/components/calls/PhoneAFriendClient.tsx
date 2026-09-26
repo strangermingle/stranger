@@ -113,6 +113,10 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
   const router = useRouter()
   const { user, mappedUserId, credits, checkMembershipStatus } = useAuth()
   const [hosts, setHosts] = useState(initialHosts)
+
+  useEffect(() => {
+    setHosts(initialHosts)
+  }, [initialHosts])
   const [selectedLanguage, setSelectedLanguage] = useState('All')
   const [selectedTopic, setSelectedTopic] = useState('All')
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
@@ -298,47 +302,13 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
   const allLanguages = ['All', ...Array.from(new Set(hosts.flatMap((h) => h.languages || [])))]
   const allTopics = ['All', ...Array.from(new Set(hosts.flatMap((h) => h.topics || [])))]
 
-  // Realtime subscription for host online status
+  // Auto-refresh hosts data every 30 seconds
   useEffect(() => {
-    const supabase = createClientClient()
-    if (!supabase || !supabase.channel) return
-
-    const channel = supabase
-      .channel('phone_a_friend_presence_public')
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'phone_a_friend_host_settings',
-        },
-        (payload: any) => {
-          if (payload.new) {
-            setHosts((prev) =>
-              prev.map((h) =>
-                h.id === payload.new.id
-                  ? {
-                      ...h,
-                      is_online: payload.new.is_online,
-                      rate_per_session: payload.new.rate_per_session,
-                      session_duration_minutes: payload.new.session_duration_minutes,
-                      languages: payload.new.languages,
-                      topics: payload.new.topics,
-                      last_seen_at: payload.new.last_seen_at,
-                    }
-                  : h
-              )
-            )
-          }
-        }
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [])
-
+    const interval = setInterval(() => {
+      router.refresh()
+    }, 30000)
+    return () => clearInterval(interval)
+  }, [router])
   // Outgoing Audio Ringtone
   const audioCtxRef = useRef<AudioContext | null>(null)
   const ringIntervalRef = useRef<any>(null)
