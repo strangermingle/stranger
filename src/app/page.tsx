@@ -188,67 +188,13 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Anonymous Chat Promotion Section */}
         <section className="w-full max-w-7xl mx-auto px-4 py-4 mb-4">
-          <div className="relative overflow-hidden bg-indigo-900 rounded-[2rem] p-8 md:p-8 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl">
-            {/* Decorative Background Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-xl blur-[80px] -mr-32 -mt-32" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/20 rounded-xl blur-[80px] -ml-32 -mb-32" />
-
-            <div className="relative z-10 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-[8px] font-bold uppercase tracking-widest mb-2">
-                <ShieldCheck className="w-2 h-2" />
-                Verified Members Only
-              </div>
-              <h2 className="text-[12px] md:text-[24px] font-bold text-white mb-1 leading-tight tracking-wider italic">
-                Anonymous Chat <br />
-                <span className="text-yellow-300 italic">with verified strangers</span>
-              </h2>
-              <p className="text-indigo-100/80 text-[8px] md:text-[12px] font-medium leading-relaxed mb-2">
-                Mingle without the pressure. Access our exclusive anonymous chat room once you&apos;re a verified member. No real names, no profiles—just pure connection.
-              </p>
-              <Link
-                href="/members"
-                className="inline-flex items-center gap-3 px-2 py-2 border border-white bg-yellow-300 hover:bg-yellow-400 text-black rounded-2xl font-bold text-lg transition-all hover:scale-105 shadow-xl shadow-indigo-500/20 active:scale-95 group"
-              >
-                Join the Exclusive Club
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-
-            <div className="relative z-10 w-full max-w-[300px] md:max-w-none md:w-1/3 aspect-square flex items-center justify-center">
-              <div className="relative w-full h-full">
-                <div className="absolute inset-0 bg-indigo-500/30 rounded-full blur-3xl animate-pulse" />
-                <div className="relative bg-indigo-800/50 backdrop-blur-2xl border border-indigo-400/30 rounded-[2.5rem] p-8 shadow-2xl transform hover:rotate-3 transition-transform duration-500">
-                  <div className="flex flex-col gap-6">
-                    <div className="flex justify-start">
-                      <div className="bg-indigo-700/50 rounded-2xl p-4 max-w-[80%] border border-indigo-500/20">
-                        <p className="text-[8px] text-yellow-400 font-regular mb-1 tracking-wide">Stranger6721</p>
-                        <p className="text-[10px] text-white">Hey! Any plans for tonight? </p>
-                      </div>
-                    </div>
-                    <div className="flex justify-end">
-                      <div className="bg-indigo-600 rounded-2xl p-4 max-w-[80%] shadow-lg border border-indigo-400/30">
-                        <p className="text-[8px] text-indigo-200 font-regular mb-1 tracking-wide">You</p>
-                        <p className="text-[10px] text-white font-medium">Looking for people to join me for the board game 🎲</p>
-                      </div>
-                    </div>
-                    <div className="flex justify-start">
-                      <div className="bg-indigo-700/50 rounded-2xl p-4 max-w-[80%] border border-indigo-500/20">
-                        <p className="text-[8px] text-yellow-400 font-regular mb-1 tracking-wide">Stranger6721</p>
-                        <p className="text-[10px] text-white">Count me in! I&apos;ve been wanting to try Catan. 🙋‍♂️</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-4 flex items-center gap-3 border-t border-indigo-500/20 pt-2">
-                    <div className="w-6 h-6 rounded-full bg-indigo-700 flex items-center justify-center">
-                      <MessageSquare className="w-5 h-5 text-indigo-300" />
-                    </div>
-                    <div className="h-2 flex-grow bg-indigo-900/50 rounded-full" />
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="relative w-full rounded-[2rem] overflow-hidden">
+            <img 
+              src="https://res.cloudinary.com/strangermingle/image/upload/v1790442951/friends_ncykvy.png"
+              alt="Friends at Stranger Mingle"
+              className="w-full h-auto block"
+            />
           </div>
         </section>
 

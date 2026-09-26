@@ -41,10 +41,15 @@ export default async function EventsPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50">
             {/* Page Header */}
-            <section className="relative w-full bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 pt-32 pb-16 px-4 overflow-hidden">
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]"></div>
+            <section className="relative w-full pt-32 pb-16 px-4 overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="https://res.cloudinary.com/strangermingle/image/upload/v1790442951/friends_ncykvy.png"
+                        alt="Stranger Mingle Friends"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/70"></div>
                 </div>
 
                 <div className="relative max-w-7xl mx-auto text-center">
