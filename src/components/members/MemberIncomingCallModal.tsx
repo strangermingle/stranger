@@ -77,11 +77,13 @@ export default function MemberIncomingCallModal({
       } catch (e) {
         // Silent poll error
       }
-    }
+    } // Added missing closing brace here
 
+    const handleFocus = () => pollActiveCall()
     pollActiveCall()
-    const interval = setInterval(pollActiveCall, 8000)
-    return () => clearInterval(interval)
+    window.addEventListener('focus', handleFocus)
+
+    return () => window.removeEventListener('focus', handleFocus)
   }, [currentUserId])
 
   // Supabase Realtime subscription for instant ring notification
