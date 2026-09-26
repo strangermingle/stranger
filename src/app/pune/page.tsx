@@ -218,6 +218,42 @@ export default async function PuneCityPage() {
                     </div>
                 </div>
             </section>
+            {/* Pune Social Guides Directory */}
+            <section className="py-24 max-w-7xl mx-auto px-4 bg-gray-50 border-y border-gray-100 mb-24 rounded-3xl">
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl font-bold text-gray-900 mb-4">Pune Social Guides & Directory</h2>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Explore our dedicated community pages and resources for navigating Pune&apos;s social scene.</p>
+                </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+                        <h3 className="font-bold text-xl mb-6 text-blue-900">Pune City Guides</h3>
+                        <ul className="space-y-4 font-medium">
+                            <li><Link href="/pune/how-to-make-friends-in-pune" className="text-gray-600 hover:text-blue-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-blue-400" /> How to Make Friends in Pune</Link></li>
+                            <li><Link href="/pune/things-to-do-alone-in-pune" className="text-gray-600 hover:text-blue-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-blue-400" /> Things to Do Alone in Pune</Link></li>
+                            <li><Link href="/pune/social-scene-in-pune" className="text-gray-600 hover:text-blue-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-blue-400" /> The Pune Social Scene Guide</Link></li>
+                            <li><Link href="/pune/make-new-friends" className="text-gray-600 hover:text-blue-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-blue-400" /> Make New Friends in Pune</Link></li>
+                        </ul>
+                    </div>
+                    <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+                        <h3 className="font-bold text-xl mb-6 text-purple-900">Meetups & Activities</h3>
+                        <ul className="space-y-4 font-medium">
+                            <li><Link href="/pune/board-game-meetups" className="text-gray-600 hover:text-purple-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-purple-400" /> Pune Board Game Meetups</Link></li>
+                            <li><Link href="/pune/trekking-and-outdoor-groups" className="text-gray-600 hover:text-purple-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-purple-400" /> Trekking & Outdoor Groups</Link></li>
+                            <li><Link href="/pune/expat-and-newcomer-meetups" className="text-gray-600 hover:text-purple-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-purple-400" /> Expat & Newcomer Meetups</Link></li>
+                            <li><Link href="/pune/house-parties" className="text-gray-600 hover:text-purple-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-purple-400" /> Pune House Parties</Link></li>
+                        </ul>
+                    </div>
+                    <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+                        <h3 className="font-bold text-xl mb-6 text-pink-900">General Guides</h3>
+                        <ul className="space-y-4 font-medium">
+                            <li><Link href="/faq/is-it-weird-to-go-to-events-alone" className="text-gray-600 hover:text-pink-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-pink-400" /> Is it Weird to Go Alone?</Link></li>
+                            <li><Link href="/board-game-nights" className="text-gray-600 hover:text-pink-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-pink-400" /> Global Board Game Nights</Link></li>
+                            <li><Link href="/community-circles" className="text-gray-600 hover:text-pink-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-pink-400" /> Community Circles</Link></li>
+                            <li><Link href="/outdoor-meetups" className="text-gray-600 hover:text-pink-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-pink-400" /> Global Outdoor Meetups</Link></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
 
             {/* Pune Blog Posts */}
             {punePosts.length > 0 && (

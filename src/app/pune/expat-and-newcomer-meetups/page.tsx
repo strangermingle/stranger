@@ -24,7 +24,7 @@ export default async function Page() {
                 </div>
                 <div className="flex-1 bg-gray-50 flex flex-col justify-center px-8 md:px-16 py-20">
                     <h2 className="text-3xl font-bold text-gray-900 mb-8">Skip the Forums, Meet Real People</h2>
-                    <div className="space-y-6">
+                    <div className="grid sm:grid-cols-2 gap-6">
                         {cityEvents.slice(0, 2).map((event) => (
                             <EventCard key={event.id} event={event} />
                         ))}

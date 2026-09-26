@@ -116,24 +116,33 @@ export default async function Page() {
         />
       )}
 
-      <section className="bg-gradient-to-br from-indigo-900 to-purple-900 text-white pt-32 pb-32 px-4 text-center">
-        <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto text-sm text-indigo-200 mb-8 text-left">
-          <ol className="flex gap-2">
-            <li><Link href="/" className="hover:underline">Home</Link> /</li>
-            <li><Link href="/pune" className="hover:underline">Pune</Link> /</li>
-            <li className="font-medium text-white">Board Game Meetups</li>
-          </ol>
-        </nav>
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl sm:text-7xl font-extrabold mb-6">Board Game Meetups in Pune</h1>
-          <p className="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">
+      <section className="relative bg-gradient-to-br from-indigo-900 to-purple-900 text-white pt-32 pb-32 px-4 text-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://res.cloudinary.com/strangermingle/image/upload/v1790443665/friends02_hzvksz.png"
+            alt="Friends playing board games at Stranger Mingle Pune"
+            className="w-full h-full object-cover opacity-40 mix-blend-overlay"
+          />
+        </div>
+        <div className="relative z-10 max-w-4xl mx-auto text-left mb-8">
+          <nav aria-label="Breadcrumb" className="text-sm text-indigo-200">
+            <ol className="flex gap-2">
+              <li><Link href="/" className="hover:underline">Home</Link> /</li>
+              <li><Link href="/pune" className="hover:underline">Pune</Link> /</li>
+              <li className="font-medium text-white">Board Game Meetups</li>
+            </ol>
+          </nav>
+        </div>
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <h1 className="text-5xl sm:text-7xl font-extrabold mb-6 drop-shadow-lg">Board Game Meetups in Pune</h1>
+          <p className="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto drop-shadow-md">
             When people ask online how to beat loneliness in a new city, one of the most trusted,
             peer-recommended answers is always: <strong>&quot;Try going to board game meetups.&quot;</strong>
           </p>
           <div className="flex gap-4 justify-center">
             <a
               href="#events"
-              className="px-8 py-4 bg-white text-indigo-900 rounded-xl font-bold text-lg hover:scale-105 transition-transform"
+              className="px-8 py-4 bg-white text-indigo-900 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-xl"
             >
               Browse Games
             </a>
