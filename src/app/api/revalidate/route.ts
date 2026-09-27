@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,7 +16,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ revalidated: true, path });
     }
 
-    return NextResponse.json({ message: 'No path provided' }, { status: 400 });
+    if (tag) {
+      revalidateTag(tag, "default");
+      return NextResponse.json({ revalidated: true, tag });
+    }
+
+    return NextResponse.json({ message: 'No path or tag provided' }, { status: 400 });
   } catch (err) {
     return NextResponse.json({ message: 'Error revalidating' }, { status: 500 });
   }
