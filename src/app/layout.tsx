@@ -11,7 +11,6 @@ import MetaPixel from "@/components/MetaPixel";
 import AnalyticsRouteTracker from "@/components/AnalyticsRouteTracker";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { AuthProvider } from "@/components/AuthProvider";
-import { GlobalCallProvider } from "@/components/providers/GlobalCallProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -102,10 +101,8 @@ export default function RootLayout({
           <AnalyticsRouteTracker />
         </Suspense>
         <AuthProvider>
-          <GlobalCallProvider>
-            <Navbar />
-            {children}
-          </GlobalCallProvider>
+          <Navbar />
+          {children}
         </AuthProvider>
         <script
           type="application/ld+json"

@@ -34,10 +34,16 @@ export const metadata: Metadata = {
     },
 };
 
+import { GlobalCallProvider } from "@/components/providers/GlobalCallProvider";
+
 export default function MembersLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <GlobalCallProvider>
+      {children}
+    </GlobalCallProvider>
+  );
 }
