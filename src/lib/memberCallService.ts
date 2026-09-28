@@ -49,6 +49,14 @@ export async function checkActiveIncomingCallApi(memberId: string) {
   return res.json();
 }
 
+export async function checkMemberCallStatusApi(callId: string) {
+  const res = await fetch(`${BACKEND_URL}/api/members/calls?callId=${encodeURIComponent(callId)}`, {
+    cache: 'no-store',
+  });
+  if (!res.ok) return { call: null };
+  return res.json();
+}
+
 export async function toggleAvailabilityApi(userId: string, isAvailable: boolean) {
   const res = await fetch(`${BACKEND_URL}/api/members/calls`, {
     method: 'POST',

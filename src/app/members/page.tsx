@@ -24,8 +24,6 @@ import {
     OnlineMember 
 } from '@/lib/memberCallService';
 import { createCreditsOrderApi, verifyCreditsOrderApi } from '@/lib/callService';
-import MemberIncomingCallModal from '@/components/members/MemberIncomingCallModal';
-import MemberCallRoom from '@/components/members/MemberCallRoom';
 import OnlineMembersShowcase from '@/components/calls/OnlineMembersShowcase';
 
 //currently plan IDs stored in the .env.local are test IDs
@@ -44,8 +42,6 @@ export default function MembersPage() {
 
     // Member Calling State
     const [onlineMembers, setOnlineMembers] = useState<OnlineMember[]>([]);
-    const [activeMemberCall, setActiveMemberCall] = useState<any | null>(null);
-    const [activeAgoraParams, setActiveAgoraParams] = useState<any | null>(null);
 
     // Credit Recharge Modal State
     const [showRechargeModal, setShowRechargeModal] = useState(false);
@@ -511,23 +507,7 @@ export default function MembersPage() {
         };
     }, [user, isMember, isMemberVerified, currentMemberId]);
 
-    const handleIncomingCallAccepted = async (call: any) => {
-        if (!currentMemberId) return;
-        try {
-            const tokenData = await fetchMemberCallToken(call.id, currentMemberId);
-            setActiveAgoraParams(tokenData);
-            setActiveMemberCall(call);
-        } catch (err: any) {
-            alert(err.message || 'Failed to retrieve voice credentials.');
-        }
-    };
-
     const handleCallClosed = async () => {
-        setActiveMemberCall(null);
-        setActiveAgoraParams(null);
-        if (checkMembershipStatus) {
-            await checkMembershipStatus();
-        }
         if (currentMemberId) {
             const res = await fetchOnlineMembersApi(currentMemberId);
             const list = Array.isArray(res) ? res : (res?.members || []);
@@ -879,22 +859,6 @@ export default function MembersPage() {
 
                 </div>
 
-                {/* INCOMING CALL ALERT (GLOBAL LISTENER) */}
-                <MemberIncomingCallModal
-                    currentUserId={currentMemberId}
-                    onCallAccepted={handleIncomingCallAccepted}
-                />
-
-                {/* ACTIVE VOICE CALL ROOM */}
-                {activeMemberCall && activeAgoraParams && (
-                    <MemberCallRoom
-                        call={activeMemberCall}
-                        currentUserId={currentMemberId}
-                        userCredits={credits || 0}
-                        agoraParams={activeAgoraParams}
-                        onCallClosed={handleCallClosed}
-                    />
-                )}
 
                 {/* RECHARGE CREDITS MODAL (SLIM & SLEEK) */}
                 {showRechargeModal && (

@@ -15,7 +15,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { useAgoraVoiceCall } from '@/hooks/useAgoraVoiceCall'
-import { endMemberCallApi, submitMemberCallRatingApi } from '@/lib/memberCallService'
+import { endMemberCallApi, submitMemberCallRatingApi, checkMemberCallStatusApi } from '@/lib/memberCallService'
 import { submitReportApi } from '@/lib/callService'
 import { getDeviceFingerprint } from '@/lib/deviceFingerprint'
 import { createClientClient } from '@/lib/supabaseClient'
@@ -134,8 +134,27 @@ export default function MemberCallRoom({
       )
       .subscribe()
 
+    // Fallback polling for status changes, just in case Supabase Realtime drops or is blocked
+    const pollInterval = setInterval(async () => {
+      try {
+        const res = await checkMemberCallStatusApi(call.id)
+        if (res?.call) {
+          setCurrentCall(res.call)
+          if (['completed', 'cancelled', 'rejected'].includes(res.call.status)) {
+            await leaveCall()
+            setEndSummary(res.call)
+            setShowRatingModal(true)
+            clearInterval(pollInterval)
+          }
+        }
+      } catch (e) {
+        // silent
+      }
+    }, 4000)
+
     return () => {
       supabase.removeChannel(channel)
+      clearInterval(pollInterval)
     }
   }, [call?.id, leaveCall])
 

@@ -12,13 +12,10 @@ import {
     fetchOnlineMembersApi, 
     toggleAvailabilityApi, 
     sendHeartbeatApi, 
-    initiateMemberCallApi, 
-    fetchMemberCallToken, 
     OnlineMember 
 } from '@/lib/memberCallService';
 import { createCreditsOrderApi, verifyCreditsOrderApi } from '@/lib/callService';
-import MemberIncomingCallModal from '@/components/members/MemberIncomingCallModal';
-import MemberCallRoom from '@/components/members/MemberCallRoom';
+import { useGlobalCall } from '@/components/providers/GlobalCallProvider';
 
 const CREDIT_PACKS = [
     { credits: 50, priceInr: 49, minutes: 5 },
@@ -37,8 +34,7 @@ export default function CallToMembersPage() {
     const [isLoadingOnlineMembers, setIsLoadingOnlineMembers] = useState(false);
     const [memberSearchQuery, setMemberSearchQuery] = useState('');
     const [callingTargetId, setCallingTargetId] = useState<string | null>(null);
-    const [activeMemberCall, setActiveMemberCall] = useState<any | null>(null);
-    const [activeAgoraParams, setActiveAgoraParams] = useState<any | null>(null);
+    const { initiateCall } = useGlobalCall();
 
     // Credit Recharge Modal State
     const [showRechargeModal, setShowRechargeModal] = useState(false);
@@ -118,16 +114,7 @@ export default function CallToMembersPage() {
 
         setCallingTargetId(target.id);
         try {
-            const res = await initiateMemberCallApi({
-                callerId: currentMemberId,
-                receiverId: target.id,
-            });
-
-            if (res.call) {
-                const tokenData = await fetchMemberCallToken(res.call.id, currentMemberId);
-                setActiveAgoraParams(tokenData);
-                setActiveMemberCall(res.call);
-            }
+            await initiateCall(target.id);
         } catch (err: any) {
             alert(err.message || 'Unable to place call.');
         } finally {
@@ -135,23 +122,7 @@ export default function CallToMembersPage() {
         }
     };
 
-    const handleIncomingCallAccepted = async (call: any) => {
-        if (!currentMemberId) return;
-        try {
-            const tokenData = await fetchMemberCallToken(call.id, currentMemberId);
-            setActiveAgoraParams(tokenData);
-            setActiveMemberCall(call);
-        } catch (err: any) {
-            alert(err.message || 'Failed to get voice credentials.');
-        }
-    };
-
     const handleCallClosed = async () => {
-        setActiveMemberCall(null);
-        setActiveAgoraParams(null);
-        if (checkMembershipStatus) {
-            await checkMembershipStatus();
-        }
         if (currentMemberId) {
             const res = await fetchOnlineMembersApi(currentMemberId);
             setOnlineMembers(res.members || []);
@@ -492,22 +463,7 @@ export default function CallToMembersPage() {
 
             </div>
 
-            {/* INCOMING CALL MODAL LISTENER */}
-            <MemberIncomingCallModal
-                currentUserId={currentMemberId}
-                onCallAccepted={handleIncomingCallAccepted}
-            />
 
-            {/* ACTIVE CALL ROOM */}
-            {activeMemberCall && activeAgoraParams && (
-                <MemberCallRoom
-                    call={activeMemberCall}
-                    currentUserId={currentMemberId}
-                    userCredits={credits || 0}
-                    agoraParams={activeAgoraParams}
-                    onCallClosed={handleCallClosed}
-                />
-            )}
 
             {/* RECHARGE CREDITS MODAL */}
             {showRechargeModal && (
