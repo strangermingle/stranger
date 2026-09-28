@@ -234,6 +234,66 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.7,
     },
+    {
+      url: `${BASE_URL}/board-game-nights`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/community-circles`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/outdoor-meetups`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/faq/is-it-weird-to-go-to-events-alone`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/social-coaching`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/phone-a-friend`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/latest-events`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/live-online-games/ludo`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/live-online-games/mafia`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/live-online-games/chess`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
   ];
 
   // City pages and subpages
@@ -267,6 +327,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.8,
     });
+
+    // Pune specific pages
+    if (city === 'pune') {
+      const puneSubpages = [
+        'board-game-meetups',
+        'expat-and-newcomer-meetups',
+        'things-to-do-alone-in-pune',
+        'social-scene-in-pune',
+        'trekking-and-outdoor-groups',
+        'how-to-make-friends-in-pune'
+      ];
+      puneSubpages.forEach((subpage) => {
+        cityPages.push({
+          url: `${BASE_URL}/pune/${subpage}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        });
+      });
+    }
   });
 
   // Dynamic blog posts
