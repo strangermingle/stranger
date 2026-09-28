@@ -306,7 +306,7 @@ export default function PhoneAFriendClient({ initialHosts, faqs = DEFAULT_FAQS }
   useEffect(() => {
     const interval = setInterval(() => {
       router.refresh()
-    }, 30000)
+    }, 120000)
     return () => clearInterval(interval)
   }, [router])
   // Outgoing Audio Ringtone
