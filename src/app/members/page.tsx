@@ -504,7 +504,7 @@ export default function MembersPage() {
         };
 
         loadMembers();
-        const pollInterval = setInterval(loadMembers, 20000); // 20s refresh
+        const pollInterval = setInterval(loadMembers, 120000); // 120s refresh
 
         return () => {
             clearInterval(pollInterval);

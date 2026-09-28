@@ -71,14 +71,14 @@ export default function CallToMembersPage() {
         };
 
         loadMembers();
-        const pollInterval = setInterval(loadMembers, 15000); // 15s refresh
+        const pollInterval = setInterval(loadMembers, 120000); // 120s refresh
 
         let heartbeatInterval: any = null;
         if (isCallAvailable) {
             sendHeartbeatApi(currentMemberId);
             heartbeatInterval = setInterval(() => {
                 sendHeartbeatApi(currentMemberId);
-            }, 60000);
+            }, 120000);
         }
 
         return () => {

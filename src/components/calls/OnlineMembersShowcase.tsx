@@ -48,7 +48,7 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
     };
 
     loadOnlineMembers();
-    const interval = setInterval(loadOnlineMembers, 20000);
+    const interval = setInterval(loadOnlineMembers, 120000);
     return () => {
       isMounted = false;
       clearInterval(interval);
