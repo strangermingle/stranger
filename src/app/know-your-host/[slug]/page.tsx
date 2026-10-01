@@ -305,7 +305,7 @@ export default async function HostProfilePage({ params }: Props) {
                                     <p className="text-lg text-gray-400 leading-relaxed mb-8 font-regular">
                                         Stay updated with latest events and exclusive meetup invites. Our community members get early access to limited-capacity events.
                                     </p>
-                                    <Link href="https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U" className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl active:scale-95">
+                                    <Link href="https://whatsapp.com/channel/0029Vb9NMRWAjPXTlxMj0F1K" className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl active:scale-95">
                                         Join Community
                                         <ArrowRight size={18} />
                                     </Link>

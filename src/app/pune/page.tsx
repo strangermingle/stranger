@@ -350,7 +350,10 @@ export default async function PuneCityPage() {
                                 "description": "Pune city area where Stranger Mingle hosts weekend events.",
                                 "address": {
                                     "@type": "PostalAddress",
+                                    "streetAddress": "Office No 610, Park Plaza Business Centre, Lohegaon, Porwal Road",
                                     "addressLocality": "Pune",
+                                    "addressRegion": "Maharashtra",
+                                    "postalCode": "411047",
                                     "addressCountry": "IN"
                                 }
                             },

@@ -15,7 +15,7 @@ const WhatsAppFloat = () => {
 
     if (pathname?.startsWith('/phone-a-friend') || pathname?.startsWith('/members')) return null;
 
-    const channelLink = "https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U";
+    const channelLink = "https://whatsapp.com/channel/0029Vb9NMRWAjPXTlxMj0F1K";
 
     const handleClick = () => {
         sendGAEvent({

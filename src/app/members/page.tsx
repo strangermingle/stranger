@@ -8,6 +8,8 @@ import {
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
     updateProfile,
+    linkWithCredential,
+    EmailAuthProvider,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/components/AuthProvider';
@@ -111,6 +113,14 @@ export default function MembersPage() {
     const [forgotEmail, setForgotEmail] = useState('');
     const [forgotSuccess, setForgotSuccess] = useState(false);
 
+    // Account Linking Modal (Google <-> Password)
+    const [showLinkModal, setShowLinkModal] = useState(false);
+    const [linkEmail, setLinkEmail] = useState('');
+    const [linkPassword, setLinkPassword] = useState('');
+    const [pendingGoogleCredential, setPendingGoogleCredential] = useState<any>(null);
+    const [linkingLoading, setLinkingLoading] = useState(false);
+    const [linkError, setLinkError] = useState<string | null>(null);
+
     const handleGoogleLogin = async () => {
         setAuthLoading(true);
         setError(null);
@@ -122,9 +132,46 @@ export default function MembersPage() {
             // AuthProvider will handle the redirect/status check
         } catch (err: any) {
             console.error('[Auth] Google Login Error:', err);
-            setError(err.message || 'Failed to sign in with Google');
+            if (err.code === 'auth/account-exists-with-different-credential') {
+                const pendingCred = GoogleAuthProvider.credentialFromError(err);
+                const email = (err.customData?.email as string) || loginEmail || '';
+                setPendingGoogleCredential(pendingCred);
+                setLinkEmail(email);
+                setLinkPassword('');
+                setLinkError(null);
+                setShowLinkModal(true);
+                setError(null);
+            } else {
+                setError(err.message || 'Failed to sign in with Google');
+            }
         } finally {
             setAuthLoading(false);
+        }
+    };
+
+    const handleLinkGoogleWithPassword = async (e: FormEvent) => {
+        e.preventDefault();
+        if (!linkPassword || !linkEmail || !pendingGoogleCredential) return;
+        setLinkingLoading(true);
+        setLinkError(null);
+        try {
+            // 1. Sign in with the existing email and password
+            const userCred = await signInWithEmailAndPassword(auth, linkEmail, linkPassword);
+            // 2. Link the pending Google credential to this exact user account
+            await linkWithCredential(userCred.user, pendingGoogleCredential);
+            setShowLinkModal(false);
+            setLinkPassword('');
+            setPendingGoogleCredential(null);
+            setSuccessMessage('Your Google account has been linked successfully! You can now log in using either method.');
+        } catch (err: any) {
+            console.error('[Auth] Link error:', err);
+            if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                setLinkError('Incorrect password. Please verify and try again.');
+            } else {
+                setLinkError(err.message || 'Failed to link Google account.');
+            }
+        } finally {
+            setLinkingLoading(false);
         }
     };
 
@@ -133,15 +180,28 @@ export default function MembersPage() {
         setAuthLoading(true);
         setError(null);
         setSuccessMessage(null);
+        const cleanEmail = loginEmail.trim().toLowerCase();
         try {
-            // Normalize email for consistent login
-            const cleanEmail = loginEmail.trim().toLowerCase();
             await signInWithEmailAndPassword(auth, cleanEmail, loginPassword);
             // AuthProvider will detect user and trigger status check
         } catch (err: any) {
             console.error('[Auth] Password Login Error:', err);
-            // Handle specific Firebase error codes for better UX
             if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+                // Check if account exists with Google only
+                try {
+                    const checkRes = await fetch('/api/auth/link-account', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'check-providers', email: cleanEmail }),
+                    });
+                    const checkData = await checkRes.json();
+                    if (checkData.hasGoogle && !checkData.hasPassword) {
+                        setError('This account was created with Google. Click "Continue with Google" below, or click "Forgot password?" to set a password for this account.');
+                        return;
+                    }
+                } catch (checkErr) {
+                    // Fall back to standard error message
+                }
                 setError('Invalid email or password. Please try again.');
             } else {
                 setError(err.message || 'Failed to sign in. Please check your credentials.');
@@ -164,8 +224,7 @@ export default function MembersPage() {
         setError(null);
 
         try {
-            // Call our new custom backend API instead of Firebase client SDK
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/forgot-password`, {
+            const response = await fetch('/api/auth/forgot-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: emailToReset }),
@@ -354,8 +413,7 @@ export default function MembersPage() {
                 throw new Error(data.error || "Failed to initiate membership payment");
             }
 
-            if (data.bypassed) {
-                // 100% discount, bypass Razorpay
+            const syncOrCreateUserAccount = async () => {
                 try {
                     const userCredential = await createUserWithEmailAndPassword(
                         auth,
@@ -365,10 +423,38 @@ export default function MembersPage() {
                     if (userCredential.user) {
                         await updateProfile(userCredential.user, { displayName: applyName });
                     }
-                } catch (createErr: unknown) {
-                    console.error('[Auth] Account creation error post-payment bypass:', createErr);
+                } catch (createErr: any) {
+                    console.warn('[Auth] Account already exists or creation failed, attempting link/sign-in:', createErr);
+                    if (createErr.code === 'auth/email-already-in-use') {
+                        if (auth.currentUser && auth.currentUser.email?.toLowerCase() === cleanEmail) {
+                            try {
+                                const cred = EmailAuthProvider.credential(cleanEmail, applyPassword);
+                                await linkWithCredential(auth.currentUser, cred);
+                                await updateProfile(auth.currentUser, { displayName: applyName });
+                                console.log('[Auth] Successfully linked password to existing session.');
+                            } catch (linkErr) {
+                                console.warn('[Auth] Direct credential link error:', linkErr);
+                            }
+                        } else {
+                            try {
+                                await fetch('/api/auth/link-account', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ action: 'attach-password', email: cleanEmail, password: applyPassword }),
+                                });
+                                await signInWithEmailAndPassword(auth, cleanEmail, applyPassword);
+                                console.log('[Auth] Successfully attached password and signed in.');
+                            } catch (attachErr) {
+                                console.error('[Auth] Failed to attach password to existing account:', attachErr);
+                            }
+                        }
+                    }
                 }
+            };
 
+            if (data.bypassed) {
+                // 100% discount, bypass Razorpay
+                await syncOrCreateUserAccount();
                 setShowSuccess(true);
                 await checkMembershipStatus();
                 setAuthLoading(false);
@@ -411,18 +497,7 @@ export default function MembersPage() {
                             razorpay_signature: response.razorpay_signature,
                         });
 
-                        try {
-                            const userCredential = await createUserWithEmailAndPassword(
-                                auth,
-                                cleanEmail,
-                                applyPassword
-                            );
-                            if (userCredential.user) {
-                                await updateProfile(userCredential.user, { displayName: applyName });
-                            }
-                        } catch (createErr: unknown) {
-                            console.error('[Auth] Account creation error post-payment:', createErr);
-                        }
+                        await syncOrCreateUserAccount();
 
                         setShowSuccess(true);
                         await checkMembershipStatus();
@@ -731,75 +806,30 @@ export default function MembersPage() {
                             </div>
                         </div>
 
-                        <button
-                            onClick={handleLogout}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200/70 hover:border-rose-200 text-gray-400 hover:text-rose-600 hover:bg-rose-50/50 text-xs font-light transition-all active:scale-95"
-                        >
-                            <LogOut className="w-3.5 h-3.5" />
-                            <span className="hidden sm:inline">Logout</span>
-                        </button>
+                        <div className="flex items-center gap-2 shrink-0">
+                            {/* 1) ICON-BASED CREDIT BALANCE (REPLACES BULKY ROW) */}
+                            <button
+                                onClick={() => setShowRechargeModal(true)}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50/90 hover:bg-amber-100 border border-amber-200/80 text-amber-900 text-xs font-medium transition-all active:scale-95 shadow-xs group"
+                                title="Call Credits Balance - Click to add credits"
+                            >
+                                <span className="text-base leading-none">🪙</span>
+                                <span className="font-semibold text-amber-900 text-xs sm:text-sm">{credits || 0}</span>
+                                <span className="text-[10px] text-amber-700 font-normal hidden sm:inline">credits</span>
+                                <span className="w-4 h-4 rounded-full bg-amber-200/80 text-amber-800 flex items-center justify-center text-[10px] font-bold group-hover:bg-amber-300 transition-colors leading-none ml-0.5">+</span>
+                            </button>
+
+                            <button
+                                onClick={handleLogout}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200/70 hover:border-rose-200 text-gray-400 hover:text-rose-600 hover:bg-rose-50/50 text-xs font-light transition-all active:scale-95"
+                            >
+                                <LogOut className="w-3.5 h-3.5" />
+                                <span className="hidden sm:inline">Logout</span>
+                            </button>
+                        </div>
                     </header>
 
-                    {/* CREDITS WALLET (SLIM CARD) */}
-                    <div className="bg-white rounded-2xl border border-gray-200/70 p-4 shadow-sm flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-lg">
-                                🪙
-                            </div>
-                            <div>
-                                <span className="text-[10px] text-gray-400 uppercase tracking-wider font-light leading-none block mb-0.5">
-                                    Call Credits Balance
-                                </span>
-                                <span className="text-sm font-medium text-gray-900 flex items-center gap-1.5">
-                                    <b className="font-semibold text-amber-600 text-base">{credits || 0}</b>
-                                    <span className="text-xs text-gray-400 font-light">credits</span>
-                                </span>
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={() => setShowRechargeModal(true)}
-                            className="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 text-emerald-700 text-xs font-medium transition-all active:scale-95 shadow-sm"
-                        >
-                            + Add Credits
-                        </button>
-                    </div>
-
-                    {/* CALL TO MEMBERS - DEDICATED PROMINENT CARD (NO BULKY INLINE LIST) */}
-                    <Link
-                        href="/members/calls"
-                        className="block p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-white border border-emerald-200/80 hover:border-emerald-300 transition-all shadow-none hover:shadow-sm group"
-                    >
-                        <div className="flex items-center justify-between gap-3">
-                            <div className="flex items-center gap-3.5 min-w-0">
-                                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-md shadow-emerald-500/20 shrink-0">
-                                    <PhoneCall className="w-5 h-5 sm:w-6 sm:h-6" />
-                                </div>
-                                <div className="min-w-0">
-                                    <div className="flex items-center gap-2">
-                                        <h2 className="text-sm sm:text-base font-medium text-gray-900 group-hover:text-emerald-700 transition-colors">
-                                            Call to Members
-                                        </h2>
-                                        <span className="text-[10px] text-emerald-700 bg-emerald-100/70 border border-emerald-200 px-2 py-0.5 rounded-full font-light">
-                                            1-on-1 private calling
-                                        </span>
-                                    </div>
-                                    <p className="text-xs text-gray-500 font-light mt-0.5">
-                                        10 credits / min • Answering is free • <span className="text-emerald-600 font-normal">{onlineMembers.length} members online now</span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500 group-hover:bg-emerald-600 text-white text-xs font-normal shadow-sm shadow-emerald-500/20 transition-all">
-                                <span>Start Call</span>
-                                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                            </div>
-                        </div>
-                    </Link>
-
-                    <OnlineMembersShowcase maxDisplay={6} className="mt-4 px-0" />
-
-                    {/* APP SECTIONS: SLIM, SLEEK 5-GRID */}
+                    {/* 2) 5 APP ICONS/SECTIONS SHIFTED JUST BELOW CREDIT BALANCE */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                         {[
                             {
@@ -856,6 +886,41 @@ export default function MembersPage() {
                             </Link>
                         ))}
                     </div>
+
+                    {/* CALL TO MEMBERS - DEDICATED PROMINENT CARD */}
+                    <Link
+                        href="/members/calls"
+                        className="block p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-white border border-emerald-200/80 hover:border-emerald-300 transition-all shadow-none hover:shadow-sm group"
+                    >
+                        <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-3.5 min-w-0">
+                                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-md shadow-emerald-500/20 shrink-0">
+                                    <PhoneCall className="w-5 h-5 sm:w-6 sm:h-6" />
+                                </div>
+                                <div className="min-w-0">
+                                    <div className="flex items-center gap-2">
+                                        <h2 className="text-sm sm:text-base font-medium text-gray-900 group-hover:text-emerald-700 transition-colors">
+                                            Call to Members
+                                        </h2>
+                                        <span className="text-[10px] text-emerald-700 bg-emerald-100/70 border border-emerald-200 px-2 py-0.5 rounded-full font-light">
+                                            1-on-1 private calling
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-gray-500 font-light mt-0.5">
+                                        10 credits / min • Answering is free • <span className="text-emerald-600 font-normal">{onlineMembers.length} members online now</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500 group-hover:bg-emerald-600 text-white text-xs font-normal shadow-sm shadow-emerald-500/20 transition-all">
+                                <span>Start Call</span>
+                                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* ACTIVE ONLINE MEMBERS SHOWCASE */}
+                    <OnlineMembersShowcase maxDisplay={6} className="mt-4 px-0" />
 
                 </div>
 
@@ -1410,6 +1475,86 @@ export default function MembersPage() {
                                     </div>
                                 </form>
                             )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ACCOUNT LINKING MODAL (Google <-> Password) */}
+            {showLinkModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-0">
+                    <div
+                        className="absolute inset-0 bg-black/60 backdrop-blur-md animate-in fade-in"
+                        onClick={() => setShowLinkModal(false)}
+                    />
+                    <div className="relative w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 fade-in slide-in-from-bottom-10">
+                        <div className="p-8 space-y-6">
+                            <div className="text-center space-y-2">
+                                <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                                    <Shield className="w-8 h-8 text-blue-600" />
+                                </div>
+                                <h3 className="text-xl font-black text-gray-900 tracking-tight">Link Your Account</h3>
+                                <p className="text-xs text-gray-500 font-medium px-2 leading-relaxed">
+                                    An existing account was found for <strong className="text-gray-900 font-bold">{linkEmail}</strong>. Enter your password once to securely link Google login to your account.
+                                </p>
+                            </div>
+
+                            <form onSubmit={handleLinkGoogleWithPassword} className="space-y-4 animate-in slide-in-from-bottom-4">
+                                {linkError && (
+                                    <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-3 text-red-600 text-xs font-bold shadow-sm">
+                                        <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                                        <span className="leading-tight">{linkError}</span>
+                                    </div>
+                                )}
+
+                                <div className="space-y-1">
+                                    <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider pl-1">
+                                        Account Password
+                                    </label>
+                                    <div className="relative">
+                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        <input
+                                            type="password"
+                                            value={linkPassword}
+                                            onChange={e => setLinkPassword(e.target.value)}
+                                            required
+                                            placeholder="Enter your password"
+                                            className="w-full pl-11 pr-5 py-3.5 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-yellow-400 outline-none transition-all font-medium text-sm text-gray-900"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-between items-center text-xs px-1">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setShowLinkModal(false);
+                                            setForgotEmail(linkEmail);
+                                            setShowForgotModal(true);
+                                        }}
+                                        className="text-gray-400 hover:text-gray-700 underline font-medium"
+                                    >
+                                        Forgot password?
+                                    </button>
+                                </div>
+
+                                <div className="flex gap-3 pt-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowLinkModal(false)}
+                                        className="flex-1 py-3.5 bg-gray-50 text-gray-500 font-bold rounded-2xl hover:bg-gray-100 transition-all text-xs"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={linkingLoading || !linkPassword}
+                                        className="flex-[2] py-3.5 bg-yellow-400 text-black font-black rounded-2xl flex items-center justify-center gap-2 hover:bg-yellow-500 shadow-md shadow-yellow-200 transition-all text-xs active:scale-95 disabled:opacity-50"
+                                    >
+                                        {linkingLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Link & Continue'}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -108,7 +108,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, isJoined, isOwned, 
                     <div className="flex items-center gap-1">
                         <User className="w-3 h-3 text-purple-500" />
                         <span>
-                            by {group.owner?.username || 'Member'}
+                            by {group.owner?.anonymous_alias || group.owner?.username || 'Member'}
                         </span>
                     </div>
                 </div>

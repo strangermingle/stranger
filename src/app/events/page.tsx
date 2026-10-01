@@ -311,9 +311,19 @@ export default async function EventsPage() {
                                         "@type": "ImageObject",
                                         "url": "https://www.strangermingle.com/logo.png"
                                     },
+                                    "address": {
+                                        "@type": "PostalAddress",
+                                        "streetAddress": "Office No 610, Park Plaza Business Centre, Lohegaon, Porwal Road",
+                                        "addressLocality": "Pune",
+                                        "addressRegion": "Maharashtra",
+                                        "postalCode": "411047",
+                                        "addressCountry": "IN"
+                                    },
                                     "contactPoint": {
                                         "@type": "ContactPoint",
                                         "contactType": "Customer Service",
+                                        "telephone": "+91-7385531551",
+                                        "email": "strangermingleteam@gmail.com",
                                         "availableLanguage": ["English", "Hindi"]
                                     },
                                     "aggregateRating": {

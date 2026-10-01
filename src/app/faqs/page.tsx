@@ -439,16 +439,41 @@ export default function FAQs() {
                         "url": "https://www.strangermingle.com",
                         "logo": "https://www.strangermingle.com/logo.png",
                         "description": "Stranger Mingle helps people make genuine friendships through organized weekend events across Indian cities. We create safe spaces for meaningful connections beyond class, caste, and background.",
+                        "telephone": "+91-7385531551",
+                        "address": {
+                            "@type": "PostalAddress",
+                            "streetAddress": "Office No 610, Park Plaza Business Centre, Lohegaon, Porwal Road",
+                            "addressLocality": "Pune",
+                            "addressRegion": "Maharashtra",
+                            "postalCode": "411047",
+                            "addressCountry": "IN"
+                        },
+                        "openingHoursSpecification": [
+                            {
+                                "@type": "OpeningHoursSpecification",
+                                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                                "opens": "10:00",
+                                "closes": "17:00"
+                            }
+                        ],
                         "sameAs": [
                             "https://www.facebook.com/strangermingle",
                             "https://www.instagram.com/strangermingle",
-                            "https://twitter.com/strangermingle"
+                            "https://x.com/strangermingle",
+                            "https://whatsapp.com/channel/0029Vb9NMRWAjPXTlxMj0F1K"
                         ],
                         "contactPoint": {
                             "@type": "ContactPoint",
                             "contactType": "Customer Support",
+                            "telephone": "+91-7385531551",
                             "email": "strangermingleteam@gmail.com",
-                            "availableLanguage": ["English", "Hindi"]
+                            "availableLanguage": ["English", "Hindi"],
+                            "hoursAvailable": {
+                                "@type": "OpeningHoursSpecification",
+                                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                                "opens": "10:00",
+                                "closes": "17:00"
+                            }
                         }
                     })
                 }}

@@ -26,9 +26,9 @@ export default function SocialMediaQRSection() {
           <p className="text-xl text-gray-600 max-w-xl mb-8 leading-relaxed">
             Be the first to know about new meetups, weekend events, and exclusive community news. Join our official channels.
           </p>
-          <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
+            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
             <a
-              href="https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U"
+              href="https://whatsapp.com/channel/0029Vb9NMRWAjPXTlxMj0F1K"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackClick('WhatsApp Join Button')}
@@ -44,7 +44,7 @@ export default function SocialMediaQRSection() {
           {/* WhatsApp */}
           <div className="relative group p-2 bg-white rounded-2xl shadow-xl border border-gray-100 transition-transform hover:-translate-y-2">
             <a
-              href="https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U"
+              href="https://whatsapp.com/channel/0029Vb9NMRWAjPXTlxMj0F1K"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackClick('WhatsApp')}
@@ -53,7 +53,7 @@ export default function SocialMediaQRSection() {
               <div className="absolute -inset-1 bg-linear-to-r from-green-400 to-green-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
               <div className="relative bg-white rounded-xl overflow-hidden aspect-square">
                 <Image sizes="(max-width: 480px) 50vw, 224px"
-                  src="/whatsapp.jpg"
+                  src="/whatsapp-01.jpg"
                   alt="WhatsApp Channel QR Code"
                   fill
                   className="object-cover p-1"

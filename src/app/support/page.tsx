@@ -164,7 +164,7 @@ export default function SupportPage() {
                                             onChange={(e) => setPhone(e.target.value)}
                                             required
                                             className="w-full px-6 py-4 bg-white border border-gray-100 rounded-2xl focus:border-red-400 focus:ring-4 focus:ring-red-400/10 transition-all outline-none font-regular"
-                                            placeholder="7411820025"
+                                            placeholder="7385531551"
                                         />
                                     </div>
 

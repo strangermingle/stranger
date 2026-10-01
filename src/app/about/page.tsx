@@ -344,9 +344,28 @@ export default function About() {
                                 "mainEntity": {
                                     "@type": "Organization",
                                     "name": "Stranger Mingle",
+                                    "url": "https://www.strangermingle.com",
+                                    "telephone": "+91-7385531551",
+                                    "email": "strangermingleteam@gmail.com",
+                                    "address": {
+                                        "@type": "PostalAddress",
+                                        "streetAddress": "Office No 610, Park Plaza Business Centre, Lohegaon, Porwal Road",
+                                        "addressLocality": "Pune",
+                                        "addressRegion": "Maharashtra",
+                                        "postalCode": "411047",
+                                        "addressCountry": "IN"
+                                    },
                                     "foundingLocation": {
                                         "@type": "Place",
-                                        "name": "Pune, India"
+                                        "name": "Pune, India",
+                                        "address": {
+                                            "@type": "PostalAddress",
+                                            "streetAddress": "Office No 610, Park Plaza Business Centre, Lohegaon, Porwal Road",
+                                            "addressLocality": "Pune",
+                                            "addressRegion": "Maharashtra",
+                                            "postalCode": "411047",
+                                            "addressCountry": "IN"
+                                        }
                                     }
                                 }
                             }

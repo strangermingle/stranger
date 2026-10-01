@@ -354,7 +354,7 @@ export default function ChatPage() {
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500" />
                                     <input 
                                         type="text" 
-                                        placeholder="Search members by name..." 
+                                        placeholder="Search members by Stranger ID..." 
                                         className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-700 font-light"
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -362,7 +362,7 @@ export default function ChatPage() {
                                 </div>
                                 <div className="text-[10px] text-zinc-500 font-light uppercase tracking-wider px-1">Available Members</div>
                                 {availableMembers
-                                    .filter(m => m.anonymous_alias.toLowerCase().includes(searchQuery.toLowerCase()))
+                                    .filter(m => (m.anonymous_alias || '').toLowerCase().includes(searchQuery.toLowerCase()))
                                     .map(member => (
                                     <button 
                                         key={member.id}
@@ -373,7 +373,7 @@ export default function ChatPage() {
                                             <UserIcon className="w-4 h-4 text-zinc-400" />
                                         </div>
                                         <div className="min-w-0">
-                                            <div className="text-xs font-medium text-white truncate">{member.anonymous_alias}</div>
+                                            <div className="text-xs font-medium text-white truncate">{member.anonymous_alias || 'Stranger Member'}</div>
                                             <div className="text-[10px] text-emerald-400 font-light">Verified Member</div>
                                         </div>
                                     </button>

@@ -341,7 +341,7 @@ export default function CallToMembersPage() {
                             type="text"
                             value={memberSearchQuery}
                             onChange={(e) => setMemberSearchQuery(e.target.value)}
-                            placeholder="Search online members by name..."
+                            placeholder="Search online members by Stranger ID..."
                             className="w-full text-xs font-light pl-8 pr-3 py-2 rounded-xl border border-gray-200/80 bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-400"
                         />
                     </div>

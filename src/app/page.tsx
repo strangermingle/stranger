@@ -534,11 +534,32 @@ export default async function Home() {
                 "url": "https://www.strangermingle.com",
                 "logo": "https://www.strangermingle.com/logo.png",
                 "description": "Stranger Mingle organizes weekend events and meetups in India for people to make real friends.",
+                "telephone": "+91-7385531551",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "Office No 610, Park Plaza Business Centre, Lohegaon, Porwal Road",
+                  "addressLocality": "Pune",
+                  "addressRegion": "Maharashtra",
+                  "postalCode": "411047",
+                  "addressCountry": "IN"
+                },
+                "openingHoursSpecification": [
+                  {
+                    "@type": "OpeningHoursSpecification",
+                    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                    "opens": "10:00",
+                    "closes": "17:00"
+                  }
+                ],
                 "location": {
                   "@type": "Place",
                   "name": "Stranger Mingle HQ",
                   "address": {
                     "@type": "PostalAddress",
+                    "streetAddress": "Office No 610, Park Plaza Business Centre, Lohegaon, Porwal Road",
+                    "addressLocality": "Pune",
+                    "addressRegion": "Maharashtra",
+                    "postalCode": "411047",
                     "addressCountry": "IN"
                   }
                 },

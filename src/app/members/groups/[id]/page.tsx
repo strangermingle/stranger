@@ -210,11 +210,11 @@ export default function GroupLoungePage() {
                                     {group.owner?.avatar_url ? (
                                         <img src={group.owner.avatar_url} className="w-full h-full object-cover" />
                                     ) : (
-                                        <span className="text-xl font-black uppercase">{group.owner?.username?.charAt(0)}</span>
+                                        <span className="text-xl font-black uppercase">{(group.owner?.anonymous_alias || group.owner?.username || 'S').charAt(0)}</span>
                                     )}
                                 </div>
                                 <div>
-                                    <div className="font-black text-gray-900">{group.owner?.username}</div>
+                                    <div className="font-black text-gray-900">{group.owner?.anonymous_alias || group.owner?.username || 'Founder'}</div>
                                     <div className="text-[10px] font-black text-indigo-600 uppercase tracking-widest flex items-center gap-1">
                                         <Globe className="w-3 h-3" />
                                         Founder

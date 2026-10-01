@@ -278,7 +278,20 @@
     }
   ],
   "social_channels": {
-    "whatsapp_channel": "https://whatsapp.com/channel/0029Vb6lxh0L7UVX9VPXiM3U"
+    "whatsapp_channel": "https://whatsapp.com/channel/0029Vb9NMRWAjPXTlxMj0F1K"
+  },
+  "contact_info": {
+    "email": "strangermingleteam@gmail.com",
+    "whatsapp": "+91 73855 31551",
+    "phone": "+91-7385531551",
+    "office_timing": "Monday to Friday, 10:00 AM - 5:00 PM IST",
+    "official_address": {
+      "street": "Office No 610, Park Plaza Business Centre, Lohegaon, Porwal Road",
+      "city": "Pune",
+      "state": "Maharashtra",
+      "postal_code": "411047",
+      "country": "India"
+    }
   },
   "pages": {
     "home": "https://www.strangermingle.com/",

@@ -126,24 +126,43 @@ export default function RootLayout({
                   "url": "https://www.strangermingle.com",
                   "logo": "https://www.strangermingle.com/logo.png",
                   "description": "India's most active community for making friends through weekend stranger meetups and local events.",
+                  "telephone": "+91-7385531551",
                   "address": {
                     "@type": "PostalAddress",
+                    "streetAddress": "Office No 610, Park Plaza Business Centre, Lohegaon, Porwal Road",
                     "addressLocality": "Pune",
                     "addressRegion": "Maharashtra",
+                    "postalCode": "411047",
                     "addressCountry": "IN"
                   },
+                  "openingHoursSpecification": [
+                    {
+                      "@type": "OpeningHoursSpecification",
+                      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                      "opens": "10:00",
+                      "closes": "17:00"
+                    }
+                  ],
                   "contactPoint": {
                     "@type": "ContactPoint",
                     "contactType": "Customer Support",
+                    "telephone": "+91-7385531551",
                     "email": "strangermingleteam@gmail.com",
-                    "availableLanguage": ["English", "Hindi"]
+                    "availableLanguage": ["English", "Hindi"],
+                    "hoursAvailable": {
+                      "@type": "OpeningHoursSpecification",
+                      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                      "opens": "10:00",
+                      "closes": "17:00"
+                    }
                   },
                   "sameAs": [
                     "https://www.instagram.com/strangermingle/",
                     "https://www.youtube.com/@strangermingle",
                     "https://x.com/strangermingle",
                     "https://www.linkedin.com/company/strangermingle",
-                    "https://www.facebook.com/strangermingle"
+                    "https://www.facebook.com/strangermingle",
+                    "https://whatsapp.com/channel/0029Vb9NMRWAjPXTlxMj0F1K"
                   ]
                 }
               ]
