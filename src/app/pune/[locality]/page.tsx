@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { getEventsByCity } from "@/lib/events";
 import EventCard from "@/components/EventCard";
 import SponsoredAds from "@/components/SponsoredAds";
+import FacebookGroupCTA from "@/components/FacebookGroupCTA";
+import SocialMediaQRSection from "@/components/SocialMediaQRSection";
 import { puneLocalities } from "@/data/puneLocalities";
 import { MapPin, Users, Calendar, ArrowRight, ShieldCheck } from "lucide-react";
 
@@ -193,6 +195,26 @@ export default async function LocalityPage({ params }: { params: Promise<{ local
               </section>
             )}
 
+            {/* Explore Other Areas (Interlinking) */}
+            <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-12">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                Explore Events in Other Pune Areas
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {Object.keys(puneLocalities)
+                  .filter((slug) => slug !== locality)
+                  .map((slug) => (
+                    <Link
+                      key={slug}
+                      href={`/pune/${slug}`}
+                      className="px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 rounded-full text-sm font-medium transition-colors"
+                    >
+                      {puneLocalities[slug].name}
+                    </Link>
+                  ))}
+              </div>
+            </section>
+
           </main>
 
           {/* Sidebar */}
@@ -203,6 +225,11 @@ export default async function LocalityPage({ params }: { params: Promise<{ local
           </aside>
 
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto w-full px-4 mb-20 space-y-12">
+        <FacebookGroupCTA />
+        <SocialMediaQRSection />
       </div>
 
       {/* Structured Data for LocalBusiness & FAQ */}

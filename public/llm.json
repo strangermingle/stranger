@@ -317,6 +317,23 @@
     "bangalore": "https://www.strangermingle.com/bangalore",
     "hyderabad": "https://www.strangermingle.com/hyderabad"
   },
+  "pune_localities": {
+    "koregaon_park": "https://www.strangermingle.com/pune/koregaon-park",
+    "baner": "https://www.strangermingle.com/pune/baner",
+    "viman_nagar": "https://www.strangermingle.com/pune/viman-nagar",
+    "hinjewadi": "https://www.strangermingle.com/pune/hinjewadi",
+    "kharadi": "https://www.strangermingle.com/pune/kharadi",
+    "kothrud": "https://www.strangermingle.com/pune/kothrud",
+    "kalyani_nagar": "https://www.strangermingle.com/pune/kalyani-nagar",
+    "wakad": "https://www.strangermingle.com/pune/wakad",
+    "magarpatta": "https://www.strangermingle.com/pune/magarpatta",
+    "aundh": "https://www.strangermingle.com/pune/aundh",
+    "camp": "https://www.strangermingle.com/pune/camp",
+    "deccan_gymkhana": "https://www.strangermingle.com/pune/deccan-gymkhana",
+    "lohegaon": "https://www.strangermingle.com/pune/lohegaon",
+    "swargate": "https://www.strangermingle.com/pune/swargate",
+    "sadashiv_peth": "https://www.strangermingle.com/pune/sadashiv-peth"
+  },
   "organization": {
     "legal_name": "Salty Media Production (opc) Pvt Ltd",
     "brand_name": "Stranger Mingle",
