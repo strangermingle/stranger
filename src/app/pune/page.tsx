@@ -35,6 +35,8 @@ export const metadata: Metadata = {
     },
 };
 
+import { puneLocalities } from "@/data/puneLocalities";
+
 export default async function PuneCityPage() {
     const cityEvents = await getEventsByCity("Pune");
     const allPosts = getAllPosts(['slug', 'title', 'date', 'author', 'image', 'excerpt', 'tags']);
@@ -46,12 +48,12 @@ export default async function PuneCityPage() {
         (post.tags as string[])?.some((tag: string) => tag.toLowerCase() === 'pune')
     ).slice(0, 3);
 
-    const popularAreas = [
-        { name: "Viman Nagar", description: "Home to students and young professionals near the airport." },
-        { name: "Koregaon Park", description: "The cultural and nightlife hub of Pune." },
-        { name: "Baner / Balewadi", description: "The upscale residential and IT corridor." },
-        { name: "Hinjewadi", description: "The massive IT hub where most young Punekars work." }
-    ];
+    // Using imported localities for display
+    const popularAreas = Object.entries(puneLocalities).slice(0, 4).map(([slug, data]) => ({
+        name: data.name,
+        slug: slug,
+        description: data.vibe
+    }));
 
     return (
         <div className="min-h-screen bg-white selection:bg-blue-500/30">
@@ -152,15 +154,17 @@ export default async function PuneCityPage() {
                             </p>
                             <div className="grid sm:grid-cols-2 gap-6">
                                 {popularAreas.map((area) => (
-                                    <div key={area.name} className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                                    <Link href={`/pune/${area.slug}`} key={area.name} className="block group p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/15 transition-all hover:scale-105">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <MapPin className="w-5 h-5 text-blue-400" />
-                                            <h3 className="font-bold text-lg text-green-300">{area.name}</h3>
+                                            <MapPin className="w-5 h-5 text-blue-400 group-hover:text-blue-300" />
+                                            <h3 className="font-bold text-lg text-green-300 group-hover:text-green-200 flex items-center gap-2">
+                                                {area.name} <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            </h3>
                                         </div>
-                                        <p className="text-sm text-yellow-100 leading-relaxed">
+                                        <p className="text-sm text-yellow-100/80 leading-relaxed group-hover:text-yellow-100">
                                             {area.description}
                                         </p>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                         </div>
@@ -244,12 +248,15 @@ export default async function PuneCityPage() {
                         </ul>
                     </div>
                     <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
-                        <h3 className="font-bold text-xl mb-6 text-pink-900">General Guides</h3>
-                        <ul className="space-y-4 font-medium">
-                            <li><Link href="/faq/is-it-weird-to-go-to-events-alone" className="text-gray-600 hover:text-pink-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-pink-400" /> Is it Weird to Go Alone?</Link></li>
-                            <li><Link href="/board-game-nights" className="text-gray-600 hover:text-pink-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-pink-400" /> Global Board Game Nights</Link></li>
-                            <li><Link href="/community-circles" className="text-gray-600 hover:text-pink-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-pink-400" /> Community Circles</Link></li>
-                            <li><Link href="/outdoor-meetups" className="text-gray-600 hover:text-pink-600 hover:underline flex items-center gap-2"><ArrowRight className="w-4 h-4 text-pink-400" /> Global Outdoor Meetups</Link></li>
+                        <h3 className="font-bold text-xl mb-6 text-pink-900">Popular Localities</h3>
+                        <ul className="space-y-4 font-medium h-48 overflow-y-auto pr-2 custom-scrollbar">
+                            {Object.entries(puneLocalities).map(([slug, data]) => (
+                                <li key={slug}>
+                                    <Link href={`/pune/${slug}`} className="text-gray-600 hover:text-pink-600 hover:underline flex items-center gap-2">
+                                        <ArrowRight className="w-4 h-4 text-pink-400" /> {data.name}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>

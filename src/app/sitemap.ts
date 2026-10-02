@@ -3,6 +3,7 @@ import { getAllPosts } from '@/lib/blog';
 import { getAllLiveEvents } from '@/lib/events';
 import { LIVE_CITIES } from '@/lib/cities';
 import { createServerClient } from '@/lib/supabaseClient';
+import { puneLocalities } from '@/data/puneLocalities';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.strangermingle.com';
 
@@ -341,6 +342,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       puneSubpages.forEach((subpage) => {
         cityPages.push({
           url: `${BASE_URL}/pune/${subpage}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        });
+      });
+
+      // Pune Localities Pages (Hyperlocal SEO)
+      Object.keys(puneLocalities).forEach((localitySlug) => {
+        cityPages.push({
+          url: `${BASE_URL}/pune/${localitySlug}`,
           lastModified: new Date(),
           changeFrequency: 'weekly',
           priority: 0.8,
