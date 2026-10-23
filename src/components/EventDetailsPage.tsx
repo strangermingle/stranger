@@ -19,7 +19,6 @@ import BookingFloat from './event/BookingFloat';
 import HostMiniCard from './event/HostMiniCard';
 import SponsoredAd from './ads/SponsoredAd';
 import MembershipAd from './ads/MembershipAd';
-import SidebarVideoAd from './ads/SidebarVideoAd';
 
 // Lazy loaded components (below the fold)
 const EventComments = dynamic(() => import('./event/EventComments'), { ssr: true });
@@ -406,7 +405,7 @@ export default function EventDetailsPage({ event }: EventDetailsPageProps) {
                             {/* Sidebar Ads */}
                             <SponsoredAd />
                             <MembershipAd />
-                            <SidebarVideoAd />
+
                         </div>
                     </div>
                 </div>

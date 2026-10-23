@@ -6,7 +6,6 @@ import EventCard from "@/components/EventCard";
 import UpcomingExperiences from "@/components/event/UpcomingExperiences";
 import SponsoredAd from "@/components/ads/SponsoredAd";
 import MembershipAd from "@/components/ads/MembershipAd";
-import SidebarVideoAd from "@/components/ads/SidebarVideoAd";
 
 export const revalidate = 3600;
 
@@ -217,9 +216,8 @@ export default async function EventsPage() {
                                     </li>
                                 </ul>
                             </div>
-
-                            <SidebarVideoAd />
                         </div>
+
                     </aside>
                 </div>
             </main>

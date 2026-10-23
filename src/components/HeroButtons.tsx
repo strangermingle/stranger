@@ -2,6 +2,7 @@
 
 import { sendGAEvent } from "@/lib/gtag";
 import Link from 'next/link';
+import { LogIn } from 'lucide-react';
 
 export default function HeroButtons() {
     const handleEventsClick = () => {
@@ -12,11 +13,11 @@ export default function HeroButtons() {
         });
     };
 
-    const handleAboutClick = () => {
+    const handleMembersLoginClick = () => {
         sendGAEvent({
-            action: 'host_application_click',
+            action: 'members_login_click',
             category: 'homepage_cta',
-            label: 'Host Application'
+            label: 'Members Login'
         });
     };
 
@@ -30,12 +31,14 @@ export default function HeroButtons() {
                 Upcoming Events
             </Link>
             <Link
-                href="/phone-a-friend"
-                onClick={handleAboutClick}
-                className="px-8 py-4 bg-indigo-500 backdrop-blur-sm hover:bg-emerald-500 text-white border border-white/20 rounded-xl font-bold text-lg transition-all hover:scale-105 w-fit"
+                href="/members/login"
+                onClick={handleMembersLoginClick}
+                className="px-8 py-4 bg-indigo-600 backdrop-blur-sm hover:bg-indigo-500 text-white border border-white/20 rounded-xl font-bold text-lg transition-all hover:scale-105 w-fit flex items-center justify-center gap-2"
             >
-                Friends On-Call
+                <LogIn size={20} />
+                Members Login
             </Link>
         </div>
     );
 }
+
