@@ -28,6 +28,7 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
   const router = useRouter();
   const { user, isMember, isMemberVerified } = useAuth();
   const [members, setMembers] = useState<OnlineMember[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
         const list = Array.isArray(res) ? res : (res?.members || []);
         if (isMounted) {
           setMembers(list);
+          setTotalCount(typeof res?.totalCount === 'number' ? res.totalCount : list.length);
           setLoading(false);
         }
       } catch (err) {
@@ -48,16 +50,20 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
     };
 
     loadOnlineMembers();
-    const interval = setInterval(loadOnlineMembers, 120000);
+    const interval = setInterval(loadOnlineMembers, 60000);
     return () => {
       isMounted = false;
       clearInterval(interval);
     };
   }, []);
 
-  const handleMemberCallClick = () => {
+  const handleMemberCallClick = (targetMember?: OnlineMember) => {
     if (user && isMember && isMemberVerified) {
-      router.push('/members/calls');
+      if (targetMember?.id) {
+        router.push(`/members/calls?target=${encodeURIComponent(targetMember.id)}`);
+      } else {
+        router.push('/members/calls');
+      }
     } else {
       router.push('/members/login');
     }
@@ -78,8 +84,8 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
             />
             <span>Active Online Members</span>
           </h3>
-          <span className="text-xs text-gray-400 font-light">
-            {displayMembers.length} available right now
+          <span className="text-xs text-emerald-400/90 font-medium bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">
+            {totalCount || displayMembers.length} online now
           </span>
         </div>
 
@@ -144,7 +150,7 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
 
                 {/* Action Button */}
                 <button
-                  onClick={handleMemberCallClick}
+                  onClick={() => handleMemberCallClick(member)}
                   className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-xs font-medium flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 active:scale-95 transition-all"
                 >
                   <Phone className="w-3.5 h-3.5 fill-white" />

@@ -83,6 +83,25 @@ export default function CallToMembersPage() {
         };
     }, [currentMemberId, isCallAvailable]);
 
+    // Handle incoming call target from URL (e.g. clicked "Call Anonymously" on dashboard)
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const params = new URLSearchParams(window.location.search);
+        const targetId = params.get('target');
+        if (targetId && currentMemberId && !callingTargetId && (credits || 0) >= 10) {
+            setCallingTargetId(targetId);
+            initiateCall(targetId)
+                .catch((err: any) => {
+                    alert(err.message || 'Unable to place call.');
+                })
+                .finally(() => {
+                    setCallingTargetId(null);
+                    // Clear query param so refresh does not re-trigger
+                    window.history.replaceState({}, '', '/members/calls');
+                });
+        }
+    }, [currentMemberId, credits]);
+
     const handleToggleCallAvailability = async () => {
         if (!currentMemberId || isTogglingCallAvailable) return;
         setIsTogglingCallAvailable(true);

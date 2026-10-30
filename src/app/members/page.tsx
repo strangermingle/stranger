@@ -44,6 +44,7 @@ export default function MembersPage() {
 
     // Member Calling State
     const [onlineMembers, setOnlineMembers] = useState<OnlineMember[]>([]);
+    const [totalOnlineCount, setTotalOnlineCount] = useState<number>(0);
 
     // Credit Recharge Modal State
     const [showRechargeModal, setShowRechargeModal] = useState(false);
@@ -562,32 +563,38 @@ export default function MembersPage() {
 
     // Fetch Online Members and Heartbeat Interval
     useEffect(() => {
-        if (!user || !isMember || !isMemberVerified || !currentMemberId) return;
-
         const loadMembers = async () => {
             try {
-                const res = await fetchOnlineMembersApi(currentMemberId);
+                const res = await fetchOnlineMembersApi(currentMemberId || undefined);
                 const list = Array.isArray(res) ? res : (res?.members || []);
                 setOnlineMembers(list);
+                if (typeof res?.totalCount === 'number') {
+                    setTotalOnlineCount(res.totalCount);
+                } else if (list.length > 0) {
+                    setTotalOnlineCount(list.length);
+                }
             } catch (err) {
                 console.warn('[MembersPage] Error fetching online members:', err);
             }
         };
 
         loadMembers();
-        const pollInterval = setInterval(loadMembers, 120000); // 120s refresh
+        const pollInterval = setInterval(loadMembers, 60000); // 60s refresh
 
         return () => {
             clearInterval(pollInterval);
         };
-    }, [user, isMember, isMemberVerified, currentMemberId]);
+    }, [currentMemberId]);
 
     const handleCallClosed = async () => {
-        if (currentMemberId) {
-            const res = await fetchOnlineMembersApi(currentMemberId);
+        try {
+            const res = await fetchOnlineMembersApi(currentMemberId || undefined);
             const list = Array.isArray(res) ? res : (res?.members || []);
             setOnlineMembers(list);
-        }
+            if (typeof res?.totalCount === 'number') {
+                setTotalOnlineCount(res.totalCount);
+            }
+        } catch {}
     };
 
     const handleBuyCreditPack = async (pack: { credits: number; priceInr: number }) => {
@@ -836,7 +843,7 @@ export default function MembersPage() {
                                 title: 'Call to Members',
                                 desc: '1-on-1 private calling',
                                 icon: '📞',
-                                badge: `${onlineMembers.length} online`,
+                                badge: `${totalOnlineCount || onlineMembers.length} online`,
                                 href: '/members/calls',
                             },
                             {
@@ -907,7 +914,7 @@ export default function MembersPage() {
                                         </span>
                                     </div>
                                     <p className="text-xs text-gray-500 font-light mt-0.5">
-                                        10 credits / min • Answering is free • <span className="text-emerald-600 font-normal">{onlineMembers.length} members online now</span>
+                                        10 credits / min • Answering is free • <span className="text-emerald-600 font-normal">{totalOnlineCount || onlineMembers.length} members online now</span>
                                     </p>
                                 </div>
                             </div>

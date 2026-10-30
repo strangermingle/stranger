@@ -20,6 +20,7 @@ export interface OnlineMember {
 
 export interface FetchOnlineMembersResult {
   members: OnlineMember[];
+  totalCount?: number;
   selfStatus?: {
     userId: string;
     isCallAvailable: boolean;
@@ -35,8 +36,10 @@ export async function fetchOnlineMembersApi(currentUserId?: string): Promise<Fet
   });
   if (!res.ok) throw new Error('Failed to fetch online members');
   const data = await res.json();
+  const members = Array.isArray(data.members) ? data.members : [];
   return {
-    members: Array.isArray(data.members) ? data.members : [],
+    members,
+    totalCount: typeof data.totalCount === 'number' ? data.totalCount : members.length,
     selfStatus: data.selfStatus || null,
   };
 }
