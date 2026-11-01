@@ -12,16 +12,18 @@ import Link from 'next/link';
 import { callRpc } from '@/lib/rpc-client';
 import { useAuth } from '@/components/AuthProvider';
 import { EditGroupModal } from '@/components/groups/EditGroupModal';
+import { GroupChatLounge } from '@/components/groups/GroupChatLounge';
 
 export default function GroupLoungePage() {
     const { id } = useParams();
     const router = useRouter();
-    const { user } = useAuth();
+    const { user, mappedUserId } = useAuth();
     
     const [group, setGroup] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [membershipActionLoading, setMembershipActionLoading] = useState(false);
 
     const fetchGroup = useCallback(async () => {
         if (!id || id === 'undefined') {
@@ -50,6 +52,37 @@ export default function GroupLoungePage() {
     useEffect(() => {
         if (id) fetchGroup();
     }, [id, fetchGroup]);
+
+    const handleJoinGroup = async () => {
+        if (!id || membershipActionLoading) return;
+        setMembershipActionLoading(true);
+        try {
+            const result = await callRpc('groupService', 'joinGroup', [null, id]);
+            if (result && result.success) {
+                await fetchGroup();
+            }
+        } catch (err: any) {
+            console.error('[GroupLounge] Join error:', err);
+        } finally {
+            setMembershipActionLoading(false);
+        }
+    };
+
+    const handleLeaveGroup = async () => {
+        if (!id || membershipActionLoading) return;
+        if (!confirm('Are you sure you want to leave this group?')) return;
+        setMembershipActionLoading(true);
+        try {
+            const result = await callRpc('groupService', 'leaveGroup', [null, id]);
+            if (result && result.success) {
+                await fetchGroup();
+            }
+        } catch (err: any) {
+            console.error('[GroupLounge] Leave error:', err);
+        } finally {
+            setMembershipActionLoading(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -137,15 +170,38 @@ export default function GroupLoungePage() {
                                     </div>
                                 </div>
 
-                                {group.is_owner && (
-                                    <button 
-                                        onClick={() => setShowEditModal(true)}
-                                        className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all w-full md:w-auto justify-center"
-                                    >
-                                        <Settings className="w-4 h-4" />
-                                        Manage Group
-                                    </button>
-                                )}
+                                <div className="flex items-center gap-3 w-full md:w-auto">
+                                    {group.is_owner ? (
+                                        <button 
+                                            onClick={() => setShowEditModal(true)}
+                                            className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all w-full md:w-auto justify-center"
+                                        >
+                                            <Settings className="w-4 h-4" />
+                                            Manage Group
+                                        </button>
+                                    ) : group.is_joined ? (
+                                        <button 
+                                            onClick={handleLeaveGroup}
+                                            disabled={membershipActionLoading}
+                                            className="flex items-center gap-2 px-6 py-3 bg-red-50 text-red-600 border border-red-200 rounded-2xl font-black text-sm hover:bg-red-100 transition-all w-full md:w-auto justify-center disabled:opacity-50"
+                                        >
+                                            {membershipActionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Leave Group'}
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            onClick={handleJoinGroup}
+                                            disabled={membershipActionLoading}
+                                            className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all w-full md:w-auto justify-center disabled:opacity-50"
+                                        >
+                                            {membershipActionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+                                                <>
+                                                    <Users className="w-4 h-4" />
+                                                    Join Group
+                                                </>
+                                            )}
+                                        </button>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="prose prose-indigo max-w-none">
@@ -188,16 +244,14 @@ export default function GroupLoungePage() {
                             </div>
                         </div>
 
-                        {/* Social Interaction Placeholder */}
-                        <div className="bg-white rounded-[3rem] p-12 shadow-xl shadow-indigo-100/50 border border-white text-center">
-                            <div className="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <Shield className="w-10 h-10" />
-                            </div>
-                            <h2 className="text-3xl font-black text-gray-900 mb-2">Lounge Chat Coming Soon</h2>
-                            <p className="text-gray-500 font-medium max-w-sm mx-auto">
-                                We're preparing a private encrypted channel for {group.name} members. Stay tuned for real-time anonymous matches.
-                            </p>
-                        </div>
+                        {/* Group Chat Lounge */}
+                        <GroupChatLounge 
+                            groupId={group.id}
+                            groupName={group.name}
+                            isMember={Boolean(group.is_joined || group.is_owner)}
+                            currentUserId={mappedUserId}
+                            onJoinGroup={handleJoinGroup}
+                        />
                     </div>
 
                     {/* Sidebar */}
