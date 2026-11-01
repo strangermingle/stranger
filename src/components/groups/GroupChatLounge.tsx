@@ -126,10 +126,10 @@ export function GroupChatLounge({
 
         channelRef.current = channel;
 
-        // Polling fallback every 4 seconds to guarantee syncing
+        // Polling fallback every 10 seconds as a secondary sync alongside Supabase Realtime
         pollingTimer.current = setInterval(() => {
             fetchMessages(false);
-        }, 4000);
+        }, 10000);
 
         return () => {
             if (channelRef.current) {
