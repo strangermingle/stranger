@@ -105,6 +105,25 @@ export default function MemberCallRoom({
     return () => clearInterval(interval)
   }, [isCallAccepted, currentCall.started_at, maxAllowedSeconds, isCaller, isEnding])
 
+  // Ringing timeout: if call is not accepted within 45 seconds, caller automatically cancels
+  useEffect(() => {
+    if (isCallAccepted || !isCaller) return
+
+    const ringTimeout = setTimeout(async () => {
+      try {
+        await leaveCall()
+        const { cancelMemberCallApi } = await import('@/lib/memberCallService')
+        await cancelMemberCallApi(call.id, currentUserId)
+      } catch (err) {
+        console.warn('[MemberCallRoom] Failed to auto-cancel ringing call:', err)
+      } finally {
+        onCallClosed()
+      }
+    }, 45000)
+
+    return () => clearTimeout(ringTimeout)
+  }, [isCallAccepted, isCaller, call.id, currentUserId, leaveCall, onCallClosed])
+
   // Remote call status listener (listens for acceptance, cancellation, and hangup)
   useEffect(() => {
     if (!call?.id) return
