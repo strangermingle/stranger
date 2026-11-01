@@ -71,6 +71,8 @@ export default function Footer() {
         {
             title: "Resources",
             links: [
+                { name: "Anonymous Chat in India", href: "/annonymous-chat-in-india-with-real-people", highlight: true },
+                { name: "Member Login & Portal", href: "/members?mode=login" },
                 { name: "Contact Us", href: "/contact" },
                 { name: "Success Stories", href: "/success-stories" },
                 { name: "Testimonials", href: "/testimonials" },

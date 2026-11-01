@@ -16,7 +16,8 @@ import { useAuth } from '@/components/AuthProvider';
 import { 
     LogOut, Shield, Loader2, AlertCircle, CheckCircle, Mail, Lock, 
     MessageSquare, MapPin, Gamepad2, User, Ticket, Tag, Check, X, 
-    Sparkles, Phone, PhoneCall, Coins, ChevronRight, ArrowRight
+    Sparkles, Phone, PhoneCall, Coins, ChevronRight, ArrowRight,
+    ShieldCheck, EyeOff, HelpCircle, Users
 } from 'lucide-react';
 import Link from 'next/link';
 import NextImage from 'next/image';
@@ -52,7 +53,7 @@ export default function MembersPage() {
     const [rechargeSuccess, setRechargeSuccess] = useState<string | null>(null);
 
     // Auth mode: standard login for existing members, or new application
-    const [authMode, setAuthMode] = useState<'login' | 'apply'>('apply');
+    const [authMode, setAuthMode] = useState<'login' | 'apply'>('login');
 
     // Sync membership status on mount if user exists but status is pending
     useEffect(() => {
@@ -61,11 +62,13 @@ export default function MembersPage() {
         }
     }, [user, isMember, checkMembershipStatus]);
 
-    // Respect mode=login in URL
+    // Respect mode in URL
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
-            if (params.get('mode') === 'login') {
+            if (params.get('mode') === 'apply') {
+                setAuthMode('apply');
+            } else if (params.get('mode') === 'login') {
                 setAuthMode('login');
             }
         }
@@ -121,6 +124,14 @@ export default function MembersPage() {
     const [pendingGoogleCredential, setPendingGoogleCredential] = useState<any>(null);
     const [linkingLoading, setLinkingLoading] = useState(false);
     const [linkError, setLinkError] = useState<string | null>(null);
+
+    const scrollToAuth = (mode: 'login' | 'apply') => {
+        setAuthMode(mode);
+        setError(null);
+        if (typeof window !== 'undefined') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
 
     const handleGoogleLogin = async () => {
         setAuthLoading(true);
@@ -866,7 +877,7 @@ export default function MembersPage() {
                             },
                             {
                                 title: 'Profile',
-                                desc: 'Photo, age & details',
+                                desc: 'Photo, bio & details',
                                 icon: '👤',
                                 href: '/members/profile',
                             },
@@ -1020,63 +1031,22 @@ export default function MembersPage() {
 
     // Default Landing (Non-logged in or Non-member)
     return (
-        <div className="min-h-screen flex flex-col md:flex-row bg-white relative">
+        <div className="min-h-screen bg-white">
+            {/* Top Split Section: Login / Registration Portal & Visual Hero */}
+            <div className="min-h-screen flex flex-col md:flex-row bg-white relative">
 
-            {/* Left Side (Desktop) */}
-            <div className="relative w-full md:w-1/2 lg:w-3/5 bg-gray-900 overflow-hidden min-h-screen flex flex-col justify-end">
-                <NextImage
-                    src="https://res.cloudinary.com/strangermingle/image/upload/v1774261273/full-shot-friends-with-fireworks_tijjpi.jpg"
-                    alt="Stranger Mingle Premium"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                    className="object-cover opacity-60 scale-105"
-                    priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                {/* Login & Registration Portal (Displays first on mobile, right side on desktop) */}
+                <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col items-center justify-center p-4 sm:p-6 lg:p-12 bg-gray-50/50 backdrop-blur-sm relative min-h-screen overflow-y-auto order-1 md:order-2">
+                    <div className="w-full max-w-sm mt-8 space-y-6">
 
-                <div className="relative z-10 w-full p-8 lg:p-24 flex flex-col h-full justify-end">
-                    <div className="mb-6">
-                        <span className="px-4 py-1.5 bg-yellow-400 text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-full inline-block">
-                            Members only dashboard
-                        </span>
-                    </div>
-                    <h2 className="text-5xl lg:text-7xl font-Bold text-white tracking-tighter leading-none mb-8">
-                        zero fake <span className="text-yellow-400">profiles</span>
-                    </h2>
-
-                    {/* Membership Features List OVER IMAGE */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 animate-in fade-in slide-in-from-left duration-700 delay-300">
-                        {[
-                            { icon: <Phone className="w-5 h-5 text-yellow-400" />, title: 'Phone a Friend', desc: '1-on-1 confidential audio calls' },
-                            { icon: <MessageSquare className="w-5 h-5 text-yellow-400" />, title: 'Anonymous Chat', desc: 'One-on-One private messaging' },
-                            { icon: <MapPin className="w-5 h-5 text-yellow-400" />, title: 'City Activity Groups', desc: 'Turf, Trek, Cycling & Circles' },
-                            { icon: <Gamepad2 className="w-5 h-5 text-yellow-400" />, title: 'Online Live Games', desc: 'Play live games with strangers' },
-                            { icon: <User className="w-5 h-5 text-yellow-400" />, title: 'Profile Building', desc: 'Build your unique identity' },
-                            { icon: <Ticket className="w-5 h-5 text-yellow-400" />, title: 'More Coming Soon', desc: 'Be the member to unlock' }
-                        ].map((feature, idx) => (
-                            <div key={idx} className="flex items-center gap-4 group">
-                                <div className="w-10 h-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-yellow-400 shadow-xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
-                                    {feature.icon}
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-xs font-black text-white uppercase tracking-widest">{feature.title}</span>
-                                    <span className="text-[10px] text-white/80 font-medium tracking-wide">{feature.desc}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Right Side (Desktop) */}
-            <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col items-center justify-center p-4 lg:p-12 bg-gray-50/50 backdrop-blur-sm relative min-h-screen overflow-y-auto">
-                <div className="w-full max-w-sm mt-8 space-y-6">
-
-                    {/* Auth Mode Toggle & Heading */}
-                    <div className="flex flex-col items-center mb-4">
-                        <h1 className="text-3xl font-bold text-gray-900 text-center leading-none mb-4">
-                            Stranger Mingle
-                        </h1>
+                        {/* Auth Mode Toggle & Heading */}
+                        <div className="flex flex-col items-center mb-4 text-center">
+                            <h1 className="text-3xl font-black text-gray-900 tracking-tight leading-none mb-1">
+                                Stranger Mingle
+                            </h1>
+                            <p className="text-xs text-yellow-700 font-bold uppercase tracking-wider mb-4">
+                                India&apos;s Verified Anonymous Chat &amp; Social Club
+                            </p>
 
                         <div className="flex p-1 bg-gray-100 rounded-full w-full max-w-[280px]">
                             <button
@@ -1132,6 +1102,7 @@ export default function MembersPage() {
                                             value={loginEmail}
                                             onChange={e => setLoginEmail(e.target.value)}
                                             required
+                                            autoComplete="email"
                                             placeholder="Email Address"
                                             className="w-full pl-12 pr-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-yellow-400 outline-none transition-all font-medium text-sm text-gray-900"
                                         />
@@ -1143,6 +1114,7 @@ export default function MembersPage() {
                                             value={loginPassword}
                                             onChange={e => setLoginPassword(e.target.value)}
                                             required
+                                            autoComplete="current-password"
                                             placeholder="Password"
                                             className="w-full pl-12 pr-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-yellow-400 outline-none transition-all font-medium text-sm text-gray-900"
                                         />
@@ -1211,6 +1183,7 @@ export default function MembersPage() {
                                     value={applyName}
                                     onChange={e => setApplyName(e.target.value)}
                                     required
+                                    autoComplete="name"
                                     placeholder="Full Name as per ID"
                                     className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-yellow-400 outline-none transition-all font-medium text-sm text-gray-900"
                                 />
@@ -1220,6 +1193,7 @@ export default function MembersPage() {
                                     value={applyEmail}
                                     onChange={e => setApplyEmail(e.target.value)}
                                     required
+                                    autoComplete="email"
                                     placeholder="Official Email"
                                     className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-yellow-400 outline-none transition-all font-medium text-sm text-gray-900"
                                 />
@@ -1229,6 +1203,7 @@ export default function MembersPage() {
                                     value={applyPhone}
                                     onChange={e => setApplyPhone(e.target.value.replace(/\D/g, ''))}
                                     required
+                                    autoComplete="tel"
                                     placeholder="Mobile Number"
                                     className="w-full px-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-yellow-400 outline-none transition-all font-medium text-sm text-gray-900 tracking-wider"
                                 />
@@ -1240,6 +1215,7 @@ export default function MembersPage() {
                                         value={applyPassword}
                                         onChange={e => setApplyPassword(e.target.value)}
                                         required
+                                        autoComplete="new-password"
                                         placeholder="Create Password"
                                         className="w-full pl-12 pr-5 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-yellow-400 outline-none transition-all font-medium text-sm text-gray-900"
                                     />
@@ -1407,7 +1383,340 @@ export default function MembersPage() {
                 </div>
             </div>
 
-            {/* FORGOT PASSWORD MODAL */}
+            {/* Marketing Content & Benefits (Displays below login on mobile, left side on desktop) */}
+            <div className="relative w-full md:w-1/2 lg:w-3/5 bg-gray-900 overflow-hidden min-h-[520px] md:min-h-screen flex flex-col justify-end order-2 md:order-1">
+                <NextImage
+                    src="https://res.cloudinary.com/strangermingle/image/upload/v1774261273/full-shot-friends-with-fireworks_tijjpi.jpg"
+                    alt="Stranger Mingle Verified Social Club - Zero Fake Profiles"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    className="object-cover opacity-60 scale-105"
+                    priority={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+
+                <div className="relative z-10 w-full p-6 sm:p-8 lg:p-24 py-12 md:py-24 flex flex-col h-full justify-end">
+                    <div className="mb-6">
+                        <span className="px-4 py-1.5 bg-yellow-400 text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-full inline-block">
+                            Members only dashboard
+                        </span>
+                    </div>
+                    <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tighter leading-none mb-8">
+                        zero fake <span className="text-yellow-400">profiles</span>
+                    </h2>
+
+                    {/* Membership Features List OVER IMAGE */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 animate-in fade-in slide-in-from-left duration-700 delay-300">
+                        {[
+                            { icon: <Phone className="w-5 h-5 text-yellow-400" />, title: 'Phone a Friend', desc: '1-on-1 confidential audio calls' },
+                            { icon: <MessageSquare className="w-5 h-5 text-yellow-400" />, title: 'Anonymous Chat', desc: 'One-on-One private messaging' },
+                            { icon: <MapPin className="w-5 h-5 text-yellow-400" />, title: 'City Activity Groups', desc: 'Turf, Trek, Cycling & Circles' },
+                            { icon: <Gamepad2 className="w-5 h-5 text-yellow-400" />, title: 'Online Live Games', desc: 'Play live games with strangers' },
+                            { icon: <User className="w-5 h-5 text-yellow-400" />, title: 'Profile Building', desc: 'Build your unique identity' },
+                            { icon: <Ticket className="w-5 h-5 text-yellow-400" />, title: 'More Coming Soon', desc: 'Be the member to unlock' }
+                        ].map((feature, idx) => (
+                            <div key={idx} className="flex items-center gap-4 group">
+                                <div className="w-10 h-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-yellow-400 shadow-xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                                    {feature.icon}
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-black text-white uppercase tracking-widest">{feature.title}</span>
+                                    <span className="text-[10px] text-white/80 font-medium tracking-wide">{feature.desc}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            </div>
+            {/* End of Top Split Section */}
+
+            {/* ========================================================= */}
+            {/* SEO, AEO & GEO SECTION: ANONYMOUS CHAT IN INDIA          */}
+            {/* ========================================================= */}
+            <section className="bg-slate-50/70 border-t border-gray-200/80 py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto space-y-20">
+
+                    {/* Section Header & Definition Block (AEO / GEO Entity Match) */}
+                    <div className="text-center max-w-4xl mx-auto space-y-4">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-100 text-yellow-800 text-xs font-black uppercase tracking-wider">
+                            <ShieldCheck className="w-4 h-4 text-yellow-600" />
+                            India&apos;s Verified Anonymous Chat &amp; Voice Platform
+                        </div>
+                        <h2 className="text-3xl sm:text-5xl font-black text-gray-900 tracking-tight leading-tight">
+                            Safe Anonymous Chat in India: Talk to Strangers Without Bots, Creeps, or Phone Number Leaks
+                        </h2>
+                        <p className="text-base sm:text-lg text-gray-600 leading-relaxed font-normal pt-2">
+                            Whether you recently relocated to Bangalore, Pune, Mumbai, Hyderabad, or Delhi-NCR for work, or simply need a safe, pressure-free space to vent after a grueling day at the office, Stranger Mingle offers a genuine, non-judgmental anonymous chat community. Unlike chaotic random chat sites overrun by bots and scammers, every member undergoes verified screening while chatting, messaging, and taking audio calls under a 100% private anonymous alias.
+                        </p>
+
+                        {/* Quick Trust Pillars */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-6">
+                            {[
+                                { title: 'Zero Fake Profiles', desc: '100% Screened Members' },
+                                { title: 'Total Privacy', desc: 'No Phone Numbers Shared' },
+                                { title: 'Private Audio Calls', desc: 'Browser-Based Voice Calling' },
+                                { title: 'Zero Harassment', desc: 'Strict Community Moderation' },
+                            ].map((pillar, idx) => (
+                                <div key={idx} className="p-4 bg-white rounded-2xl border border-gray-200/60 shadow-xs text-center">
+                                    <span className="block text-xs font-black text-gray-900 uppercase tracking-wider">{pillar.title}</span>
+                                    <span className="block text-[11px] text-gray-500 font-medium mt-0.5">{pillar.desc}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Core Capabilities Grid (Short-tail & Mid-tail Keyword Targeting) */}
+                    <div className="space-y-8">
+                        <div className="text-center max-w-2xl mx-auto">
+                            <h3 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
+                                How Anonymous Chat Works on Stranger Mingle
+                            </h3>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-2">
+                                Clean, platonic stranger conversations designed for working professionals, creatives, and urban newcomers.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="p-7 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+                                <div className="w-12 h-12 rounded-2xl bg-yellow-50 flex items-center justify-center text-yellow-600">
+                                    <MessageSquare className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-base font-bold text-gray-900">1-on-1 Anonymous Text Messaging</h4>
+                                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    Enjoy real-time private messaging with verified members across Indian cities. Share thoughts, debate ideas, or talk through daily hurdles without exposing your real name, email, or social media links.
+                                </p>
+                            </div>
+
+                            <div className="p-7 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+                                <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                                    <Phone className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-base font-bold text-gray-900">Phone-a-Friend Audio Calling</h4>
+                                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    Need to hear an empathetic human voice? Connect 1-on-1 for private, browser-based voice calls without ever exchanging your WhatsApp or mobile number. Ideal for decompressing after stressful work shifts.
+                                </p>
+                            </div>
+
+                            <div className="p-7 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+                                <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
+                                    <ShieldCheck className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-base font-bold text-gray-900">Zero Fake Profiles Guarantee</h4>
+                                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    Every single applicant goes through an onboarding screening check. We eliminate automated bots, commercial spammers, and impersonators so you are always talking to real, verified individuals.
+                                </p>
+                            </div>
+
+                            <div className="p-7 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+                                <div className="w-12 h-12 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-600">
+                                    <EyeOff className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-base font-bold text-gray-900">Safe, Anti-Harassment Space</h4>
+                                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    Women and men can converse freely with complete peace of mind. Our zero-tolerance anti-harassment policy ensures that vulgarity, abuse, or inappropriate advances lead to immediate, permanent bans.
+                                </p>
+                            </div>
+
+                            <div className="p-7 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+                                <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600">
+                                    <MapPin className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-base font-bold text-gray-900">City Activity Groups &amp; Circles</h4>
+                                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    Ready to step out? Move from online anonymous chat to safe offline community meetups. Join local circles for weekend turf football, board game nights, trekking trails, and cafe hangouts across major Indian hubs.
+                                </p>
+                            </div>
+
+                            <div className="p-7 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all space-y-3">
+                                <div className="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-600">
+                                    <Gamepad2 className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-base font-bold text-gray-900">Online Live Multiplayer Games</h4>
+                                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    Break the ice effortlessly with interactive live games. Play live rounds of Mafia, Chess, Trivia, and Ludo with verified strangers online—no awkward small talk required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Comparison Block: Traditional Chat vs Stranger Mingle (AEO High-Gain Table) */}
+                    <div className="bg-white rounded-3xl border border-gray-200/80 p-6 sm:p-10 shadow-xs space-y-8">
+                        <div className="text-center max-w-3xl mx-auto">
+                            <span className="text-[11px] font-black uppercase tracking-widest text-yellow-600 bg-yellow-50 px-3 py-1 rounded-full">
+                                Why Switch To Stranger Mingle?
+                            </span>
+                            <h3 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight mt-3">
+                                Unmoderated Random Chat Sites vs. Stranger Mingle Verified Club
+                            </h3>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-2">
+                                See how our screening, privacy architecture, and local community set us apart from free random chat platforms.
+                            </p>
+                        </div>
+
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left text-xs sm:text-sm border-collapse">
+                                <thead>
+                                    <tr className="border-b border-gray-200 text-gray-400 font-bold uppercase tracking-wider text-[11px]">
+                                        <th className="py-4 px-3 sm:px-6">Feature</th>
+                                        <th className="py-4 px-3 sm:px-6 text-red-500 bg-red-50/30">Free Random Chat Sites</th>
+                                        <th className="py-4 px-3 sm:px-6 text-yellow-700 bg-yellow-50/50">Stranger Mingle Verified Club</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-100 text-gray-700">
+                                    <tr>
+                                        <td className="py-4 px-3 sm:px-6 font-bold text-gray-900">Member Verification</td>
+                                        <td className="py-4 px-3 sm:px-6 text-gray-500 bg-red-50/10">None (Rampant bots, fake accounts &amp; scammers)</td>
+                                        <td className="py-4 px-3 sm:px-6 font-semibold text-gray-900 bg-yellow-50/30">100% Screened &amp; Verified Profiles</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-4 px-3 sm:px-6 font-bold text-gray-900">Phone Number Privacy</td>
+                                        <td className="py-4 px-3 sm:px-6 text-gray-500 bg-red-50/10">Demands WhatsApp or exposes personal contact details</td>
+                                        <td className="py-4 px-3 sm:px-6 font-semibold text-gray-900 bg-yellow-50/30">100% Confidential Browser Calls (Zero Number Exposure)</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-4 px-3 sm:px-6 font-bold text-gray-900">Safety for Women</td>
+                                        <td className="py-4 px-3 sm:px-6 text-gray-500 bg-red-50/10">Unregulated, explicit video traps &amp; harassment</td>
+                                        <td className="py-4 px-3 sm:px-6 font-semibold text-gray-900 bg-yellow-50/30">Strict zero-harassment rules &amp; instant bans</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-4 px-3 sm:px-6 font-bold text-gray-900">Conversation Intent</td>
+                                        <td className="py-4 px-3 sm:px-6 text-gray-500 bg-red-50/10">Superficial, instant skips, low-effort trolling</td>
+                                        <td className="py-4 px-3 sm:px-6 font-semibold text-gray-900 bg-yellow-50/30">Empathetic venting, platonic talks &amp; mutual respect</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-4 px-3 sm:px-6 font-bold text-gray-900">Real-World Socialising</td>
+                                        <td className="py-4 px-3 sm:px-6 text-gray-500 bg-red-50/10">Virtual dead-ends with anonymous ghosts</td>
+                                        <td className="py-4 px-3 sm:px-6 font-semibold text-gray-900 bg-yellow-50/30">City activity groups &amp; curated weekend meetups</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {/* AEO / Generative Engine FAQ Section */}
+                    <div className="space-y-6 max-w-4xl mx-auto">
+                        <div className="text-center space-y-2">
+                            <span className="text-[11px] font-black uppercase tracking-widest text-gray-400">
+                                Frequently Asked Questions
+                            </span>
+                            <h3 className="text-2xl sm:text-4xl font-black text-gray-900 tracking-tight">
+                                Anonymous Chat in India: All Your Questions Answered
+                            </h3>
+                            <p className="text-xs sm:text-sm text-gray-500">
+                                Detailed answers on privacy, member verification, audio calling, and community safety.
+                            </p>
+                        </div>
+
+                        <div className="space-y-4 pt-4">
+                            {[
+                                {
+                                    q: 'What is Stranger Mingle and how does its anonymous chat work?',
+                                    a: 'Stranger Mingle is India\'s safe, verified anonymous chat and voice platform. When you join, you select a private anonymous alias. This alias is the only identifier visible to other members when you text chat or make voice calls. Your mobile number, full name, email, and social profiles are completely shielded. Every member completes an onboarding screening to ensure genuine, bot-free conversations.'
+                                },
+                                {
+                                    q: 'Is anonymous chat on Stranger Mingle safe for women in India?',
+                                    a: 'Yes, safety is Stranger Mingle\'s highest priority. Because phone numbers are never shared and all users pass verified screening, there is zero risk of WhatsApp stalking, phone harassment, or unwanted identity leaks. Our active moderation enforces an immediate, permanent ban on vulgarity, inappropriate advances, or harassment.'
+                                },
+                                {
+                                    q: 'Can I chat and call strangers without revealing my phone number?',
+                                    a: 'Absolutely. Both 1-on-1 anonymous text messaging and Phone-a-Friend audio calls take place directly within the web application. You never have to reveal your mobile number, download third-party calling tools, or share social media accounts.'
+                                },
+                                {
+                                    q: 'How is Stranger Mingle different from Omegle, OmeTV, or random chat rooms?',
+                                    a: 'Free random chat websites are unmoderated, filled with automated bots, commercial scammers, and explicit content. Stranger Mingle is a screened, verified member community. Every member is verified, creating a civil, respectful, and authentic environment for meaningful conversations.'
+                                },
+                                {
+                                    q: 'Why do working professionals and city transplants in India love this platform?',
+                                    a: 'Relocating to major corporate hubs like Bangalore, Pune, Hyderabad, or Mumbai often leads to loneliness and social burnout after long office hours. Navigating demanding careers and new cities makes finding low-pressure, genuine conversation challenging. Stranger Mingle provides a non-judgmental space to unwind, discuss career hurdles, share life experiences, and connect with like-minded peers.'
+                                },
+                                {
+                                    q: 'Can online anonymous chat lead to real-world friends and meetups?',
+                                    a: 'Yes! Stranger Mingle is a hybrid community. Beyond online anonymous chat and confidential voice calls, we host curated in-person activity circles—including weekend board game meetups, turf sports, coffee gatherings, and heritage walks across major Indian metros.'
+                                },
+                                {
+                                    q: 'How do I subscribe and start chatting anonymously?',
+                                    a: 'Simply choose a monthly or yearly membership plan using the form above, complete the brief screening process, choose your anonymous alias, and instantly unlock unlimited 1-on-1 private messaging, Phone-a-Friend audio calling, and city activity groups.'
+                                }
+                            ].map((faq, idx) => (
+                                <details
+                                    key={idx}
+                                    className="group bg-white rounded-2xl border border-gray-200/80 p-5 sm:p-6 transition-all hover:border-yellow-400"
+                                >
+                                    <summary className="flex justify-between items-center font-bold text-gray-900 cursor-pointer list-none text-sm sm:text-base pr-2">
+                                        <span>{faq.q}</span>
+                                        <ChevronRight className="w-4 h-4 text-gray-400 group-open:rotate-90 transition-transform shrink-0 ml-4" />
+                                    </summary>
+                                    <p className="mt-4 text-xs sm:text-sm text-gray-600 leading-relaxed font-normal pt-2 border-t border-gray-100">
+                                        {faq.a}
+                                    </p>
+                                </details>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Regional Geo-Targeting Hub (GEO Entities) */}
+                    <div className="text-center max-w-4xl mx-auto space-y-4 pt-4">
+                        <span className="text-[11px] font-black uppercase tracking-widest text-gray-400">
+                            Pan-India Verified Community
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-black text-gray-900">
+                            Connecting Like-Minded Strangers Across Indian Metros &amp; Tech Hubs
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-500 max-w-2xl mx-auto">
+                            Active communities of working professionals, creatives, and newcomers connecting daily for anonymous chat and weekend meetups in:
+                        </p>
+                        <div className="flex flex-wrap justify-center gap-2 pt-2">
+                            {[
+                                'Bangalore', 'Pune', 'Mumbai', 'Hyderabad', 'Delhi NCR', 'Gurgaon', 'Noida',
+                                'Chennai', 'Kolkata', 'Ahmedabad', 'Jaipur', 'Chandigarh', 'Lucknow', 'Indore', 'Kochi', 'Surat'
+                            ].map((city, idx) => (
+                                <span key={idx} className="px-3.5 py-1.5 rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700 shadow-2xs">
+                                    {city}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* High-Converting Subscriber CTA Banner */}
+                    <div className="bg-gray-900 text-white rounded-[2.5rem] p-8 sm:p-14 relative overflow-hidden text-center space-y-6">
+                        <div className="absolute top-0 right-0 -mr-24 -mt-24 w-80 h-80 bg-yellow-400/10 rounded-full blur-3xl pointer-events-none" />
+                        <div className="relative z-10 max-w-2xl mx-auto space-y-4">
+                            <span className="px-4 py-1.5 bg-yellow-400 text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-full inline-block">
+                                Join The Exclusive Club
+                            </span>
+                            <h3 className="text-3xl sm:text-4xl font-black tracking-tight leading-tight">
+                                Ready to Experience Safe, Bot-Free Anonymous Chat in India?
+                            </h3>
+                            <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
+                                Join thousands of verified working professionals, corporate transplants, and creatives who talk, vent, and connect freely every day without dating app baggage or unmoderated chat chaos.
+                            </p>
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => scrollToAuth('apply')}
+                                    className="w-full sm:w-auto px-8 py-4 bg-yellow-400 hover:bg-yellow-500 text-black font-black rounded-full shadow-lg transition-all active:scale-95 text-xs uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer"
+                                >
+                                    <span>Apply for Membership</span>
+                                    <ArrowRight className="w-4 h-4" />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => scrollToAuth('login')}
+                                    className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full border border-white/20 transition-all active:scale-95 text-xs uppercase tracking-widest cursor-pointer"
+                                >
+                                    Existing Member? Log In
+                                </button>
+                            </div>
+                            <p className="text-[10px] text-white/60 tracking-wider uppercase font-semibold pt-2">
+                                100% Screened • Zero Phone Number Sharing • Zero Harassment
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
             {showForgotModal && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-0">
                     <div

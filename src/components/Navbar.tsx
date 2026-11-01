@@ -68,7 +68,7 @@ export default function Navbar() {
                         </Link>
 
                         {!user ? (
-                            <Link href="/members" className="hidden sm:flex px-5 py-2.5 bg-yellow-400 text-black rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-yellow-500 transition-all items-center gap-2 shadow-sm active:scale-95">
+                            <Link href="/members?mode=login" className="hidden sm:flex px-5 py-2.5 bg-yellow-400 text-black rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-yellow-500 transition-all items-center gap-2 shadow-sm active:scale-95">
                                 <UserCircle className="w-4 h-4" />
                                 <span>Member Login</span>
                             </Link>
@@ -163,7 +163,7 @@ export default function Navbar() {
                     <div className="pt-4 border-t border-gray-100">
                         {!user ? (
                             <Link
-                                href="/members"
+                                href="/members?mode=login"
                                 className="block w-full px-4 py-3 bg-yellow-400 text-semibold text-center rounded-full font-semibold hover:bg-black hover:text-white transition-colors mb-6 shadow-sm"
                                 onClick={closeMobileMenu}
                             >
