@@ -574,15 +574,21 @@ export default function MembersPage() {
 
     // Fetch Online Members and Heartbeat Interval
     useEffect(() => {
+        let isMounted = true;
+        let interval: NodeJS.Timeout | null = null;
+        let timeout: NodeJS.Timeout | null = null;
+
         const loadMembers = async () => {
             try {
                 const res = await fetchOnlineMembersApi(currentMemberId || undefined);
                 const list = Array.isArray(res) ? res : (res?.members || []);
-                setOnlineMembers(list);
-                if (typeof res?.totalCount === 'number') {
-                    setTotalOnlineCount(res.totalCount);
-                } else if (list.length > 0) {
-                    setTotalOnlineCount(list.length);
+                if (isMounted) {
+                    setOnlineMembers(list);
+                    if (typeof res?.totalCount === 'number') {
+                        setTotalOnlineCount(res.totalCount);
+                    } else if (list.length > 0) {
+                        setTotalOnlineCount(list.length);
+                    }
                 }
             } catch (err) {
                 console.warn('[MembersPage] Error fetching online members:', err);
@@ -590,10 +596,22 @@ export default function MembersPage() {
         };
 
         loadMembers();
-        const pollInterval = setInterval(loadMembers, 60000); // 60s refresh
+
+        // Refresh at the next wall-clock minute turn, then every 60s
+        const msUntilNextMinute = (60 - new Date().getSeconds()) * 1000 - new Date().getMilliseconds();
+        timeout = setTimeout(() => {
+            if (!isMounted) return;
+            loadMembers();
+            interval = setInterval(() => {
+                if (!isMounted) return;
+                loadMembers();
+            }, 60000);
+        }, Math.max(1000, msUntilNextMinute));
 
         return () => {
-            clearInterval(pollInterval);
+            isMounted = false;
+            if (timeout) clearTimeout(timeout);
+            if (interval) clearInterval(interval);
         };
     }, [currentMemberId]);
 

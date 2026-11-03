@@ -33,6 +33,9 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
 
   useEffect(() => {
     let isMounted = true;
+    let interval: NodeJS.Timeout | null = null;
+    let timeout: NodeJS.Timeout | null = null;
+
     const loadOnlineMembers = async () => {
       try {
         // Fetch real members from backend
@@ -50,10 +53,22 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
     };
 
     loadOnlineMembers();
-    const interval = setInterval(loadOnlineMembers, 60000);
+
+    // Align update with the turn of the next wall-clock minute, then tick every 60s
+    const msUntilNextMinute = (60 - new Date().getSeconds()) * 1000 - new Date().getMilliseconds();
+    timeout = setTimeout(() => {
+      if (!isMounted) return;
+      loadOnlineMembers();
+      interval = setInterval(() => {
+        if (!isMounted) return;
+        loadOnlineMembers();
+      }, 60000);
+    }, Math.max(1000, msUntilNextMinute));
+
     return () => {
       isMounted = false;
-      clearInterval(interval);
+      if (timeout) clearTimeout(timeout);
+      if (interval) clearInterval(interval);
     };
   }, []);
 
