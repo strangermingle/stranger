@@ -5,7 +5,7 @@ import { getEventsByCity } from "@/lib/events";
 import { getAllPosts, formatBlogDate } from "@/lib/blog";
 import EventCard from "@/components/EventCard";
 import UpcomingExperiences from "@/components/event/UpcomingExperiences";
-import FacebookGroupCTA from "@/components/FacebookGroupCTA";
+import MembershipCTA from "@/components/MembershipCTA";
 
 import { MapPin, Users, ShieldCheck, ArrowRight, Calendar, Coffee, Heart } from "lucide-react";
 
@@ -152,10 +152,10 @@ export default async function MumbaiCityPage() {
                             Browse This Week&apos;s Meetups
                         </a>
                         <Link
-                            href="/about"
+                            href="/members"
                             className="px-8 py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white border border-white/30 rounded-xl font-bold text-lg transition-all"
                         >
-                            How It Works
+                            Members Login
                         </Link>
                     </div>
                     <p className="text-white/80 text-sm mt-6">
@@ -215,6 +215,9 @@ export default async function MumbaiCityPage() {
                     </Link>
                 </div>
             </section>
+
+            {/* Membership CTA */}
+            <MembershipCTA cityName="Mumbai" />
 
             {/* Why Mumbai Needs This */}
             <section className="py-24 bg-gray-900 text-white">
@@ -486,9 +489,6 @@ export default async function MumbaiCityPage() {
             </section>
 
 
-            {/* Upcoming Activities for Mumbai */}
-            {/* Facebook Group CTA */}
-            <FacebookGroupCTA />
 
             <UpcomingExperiences city="Mumbai" currentEventId="" />
 

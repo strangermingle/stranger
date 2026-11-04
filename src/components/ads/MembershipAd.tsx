@@ -23,19 +23,19 @@ export default function MembershipAd() {
                         <div className="w-5 h-5 bg-white/10 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
                             <Zap size={10} className="text-yellow-400" />
                         </div>
-                        <p className="text-[11px] font-regular text-indigo-100 leading-tight">City-Based groups for any activities</p>
+                        <p className="text-[11px] font-regular text-indigo-100 leading-tight">1-on-1 Strangers Chat</p>
                     </div>
                     <div className="flex items-start gap-3">
                         <div className="w-5 h-5 bg-white/10 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
                             <ShieldCheck size={10} className="text-emerald-400" />
                         </div>
-                        <p className="text-[11px] font-regular text-indigo-100 leading-tight">Anonymous Chat</p>
+                        <p className="text-[11px] font-regular text-indigo-100 leading-tight">1-on-1 Private Calling (No mobile number needed)</p>
                     </div>
                     <div className="flex items-start gap-3">
                         <div className="w-5 h-5 bg-white/10 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
                             <Users size={10} className="text-blue-400" />
                         </div>
-                        <p className="text-[11px] font-regular text-indigo-100 leading-tight">Member-Only Private Events</p>
+                        <p className="text-[11px] font-regular text-indigo-100 leading-tight">Create your own activity and chat groups</p>
                     </div>
                 </div>
 

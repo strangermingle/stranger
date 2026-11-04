@@ -5,7 +5,7 @@ import { getEventsByCity } from "@/lib/events";
 import { getAllPosts, formatBlogDate } from "@/lib/blog";
 import EventCard from "@/components/EventCard";
 import UpcomingExperiences from "@/components/event/UpcomingExperiences";
-import FacebookGroupCTA from "@/components/FacebookGroupCTA";
+import MembershipCTA from "@/components/MembershipCTA";
 import { MapPin, Users, ShieldCheck, ArrowRight } from "lucide-react";
 
 export const revalidate = 3600;
@@ -89,8 +89,8 @@ export default async function PuneCityPage() {
                         <a href="#events" className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-lg transition-all shadow-lg shadow-blue-500/25">
                             See Upcoming Events
                         </a>
-                        <Link href="/about" className="px-8 py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white border border-white/20 rounded-xl font-bold text-lg transition-all">
-                            How it Works
+                        <Link href="/members" className="px-8 py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white border border-white/20 rounded-xl font-bold text-lg transition-all">
+                            Members Login
                         </Link>
                     </div>
                 </div>
@@ -138,8 +138,8 @@ export default async function PuneCityPage() {
             </section>
 
             {/* Upcoming Activities for Pune */}
-            {/* Facebook Group CTA */}
-            <FacebookGroupCTA />
+            {/* Membership CTA */}
+            <MembershipCTA cityName="Pune" />
 
             <UpcomingExperiences city="Pune" currentEventId="" />
 

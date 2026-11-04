@@ -6,7 +6,7 @@ import { toISTISOString } from '@/lib/date-utils';
 
 import EventDetailsPage from '@/components/EventDetailsPage';
 import UpcomingExperiences from '@/components/event/UpcomingExperiences';
-import FacebookGroupCTA from '@/components/FacebookGroupCTA';
+import MembershipCTA from '@/components/MembershipCTA';
 
 export const revalidate = 3600;
 
@@ -241,8 +241,8 @@ export default async function EventDetails({ params }: Props) {
       {/* Weekend Events */}
       <WeekendEvents />
 
-      {/* Facebook Group CTA */}
-      <FacebookGroupCTA />
+      {/* Membership CTA */}
+      <MembershipCTA cityName={event.location?.city} />
     </>
   );
 }

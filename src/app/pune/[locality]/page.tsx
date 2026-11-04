@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { getEventsByCity } from "@/lib/events";
 import EventCard from "@/components/EventCard";
 import SponsoredAds from "@/components/SponsoredAds";
-import FacebookGroupCTA from "@/components/FacebookGroupCTA";
+import MembershipCTA from "@/components/MembershipCTA";
 import SocialMediaQRSection from "@/components/SocialMediaQRSection";
 import { puneLocalities } from "@/data/puneLocalities";
 import { MapPin, Users, Calendar, ArrowRight, ShieldCheck } from "lucide-react";
@@ -228,7 +228,7 @@ export default async function LocalityPage({ params }: { params: Promise<{ local
       </div>
 
       <div className="max-w-7xl mx-auto w-full px-4 mb-20 space-y-12">
-        <FacebookGroupCTA />
+        <MembershipCTA cityName={data.name} />
         <SocialMediaQRSection />
       </div>
 

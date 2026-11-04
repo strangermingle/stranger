@@ -1426,12 +1426,9 @@ export default function MembersPage() {
                     {/* Membership Features List OVER IMAGE */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 animate-in fade-in slide-in-from-left duration-700 delay-300">
                         {[
-                            { icon: <Phone className="w-5 h-5 text-yellow-400" />, title: 'Phone a Friend', desc: '1-on-1 confidential audio calls' },
-                            { icon: <MessageSquare className="w-5 h-5 text-yellow-400" />, title: 'Anonymous Chat', desc: 'One-on-One private messaging' },
-                            { icon: <MapPin className="w-5 h-5 text-yellow-400" />, title: 'City Activity Groups', desc: 'Turf, Trek, Cycling & Circles' },
-                            { icon: <Gamepad2 className="w-5 h-5 text-yellow-400" />, title: 'Online Live Games', desc: 'Play live games with strangers' },
-                            { icon: <User className="w-5 h-5 text-yellow-400" />, title: 'Profile Building', desc: 'Build your unique identity' },
-                            { icon: <Ticket className="w-5 h-5 text-yellow-400" />, title: 'More Coming Soon', desc: 'Be the member to unlock' }
+                            { icon: <MessageSquare className="w-5 h-5 text-yellow-400" />, title: '1-on-1 Strangers Chat', desc: 'Private & anonymous 1-on-1 text messaging' },
+                            { icon: <PhoneCall className="w-5 h-5 text-yellow-400" />, title: '1-on-1 Private Calling', desc: 'Secure voice calls without sharing your mobile number' },
+                            { icon: <Users className="w-5 h-5 text-yellow-400" />, title: 'Create Activity & Chat Groups', desc: 'Create your own groups for meetups, activities & chat' },
                         ].map((feature, idx) => (
                             <div key={idx} className="flex items-center gap-4 group">
                                 <div className="w-10 h-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-yellow-400 shadow-xl group-hover:bg-indigo-600 group-hover:text-white transition-all">

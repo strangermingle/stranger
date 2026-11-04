@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getEventsByCity } from "@/lib/events";
 import EventCard from "@/components/EventCard";
-import FacebookGroupCTA from "@/components/FacebookGroupCTA";
+import MembershipCTA from "@/components/MembershipCTA";
 
 export const revalidate = 3600;
 
@@ -45,7 +45,7 @@ export default async function Page() {
                 </div>
             </section>
             
-            <FacebookGroupCTA />
+            <MembershipCTA />
         </div>
     );
 }

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getEventsByCity } from "@/lib/events";
 import EventCard from "@/components/EventCard";
 import UpcomingExperiences from "@/components/event/UpcomingExperiences";
-import FacebookGroupCTA from "@/components/FacebookGroupCTA";
+import MembershipCTA from "@/components/MembershipCTA";
 
 export const revalidate = 3600;
 
@@ -35,7 +35,7 @@ export default async function Page() {
                 </div>
             </section>
 
-            <FacebookGroupCTA />
+            <MembershipCTA cityName="Pune" />
 
             <section id="events" className="w-full max-w-7xl mx-auto px-4 py-16">
                 <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b pb-4">Where to Start: Upcoming Pune Events</h2>
