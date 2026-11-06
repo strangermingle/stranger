@@ -61,9 +61,6 @@ export default function Disclaimer() {
                     {/* General Information */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 shrink-0">
-                                <Info className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">General Information</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -81,9 +78,6 @@ export default function Disclaimer() {
                     {/* Event Participation */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-purple-50 rounded-2xl text-purple-600 shrink-0">
-                                <Activity className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Event Participation and Personal Safety</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -121,9 +115,6 @@ export default function Disclaimer() {
                     {/* Interactions Outside Events */}
                     <section className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 relative overflow-hidden">
                         <div className="flex items-start gap-4 relative z-10">
-                            <div className="p-3 bg-white rounded-2xl text-blue-600 shrink-0 shadow-sm">
-                                <Users className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Interactions Outside Official Events</h2>
                                 <p className="mb-4 leading-relaxed text-gray-700">
@@ -161,47 +152,54 @@ export default function Disclaimer() {
                         </div>
                     </section>
 
-                    {/* Phone a Friend and Off-Platform Interaction Disclaimer */}
+                    {/* Anonymous Chat, Audio Calling & Rent a Friend Disclaimer */}
                     <section className="bg-gradient-to-br from-rose-50 to-amber-50 p-8 rounded-3xl border border-rose-100 relative overflow-hidden">
                         <div className="flex items-start gap-4 relative z-10">
-                            <div className="p-3 bg-white rounded-2xl text-rose-600 shrink-0 shadow-sm">
-                                <PhoneCall className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Phone a Friend (1-on-1 Audio Calling) & Off-Platform Disclaimer</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Rent a Friend (Hire a Companion), Anonymous Chat &amp; Private Places Disclaimer</h2>
                                 <p className="mb-4 leading-relaxed text-gray-700">
-                                    The <strong>Phone a Friend</strong> feature facilitates real-time 1-on-1, audio-only conversations between community members and approved community hosts. By using this service, you explicitly agree to the following disclaimers:
+                                    Stranger Mingle offers <strong>Rent a Friend (Hire a Companion)</strong>, <strong>Anonymous Chat</strong>, and <strong>Anonymous Calls (without sharing mobile numbers)</strong> to connect real people across Indian cities. By using these features, you explicitly acknowledge and agree to the following mandatory legal disclaimers:
                                 </p>
 
                                 <div className="space-y-4 mb-4">
-                                    <div className="bg-white/80 p-5 rounded-2xl border border-rose-200">
-                                        <h3 className="font-bold text-gray-900 mb-1 text-base flex items-center gap-2">
-                                            <AlertTriangle className="w-4 h-4 text-red-600" />
-                                            Zero Responsibility for In-Person Meetings & Off-Platform Arrangements
+                                    <div className="bg-white/90 p-5 rounded-2xl border border-amber-300 shadow-xs">
+                                        <h3 className="font-bold text-amber-950 mb-2 text-base flex items-center gap-2">
+                                            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />
+                                            Zero Responsibility &amp; Total Non-Liability for Meeting in Private Places (Home, Hotel Room, etc.)
                                         </h3>
-                                        <p className="text-gray-700 text-sm leading-relaxed mb-2 font-medium">
-                                            Stranger Mingle strictly provides online, audio-only technology. <strong>Stranger Mingle will not be responsible or legally liable under any circumstances if a host and caller choose to settle, negotiate, or arrange anything apart from platform calls—such as personal in-person meetings, offline get-togethers, financial transactions, private messaging, or commercial agreements.</strong>
+                                        <p className="text-gray-800 text-sm leading-relaxed mb-3 font-semibold">
+                                            Stranger Mingle is strictly not liable or responsible under any circumstances if people are meeting in private places like home, hotel room, guest house, private residence, rented flat, or private vehicle.
+                                        </p>
+                                        <ul className="space-y-2 text-gray-700 text-xs list-disc ml-5 leading-relaxed">
+                                            <li><strong>Strictly Public Places Only:</strong> All companion in-person interactions must take place exclusively in open, crowded, well-lit public venues (such as public cafes, restaurants, shopping malls, public parks, cinema halls, or registered public events).</li>
+                                            <li><strong>Meeting in Private Places is Forbidden:</strong> Any arrangement, invitation, or agreement between a user and companion to meet in private premises (such as a home, hotel room, private residence, or secluded vehicle) is strictly prohibited by Stranger Mingle rules and constitutes a violation of platform terms.</li>
+                                            <li><strong>Absolute Legal Disclaimer:</strong> Stranger Mingle acts solely as a technology platform for social networking and discovery. Stranger Mingle expressly disclaims any and all legal, civil, and criminal liability for any loss, damage, theft, personal injury, harassment, assault, or dispute arising out of or related to meetings conducted in private places. Any such interaction is undertaken entirely at the parties&apos; own independent risk and sole personal responsibility.</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-white/90 p-5 rounded-2xl border border-rose-200 shadow-xs">
+                                        <h3 className="font-bold text-rose-950 mb-1 text-base flex items-center gap-2">
+                                            <HeartHandshake className="w-5 h-5 text-rose-600 shrink-0" />
+                                            Purely Platonic Friendship to Combat Loneliness
+                                        </h3>
+                                        <p className="text-gray-700 text-sm leading-relaxed mb-2">
+                                            The <strong>Rent a Friend / Hire a Companion</strong> service is purely for platonic friendship to combat loneliness in urban cities. Companions provide friendly social company for public outings, movies, cafe chats, and events.
                                         </p>
                                         <p className="text-gray-600 text-xs leading-relaxed">
-                                            Any in-person meeting or third-party communication (via WhatsApp, phone, Instagram, or social media) between callers and hosts is strictly prohibited under our safety guidelines and is completely unendorsed and unsupported by Stranger Mingle. Any individual who chooses to meet offline does so solely at their own independent risk.
+                                            This is strictly <strong>NOT</strong> an escort service, dating service, romance agency, or adult entertainment platform. Any solicitation of romantic relations, sexual intimacy, physical contact, or unlawful activities is strictly prohibited and results in immediate permanent ban and criminal reporting.
                                         </p>
                                     </div>
 
-                                    <div className="bg-white/80 p-5 rounded-2xl border border-rose-200">
-                                        <h3 className="font-bold text-gray-900 mb-1 text-base">
-                                            Peer Listening Only — Not Professional Medical or Legal Advice
+                                    <div className="bg-white/90 p-5 rounded-2xl border border-indigo-200 shadow-xs">
+                                        <h3 className="font-bold text-indigo-950 mb-1 text-base flex items-center gap-2">
+                                            <PhoneCall className="w-5 h-5 text-indigo-600 shrink-0" />
+                                            Anonymous Chat &amp; Calling Without Mobile Number (Peer Listening Only)
                                         </h3>
-                                        <p className="text-gray-700 text-sm leading-relaxed">
-                                            Phone a Friend hosts are empathetic community peers who offer an active, friendly listening ear. Hosts are <strong>not</strong> licensed therapists, psychologists, psychiatrists, medical professionals, or legal advisors. Conversations must not be considered a substitute for professional mental healthcare, clinical diagnosis, medical treatment, or legal counsel.
+                                        <p className="text-gray-700 text-sm leading-relaxed mb-2">
+                                            Calls and chats are conducted anonymously without disclosing mobile numbers. Community hosts and companions provide active, friendly listening and casual conversation.
                                         </p>
-                                    </div>
-
-                                    <div className="bg-white/80 p-5 rounded-2xl border border-rose-200">
-                                        <h3 className="font-bold text-red-950 mb-1 text-base">
-                                            Zero Tolerance for Harassment & Legal Warning
-                                        </h3>
-                                        <p className="text-red-900 text-sm leading-relaxed">
-                                            Harassment, verbal abuse, sexual advances, obscenity, or threats against hosts will lead to immediate account termination, permanent device/IP ban, and immediate criminal and cybercrime reporting to Indian law enforcement authorities under the IT Act and Bharatiya Nyaya Sanhita (BNS) / IPC.
+                                        <p className="text-gray-600 text-xs leading-relaxed">
+                                            Hosts and companions are empathetic peers and are <strong>not</strong> licensed therapists, psychologists, psychiatrists, medical doctors, or legal counsel. Conversations must never replace professional healthcare or legal advice.
                                         </p>
                                     </div>
                                 </div>
@@ -212,9 +210,6 @@ export default function Disclaimer() {
                     {/* No Liability for Member Conduct */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-red-50 rounded-2xl text-red-600 shrink-0">
-                                <AlertTriangle className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">No Liability for Member Conduct</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -233,9 +228,6 @@ export default function Disclaimer() {
                     {/* Health and Physical Activities */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-green-50 rounded-2xl text-green-600 shrink-0">
-                                <HeartHandshake className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Health, Fitness, and Physical Activities</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -276,9 +268,6 @@ export default function Disclaimer() {
                     {/* Travel and Transportation */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-orange-50 rounded-2xl text-orange-600 shrink-0">
-                                <Car className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Travel and Transportation</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -312,9 +301,6 @@ export default function Disclaimer() {
                     {/* Personal Belongings */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-teal-50 rounded-2xl text-teal-600 shrink-0">
-                                <Briefcase className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Personal Belongings and Valuables</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -348,9 +334,6 @@ export default function Disclaimer() {
                     {/* Financial Transactions */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-yellow-50 rounded-2xl text-yellow-600 shrink-0">
-                                <CreditCard className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Financial Transactions and Refunds</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -384,9 +367,6 @@ export default function Disclaimer() {
                     {/* Third-Party Venues and Services */}
                     <section className="bg-indigo-50 p-8 rounded-3xl border border-indigo-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-indigo-600 shrink-0 shadow-sm">
-                                <Building2 className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Third-Party Venues and Services</h2>
                                 <p className="mb-4 leading-relaxed text-gray-700">
@@ -420,9 +400,6 @@ export default function Disclaimer() {
                     {/* Photography and Media */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-pink-50 rounded-2xl text-pink-600 shrink-0">
-                                <Camera className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Photography, Videos, and Social Media</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -441,9 +418,6 @@ export default function Disclaimer() {
                     {/* Content Accuracy */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-cyan-50 rounded-2xl text-cyan-600 shrink-0">
-                                <FileText className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Website Content and Event Information</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -480,9 +454,6 @@ export default function Disclaimer() {
                     {/* External Links */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-violet-50 rounded-2xl text-violet-600 shrink-0">
-                                <ExternalLink className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">External Links and Third-Party Content</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -498,9 +469,6 @@ export default function Disclaimer() {
                     {/* Age Restrictions */}
                     <section className="bg-blue-50 p-8 rounded-3xl border border-blue-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-blue-600 shrink-0 shadow-sm">
-                                <UserPlus className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Age Restrictions</h2>
                                 <p className="mb-4 leading-relaxed text-gray-700">
@@ -516,9 +484,6 @@ export default function Disclaimer() {
                     {/* Legal Jurisdiction */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-slate-50 rounded-2xl text-slate-600 shrink-0">
-                                <Scale className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Governing Law and Jurisdiction</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -531,9 +496,6 @@ export default function Disclaimer() {
                     {/* Limitation of Liability */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-red-50 rounded-2xl text-red-600 shrink-0">
-                                <Shield className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Limitation of Liability</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -564,9 +526,6 @@ export default function Disclaimer() {
                     {/* Changes to Disclaimer */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-gray-50 rounded-2xl text-gray-600 shrink-0">
-                                <RefreshCw className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Changes to This Disclaimer</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -583,14 +542,15 @@ export default function Disclaimer() {
                     <section className="bg-blue-600 p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow text-white relative overflow-hidden">
                         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-3xl"></div>
                         <div className="flex items-start gap-4 relative z-10">
-                            <div className="p-3 bg-white/10 rounded-2xl text-white shrink-0">
-                                <Mail className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold mb-4">Questions About This Disclaimer</h2>
-                                <p className="leading-relaxed text-blue-50">
-                                    If you have any questions about this disclaimer or need clarification on any point, please contact us through our official communication channels. We are committed to transparency and will address your concerns to the best of our ability.
+                                <p className="leading-relaxed text-blue-50 mb-3">
+                                    If you have any questions about this disclaimer or need clarification on any point, please contact us through our official communication channels:
                                 </p>
+                                <div className="space-y-1 text-sm text-blue-100 font-medium">
+                                    <p><strong>Email:</strong> strangermingleteam@gmail.com</p>
+                                    <p><strong>Phone / WhatsApp:</strong> +917385531551</p>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -598,9 +558,6 @@ export default function Disclaimer() {
                     {/* Final Note */}
                     <section className="bg-amber-50 p-8 rounded-3xl border border-amber-200">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-amber-100 rounded-2xl text-amber-700 shrink-0">
-                                <Bell className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Important Reminder</h3>
                                 <p className="leading-relaxed text-gray-800">

@@ -14,7 +14,8 @@ import {
     Gavel,
     FileText,
     Mail,
-    PhoneCall
+    PhoneCall,
+    HeartHandshake
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -69,9 +70,6 @@ export default function Terms() {
                     {/* Acceptance of Terms */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-indigo-50 rounded-2xl text-indigo-600 shrink-0">
-                                <ScrollText className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Acceptance of Terms</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -90,9 +88,6 @@ export default function Terms() {
                     {/* Eligibility */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-emerald-50 rounded-2xl text-emerald-600 shrink-0">
-                                <UserCheck className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">2. Eligibility and Account Registration</h2>
 
@@ -133,9 +128,6 @@ export default function Terms() {
                     {/* Use License */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-purple-50 rounded-2xl text-purple-600 shrink-0">
-                                <FileText className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">3. Use License and Restrictions</h2>
 
@@ -176,9 +168,6 @@ export default function Terms() {
                     {/* Community Guidelines */}
                     <section className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 relative overflow-hidden">
                         <div className="relative z-10 flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-blue-600 shrink-0 shadow-sm">
-                                <Users className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Community Guidelines and User Conduct</h2>
                                 <p className="leading-relaxed mb-6 text-gray-700 font-medium">
@@ -230,9 +219,6 @@ export default function Terms() {
                     {/* Event Participation */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-amber-50 rounded-2xl text-amber-600 shrink-0">
-                                <Ticket className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">5. Event Participation and Registration</h2>
 
@@ -282,20 +268,17 @@ export default function Terms() {
                         </div>
                     </section>
 
-                    {/* Phone a Friend Terms */}
+                    {/* Anonymous Chat & Audio Calling Terms */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-rose-50 rounded-2xl text-rose-600 shrink-0">
-                                <PhoneCall className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">6. Phone a Friend (1-on-1 Audio Calling) Terms & Safety Regulations</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">6. Anonymous Chat & Anonymous Calls (Without Mobile Number) Regulations</h2>
 
                                 <div className="space-y-6">
                                     <div>
-                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Scope and Purpose of Service</h3>
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Scope and Purpose: Safe, Masked Communication</h3>
                                         <p className="leading-relaxed text-gray-600">
-                                            The <strong>Phone a Friend</strong> feature is an audio-only calling platform designed to connect users across India with approved community hosts for casual conversation, emotional wellness, platonic venting, and mutual listening. Calls are strictly peer-to-peer and audio-only. Hosts are community listeners, not licensed clinical therapists, psychiatrists, or medical professionals.
+                                            Stranger Mingle provides <strong>Anonymous Chat</strong> and <strong>Anonymous Calls (without mobile number)</strong> to enable users across India to connect with real people, verified companions, and community hosts for casual conversations, emotional wellness, platonic venting, and mutual listening. All communications are strictly peer-to-peer and established without exposing or sharing your real mobile phone number.
                                         </p>
                                     </div>
 
@@ -305,29 +288,29 @@ export default function Terms() {
                                             Zero Tolerance Anti-Harassment Policy & Severe Legal Consequences
                                         </h3>
                                         <p className="leading-relaxed text-red-900 text-sm mb-3">
-                                            Stranger Mingle enforces an absolute, non-negotiable zero-tolerance policy against any form of harassment, vulgarity, abuse, hate speech, threats, intimidation, stalking, blackmail, or sexual misconduct toward hosts or participants.
+                                            Stranger Mingle enforces an absolute, non-negotiable zero-tolerance policy against any form of harassment, vulgarity, abuse, hate speech, threats, intimidation, stalking, blackmail, or sexual misconduct in chats or calls.
                                         </p>
                                         <p className="leading-relaxed text-red-900 text-sm font-semibold mb-2">
                                             Mandatory Criminal & Legal Consequences:
                                         </p>
                                         <ul className="space-y-2 text-red-800 text-xs list-disc ml-5">
-                                            <li>Immediate permanent banning of the caller account, device ID, and IP address with total forfeiture of all paid session fees.</li>
+                                            <li>Immediate permanent banning of the user account, device ID, and IP address with total forfeiture of all paid membership and session fees.</li>
                                             <li>Immediate reporting and evidence handover to the <strong>National Cyber Crime Reporting Portal (cybercrime.gov.in)</strong> and local police authorities.</li>
                                             <li>Initiation of formal criminal proceedings under the Information Technology Act (IT Act), 2000 and the Bharatiya Nyaya Sanhita (BNS), 2023 / Indian Penal Code (IPC) for cyber harassment, outraging modesty, and criminal intimidation.</li>
                                         </ul>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Caller Etiquette & Code of Respect</h3>
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Caller & Chat Etiquette: Code of Respect</h3>
                                         <p className="leading-relaxed text-gray-600 mb-2">
-                                            All callers must conduct themselves with courtesy, dignity, and politeness at all times. Hosts volunteer their time and empathy to provide a supportive ear; treating them with hostility, vulgar language, or disrespect will cause the call to be terminated immediately without any refund.
+                                            All users must conduct themselves with courtesy, dignity, and politeness at all times. Hosts and companions offer a supportive listening ear and companionship; treating them with hostility, vulgar language, or disrespect will cause the session to be terminated immediately without any refund.
                                         </p>
                                     </div>
 
                                     <div className="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
                                         <h3 className="text-lg font-bold text-indigo-950 mb-2">Absolute Prohibition on Exchanging Personal Contact Details</h3>
                                         <p className="leading-relaxed text-indigo-900 text-sm mb-3">
-                                            To protect user and host privacy, all calls are 100% anonymous. Callers and hosts are strictly forbidden from sharing, requesting, or exchanging:
+                                            To protect user and companion privacy, all calls and chats are 100% anonymous without revealing mobile numbers. Users are strictly forbidden from sharing, requesting, or exchanging:
                                         </p>
                                         <ul className="grid md:grid-cols-2 gap-2 text-indigo-800 text-xs pl-4 border-l-2 border-indigo-300">
                                             <li>• Personal mobile numbers / WhatsApp contacts</li>
@@ -336,27 +319,57 @@ export default function Terms() {
                                             <li>• Financial details, UPI IDs, or direct payment transfers</li>
                                         </ul>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-                                    <div className="bg-amber-50 p-6 rounded-2xl border border-amber-200">
-                                        <h3 className="text-lg font-bold text-amber-950 mb-2 flex items-center gap-2">
-                                            <Scale className="w-5 h-5 text-amber-600" />
-                                            Platform Scope & Complete Liability Disclaimer for Off-Platform Arrangements
+                    {/* Rent a Friend / Hire a Companion Terms */}
+                    <section className="bg-white p-8 rounded-3xl shadow-sm border border-rose-100 hover:shadow-md transition-shadow">
+                        <div className="flex items-start gap-4">
+                            <div className="w-full">
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">7. Rent a Friend (Hire a Companion) Services &amp; Private Places Non-Liability Terms</h2>
+
+                                <div className="space-y-6">
+                                    <div className="bg-rose-50/60 p-6 rounded-2xl border border-rose-200">
+                                        <h3 className="text-lg font-bold text-rose-950 mb-2 flex items-center gap-2">
+                                            <HeartHandshake className="w-5 h-5 text-rose-600" />
+                                            Purely Platonic Friendship to Combat Loneliness
                                         </h3>
-                                        <p className="leading-relaxed text-amber-900 text-sm mb-3">
-                                            Stranger Mingle operates solely as an online technology intermediary for platform-facilitated audio sessions.
+                                        <p className="leading-relaxed text-rose-900 text-sm mb-2 font-medium">
+                                            The <strong>Rent a Friend (Hire a Companion)</strong> service provided by Stranger Mingle is strictly and purely for platonic friendship to combat loneliness and social isolation in urban cities.
                                         </p>
-                                        <p className="leading-relaxed text-amber-950 text-sm font-semibold">
-                                            Stranger Mingle will not be responsible or legally liable under any circumstances if a host and caller choose to settle, arrange, negotiate, or conduct anything outside the platform—including personal in-person meetings, offline deals, monetary transactions, private messaging, or commercial agreements.
+                                        <p className="leading-relaxed text-rose-800 text-xs">
+                                            Companions (rented boyfriends/girlfriends/friends) are verified social buddies for public cafe hangouts, dining out, watching movies, attending music concerts, visiting art exhibitions, exploring city attractions, or acting as a polite plus-one for weddings and social events. It is NOT a dating service, matchmaking service, or escort agency.
                                         </p>
-                                        <p className="mt-2 text-xs text-amber-800">
-                                            Any offline meeting or personal interaction between callers and hosts is completely unendorsed, unsupported, and unauthorized by Stranger Mingle, and is undertaken at the parties&apos; own independent risk and sole responsibility.
+                                    </div>
+
+                                    <div className="bg-amber-50 p-6 rounded-2xl border border-amber-300">
+                                        <h3 className="text-lg font-bold text-amber-950 mb-2 flex items-center gap-2">
+                                            <Scale className="w-5 h-5 text-amber-700" />
+                                            Strict Non-Liability for Meetings in Private Places (Home, Hotel Room, etc.)
+                                        </h3>
+                                        <p className="leading-relaxed text-amber-950 text-sm font-bold mb-3">
+                                            Stranger Mingle is strictly not liable or responsible under any circumstances if people are meeting in private places like home, hotel room, guest house, private residence, apartment, rented lodging, or private vehicle.
+                                        </p>
+                                        <ul className="space-y-2 text-amber-900 text-xs list-disc ml-5">
+                                            <li><strong>Public Venues Only:</strong> All companion in-person interactions and meetings MUST take place exclusively in open, crowded, well-lit public places (such as public cafes, restaurants, shopping malls, public parks, and registered public events).</li>
+                                            <li><strong>Prohibition on Private Premises:</strong> Users and companions are strictly prohibited from inviting each other to or meeting inside private homes, residential flats, hotel rooms, motels, secluded locations, or private vehicles.</li>
+                                            <li><strong>Complete Disclaimer of Liability:</strong> Stranger Mingle operates solely as a directory and discovery platform. Stranger Mingle expressly disclaims any and all legal, civil, and criminal liability for any personal injury, loss, damage, theft, assault, harassment, dispute, or misconduct occurring if individuals choose to meet in private places. Such private meetings are completely unendorsed, unauthorized, and undertaken at the individuals&apos; sole independent risk.</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Zero Tolerance for Non-Platonic or Adult Demands</h3>
+                                        <p className="leading-relaxed text-gray-700 text-sm mb-2">
+                                            Any attempt to solicit romance, physical intimacy, sexual favors, adult services, or illegal activities will result in immediate permanent account termination, forfeiture of all membership and booking fees, and formal police complaints.
                                         </p>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Session Rates, Payments & Non-Refundability for Misconduct</h3>
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Companion Registration &amp; Independent Capacity</h3>
                                         <p className="leading-relaxed text-gray-600 text-sm">
-                                            Phone a Friend sessions are billed upfront per 15-minute slot through Razorpay at host-specified rates. If a call is terminated early due to caller violation of our harassment policy, community guidelines, or terms, the session is strictly non-refundable and all fees are forfeited.
+                                            Individuals who register as companions do so as independent contractors. Companions must be 18+ years of age and submit government-issued identification (Aadhaar, PAN/Driving License) for KYC verification. Stranger Mingle facilitates discovery and bookings; companions set their hourly availability and rates.
                                         </p>
                                     </div>
                                 </div>
@@ -367,11 +380,8 @@ export default function Terms() {
                     {/* Safety and Liability */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-red-50 rounded-2xl text-red-600 shrink-0">
-                                <ShieldAlert className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">7. Safety, Risk, and Liability</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">8. Safety, Risk, and Liability</h2>
 
                                 <div className="space-y-6">
                                     <div>
@@ -422,11 +432,8 @@ export default function Terms() {
                     {/* Content and Communication */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-pink-50 rounded-2xl text-pink-600 shrink-0">
-                                <MessageSquare className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">8. User Content and Communications</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">9. User Content and Communications</h2>
 
                                 <div className="space-y-6">
                                     <div>
@@ -464,11 +471,8 @@ export default function Terms() {
                     {/* Payment Terms */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-teal-50 rounded-2xl text-teal-600 shrink-0">
-                                <CreditCard className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">9. Payment Terms and Pricing</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">10. Payment Terms and Pricing</h2>
 
                                 <div className="space-y-6">
                                     <div>
@@ -506,11 +510,8 @@ export default function Terms() {
                     {/* Account Termination */}
                     <section className="bg-red-50 p-8 rounded-3xl border border-red-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-red-600 shrink-0 shadow-sm">
-                                <UserX className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">10. Account Suspension and Termination</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">11. Account Suspension and Termination</h2>
 
                                 <div className="space-y-6">
                                     <div>
@@ -550,11 +551,8 @@ export default function Terms() {
                     {/* Indemnification */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-orange-50 rounded-2xl text-orange-600 shrink-0">
-                                <Scale className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Indemnification</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Indemnification</h2>
                                 <p className="leading-relaxed text-gray-600">
                                     You agree to indemnify, defend, and hold harmless Stranger Mingle, its founders, organizers, employees, and affiliates from any claims, damages, losses, liabilities, costs, or expenses (including legal fees) arising from:
                                 </p>
@@ -572,11 +570,8 @@ export default function Terms() {
                     {/* Dispute Resolution */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-slate-50 rounded-2xl text-slate-600 shrink-0">
-                                <Gavel className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">12. Dispute Resolution and Governing Law</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">13. Dispute Resolution and Governing Law</h2>
 
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div className="bg-slate-50 p-5 rounded-2xl">
@@ -611,11 +606,8 @@ export default function Terms() {
                     {/* Miscellaneous */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-gray-50 rounded-2xl text-gray-600 shrink-0">
-                                <FileText className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">13. General Provisions</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">14. General Provisions</h2>
                                 <div className="space-y-4 text-gray-600">
                                     <p><strong>Entire Agreement:</strong> These Terms of Service, together with our Privacy Policy and Disclaimer, constitute the entire agreement between you and Stranger Mingle regarding use of our services.</p>
                                     <p><strong>Severability:</strong> If any provision of these terms is found to be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary, and the remaining provisions shall remain in full force and effect.</p>
@@ -631,18 +623,16 @@ export default function Terms() {
                     <section className="bg-blue-600 p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow text-white relative overflow-hidden">
                         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-3xl"></div>
                         <div className="flex items-start gap-4 relative z-10">
-                            <div className="p-3 bg-white/10 rounded-2xl text-white shrink-0">
-                                <Mail className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold mb-4">14. Contact Us</h2>
+                                <h2 className="text-2xl font-bold mb-4">15. Contact Us</h2>
                                 <p className="mb-4 leading-relaxed text-blue-50">
                                     If you have questions about these Terms of Service, please contact us:
                                 </p>
                                 <div className="space-y-2 ml-4 text-blue-50">
                                     <p><strong>Email:</strong> strangermingleteam@gmail.com</p>
+                                    <p><strong>Phone / WhatsApp:</strong> +917385531551</p>
                                     <p><strong>Website:</strong> Through our official contact form</p>
-                                    <p><strong>Response Time:</strong> We aim to respond within 48-72 hours</p>
+                                    <p><strong>Response Time:</strong> We aim to respond within 24-48 hours</p>
                                 </div>
                             </div>
                         </div>
@@ -651,9 +641,6 @@ export default function Terms() {
                     {/* Acknowledgment */}
                     <section className="bg-gray-50 p-8 rounded-3xl border border-gray-200">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-gray-600 shrink-0 shadow-sm">
-                                <CheckCircle className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-3">Acknowledgment and Acceptance</h3>
                                 <p className="leading-relaxed mb-4 text-gray-700">

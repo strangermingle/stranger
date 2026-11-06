@@ -429,28 +429,28 @@ export default function CallToMembersPage() {
                                                 </span>
                                                 <span className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded-full flex items-center gap-1 font-medium">
                                                     <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-500" />
-                                                    <span>{member.ratingAvg || '5.0'}</span>
-                                                    <span className="text-gray-400 font-normal">({member.ratingCount || 0} {member.ratingCount === 1 ? 'vote' : 'votes'})</span>
+                                                    <span>{member.ratingAvg ? Number(member.ratingAvg).toFixed(1) : '5.0'}</span>
+                                                    {member.ratingCount > 0 && (
+                                                        <span className="text-gray-400 font-normal">({member.ratingCount} {member.ratingCount === 1 ? 'vote' : 'votes'})</span>
+                                                    )}
                                                 </span>
                                             </div>
 
-                                            {/* Demographics: Gender & Age (Thin, Sleek Pills) */}
+                                            {/* Demographics: Gender & Age (Matches real user defaults when not specified) */}
                                             <div className="flex items-center gap-1.5 mt-0.5 text-[11px] text-gray-500 font-light">
                                                 <span className="px-2 py-0.5 rounded-md bg-gray-50 border border-gray-200/60">
-                                                    {member.gender}
+                                                    {member.gender || 'Not specified'}
                                                 </span>
                                                 <span>•</span>
                                                 <span className="px-2 py-0.5 rounded-md bg-gray-50 border border-gray-200/60">
-                                                    {member.age}
+                                                    {member.age || 'Not shared'}
                                                 </span>
                                             </div>
 
-                                            {/* Member Bio Snippet */}
-                                            {member.bio && (
-                                                <p className="text-[11px] text-gray-500 font-light mt-1 line-clamp-2 italic pr-2">
-                                                    "{member.bio}"
-                                                </p>
-                                            )}
+                                            {/* Member Bio Snippet (Displays member bio or platform default for non-bio profiles) */}
+                                            <p className="text-[11px] text-gray-500 font-light mt-1 line-clamp-2 italic pr-2">
+                                                "{member.bio && member.bio.trim().length > 0 ? member.bio : 'Verified member ready to talk and share experiences.'}"
+                                            </p>
                                         </div>
                                     </div>
 

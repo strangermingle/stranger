@@ -132,6 +132,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.5,
     },
+    {
+      url: `${BASE_URL}/grievance-redressal`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/shipping-and-delivery`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/companion-terms`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/anti-harassment-policy`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/community-guidelines`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/host-terms`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/delete-account`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.4,
+    },
     // Missing top-level public pages
     {
       url: `${BASE_URL}/advertise`,
@@ -336,6 +378,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // City best hangout places page
     cityPages.push({
       url: `${BASE_URL}/best-hangout-places/${city}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    });
+    // City companion: rent-a-girlfriend-in-[city]
+    cityPages.push({
+      url: `${BASE_URL}/${city}/rent-a-girlfriend-in-${city}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    });
+    // City companion: rent-a-boyfriend-in-[city]
+    cityPages.push({
+      url: `${BASE_URL}/${city}/rent-a-boyfriend-in-${city}`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,

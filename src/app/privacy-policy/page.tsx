@@ -15,7 +15,8 @@ import {
     ExternalLink,
     AlertTriangle,
     Baby,
-    PhoneCall
+    PhoneCall,
+    HeartHandshake
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -70,9 +71,6 @@ export default function PrivacyPolicy() {
                     {/* Our Commitment */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-indigo-50 rounded-2xl text-indigo-600 shrink-0">
-                                <Shield className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Commitment to Privacy</h2>
                                 <p className="leading-relaxed mb-4 text-gray-600">
@@ -89,9 +87,6 @@ export default function PrivacyPolicy() {
                     {/* Information We Collect */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 shrink-0">
-                                <Database className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">1. Information We Collect</h2>
 
@@ -177,9 +172,6 @@ export default function PrivacyPolicy() {
                     {/* How We Use Information */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-purple-50 rounded-2xl text-purple-600 shrink-0">
-                                <Eye className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">2. How We Use Your Information</h2>
 
@@ -248,9 +240,6 @@ export default function PrivacyPolicy() {
                     {/* How We Share Information */}
                     <section className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 relative overflow-hidden">
                         <div className="relative z-10 flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-blue-600 shrink-0 shadow-sm">
-                                <Users className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">3. How We Share Your Information</h2>
                                 <p className="mb-6 leading-relaxed font-semibold text-blue-900 bg-blue-100/50 p-4 rounded-xl border border-blue-200">
@@ -300,9 +289,6 @@ export default function PrivacyPolicy() {
                     {/* Data Storage and Security */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-teal-50 rounded-2xl text-teal-600 shrink-0">
-                                <Lock className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Data Storage and Security</h2>
 
@@ -346,51 +332,54 @@ export default function PrivacyPolicy() {
                         </div>
                     </section>
 
-                    {/* Phone a Friend Audio Calling Privacy */}
+                    {/* Anonymous Chat, Audio Calling & Rent a Friend Privacy */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-indigo-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-indigo-50 rounded-2xl text-indigo-600 shrink-0">
-                                <PhoneCall className="w-6 h-6" />
-                            </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">5. &quot;Phone a Friend&quot; 1-on-1 Calling Privacy &amp; Data Security</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Anonymous Chat, Anonymous Calls (Without Mobile Number) &amp; Rent a Friend Privacy Standards</h2>
                                 <p className="leading-relaxed mb-6 text-gray-600">
-                                    Our <strong>Phone a Friend</strong> audio calling feature connects callers with community hosts for meaningful, supportive conversations. We take rigorous steps to preserve your privacy and anonymity:
+                                    Our <strong>Anonymous Chat</strong>, <strong>Anonymous Audio Calls (without sharing mobile numbers)</strong>, and <strong>Rent a Friend (Hire a Companion)</strong> features connect people for platonic friendship and mutual listening. We enforce strict privacy and security protocols:
                                 </p>
 
                                 <div className="space-y-6">
                                     <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
-                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Caller &amp; Host Anonymity (Phone Number Masking)</h3>
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Complete Mobile Number Masking &amp; Anonymity</h3>
                                         <p className="leading-relaxed text-gray-600 text-sm">
-                                            All calls are established through encrypted in-app channels. Neither your phone number, email address, nor exact location is ever revealed to the other participant. Only your chosen display name is visible.
+                                            All chat conversations and voice calls occur through encrypted in-app infrastructure. Your personal phone number, WhatsApp contact, email address, or residential location is NEVER revealed or shared with any other member, host, or companion. You interact only using your chosen display name.
                                         </p>
                                     </div>
 
                                     <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
-                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Audio Streaming &amp; Non-Recording Policy</h3>
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Encrypted Audio &amp; Non-Recording Policy</h3>
                                         <p className="leading-relaxed text-gray-600 text-sm">
-                                            Audio conversations are streamed peer-to-peer or via secured real-time media servers (WebRTC/Secure Real-Time Media Network) using industry-standard transport layer encryption. We do not listen to, record, or store the audio content of your private conversations during regular service operations.
+                                            Audio calls are routed via encrypted WebRTC media streams. We do not listen to, record, or store the content of your voice calls during routine operations.
                                         </p>
                                     </div>
 
-                                    <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
-                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Prohibition of Contact &amp; Financial Exchange</h3>
-                                        <p className="leading-relaxed text-gray-600 text-sm">
-                                            Users are strictly prohibited from asking for or disclosing private personal contact information (e.g., phone numbers, WhatsApp, home address, social handles) or financial credentials during calls. All transactions and platform communications must remain strictly within Stranger Mingle.
+                                    <div className="bg-rose-50/70 p-5 rounded-2xl border border-rose-200">
+                                        <h3 className="text-lg font-bold text-rose-950 mb-2 flex items-center gap-2">
+                                            <HeartHandshake className="w-5 h-5 text-rose-600" />
+                                            Rent a Friend KYC Privacy &amp; Platonic Friendship
+                                        </h3>
+                                        <p className="leading-relaxed text-rose-900 text-sm mb-2">
+                                            The Rent a Friend / Companion service is purely for platonic friendship to combat urban loneliness. Individuals registering as companions submit government identity documents (Aadhaar, PAN/Driving License) and bank account details for verification and payouts. These documents are stored in secure private buckets and are NEVER made public or shared with clients.
                                         </p>
                                     </div>
 
-                                    <div className="bg-amber-50 p-5 rounded-2xl border border-amber-200">
-                                        <h3 className="text-lg font-bold text-amber-900 mb-2">Independent Off-Platform Arrangements Disclaimer</h3>
-                                        <p className="leading-relaxed text-amber-800 text-sm">
-                                            Stranger Mingle provides audio calling strictly as an in-app social service. If participants choose to negotiate, arrange, or settle anything outside of the platform—including personal in-person meetings, off-platform financial transactions, or third-party communications—they do so at their sole discretion and risk. Stranger Mingle disclaims all liability and responsibility for any events, agreements, or outcomes arising from off-platform interactions.
+                                    <div className="bg-amber-50 p-6 rounded-2xl border border-amber-300">
+                                        <h3 className="text-lg font-bold text-amber-950 mb-2">Strict Non-Liability for Meeting in Private Places (Home, Hotel Room, etc.)</h3>
+                                        <p className="leading-relaxed text-amber-950 text-sm font-semibold mb-2">
+                                            Stranger Mingle is strictly not liable or responsible under any circumstances if users or companions choose to meet in private places like home, hotel room, private residence, apartment, or vehicle.
+                                        </p>
+                                        <p className="text-xs text-amber-900 leading-relaxed">
+                                            All companion meetups must happen exclusively in public, open venues (cafes, malls, restaurants, parks). Private meetings are unauthorized, in violation of platform terms, and undertaken solely at the individuals&apos; own independent risk.
                                         </p>
                                     </div>
 
-                                    <div className="bg-red-50 p-5 rounded-2xl border border-red-200">
+                                    <div className="bg-red-50 p-6 rounded-2xl border border-red-200">
                                         <h3 className="text-lg font-bold text-red-900 mb-2">Abuse, Harassment &amp; Legal Compliance Logs</h3>
                                         <p className="leading-relaxed text-red-800 text-sm">
-                                            We maintain audit logs of call metadata (such as timestamps, call duration, user IDs, ratings, and abuse/harassment reports) to safeguard platform integrity. Any harassment, vulgarity, threat, or sexual misconduct reported against a host or caller will lead to immediate account termination and will be submitted alongside identifying records to law enforcement and cybercrime authorities under applicable statutes.
+                                            We maintain audit logs of metadata (timestamps, duration, ratings, and abuse/harassment reports) to safeguard platform integrity. Any harassment, vulgarity, threat, or sexual misconduct reported against a host, companion, or user will lead to immediate account termination and will be submitted alongside identifying records to law enforcement and cybercrime authorities.
                                         </p>
                                     </div>
                                 </div>
@@ -401,9 +390,6 @@ export default function PrivacyPolicy() {
                     {/* Your Rights */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-red-50 rounded-2xl text-red-600 shrink-0">
-                                <Scale className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">6. Your Rights and Choices</h2>
 
@@ -442,9 +428,6 @@ export default function PrivacyPolicy() {
                     {/* Cookies and Tracking */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-orange-50 rounded-2xl text-orange-600 shrink-0">
-                                <Cookie className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Cookies and Tracking Technologies</h2>
 
@@ -477,9 +460,6 @@ export default function PrivacyPolicy() {
                     {/* Third-Party Services */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-gray-50 rounded-2xl text-gray-600 shrink-0">
-                                <ExternalLink className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Third-Party Services and Links</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -495,9 +475,6 @@ export default function PrivacyPolicy() {
                     {/* Children's Privacy */}
                     <section className="bg-blue-50 p-8 rounded-3xl border border-blue-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-blue-600 shrink-0 shadow-sm">
-                                <Baby className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Children&apos;s Privacy</h2>
                                 <p className="leading-relaxed text-gray-700">
@@ -510,9 +487,6 @@ export default function PrivacyPolicy() {
                     {/* Photography and Media Consent */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-pink-50 rounded-2xl text-pink-600 shrink-0">
-                                <Camera className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Photography and Media Consent</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -531,9 +505,6 @@ export default function PrivacyPolicy() {
                     {/* International Users */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-emerald-50 rounded-2xl text-emerald-600 shrink-0">
-                                <Globe className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">11. International Users</h2>
                                 <p className="leading-relaxed text-gray-600">
@@ -546,9 +517,6 @@ export default function PrivacyPolicy() {
                     {/* Changes to Privacy Policy */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-gray-50 rounded-2xl text-gray-600 shrink-0">
-                                <RefreshCw className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Changes to This Privacy Policy</h2>
                                 <p className="mb-4 leading-relaxed text-gray-600">
@@ -569,9 +537,6 @@ export default function PrivacyPolicy() {
                     {/* Data Breach Notification */}
                     <section className="bg-yellow-50 p-8 rounded-3xl border border-yellow-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-yellow-600 shrink-0 shadow-sm">
-                                <AlertTriangle className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">13. Data Breach Notification</h2>
                                 <p className="leading-relaxed text-gray-700">
@@ -585,9 +550,6 @@ export default function PrivacyPolicy() {
                     <section className="bg-blue-600 p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow text-white relative overflow-hidden">
                         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-3xl"></div>
                         <div className="flex items-start gap-4 relative z-10">
-                            <div className="p-3 bg-white/10 rounded-2xl text-white shrink-0">
-                                <Mail className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold mb-4">14. Contact Us About Privacy</h2>
                                 <p className="mb-4 leading-relaxed text-blue-50">
@@ -595,8 +557,9 @@ export default function PrivacyPolicy() {
                                 </p>
                                 <div className="space-y-2 ml-4">
                                     <p className="text-blue-50"><strong>Email:</strong> strangermingleteam@gmail.com</p>
+                                    <p className="text-blue-50"><strong>Phone / WhatsApp:</strong> +917385531551</p>
                                     <p className="text-blue-50"><strong>Support:</strong> Through our official website contact form</p>
-                                    <p className="text-blue-50"><strong>Response Time:</strong> We aim to respond within 48-72 hours</p>
+                                    <p className="text-blue-50"><strong>Response Time:</strong> We aim to respond within 24-48 hours</p>
                                 </div>
                                 <p className="mt-4 leading-relaxed text-blue-50">
                                     We take privacy concerns seriously and are committed to resolving any issues promptly and transparently.
@@ -608,9 +571,6 @@ export default function PrivacyPolicy() {
                     {/* Final Note */}
                     <section className="bg-amber-50 p-8 rounded-3xl border border-amber-200">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-amber-100 rounded-2xl text-amber-700 shrink-0">
-                                <Bell className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-900 mb-3">Your Privacy Matters</h3>
                                 <p className="leading-relaxed text-gray-800">

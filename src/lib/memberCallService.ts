@@ -10,9 +10,9 @@ export interface OnlineMember {
   id: string;
   anonymousAlias: string;
   avatarUrl: string | null;
-  bio?: string;
-  gender: string;
-  age: string;
+  bio?: string | null;
+  gender?: string | null;
+  age?: string | null;
   callStatus: 'idle' | 'ringing' | 'in_call' | 'offline';
   ratingAvg: string;
   ratingCount: number;
@@ -186,4 +186,20 @@ export async function submitMemberCallRatingApi(payload: {
     throw new Error(err.error || 'Failed to submit rating');
   }
   return res.json();
+}
+
+/**
+ * Notifies backend of member sign-out to immediately clean presence from Redis and DB.
+ */
+export async function memberSignOutApi(userId: string) {
+  try {
+    await fetch(`${BACKEND_URL}/api/members/calls`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'signout', userId }),
+      cache: 'no-store',
+    });
+  } catch (e) {
+    // Non-blocking signout cleanup
+  }
 }

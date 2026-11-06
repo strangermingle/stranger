@@ -53,6 +53,31 @@ export default function FAQs() {
             ]
         },
         {
+            category: "Rent a Friend, Anonymous Chat, Calls & Memberships",
+            questions: [
+                {
+                    q: "What is the Rent a Friend (Hire a Companion) service?",
+                    a: "The Rent a Friend (Hire a Companion) service is purely for platonic friendship to combat loneliness in cities. Members can hire verified companions for public cafe hangouts, dining out, watching a movie, or attending social gatherings. Stranger Mingle is strictly not liable or responsible if people are meeting in private places like home, hotel room, etc. All companion outings must take place strictly in open, public places."
+                },
+                {
+                    q: "How can I register to become a companion and earn?",
+                    a: "Anyone 18 years or older with good interpersonal skills can register as a companion on our registration page. You submit government ID documents (Aadhaar, PAN/Driving License) and bank details for secure KYC verification. Once verified, companions set their hourly rates (typically ₹500–₹1,500/hr) and earn by offering friendly platonic companionship."
+                },
+                {
+                    q: "How does Anonymous Chat work?",
+                    a: "Anonymous Chat connects verified members across India for 1-on-1 text messaging without disclosing real phone numbers, emails, or personal social media handles. Conversations are end-to-end secure, private, and moderated."
+                },
+                {
+                    q: "How do Anonymous Calls without mobile number work?",
+                    a: "Our encrypted audio calling feature allows users to talk directly with real friends and empathetic community listeners without revealing their personal mobile number. Your phone number stays 100% confidential and masked."
+                },
+                {
+                    q: "What benefits do Stranger Mingle Memberships include?",
+                    a: "Purchasing a Stranger Mingle Membership unlocks unlimited anonymous chat, direct calls without sharing mobile numbers, full access to browse and hire verified companions, and exclusive discounts for weekend meetups."
+                }
+            ]
+        },
+        {
             category: "Events and Registration",
             questions: [
                 {

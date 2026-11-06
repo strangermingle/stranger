@@ -63,9 +63,6 @@ export default function SafetyGuidelines() {
                     <div className="bg-blue-600 p-8 rounded-3xl shadow-lg text-white relative overflow-hidden">
                         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-3xl"></div>
                         <div className="relative z-10 flex items-start gap-4">
-                            <div className="p-3 bg-white/10 rounded-2xl shrink-0 backdrop-blur-sm">
-                                <ShieldCheck className="w-8 h-8 text-blue-100" />
-                            </div>
                             <div>
                                 <p className="font-bold text-xl mb-3 text-blue-50">Your Safety is Our Priority</p>
                                 <p className="leading-relaxed text-lg text-blue-100">
@@ -80,9 +77,6 @@ export default function SafetyGuidelines() {
                     {/* Before Events */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 shrink-0">
-                                <ClipboardCheck className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Before Attending Events</h2>
 
@@ -137,9 +131,6 @@ export default function SafetyGuidelines() {
                     {/* During Events */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-green-50 rounded-2xl text-green-600 shrink-0">
-                                <Shield className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">During Events - Personal Safety</h2>
 
@@ -209,9 +200,6 @@ export default function SafetyGuidelines() {
                     <section className="bg-pink-50 p-8 rounded-3xl border border-pink-100 relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-20 rounded-full blur-3xl -mr-16 -mt-16"></div>
                         <div className="relative z-10 flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-pink-600 shrink-0 shadow-sm">
-                                <Users className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Specific Safety Guidelines for Women</h2>
                                 <p className="leading-relaxed mb-6 text-gray-700 font-medium">
@@ -261,9 +249,6 @@ export default function SafetyGuidelines() {
                     {/* Prohibited Behavior */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-red-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-red-50 rounded-2xl text-red-600 shrink-0">
-                                <ThumbsDown className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Strictly Prohibited Behavior</h2>
                                 <p className="leading-relaxed font-semibold mb-6 text-red-600">
@@ -327,25 +312,65 @@ export default function SafetyGuidelines() {
                     </section>
 
                     {/* Phone a Friend Safety Guidelines */}
+                    {/* Rent a Friend Safety Guidelines */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-rose-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-rose-50 rounded-2xl text-rose-600 shrink-0">
-                                <PhoneCall className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Phone a Friend (1-on-1 Audio Calling) Safety Rules</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Rent a Friend (Hire a Companion) Safety Guidelines &amp; Private Places Disclaimer</h2>
                                 <p className="leading-relaxed font-semibold mb-6 text-gray-700">
-                                    Our Phone a Friend voice service is built on mutual respect, empathy, and strict caller anonymity. All callers and hosts must follow these mandatory rules:
+                                    Our Rent a Friend (Hire a Companion) service connects people across India with verified companions for friendly, platonic outings. To ensure absolute safety, all users and companions must strictly abide by these rules:
+                                </p>
+
+                                <div className="space-y-6">
+                                    <div className="bg-rose-50/70 p-6 rounded-2xl border border-rose-200">
+                                        <h3 className="text-base font-bold text-rose-950 mb-2 flex items-center gap-2">
+                                            <HeartHandshake className="w-5 h-5 text-rose-600 shrink-0" />
+                                            Purely Platonic Friendship to Combat Loneliness
+                                        </h3>
+                                        <p className="text-rose-900 text-sm leading-relaxed mb-2">
+                                            The service is purely for platonic friendship to combat loneliness in urban cities. Companions provide friendly social company for public outings, cafes, dining, movies, shopping, city sightseeing, and social gatherings.
+                                        </p>
+                                        <p className="text-rose-800 text-xs leading-relaxed">
+                                            Romance, dating, sexual solicitation, adult services, and any physical intimacy are strictly prohibited. Any violation results in immediate permanent ban, forfeiture of fees, and legal complaints.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-amber-50 p-6 rounded-2xl border border-amber-300">
+                                        <h3 className="text-base font-bold text-amber-950 mb-2 flex items-center gap-2">
+                                            <AlertTriangle className="w-5 h-5 text-amber-700 shrink-0" />
+                                            Strict Non-Liability for Private Places (Home, Hotel Room, etc.)
+                                        </h3>
+                                        <p className="text-amber-950 text-sm leading-relaxed mb-3 font-bold">
+                                            Stranger Mingle is strictly not liable or responsible under any circumstances if people are meeting in private places like home, hotel room, private residence, apartment, guest house, or vehicle.
+                                        </p>
+                                        <ul className="space-y-2 text-amber-900 text-xs list-disc ml-5 leading-relaxed">
+                                            <li><strong>Mandatory Public Venues:</strong> All companion meetings must take place exclusively in busy, open, well-lit public places (e.g. cafes, restaurants, malls, public parks, or registered public events).</li>
+                                            <li><strong>Private Locations Forbidden:</strong> Never meet or invite a companion to private homes, hotel rooms, rented flats, or private vehicles.</li>
+                                            <li><strong>Complete Disclaimer:</strong> If users or companions disregard this rule and choose to meet in private places, they do so solely at their own independent risk. Stranger Mingle disclaims all liability, legal responsibility, or damages for any incidents occurring in private premises.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Anonymous Chat & Calls Safety Rules */}
+                    <section className="bg-white p-8 rounded-3xl shadow-sm border border-indigo-100 hover:shadow-md transition-shadow">
+                        <div className="flex items-start gap-4">
+                            <div className="w-full">
+                                <h2 className="text-2xl font-bold text-gray-900 mb-4">Anonymous Chat &amp; Anonymous Calls (Without Mobile Number) Safety Rules</h2>
+                                <p className="leading-relaxed font-semibold mb-6 text-gray-700">
+                                    Our Anonymous Chat and Voice Calling features protect your personal identity. All users must follow these mandatory rules:
                                 </p>
 
                                 <div className="space-y-6">
                                     <div className="bg-red-50 p-6 rounded-2xl border border-red-200">
                                         <h3 className="text-base font-bold text-red-950 mb-2 flex items-center gap-2">
                                             <AlertTriangle className="w-5 h-5 text-red-600 shrink-0" />
-                                            Harassment Against Hosts Leads to Immediate Legal Action
+                                            Harassment Leads to Immediate Criminal Prosecution
                                         </h3>
                                         <p className="text-red-900 text-sm leading-relaxed mb-3">
-                                            Harassment, abusive or vulgar language, sexual remarks, threats, or intimidation directed at hosts is strictly prohibited. Any caller engaging in harassment will face immediate permanent account termination, IP/device ban, and formal reporting to Indian Cyber Crime authorities and local police for criminal prosecution under the Information Technology Act and criminal laws.
+                                            Harassment, abusive or vulgar language, sexual remarks, threats, or intimidation directed at hosts, companions, or users is strictly prohibited. Any caller or chatter engaging in harassment will face immediate permanent account termination, IP/device ban, and formal reporting to Indian Cyber Crime authorities and local police for criminal prosecution.
                                         </p>
                                     </div>
 
@@ -353,31 +378,22 @@ export default function SafetyGuidelines() {
                                         <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
                                             <h3 className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-2">
                                                 <HeartHandshake className="w-4 h-4 text-emerald-600" />
-                                                Caller Etiquette & Mutual Respect
+                                                Caller Etiquette &amp; Mutual Respect
                                             </h3>
                                             <p className="text-gray-600 text-xs leading-relaxed">
-                                                Callers must remain polite, courteous, and calm. Hosts offer a supportive listening ear; treat them with dignity. Keep conversations strictly platonic, safe, and positive.
+                                                Remain polite, courteous, and calm. Hosts and companions offer a supportive listening ear and platonic company; treat them with dignity.
                                             </p>
                                         </div>
 
                                         <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
                                             <h3 className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-2">
                                                 <Lock className="w-4 h-4 text-indigo-600" />
-                                                Do Not Share Personal Contact Details
+                                                Zero Phone Numbers Shared
                                             </h3>
                                             <p className="text-gray-600 text-xs leading-relaxed">
                                                 Never share or request phone numbers, WhatsApp contacts, residential addresses, social media profiles (Instagram, LinkedIn), or banking/UPI details.
                                             </p>
                                         </div>
-                                    </div>
-
-                                    <div className="bg-amber-50 p-5 rounded-2xl border border-amber-200">
-                                        <h3 className="text-sm font-bold text-amber-950 mb-2">
-                                            No Personal In-Person Meetings — Stranger Mingle Disclaimer
-                                        </h3>
-                                        <p className="text-amber-900 text-xs leading-relaxed">
-                                            Stranger Mingle facilitates audio calls only. Stranger Mingle will not be responsible or legally liable if a host and caller choose to settle or arrange anything apart from calls, such as personal in-person meetings, offline get-togethers, or private transactions. In-person meetings are completely unendorsed and at your own personal risk.
-                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -387,9 +403,6 @@ export default function SafetyGuidelines() {
                     {/* After Events */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-purple-50 rounded-2xl text-purple-600 shrink-0">
-                                <Handshake className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">After Events - Safe Interactions</h2>
 
@@ -448,9 +461,6 @@ export default function SafetyGuidelines() {
                     {/* Emergency Situations */}
                     <section className="bg-red-50 p-8 rounded-3xl border border-red-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-red-600 shrink-0 shadow-sm">
-                                <Siren className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Emergency Situations</h2>
 
@@ -518,9 +528,6 @@ export default function SafetyGuidelines() {
                     {/* Reporting */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-orange-50 rounded-2xl text-orange-600 shrink-0">
-                                <Megaphone className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Reporting Violations and Concerns</h2>
 
@@ -543,9 +550,9 @@ export default function SafetyGuidelines() {
                                             <p className="leading-relaxed mb-3 text-sm text-gray-600">You can report violations through:</p>
                                             <ul className="space-y-2 text-gray-600 text-sm list-disc ml-5">
                                                 <li><strong>During Events:</strong> Inform the event organizer immediately</li>
-                                                <li><strong>After Events:</strong> Email strangermingleteam@gmail.com with details</li>
-                                                <li><strong>Website:</strong> Use the &quot;Report Concern&quot; form</li>
-                                                <li><strong>WhatsApp:</strong> Message our safety team</li>
+                                                <li><strong>Direct Email:</strong> Write directly to <strong>strangermingleteam@gmail.com</strong> (reviewed within 24 hours)</li>
+                                                <li><strong>Phone / WhatsApp:</strong> Call or message our team at <strong>+917385531551</strong></li>
+                                                <li><strong>Website:</strong> Use the &quot;Report Concern&quot; form on the Support page</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -588,9 +595,6 @@ export default function SafetyGuidelines() {
                     {/* Organizer Responsibilities */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-teal-50 rounded-2xl text-teal-600 shrink-0">
-                                <Briefcase className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Event Organizer Responsibilities</h2>
                                 <p className="leading-relaxed text-gray-600 mb-4">Our event organizers are trained and committed to your safety. They will:</p>
@@ -619,9 +623,6 @@ export default function SafetyGuidelines() {
                     {/* Final Note */}
                     <section className="bg-blue-50 p-8 rounded-3xl border border-blue-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-blue-600 shrink-0 shadow-sm">
-                                <HeartHandshake className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-3">Safety is a Shared Responsibility</h3>
                                 <p className="leading-relaxed mb-4 text-gray-700">

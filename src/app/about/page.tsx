@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { ArrowRight, Users, Heart, Shield, MapPin, Calendar, Star, CheckCircle2, UserPlus, Coffee, Mountain, Palette, HandHeart, Monitor } from "lucide-react";
+import { 
+    ArrowRight, Users, Heart, Shield, MapPin, Calendar, Star, CheckCircle2, 
+    UserPlus, Coffee, Mountain, Palette, HandHeart, Monitor, PhoneCall, 
+    MessageSquare, HeartHandshake, Crown, UserCheck, DollarSign, Clock, 
+    ShieldAlert, Sparkles, AlertTriangle, Check, ShieldCheck 
+} from "lucide-react";
 
 export const metadata: Metadata = {
     title: "About Us",
@@ -36,17 +41,228 @@ export default function About() {
                         Building Real <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-purple-600">Friendships</span><br className="hidden md:block" /> Across India
                     </h1>
                     <p className="mt-4 max-w-2xl mx-auto text-xl md:text-2xl text-gray-600 leading-relaxed">
-                        No swipes. No algorithms. Just safe, structured events — offline and online — where you can show up, be yourself, and make friends for real.
+                        No swipes. No algorithms. Just safe, structured connections — Anonymous Chat, Calling without mobile numbers, Rent a Friend, and weekend meetups across India.
                     </p>
-                    <div className="mt-10 flex justify-center gap-4">
-                        <Link href="/" className="px-8 py-4 text-lg font-semibold rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200">
-                            Find an Event
+                    <div className="mt-8 flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
+                        <Link href="/members/login" className="px-6 py-3.5 text-sm font-bold uppercase tracking-wider rounded-2xl bg-rose-600 text-white hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200 flex items-center gap-2">
+                            <HeartHandshake className="w-4 h-4" />
+                            <span>Hire a Companion</span>
+                        </Link>
+                        <Link href="/rent-a-friend-registration" className="px-6 py-3.5 text-sm font-bold uppercase tracking-wider rounded-2xl bg-white border border-gray-200 text-gray-800 hover:bg-gray-50 transition-colors flex items-center gap-2">
+                            <Users className="w-4 h-4 text-rose-500" />
+                            <span>Become a Companion</span>
+                        </Link>
+                        <Link href="/members" className="px-6 py-3.5 text-sm font-black uppercase tracking-wider rounded-2xl bg-yellow-400 text-slate-950 hover:bg-yellow-500 transition-colors shadow-md shadow-yellow-200 flex items-center gap-2">
+                            <Crown className="w-4 h-4" />
+                            <span>Join Membership</span>
                         </Link>
                     </div>
                 </div>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-24">
+                {/* 3 Core Ways to Combat Loneliness */}
+                <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-rose-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl border border-rose-500/20">
+                    <div className="text-center max-w-3xl mx-auto mb-10">
+                        <span className="text-xs font-bold uppercase tracking-widest text-rose-300 block mb-2">
+                            Combat Loneliness with Safe Social Innovation
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight mb-4">
+                            Anonymous Chat, Secure Calling &amp; Rent a Friend
+                        </h2>
+                        <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                            Millions feel lonely in busy cities. Stranger Mingle provides three distinct, verified ways to connect safely, whether online or offline.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-6 text-left mb-8">
+                        <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs">
+                            <div className="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center mb-4">
+                                <MessageSquare className="w-6 h-6 text-purple-300" />
+                            </div>
+                            <h3 className="text-lg font-bold text-white mb-2">Anonymous Chat</h3>
+                            <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                                Connect 1-on-1 with verified users across India. Your mobile number, full identity, and personal handles are completely protected and never revealed.
+                            </p>
+                            <Link href="/members" className="text-xs font-bold text-purple-300 hover:text-purple-200 inline-flex items-center gap-1">
+                                Get Membership &amp; Chat <ArrowRight size={12} />
+                            </Link>
+                        </div>
+
+                        <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs">
+                            <div className="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center mb-4">
+                                <PhoneCall className="w-6 h-6 text-indigo-300" />
+                            </div>
+                            <h3 className="text-lg font-bold text-white mb-2">Calls Without Mobile Number</h3>
+                            <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                                Peer-to-peer audio calls that keep your phone number 100% private. Have comforting, friendly conversations with empathetic listeners.
+                            </p>
+                            <Link href="/members" className="text-xs font-bold text-indigo-300 hover:text-indigo-200 inline-flex items-center gap-1">
+                                Unlock Calling Access <ArrowRight size={12} />
+                            </Link>
+                        </div>
+
+                        <div className="p-6 rounded-2xl bg-rose-500/10 border border-rose-500/30 backdrop-blur-xs">
+                            <div className="w-12 h-12 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center mb-4">
+                                <HeartHandshake className="w-6 h-6 text-rose-300" />
+                            </div>
+                            <h3 className="text-lg font-bold text-white mb-2">Rent a Friend (Companions)</h3>
+                            <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                                Hire verified companions for cafe outings, movies, and events. Or register as a companion to earn ₹500–₹1,500/hr offering platonic company.
+                            </p>
+                            <div className="flex gap-2">
+                                <Link href="/members/login" className="text-xs font-bold text-rose-300 hover:text-rose-200">
+                                    Hire Friend &rarr;
+                                </Link>
+                                <span className="text-slate-500">&bull;</span>
+                                <Link href="/rent-a-friend-registration" className="text-xs font-bold text-amber-300 hover:text-amber-200">
+                                    Become Companion &rarr;
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-black/30 border border-white/10 text-center text-xs text-slate-300">
+                        <strong>Important Safety Notice:</strong> The Rent a Friend service is purely for platonic friendship to combat loneliness. <strong>Stranger Mingle is strictly not liable or responsible if people are meeting in private places like home, hotel room, etc.</strong> All companion meetups must happen strictly in open, public places.
+                    </div>
+                </div>
+
+                {/* DEDICATED RENT A FRIEND PLATFORM DEEP DIVE */}
+                <div id="rent-a-friend" className="space-y-12 bg-linear-to-b from-rose-50/40 via-white to-indigo-50/30 rounded-3xl p-6 sm:p-12 border border-rose-100 shadow-sm">
+                    <div className="text-center max-w-3xl mx-auto">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-bold uppercase tracking-wider mb-3">
+                            <HeartHandshake className="w-3.5 h-3.5" />
+                            <span>Platonic Social Companionship</span>
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
+                            How Rent a Friend Combats Urban Loneliness
+                        </h2>
+                        <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                            Moving to a bustling metropolis like Bengaluru, Mumbai, Pune, Delhi NCR, or Hyderabad can feel exhilarating — until you realize you are having dinner alone, watching weekend movies alone, or wishing you had someone to explore a new cafe with. 
+                        </p>
+                    </div>
+
+                    {/* Why Rent a Friend in India */}
+                    <div className="grid md:grid-cols-3 gap-6">
+                        <div className="p-6 bg-white rounded-2xl border border-gray-200/80 shadow-xs">
+                            <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4">
+                                <Users className="w-5 h-5" />
+                            </div>
+                            <h3 className="font-bold text-gray-900 mb-2">Urban Migration &amp; PG Isolation</h3>
+                            <p className="text-xs text-gray-600 leading-relaxed">
+                                Over 68% of young professionals in Indian tech hubs live away from hometowns. Finding friends organically amidst demanding corporate hours is challenging. Rent a Friend bridges this gap instantly.
+                            </p>
+                        </div>
+                        <div className="p-6 bg-white rounded-2xl border border-gray-200/80 shadow-xs">
+                            <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4">
+                                <Coffee className="w-5 h-5" />
+                            </div>
+                            <h3 className="font-bold text-gray-900 mb-2">Zero Pretense &amp; Zero Swiping</h3>
+                            <p className="text-xs text-gray-600 leading-relaxed">
+                                Unlike dating apps built on superficial swipe algorithms and endless ghosting, Rent a Friend is transparent, structured, and strictly platonic. You book time, meet for a planned activity, and share great conversations.
+                            </p>
+                        </div>
+                        <div className="p-6 bg-white rounded-2xl border border-gray-200/80 shadow-xs">
+                            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4">
+                                <ShieldCheck className="w-5 h-5" />
+                            </div>
+                            <h3 className="font-bold text-gray-900 mb-2">100% ID Verified &amp; Escrow Safe</h3>
+                            <p className="text-xs text-gray-600 leading-relaxed">
+                                All registered companions undergo government ID verification. Payments are held in secure escrow through Razorpay until your meetup is completed satisfactorily.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Two Paths: Hire a Companion vs Become a Companion */}
+                    <div className="grid md:grid-cols-2 gap-8 pt-4">
+                        {/* Path 1: Hiring */}
+                        <div className="bg-white p-8 rounded-3xl border border-rose-200 shadow-md flex flex-col justify-between">
+                            <div>
+                                <div className="inline-block px-3 py-1 rounded-full bg-rose-50 text-rose-600 text-xs font-bold uppercase tracking-wider mb-4">
+                                    For Members
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3">Hiring a Platonic Companion</h3>
+                                <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+                                    Need a friendly plus-one for an art gallery, someone to check out the newest Korean cafe in Koramangala, or a thoughtful listener over tea?
+                                </p>
+                                <ul className="space-y-3 mb-8 text-xs text-gray-600">
+                                    <li className="flex items-start gap-2.5">
+                                        <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                        <span><strong>Browse by City:</strong> Find companions in your neighborhood who share your interests (movies, fitness, anime, tech).</span>
+                                    </li>
+                                    <li className="flex items-start gap-2.5">
+                                        <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                        <span><strong>Transparent Hourly Rates:</strong> Clearly displayed hourly rates (typically ₹500–₹1,500/hr) with zero hidden fees.</span>
+                                    </li>
+                                    <li className="flex items-start gap-2.5">
+                                        <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                        <span><strong>Public Meetups Only:</strong> Guaranteed public locations like cafes, shopping malls, cultural events, or restaurants.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <Link
+                                href="/members/friends-on-rent"
+                                className="w-full py-3.5 px-4 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-wider text-center shadow-md shadow-rose-200 transition-all flex items-center justify-center gap-2"
+                            >
+                                <HeartHandshake className="w-4 h-4" />
+                                <span>Browse Companions on Rent</span>
+                            </Link>
+                        </div>
+
+                        {/* Path 2: Becoming a Companion */}
+                        <div className="bg-white p-8 rounded-3xl border border-indigo-200 shadow-md flex flex-col justify-between">
+                            <div>
+                                <div className="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-4">
+                                    Earn in Free Time
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3">Earn Hourly as a Companion</h3>
+                                <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+                                    Are you a good listener, warm, empathetic, and enjoy meeting new people? Monetize your social skills while helping combat loneliness in your city.
+                                </p>
+                                <ul className="space-y-3 mb-8 text-xs text-gray-600">
+                                    <li className="flex items-start gap-2.5">
+                                        <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                        <span><strong>Earn ₹500 – ₹1,500/Hour:</strong> You choose your own hourly rate based on your background and language skills.</span>
+                                    </li>
+                                    <li className="flex items-start gap-2.5">
+                                        <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                        <span><strong>100% Flexible Schedule:</strong> Set your active hours, preferred days, and city neighborhoods.</span>
+                                    </li>
+                                    <li className="flex items-start gap-2.5">
+                                        <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                        <span><strong>Strict Safety Controls:</strong> All meetups happen strictly in daylight/public venues with verified member accounts.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <Link
+                                href="/rent-a-friend-registration"
+                                className="w-full py-3.5 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider text-center shadow-md shadow-indigo-200 transition-all flex items-center justify-center gap-2"
+                            >
+                                <Users className="w-4 h-4" />
+                                <span>Register as a Companion</span>
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Strict Platonic Policy Box */}
+                    <div className="p-6 rounded-2xl bg-amber-50/80 border border-amber-200 text-amber-950">
+                        <div className="flex items-start gap-3">
+                            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                            <div className="text-xs leading-relaxed">
+                                <h4 className="font-bold text-sm text-amber-900 mb-1">
+                                    Strict Public &amp; Platonic Mandate
+                                </h4>
+                                <p className="text-amber-800/90 mb-2">
+                                    Stranger Mingle companion services are <strong>100% platonic social companionship</strong>. Any form of romantic solicitation, sexual behavior, physical contact beyond a handshake, or meeting in private venues (such as private homes, residences, hotel rooms, or secluded spots) is strictly prohibited.
+                                </p>
+                                <p className="text-amber-800/90">
+                                    <strong>Legal Disclaimer:</strong> Stranger Mingle is strictly not liable or responsible if individuals arrange or conduct meetings in private accommodations or outside platform guidelines. Violators will face immediate profile termination and permanent blacklist.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Mission Statement */}
                 <div className="text-center max-w-3xl mx-auto">
                     <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>

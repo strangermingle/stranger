@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, MapPin, Users, Music, Compass } from 'lucide-react';
+import { ArrowRight, MapPin, Users, Music, Compass, HeartHandshake } from 'lucide-react';
 import { LIVE_CITIES } from '@/lib/cities';
 
 export interface CityDirectoryLinksProps {
@@ -65,6 +65,18 @@ export default function CityDirectoryLinks({
             href: `/best-hangout-places/${slug}`,
             desc: `Curated cafes, venues & community hubs in ${name}`,
             icon: Compass,
+        },
+        {
+            title: `Rent a Girlfriend in ${name}`,
+            href: `/${slug}/rent-a-girlfriend-in-${slug}`,
+            desc: `Platonic female companions for cafe hangouts & events in ${name}`,
+            icon: HeartHandshake,
+        },
+        {
+            title: `Rent a Boyfriend in ${name}`,
+            href: `/${slug}/rent-a-boyfriend-in-${slug}`,
+            desc: `Polite & verified male companions for outings in ${name}`,
+            icon: Users,
         },
     ] : [];
 

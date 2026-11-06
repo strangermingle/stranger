@@ -26,73 +26,92 @@ const CITY_DISPLAY_NAMES: Record<string, string> = {
     visakhapatnam: 'Visakhapatnam',
 };
 
+interface FooterLink {
+    name: string;
+    href: string;
+    highlight?: boolean;
+}
+
+interface FooterSection {
+    title: string;
+    links: FooterLink[];
+}
+
 export default function Footer() {
     const currentYear = new Date().getFullYear();
 
-    const sections = [
+    const sections: FooterSection[] = [
         {
-            title: "Events & Hosting",
+            title: "Companions & Chat",
             links: [
-                { name: "Events", href: "/events" },
-                { name: "Latest Events", href: "/latest-events" },
-                { name: "Workshops", href: "/workshops" },
+                { name: "Rent a Friend", href: "/members/friends-on-rent", highlight: true },
+                { name: "Earn Hourly as Companion", href: "/rent-a-friend-registration" },
+                { name: "Purchase Membership", href: "/members" },
+                { name: "Anonymous Chat in India", href: "/annonymous-chat-in-india-with-real-people" },
+                { name: "Anonymous Voice Calls", href: "/phone-a-friend" },
+                { name: "Talk to Male Friend (For Girls)", href: "/talk-to-stranger-male-friend-online-only-for-girls" },
                 { name: "Social Coaching", href: "/social-coaching" },
-                { name: "Know Your Host", href: "/know-your-host" },
-                { name: "Host an Event", href: "/host-an-event", highlight: true },
-                { name: "Host Application", href: "/host-application" },
-                { name: "Private Events", href: "/private-events" },
+                { name: "Member Login & Portal", href: "/members?mode=login" },
             ]
         },
         {
-            title: "Partner with us",
+            title: "Events & Hangouts",
+            links: [
+                { name: "Weekend Meetups & Events", href: "/events" },
+                { name: "Latest City Events", href: "/latest-events" },
+                { name: "Host an Event", href: "/host-an-event" },
+                { name: "Board Game Nights", href: "/board-game-nights" },
+                { name: "Outdoor Meetups & Treks", href: "/outdoor-meetups" },
+                { name: "Community Circles", href: "/community-circles" },
+                { name: "Best Hangout Places", href: "/best-hangout-places" },
+                { name: "Live Online Games", href: "/live-online-games" },
+            ]
+        },
+        {
+            title: "About & Company",
+            links: [
+                { name: "About Us", href: "/about", highlight: true },
+                { name: "Our Mission & Story", href: "/about#mission" },
+                { name: "Rent a Friend Safety", href: "/about#rent-a-friend" },
+                { name: "Success Stories", href: "/success-stories" },
+                { name: "Member Testimonials", href: "/testimonials" },
+                { name: "Team & Leadership", href: "/team" },
+                { name: "Our Authors & Editorial", href: "/authors" },
+                { name: "Our Partners", href: "/our-partners" },
+                { name: "FAQs", href: "/faqs" },
+                { name: "Blog & Community Guides", href: "/blog" },
+                { name: "Contact Us", href: "/contact" },
+            ]
+        },
+        {
+            title: "Partner With Us",
             links: [
                 { name: "Venue Partners Directory", href: "/venue-partners" },
                 { name: "Sponsor an Event", href: "/sponsor-an-event" },
-                { name: "Media Kit", href: "/media-kit" },
+                { name: "Media Kit & Press", href: "/media-kit" },
                 { name: "Partner With Us", href: "/partner-with-us" },
-                { name: "Venue Partnership", href: "/venue-partnership" },
-                { name: "Brand Partnership", href: "/brand-partnership" },
+                { name: "Venue Partnerships", href: "/venue-partnership" },
+                { name: "Brand Partnerships", href: "/brand-partnership" },
                 { name: "Advertise With Us", href: "/advertise" },
+                { name: "Support Helpdesk", href: "/support" },
             ]
         },
         {
-            title: "Popular Cities",
+            title: "Legal & Policies",
             links: [
-                { name: "Bengaluru Meetups", href: "/bangalore" },
-                { name: "Mumbai Meetups", href: "/mumbai" },
-                { name: "Delhi Meetups", href: "/delhi" },
-                { name: "Hyderabad Meetups", href: "/hyderabad" },
-                { name: "Pune Meetups", href: "/pune" },
-                { name: "Kolkata Meetups", href: "/kolkata" },
-                { name: "Ahmedabad Meetups", href: "/ahmedabad" },
-                { name: "Chennai Meetups", href: "/chennai" },
-            ]
-        },
-        {
-            title: "Resources",
-            links: [
-                { name: "Anonymous Chat in India", href: "/annonymous-chat-in-india-with-real-people", highlight: true },
-                { name: "Member Login & Portal", href: "/members?mode=login" },
-                { name: "Contact Us", href: "/contact" },
-                { name: "Success Stories", href: "/success-stories" },
-                { name: "Testimonials", href: "/testimonials" },
-                { name: "Our Partners", href: "/our-partners" },
-                { name: "Our Authors", href: "/authors" },
-                { name: "FAQs", href: "/faqs" },
-                { name: "Blog", href: "/blog" },
-                { name: "Team", href: "/team" },
-                { name: "Support", href: "/support" },
-            ]
-        },
-        {
-            title: "Legal",
-            links: [
-                { name: "Privacy", href: "/privacy-policy" },
-                { name: "Cookie Policy", href: "/cookie-policy" },
-                { name: "Refund Policy", href: "/refund-policy" },
-                { name: "Safety Guidelines", href: "/safety-guidelines" },
                 { name: "Terms of Service", href: "/terms" },
+                { name: "Privacy Policy", href: "/privacy-policy" },
+                { name: "Companion Terms", href: "/companion-terms" },
+                { name: "Anti-Harassment Policy", href: "/anti-harassment-policy" },
+                { name: "Community Guidelines", href: "/community-guidelines" },
+                { name: "Safety Guidelines", href: "/safety-guidelines" },
+                { name: "Grievance Redressal", href: "/grievance-redressal" },
+                { name: "Shipping & Delivery", href: "/shipping-and-delivery" },
+                { name: "Host & Venue Terms", href: "/host-terms" },
+                { name: "Refund Policy", href: "/refund-policy" },
                 { name: "Disclaimer", href: "/disclaimer" },
+                { name: "Cookie Policy", href: "/cookie-policy" },
+                { name: "Delete Account", href: "/delete-account" },
             ]
         }
     ];
@@ -100,6 +119,43 @@ export default function Footer() {
     return (
         <footer className="w-full border-t border-gray-200 bg-gray-50/80 backdrop-blur-xl z-10 relative">
             <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+                {/* Top Promo & Platonic Service Notice Banner */}
+                <div className="mb-10 p-6 rounded-3xl bg-gradient-to-br from-indigo-950 via-slate-900 to-rose-950 text-white shadow-xl border border-rose-500/20">
+                    <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+                        <div className="text-center lg:text-left max-w-2xl">
+                            <span className="inline-block px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/30 text-rose-300 text-xs font-bold uppercase tracking-wider mb-2">
+                                Combat Loneliness With Stranger Mingle
+                            </span>
+                            <h3 className="text-xl sm:text-2xl font-black text-white mb-2">
+                                Anonymous Chat &bull; Calls Without Mobile Number &bull; Rent a Friend
+                            </h3>
+                            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                The service is purely for platonic friendship to combat loneliness in Indian cities. <strong>Stranger Mingle is strictly not liable or responsible if people are meeting in private places like home, hotel room, etc.</strong> All companion outings must take place strictly in public places.
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
+                            <Link
+                                href="/members/login"
+                                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-xs uppercase tracking-wider transition-transform hover:scale-105 shadow-md shadow-rose-500/25"
+                            >
+                                Hire a Companion
+                            </Link>
+                            <Link
+                                href="/rent-a-friend-registration"
+                                className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs uppercase tracking-wider transition-transform hover:scale-105"
+                            >
+                                Become a Companion
+                            </Link>
+                            <Link
+                                href="/members"
+                                className="px-5 py-2.5 rounded-xl bg-yellow-400 hover:bg-yellow-500 text-slate-950 font-black text-xs uppercase tracking-wider transition-transform hover:scale-105 shadow-md shadow-yellow-500/20"
+                            >
+                                Get Membership
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-8 text-center md:text-left">
                     {sections.map((section) => (
                         <div key={section.title}>
@@ -163,8 +219,12 @@ export default function Footer() {
                             />
                         </Link>
                         <p className="mb-2 text-sm text-gray-500 text-center md:text-left leading-relaxed">
-                            Connecting curious souls through uniquely curated weekend events and meetups. We believe in the magic of unexpected conversations and real-world connections.
+                            Connecting curious souls through uniquely curated weekend events, anonymous chat &amp; calls without mobile numbers, and rent a friend services to combat loneliness.
                         </p>
+                        <div className="text-xs text-gray-600 text-center md:text-left space-y-1 font-medium">
+                            <p><strong>Support &amp; Reporting:</strong> <a href="mailto:strangermingleteam@gmail.com" className="text-blue-600 hover:underline">strangermingleteam@gmail.com</a></p>
+                            <p><strong>Helpline / WhatsApp:</strong> <a href="tel:+917385531551" className="text-gray-800 hover:underline">+91 73855 31551</a></p>
+                        </div>
                     </div>
 
                     {/* Middle: Social Icons */}

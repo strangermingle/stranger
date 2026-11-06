@@ -10,7 +10,6 @@ import {
   Users, 
   MessageSquare, 
   Lock, 
-  Sparkles, 
   ArrowRight,
   User,
   Radio,
@@ -132,11 +131,25 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
                 className="bg-white/10 hover:bg-white/15 border border-white/15 rounded-2xl p-4 transition-all hover:border-indigo-400/50 flex flex-col justify-between group"
               >
                 <div>
-                  {/* Mystery Anonymous Avatar (NO profile image displayed) */}
+                  {/* Avatar (Displays uploaded photo if available, or stylized letter/avatar) */}
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="relative w-11 h-11 rounded-full bg-indigo-900/60 border border-indigo-400/40 flex items-center justify-center text-indigo-300 shadow-inner shrink-0">
-                      <User className="w-5 h-5 text-indigo-200" />
-                      <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-slate-900" />
+                    <div className="relative w-11 h-11 rounded-full bg-indigo-900/60 border border-indigo-400/40 flex items-center justify-center text-indigo-300 shadow-inner shrink-0 overflow-hidden">
+                      {member.avatarUrl ? (
+                        <img
+                          src={member.avatarUrl}
+                          alt={member.anonymousAlias}
+                          className="w-full h-full object-cover"
+                          referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <span className="text-sm font-semibold text-indigo-200">
+                          {member.anonymousAlias ? member.anonymousAlias.replace(/^stranger_/i, '').charAt(0).toUpperCase() : '👤'}
+                        </span>
+                      )}
+                      <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-slate-900 ring-1 ring-emerald-400/40" />
                     </div>
 
                     <div className="min-w-0 flex-1">
@@ -146,20 +159,22 @@ export default function OnlineMembersShowcase({ maxDisplay = 6, className }: Onl
                         </span>
                         <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-[10px] font-medium text-amber-300">
                           <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
-                          <span>{member.ratingAvg || '5.0'}</span>
+                          <span>{member.ratingAvg ? Number(member.ratingAvg).toFixed(1) : '5.0'}</span>
                         </span>
                       </div>
+                      
+                      {/* Demographics (Gender & Age) - Matches real user defaults when not specified */}
                       <div className="flex items-center gap-1.5 text-[11px] text-gray-300 font-light mt-0.5">
-                        <span className="px-1.5 py-0.5 rounded bg-white/10">{member.gender}</span>
+                        <span className="px-1.5 py-0.5 rounded bg-white/10">{member.gender || 'Not specified'}</span>
                         <span>•</span>
-                        <span className="px-1.5 py-0.5 rounded bg-white/10">{member.age}</span>
+                        <span className="px-1.5 py-0.5 rounded bg-white/10">{member.age || 'Not shared'}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Member Bio Snippet */}
+                  {/* Member Bio Snippet (Displays member bio or platform default for non-bio profiles) */}
                   <p className="text-xs text-gray-300 font-light line-clamp-2 italic mb-4 min-h-[32px]">
-                    "{member.bio || 'Active verified member ready to talk and share experiences.'}"
+                    "{member.bio && member.bio.trim().length > 0 ? member.bio : 'Verified member ready to talk and share experiences.'}"
                   </p>
                 </div>
 

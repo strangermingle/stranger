@@ -13,7 +13,8 @@ import {
     GraduationCap,
     Gift,
     ArrowRightLeft,
-    PhoneCall
+    PhoneCall,
+    HeartHandshake
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -68,9 +69,6 @@ export default function RefundPolicy() {
                     {/* General Policy */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-purple-50 rounded-2xl text-purple-600 shrink-0">
-                                <RefreshCcw className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Commitment to Fairness</h2>
                                 <p className="leading-relaxed mb-4 text-gray-600">
@@ -86,9 +84,6 @@ export default function RefundPolicy() {
                     {/* Standard Cancellation Policy */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 shrink-0">
-                                <Clock className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">1. Standard Cancellation Policy for Regular Events</h2>
 
@@ -152,9 +147,6 @@ export default function RefundPolicy() {
                     {/* Special Event Categories */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-indigo-50 rounded-2xl text-indigo-600 shrink-0">
-                                <Tent className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">2. Special Event Categories with Different Policies</h2>
 
@@ -194,9 +186,6 @@ export default function RefundPolicy() {
                     {/* Event Changes by Stranger Mingle */}
                     <section className="bg-blue-50 p-8 rounded-3xl border border-blue-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-blue-600 shrink-0 shadow-sm">
-                                <CalendarX className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">3. Event Cancellations or Changes by Stranger Mingle</h2>
 
@@ -241,9 +230,6 @@ export default function RefundPolicy() {
                     {/* Ticket Transfers */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-teal-50 rounded-2xl text-teal-600 shrink-0">
-                                <ArrowRightLeft className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Ticket Transfers to Another Person</h2>
                                 <p className="leading-relaxed mb-4 text-gray-600">
@@ -282,36 +268,60 @@ export default function RefundPolicy() {
                     {/* Phone a Friend Refund Policy */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-rose-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-rose-50 rounded-2xl text-rose-600 shrink-0">
-                                <PhoneCall className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">5. Phone a Friend (1-on-1 Audio Calling) Refund Policy</h2>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">5. Rent a Friend (Hire a Companion), Anonymous Calls &amp; Memberships Refund Policy</h2>
 
                                 <div className="space-y-6">
-                                    <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
-                                        <h3 className="text-lg font-bold text-emerald-950 mb-2">Instant Calls (Unanswered or Declined)</h3>
-                                        <p className="text-emerald-900 text-sm leading-relaxed mb-2">
-                                            If a host declines your instant call or fails to answer within the 45-second ringing window, your session charge is automatically reversed or refunded 100% to your original payment method (via Razorpay) within 3-5 business days without any cancellation fee.
+                                    <div className="bg-rose-50/70 p-6 rounded-2xl border border-rose-200">
+                                        <h3 className="text-lg font-bold text-rose-950 mb-2 flex items-center gap-2">
+                                            <HeartHandshake className="w-5 h-5 text-rose-600" />
+                                            Platonic Friendship to Combat Loneliness &amp; Private Places Non-Liability
+                                        </h3>
+                                        <p className="text-rose-900 text-sm leading-relaxed mb-2 font-medium">
+                                            Stranger Mingle&apos;s Rent a Friend service is provided purely for platonic friendship to combat urban loneliness. All companion meetups must happen strictly in public venues.
+                                        </p>
+                                        <p className="text-rose-950 text-xs leading-relaxed font-bold">
+                                            Stranger Mingle is strictly not liable or responsible if people are meeting in private places like home, hotel room, etc. Any attempt to solicit private venue meetings (homes, hotel rooms, private vehicles) or non-platonic favors is a strict violation resulting in immediate account ban and complete forfeiture of all booking and membership fees without refund.
                                         </p>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Scheduled Call Slots</h3>
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Rent a Friend Companion Bookings</h3>
                                         <ul className="space-y-2 text-gray-700 text-sm ml-6 list-disc">
-                                            <li><strong>Cancellation by Caller (2+ hours before slot):</strong> 100% full refund or free slot reschedule to another available timing.</li>
-                                            <li><strong>Cancellation by Caller (&lt; 2 hours before slot or no-show):</strong> Non-refundable, as the host has reserved that dedicated time window exclusively for you.</li>
-                                            <li><strong>Cancellation or No-Show by Host:</strong> 100% full refund or free priority reschedule with another host.</li>
+                                            <li><strong>Cancellation by User (24+ hours before meetup):</strong> 100% full refund to original payment method.</li>
+                                            <li><strong>Cancellation by User (&lt; 24 hours before meetup or no-show):</strong> Non-refundable, as the companion reserved their schedule exclusively for you.</li>
+                                            <li><strong>Cancellation by Companion:</strong> 100% full refund immediately initiated, or free rebooking with another verified companion.</li>
                                         </ul>
+                                    </div>
+
+                                    <div>
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Companion Registration Fee (KYC Verification)</h3>
+                                        <p className="text-gray-700 text-sm leading-relaxed">
+                                            The one-time companion registration fee covers background verification and administrative processing. Once document verification has commenced, this fee is strictly non-refundable.
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">Memberships (Monthly / Quarterly / Annual)</h3>
+                                        <p className="text-gray-700 text-sm leading-relaxed">
+                                            Membership subscriptions unlock unlimited anonymous chat, secure calling without sharing phone numbers, and companion directory perks. Membership fees are non-refundable once activated for the ongoing billing period. You may cancel renewal at any time.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
+                                        <h3 className="text-lg font-bold text-emerald-950 mb-2">Anonymous Audio Calls (Unanswered or Declined)</h3>
+                                        <p className="text-emerald-900 text-sm leading-relaxed mb-2">
+                                            If a host declines your instant audio call or fails to answer within the ringing window, your session charge is automatically reversed or refunded 100% to your original payment method (via Razorpay) within 3-5 business days without any fee.
+                                        </p>
                                     </div>
 
                                     <div className="bg-red-50 p-6 rounded-2xl border border-red-200">
                                         <h3 className="text-base font-bold text-red-950 mb-2 flex items-center gap-2">
                                             <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
-                                            Strict Non-Refundability for Harassment & Conduct Violations
+                                            Strict Non-Refundability for Harassment &amp; Safety Violations
                                         </h3>
                                         <p className="text-red-900 text-sm leading-relaxed">
-                                            If a call is terminated early by the host or platform due to caller harassment, abusive or vulgar language, sexual remarks, threats, or violation of our Safety Guidelines, the session fee is <strong>strictly non-refundable</strong>. The caller forfeits all paid amounts, and the account is permanently banned and reported to authorities.
+                                            If any chat, call, or meetup is terminated early due to user harassment, abusive language, sexual remarks, threats, or demands to meet in private premises like homes or hotel rooms, all fees and memberships are <strong>strictly non-refundable</strong>. The user is permanently banned and reported to authorities.
                                         </p>
                                     </div>
                                 </div>
@@ -322,9 +332,6 @@ export default function RefundPolicy() {
                     {/* Refund Processing */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-emerald-50 rounded-2xl text-emerald-600 shrink-0">
-                                <CreditCard className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">6. Refund Processing and Timeline</h2>
 
@@ -379,9 +386,6 @@ export default function RefundPolicy() {
                     {/* Special Circumstances */}
                     <section className="bg-amber-50 p-8 rounded-3xl border border-amber-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-amber-600 shrink-0 shadow-sm">
-                                <ShieldAlert className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">7. Exceptional Circumstances and Case-by-Case Review</h2>
                                 <p className="leading-relaxed mb-6 text-amber-900 font-medium">
@@ -419,9 +423,6 @@ export default function RefundPolicy() {
                     {/* Non-Refundable Situations */}
                     <section className="bg-red-50 p-8 rounded-3xl border border-red-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-red-600 shrink-0 shadow-sm">
-                                <XCircle className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">8. Non-Refundable Situations</h2>
 
@@ -446,9 +447,6 @@ export default function RefundPolicy() {
                     {/* How to Request */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-cyan-50 rounded-2xl text-cyan-600 shrink-0">
-                                <HelpCircle className="w-6 h-6" />
-                            </div>
                             <div className="w-full">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">9. How to Request a Cancellation or Refund</h2>
 
@@ -498,9 +496,6 @@ export default function RefundPolicy() {
                     {/* Disputes */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-gray-50 rounded-2xl text-gray-600 shrink-0">
-                                <ShieldAlert className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Refund Disputes and Resolution</h2>
                                 <p className="leading-relaxed mb-4 text-gray-600">
@@ -519,9 +514,6 @@ export default function RefundPolicy() {
                     {/* Payment Gateway */}
                     <section className="bg-blue-50/50 p-8 rounded-3xl border border-blue-100">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-blue-600 shrink-0 shadow-sm">
-                                <CreditCard className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">11. Payment Gateway Charges</h2>
                                 <p className="leading-relaxed mb-4 text-gray-700">
@@ -540,9 +532,6 @@ export default function RefundPolicy() {
                     {/* Policy Changes */}
                     <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-gray-50 rounded-2xl text-gray-600 shrink-0">
-                                <RefreshCcw className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Changes to This Policy</h2>
                                 <p className="leading-relaxed mb-4 text-gray-600">
@@ -560,9 +549,6 @@ export default function RefundPolicy() {
                     {/* Final Note */}
                     <section className="bg-gray-50 p-8 rounded-3xl border border-gray-200">
                         <div className="flex items-start gap-4">
-                            <div className="p-3 bg-white rounded-2xl text-gray-600 shrink-0 shadow-sm">
-                                <CheckCircle2 className="w-6 h-6" />
-                            </div>
                             <div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-3">Our Philosophy</h3>
                                 <p className="leading-relaxed mb-4 text-gray-700">

@@ -12,7 +12,7 @@ import WeekendEvents from "@/components/event/WeekendEvents";
 import MembershipCTA from "@/components/MembershipCTA";
 import SocialMediaQRSection from "@/components/SocialMediaQRSection";
 
-import { ArrowRight, Coffee, Mountain, Palette, HandHeart, Monitor, MapPin, ShieldCheck, MessageSquare } from "lucide-react";
+import { ArrowRight, Coffee, Mountain, Palette, HandHeart, Monitor, MapPin, ShieldCheck, MessageSquare, HeartHandshake, Sparkles, Users, PhoneCall, Crown, Lock } from "lucide-react";
 
 const CITIES = [
   { name: "Pune", slug: "pune" },
@@ -96,22 +96,22 @@ export default async function Home() {
 
           {/* Content */}
           <div className="relative z-10 w-full max-w-4xl mx-auto px-4">
-            <span className="px-4 py-2 rounded-full bg-blue-50/90 backdrop-blur-sm border border-blue-100 text-sm font-medium text-blue-600 inline-block mb-6 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
-              Zero harassment policy, Safe space for everyone!
+            <span className="px-4 py-2 rounded-full bg-blue-50/95 backdrop-blur-sm border border-blue-100 text-xs sm:text-sm font-bold text-blue-700 inline-block mb-6 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100 shadow-sm">
+              ✨ Weekend Events &amp; Meetups &bull; Anonymous Chat &bull; Calls Without Mobile Number &bull; Rent a Friend
             </span>
-            <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-6 leading-tight max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200 drop-shadow-lg">
-              Weekend <br /> Events and MeetUps <br />
-              <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 drop-shadow-lg">
-                For Making New Friends
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 leading-tight max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200 drop-shadow-lg">
+              Weekend Events &amp; Meetups <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 drop-shadow-lg">
+                For Making New Friends Across India
               </span>
             </h1>
-            <p id="hero-description" className="text-xl text-white/90 px-2 max-w-2xl mx-auto mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 drop-shadow-md">
-              Stranger Mingle is built to help people make real connections locally, not only online. We create safe spaces where strangers meet and friendships begin through organized weekend events across Indian cities.
+            <p id="hero-description" className="text-lg sm:text-xl text-white/95 px-2 max-w-3xl mx-auto mb-8 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300 drop-shadow-md">
+              Stranger Mingle organises curated weekend events and meetups across Indian cities to help strangers meet and build real-world friendships. We also connect you through 100% private <strong>Anonymous Chat</strong>, secure <strong>Anonymous Calls without sharing your mobile number</strong>, and verified <strong>Rent a Friend (Hire a Companion)</strong> services to combat urban loneliness.
             </p>
             <HeroButtons />
 
             {/* Social Media Links with White Stripe */}
-            <div className="max-w-xs mx-auto mt-10">
+            <div className="max-w-xs mx-auto mt-6">
               <p className="text-white/80 text-[12px] font-black mb-2 uppercase tracking-[0.2em]">Let&apos;s Connect</p>
               <div className="flex justify-center bg-white p-3 rounded-full shadow-xl shadow-black/20">
                 <SocialLinks />
@@ -120,10 +120,85 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* 3 Core Services Highlight Banner */}
+        <section className="w-full max-w-7xl mx-auto px-4 -mt-8 mb-12 relative z-30">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Card 1: Anonymous Chat */}
+            <div className="p-7 rounded-3xl bg-white border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl transition-all hover:-translate-y-1 flex flex-col justify-between">
+              <div>
+                <div className="inline-block px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-[10px] font-bold uppercase tracking-wider mb-2">
+                  100% Private
+                </div>
+                <h3 className="text-xl font-black text-gray-900 mb-2">Anonymous Chat</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-6">
+                  Chat in real time with verified people across India. No mobile number, identity, or social media handle shared. Combat loneliness with authentic conversations.
+                </p>
+              </div>
+              <Link
+                href="/members"
+                className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md shadow-purple-200"
+              >
+                <span>Purchase Membership &amp; Chat</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Card 2: Anonymous Calls Without Mobile Number */}
+            <div className="p-7 rounded-3xl bg-white border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl transition-all hover:-translate-y-1 flex flex-col justify-between">
+              <div>
+                <div className="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-bold uppercase tracking-wider mb-2">
+                  Zero Number Revealed
+                </div>
+                <h3 className="text-xl font-black text-gray-900 mb-2">Calls Without Mobile Number</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-6">
+                  Experience direct, encrypted 1-on-1 audio calls without disclosing your phone number. Talk, share, and connect with empathetic community listeners and friends safely.
+                </p>
+              </div>
+              <Link
+                href="/members"
+                className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md shadow-indigo-200"
+              >
+                <span>Get Membership for Calls</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Card 3: Rent a Friend / Hire a Companion */}
+            <div className="p-7 rounded-3xl bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200 shadow-xl shadow-rose-200/40 hover:shadow-2xl transition-all hover:-translate-y-1 flex flex-col justify-between">
+              <div>
+                <div className="inline-block px-3 py-1 rounded-full bg-rose-200/80 text-rose-800 text-[10px] font-bold uppercase tracking-wider mb-2">
+                  Platonic Companionship
+                </div>
+                <h3 className="text-xl font-black text-gray-900 mb-2">Rent a Friend (Hire a Companion)</h3>
+                <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                  Need a companion for cafe hangouts, movies, shopping, or city exploration? Hire verified friends in your city. Or register as a companion to earn!
+                </p>
+                <p className="text-[11px] text-rose-800 font-semibold mb-6">
+                  *Purely platonic friendship to combat loneliness in public venues.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Link
+                  href="/members/login"
+                  className="flex-1 inline-flex items-center justify-center py-3 px-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-wider transition-colors text-center shadow-md shadow-rose-200"
+                >
+                  Hire Companion
+                </Link>
+                <Link
+                  href="/rent-a-friend-registration"
+                  className="flex-1 inline-flex items-center justify-center py-3 px-3 rounded-xl bg-white hover:bg-rose-100 text-rose-700 border border-rose-300 font-bold text-xs uppercase tracking-wider transition-colors text-center"
+                >
+                  Become Companion
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* How We Mingle Section */}
         <section className="w-full max-w-7xl mx-auto px-4 py-4 text-center relative z-20">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 uppercase mb-4">Weekend Events & Meetups</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 uppercase mb-4">Weekend Events &amp; Meetups</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
             <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all hover:-translate-y-1">
               <div className="w-16 h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-2">
                 <Coffee className="w-8 h-8 text-orange-600" />
@@ -136,23 +211,30 @@ export default async function Home() {
                 <Mountain className="w-8 h-8 text-green-600" />
               </div>
               <h3 className="font-bold text-green-600 mb-1">Adventures</h3>
-              <p className="text-sm text-gray-600">Treks & cycling trails to bond over shared experiences.</p>
+              <p className="text-sm text-gray-600">Treks &amp; cycling trails to bond over shared experiences.</p>
             </div>
             <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all hover:-translate-y-1">
               <div className="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-2">
                 <Palette className="w-8 h-8 text-purple-600" />
               </div>
               <h3 className="font-bold text-purple-600 mb-1">Culture</h3>
-              <p className="text-sm text-gray-600">Art workshops, heritage walks & party events to explore your city.</p>
+              <p className="text-sm text-gray-600">Art workshops, heritage walks &amp; party events to explore your city.</p>
+            </div>
+            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all hover:-translate-y-1">
+              <div className="w-16 h-16 mx-auto bg-rose-100 rounded-full flex items-center justify-center mb-2">
+                <HeartHandshake className="w-8 h-8 text-rose-600" />
+              </div>
+              <h3 className="font-bold text-rose-600 mb-1">Rent a Friend</h3>
+              <p className="text-sm text-gray-600">Hire verified companions for cafe hangouts, movies, events &amp; city exploration.</p>
             </div>
             <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all hover:-translate-y-1">
               <div className="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-2">
                 <HandHeart className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="font-bold text-blue-600 mb-1">Membership</h3>
-              <p className="text-sm text-gray-600">Get exclusive access to anonymous chat with verified and real people.</p>
+              <p className="text-sm text-gray-600">Get exclusive access to anonymous chat, calls &amp; friend circles.</p>
             </div>
-            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all hover:-translate-y-1 col-span-2 sm:col-span-1 lg:col-span-1">
+            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-all hover:-translate-y-1">
               <div className="w-16 h-16 mx-auto bg-teal-100 rounded-full flex items-center justify-center mb-2">
                 <Monitor className="w-8 h-8 text-teal-600" />
               </div>
@@ -199,6 +281,99 @@ export default async function Home() {
         </section>
 
 
+
+        {/* Rent a Friend / Companions Section */}
+        <section className="w-full max-w-7xl mx-auto px-4 py-12 mb-8 relative z-20">
+          <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 rounded-2xl p-8 sm:p-12 text-white border border-rose-500/20 shadow-2xl">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-500/20 border border-rose-400/30 text-rose-300 text-xs font-bold uppercase tracking-widest mb-4">
+                <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+                Platonic Companionship in Your City
+              </span>
+
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-4 leading-tight">
+                Rent a Friend – Verified Companions
+              </h2>
+
+              <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto mb-4 leading-relaxed">
+                New in town? Friends busy with work? Or just need a polite plus-one for an event? Hire verified platonic boyfriends and girlfriends for cafe hangouts, weekend meetups, or concerts across Indian cities.
+              </p>
+
+              {/* Two CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-10">
+                <Link
+                  href="/members/login"
+                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-600 hover:to-amber-600 text-white font-black text-sm uppercase tracking-wider transition-all hover:scale-105 shadow-xl shadow-rose-500/20 text-center"
+                >
+                  <HeartHandshake className="w-5 h-5" />
+                  Hire a Friend
+                  <ArrowRight className="w-4 h-4 ml-1" />
+                </Link>
+
+                <Link
+                  href="/rent-a-friend-registration"
+                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-black text-sm uppercase tracking-wider backdrop-blur-md transition-all hover:scale-105 text-center"
+                >
+                  <Users className="w-5 h-5 text-amber-300" />
+                  Become a Companion
+                </Link>
+              </div>
+
+              {/* Girlfriend & Boyfriend Quick Links */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full text-left">
+                <div className="p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-base font-bold text-rose-300 mb-1 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-rose-400" /> Rent a Girlfriend
+                    </h3>
+                    <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                      Warm, witty, and cultured female companions for cafe hopping, food crawls, wedding plus-one, and city exploration.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-[11px] font-semibold text-rose-200">
+                    <Link href="/bangalore/rent-a-girlfriend-in-bangalore" className="hover:underline">Bengaluru</Link> •
+                    <Link href="/mumbai/rent-a-girlfriend-in-mumbai" className="hover:underline">Mumbai</Link> •
+                    <Link href="/delhi/rent-a-girlfriend-in-delhi" className="hover:underline">Delhi</Link> •
+                    <Link href="/pune/rent-a-girlfriend-in-pune" className="hover:underline">Pune</Link> •
+                    <Link href="/hyderabad/rent-a-girlfriend-in-hyderabad" className="hover:underline">Hyderabad</Link>
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-base font-bold text-indigo-300 mb-1 flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-indigo-400" /> Rent a Boyfriend
+                    </h3>
+                    <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                      Chivalrous, polite, and verified male companions for concerts, safe late-night dinners, movies, and social events.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-[11px] font-semibold text-indigo-200">
+                    <Link href="/bangalore/rent-a-boyfriend-in-bangalore" className="hover:underline">Bengaluru</Link> •
+                    <Link href="/mumbai/rent-a-boyfriend-in-mumbai" className="hover:underline">Mumbai</Link> •
+                    <Link href="/delhi/rent-a-boyfriend-in-delhi" className="hover:underline">Delhi</Link> •
+                    <Link href="/pune/rent-a-boyfriend-in-pune" className="hover:underline">Pune</Link> •
+                    <Link href="/hyderabad/rent-a-boyfriend-in-hyderabad" className="hover:underline">Hyderabad</Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Platonic Friendship & Private Places Non-Liability Box */}
+              <div className="mt-8 p-4 rounded-2xl bg-white/5 border border-rose-400/20 text-center max-w-3xl">
+                <p className="text-xs text-rose-300 font-bold uppercase tracking-wider mb-1.5 flex items-center justify-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  Purely Platonic Friendship to Combat Loneliness
+                </p>
+                <p className="text-[11px] text-slate-300 leading-relaxed font-medium">
+                  All companion meetups must take place in open, public places (cafes, malls, restaurants, parks). <strong>Stranger Mingle is strictly not liable or responsible if people are meeting in private places like home, hotel room, etc.</strong> Meeting in private spaces is strictly prohibited and undertaken at your own independent risk.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Membership CTA Section */}
         <MembershipCTA />

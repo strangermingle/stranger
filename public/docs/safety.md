@@ -82,7 +82,16 @@ The following behaviors will result in **immediate removal** from events and a *
 
 ---
 
-## 5. After Events: Safe Interactions
+## 5. Rent a Friend (Hire a Companion) & Anonymous Services Safety
+
+*   **Platonic Friendship to Combat Loneliness:** The Rent a Friend (Hire a Companion) service is strictly for platonic friendship to combat urban loneliness and isolation. No romance, physical intimacy, or dating is allowed.
+*   **Mandatory Public Venues Only:** All companion meetups MUST take place in open, well-lit, crowded public places (such as cafes, restaurants, malls, public parks, and registered events).
+*   **Strict Non-Liability for Private Places:** Stranger Mingle is strictly not liable or responsible under any circumstances if people are meeting in private places like home, hotel room, private residence, apartment, guest house, or private vehicle. Meeting in private premises is strictly forbidden under our safety rules and is undertaken entirely at the individuals' sole independent risk.
+*   **Anonymous Chat & Calls (Without Mobile Number):** Voice calls and chats are conducted within the platform without revealing or sharing your personal mobile number. Never share your private phone number or financial details.
+
+---
+
+## 6. After Events: Safe Interactions
 
 *   **Meeting Outside Events:** Meeting people you connected with during events is at your own risk and responsibility. We recommend meeting in busy public places during daytime, in groups rather than one-on-one initially, and arranging your own transportation.
 *   **Digital Communication Safety:** You are not obligated to stay in touch with everyone. Block anyone who makes you uncomfortable on WhatsApp or social media. Be cautious of members who immediately pressure you to move to private channels.
@@ -106,7 +115,7 @@ We investigate all reports thoroughly and confidentially. Your identity will be 
 *   **What to Report:** Harassment, guideline violations, fake identities, safety concerns, or anything making you feel unsafe.
 *   **How to Report:**
     *   *During Events:* Inform the host immediately.
-    *   *After Events:* Email **strangermingleteam@gmail.com** or use the website "Report Concern" form.
+    *   *After Events:* Email **strangermingleteam@gmail.com** or WhatsApp/Call **+91 73855 31551** or use the website "Report Concern" form.
 *   **What to Include:** Event name/date, names/descriptions of individuals involved, detailed description of the incident, and any screenshots/photos if relevant.
 
 ---

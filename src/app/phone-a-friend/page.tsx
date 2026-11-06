@@ -82,8 +82,8 @@ const FAQS_DATA = [
     a: 'We strictly prohibit harassment, abusive language, or hate speech. Any violation results in immediate permanent account termination and IP blacklisting.'
   },
   {
-    q: 'Can I meet the expert in person?',
-    a: 'No. The platform strictly facilitates online audio calls. We do not endorse or take responsibility for any offline meetings.'
+    q: 'Can I meet the expert or caller in person?',
+    a: 'No. The calling service strictly facilitates online audio calls without sharing mobile numbers to combat loneliness. Stranger Mingle is strictly not liable or responsible if people are meeting in private places like home, hotel room, etc. All in-person companion interactions must take place exclusively in public places under our Rent a Friend guidelines.'
   },
   {
     q: 'What happens if an expert does not answer?',

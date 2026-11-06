@@ -827,24 +827,32 @@ export default function AnonymousChatIndiaPage() {
             Join India&apos;s verified social club for real, respectful, and safe anonymous conversations. 1-on-1 private messaging, browser audio calls, live online games, and local weekend meetups—all under your private alias.
           </p>
 
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="pt-4 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4">
             <Link
               href="/members?mode=apply"
-              className="w-full sm:w-auto px-10 py-5 bg-black hover:bg-gray-900 text-white font-black rounded-2xl shadow-2xl transition-all hover:scale-105 active:scale-95 text-xs sm:text-sm uppercase tracking-widest flex items-center justify-center gap-2 group"
+              className="w-full sm:w-auto px-8 py-4 bg-black hover:bg-gray-900 text-white font-black rounded-2xl shadow-2xl transition-all hover:scale-105 active:scale-95 text-xs sm:text-sm uppercase tracking-widest flex items-center justify-center gap-2 group"
             >
-              <span>Get Your Stranger Mingle Membership</span>
+              <span>Get Stranger Mingle Membership</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              href="/members?mode=login"
-              className="w-full sm:w-auto px-8 py-5 bg-white/20 hover:bg-white/30 text-black font-black rounded-2xl border border-black/20 transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-widest text-center"
+              href="/members/login"
+              className="w-full sm:w-auto px-6 py-4 bg-rose-600 hover:bg-rose-700 text-white font-black rounded-2xl shadow-lg transition-all hover:scale-105 active:scale-95 text-xs sm:text-sm uppercase tracking-widest text-center flex items-center justify-center gap-2"
             >
-              Existing Member? Log In
+              <HeartHandshake className="w-4 h-4" />
+              <span>Hire a Companion</span>
+            </Link>
+            <Link
+              href="/rent-a-friend-registration"
+              className="w-full sm:w-auto px-6 py-4 bg-white/30 hover:bg-white/40 text-black font-black rounded-2xl border border-black/20 transition-all active:scale-95 text-xs sm:text-sm uppercase tracking-widest text-center flex items-center justify-center gap-2"
+            >
+              <Users className="w-4 h-4" />
+              <span>Become a Companion</span>
             </Link>
           </div>
 
-          <p className="text-[11px] font-bold text-black/60 uppercase tracking-widest pt-2">
-            100% Screened Real People · No Phone Numbers Shared · Zero Harassment Policy
+          <p className="text-[11px] font-bold text-black/70 max-w-2xl mx-auto leading-relaxed pt-2">
+            Purely Platonic Friendship to Combat Loneliness &bull; No Phone Numbers Shared &bull; Public Places Only &bull; <strong>Stranger Mingle is strictly not liable/responsible if people are meeting in private places like home, hotel room, etc.</strong>
           </p>
         </div>
       </section>

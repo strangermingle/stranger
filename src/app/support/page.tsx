@@ -147,7 +147,7 @@ export default function SupportPage() {
                                             onChange={(e) => setEmail(e.target.value)}
                                             required
                                             className="w-full px-6 py-4 bg-white border border-gray-100 rounded-2xl focus:border-red-400 focus:ring-4 focus:ring-red-400/10 transition-all outline-none font-regular"
-                                            placeholder="strangermingleteam@gmail.com"
+                                            placeholder="your.email@example.com"
                                         />
                                     </div>
                                 </div>
@@ -223,6 +223,24 @@ export default function SupportPage() {
                                 </button>
                             </form>
                         )}
+                    </div>
+
+                    {/* Direct Incident Reporting & Helpline */}
+                    <div className="mt-8 p-6 bg-red-50 border border-red-200 rounded-3xl text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h3 className="font-bold text-red-950 text-base mb-1">Direct Incident Reporting &amp; Safety Helpline</h3>
+                            <p className="text-red-900 text-xs leading-relaxed">
+                                You can also email or WhatsApp our safety response team directly with incident details, screenshots, or urgent reports:
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3 shrink-0 text-xs sm:text-sm font-bold">
+                            <a href="mailto:strangermingleteam@gmail.com" className="px-4 py-2 bg-white rounded-xl text-red-600 border border-red-200 hover:bg-red-50 transition-colors">
+                                strangermingleteam@gmail.com
+                            </a>
+                            <a href="tel:+917385531551" className="px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors shadow-sm">
+                                +91 73855 31551
+                            </a>
+                        </div>
                     </div>
 
                     {/* ── Trust Section ── */}

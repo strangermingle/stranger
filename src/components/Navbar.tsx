@@ -6,18 +6,23 @@ import { useState } from 'react';
 import SocialLinks from './SocialLinks';
 import SearchBar from './SearchBar';
 import { useAuth } from './AuthProvider';
-import { UserCircle, LogOut, LayoutDashboard, PhoneCall } from 'lucide-react';
+import { UserCircle, HeartHandshake, Crown } from 'lucide-react';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
+import { memberSignOutApi } from '@/lib/memberCallService';
 
 export default function Navbar() {
-    const { user } = useAuth();
+    const { user, mappedUserId } = useAuth();
     const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleSignOut = async () => {
         try {
+            const uid = mappedUserId || user?.uid;
+            if (uid) {
+                await memberSignOutApi(uid);
+            }
             await signOut(auth);
             router.push('/');
             closeMobileMenu();
@@ -57,11 +62,14 @@ export default function Navbar() {
                     </div>
 
                     {/* Desktop Menu */}
-                    <div className="flex items-center gap-4 sm:gap-6 text-sm font-semibold text-gray-600">
-                        <Link href="/phone-a-friend" className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors font-bold text-xs uppercase tracking-wider border border-rose-200">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                            <PhoneCall className="w-3.5 h-3.5" />
-                            <span>Call to expert</span>
+                    <div className="flex items-center gap-3 lg:gap-5 text-sm font-semibold text-gray-600">
+                        <Link href="/members/login" className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-500 text-white hover:bg-rose-600 transition-colors font-bold text-xs uppercase tracking-wider shadow-sm">
+                            <HeartHandshake className="w-3.5 h-3.5" />
+                            <span>Hire a Companion</span>
+                        </Link>
+                        <Link href="/rent-a-friend-registration" className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors font-bold text-xs uppercase tracking-wider border border-rose-200">
+                            <HeartHandshake className="w-3.5 h-3.5" />
+                            <span>Become a Companion</span>
                         </Link>
                         <Link href="/events" className="hover:text-yellow-700 transition-colors hidden sm:block">
                             Events
@@ -73,17 +81,19 @@ export default function Navbar() {
                                 <span>Member Login</span>
                             </Link>
                         ) : (
-                            <div className="flex items-center gap-2 sm:gap-3">
-                                <Link href="/members" className="hidden sm:flex px-5 py-2.5 bg-gray-100 text-gray-900 rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-gray-200 transition-all items-center gap-2 active:scale-95">
-                                    <LayoutDashboard className="w-4 h-4 text-green-600" />
-                                    <span>Dashboard</span>
+                            <div className="flex items-center gap-2">
+                                <Link
+                                    href="/members"
+                                    className="px-4 sm:px-5 py-2 sm:py-2.5 bg-gray-900 text-white rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-[11px] hover:bg-black transition-all items-center justify-center shadow-xs active:scale-95"
+                                >
+                                    Dash
                                 </Link>
                                 <button
+                                    type="button"
                                     onClick={handleSignOut}
-                                    className="px-3 py-1.5 border border-gray-300 bg-red-500 text-white rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-black transition-all flex items-center gap-2 active:scale-95"
+                                    className="hidden sm:inline-flex px-3.5 py-2 rounded-full border border-gray-200/80 hover:border-rose-200 text-gray-500 hover:text-rose-600 hover:bg-rose-50 text-xs font-semibold transition-all active:scale-95"
                                 >
-                                    <LogOut className="w-4 h-4 text-white" />
-                                    <span>Sign Out</span>
+                                    Sign Out
                                 </button>
                             </div>
                         )}
@@ -136,27 +146,35 @@ export default function Navbar() {
 
                     <div className="flex flex-col gap-2 mb-6">
                         <Link
-                            href="/phone-a-friend"
-                            className="px-4 py-3 text-base font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors flex items-center gap-2"
+                            href="/members/login"
+                            className="px-4 py-3 text-base font-bold text-white bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 rounded-xl transition-colors flex items-center gap-2 shadow-sm"
                             onClick={closeMobileMenu}
                         >
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                            <PhoneCall className="w-4 h-4" />
-                            Call to expert
+                            <HeartHandshake className="w-4 h-4" />
+                            Hire a Companion
+                        </Link>
+                        <Link
+                            href="/rent-a-friend-registration"
+                            className="px-4 py-3 text-base font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl transition-colors flex items-center gap-2 border border-rose-200"
+                            onClick={closeMobileMenu}
+                        >
+                            <HeartHandshake className="w-4 h-4" />
+                            Become a Companion
+                        </Link>
+                        <Link
+                            href="/members"
+                            className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-xl transition-colors flex items-center gap-2"
+                            onClick={closeMobileMenu}
+                        >
+                            <Crown className="w-4 h-4 text-amber-500" />
+                            Purchase Membership
                         </Link>
                         <Link
                             href="/events"
-                            className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
+                            className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-xl transition-colors"
                             onClick={closeMobileMenu}
                         >
-                            Events
-                        </Link>
-                        <Link
-                            href="/know-your-host"
-                            className="px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-black rounded-lg transition-colors"
-                            onClick={closeMobileMenu}
-                        >
-                            Know Your Host
+                            Weekend Events
                         </Link>
                     </div>
 
@@ -170,17 +188,18 @@ export default function Navbar() {
                                 Member Login
                             </Link>
                         ) : (
-                            <div className="flex flex-col gap-3 mb-6">
+                            <div className="mb-6 space-y-2">
                                 <Link
                                     href="/members"
-                                    className="block w-full px-4 py-3 bg-gray-100 text-gray-900 text-center rounded-full font-bold hover:bg-gray-200 transition-colors"
+                                    className="block w-full px-4 py-3 bg-gray-900 text-white text-center rounded-full font-bold hover:bg-black transition-colors"
                                     onClick={closeMobileMenu}
                                 >
                                     Dashboard
                                 </Link>
                                 <button
+                                    type="button"
                                     onClick={handleSignOut}
-                                    className="block w-full px-4 py-3 bg-gray-900 text-white text-center rounded-full font-bold hover:bg-black transition-colors"
+                                    className="block w-full px-4 py-3 border border-rose-200 text-rose-600 bg-rose-50/50 hover:bg-rose-100 text-center rounded-full font-bold transition-colors text-sm"
                                 >
                                     Sign Out
                                 </button>

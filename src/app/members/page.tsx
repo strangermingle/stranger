@@ -24,10 +24,12 @@ import NextImage from 'next/image';
 import { 
     fetchOnlineMembersApi, 
     fetchMemberCallToken,
+    memberSignOutApi,
     OnlineMember 
 } from '@/lib/memberCallService';
 import { createCreditsOrderApi, verifyCreditsOrderApi } from '@/lib/callService';
 import OnlineMembersShowcase from '@/components/calls/OnlineMembersShowcase';
+import RentFriendsShowcase from '@/components/rent-friend/RentFriendsShowcase';
 
 //currently plan IDs stored in the .env.local are test IDs
 const PLAN_MONTHLY = process.env.NEXT_PUBLIC_RAZORPAY_PLAN_MONTHLY || '';
@@ -564,6 +566,10 @@ export default function MembersPage() {
     };
 
     const handleLogout = async () => {
+        const uid = mappedUserId || user?.uid;
+        if (uid) {
+            await memberSignOutApi(uid);
+        }
         await auth.signOut();
     };
 
@@ -865,9 +871,16 @@ export default function MembersPage() {
                         </div>
                     </header>
 
-                    {/* 2) 5 APP ICONS/SECTIONS SHIFTED JUST BELOW CREDIT BALANCE */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                    {/* 2) 6 APP ICONS/SECTIONS SHIFTED JUST BELOW CREDIT BALANCE */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                         {[
+                            {
+                                title: 'Rent a Companion',
+                                desc: 'Find friendly companions',
+                                icon: '🤝',
+                                badge: 'New',
+                                href: '/members/friends-on-rent',
+                            },
                             {
                                 title: 'Call to Members',
                                 desc: '1-on-1 private calling',
@@ -890,7 +903,7 @@ export default function MembersPage() {
                             {
                                 title: 'Local Groups',
                                 desc: 'Circles & meetups',
-                                icon: '🤝',
+                                icon: '🌐',
                                 href: '/members/groups',
                             },
                             {
@@ -957,6 +970,9 @@ export default function MembersPage() {
 
                     {/* ACTIVE ONLINE MEMBERS SHOWCASE */}
                     <OnlineMembersShowcase maxDisplay={6} className="mt-4 px-0" />
+
+                    {/* FRIENDS ON RENT SHOWCASE */}
+                    <RentFriendsShowcase maxDisplay={3} className="mt-4 px-0" />
 
                 </div>
 

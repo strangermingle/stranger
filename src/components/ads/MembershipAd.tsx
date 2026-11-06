@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles, Crown, ArrowRight, ShieldCheck, Users, Zap } from "lucide-react";
+import { Sparkles, Crown, ArrowRight, ShieldCheck, Users, Zap, HeartHandshake } from "lucide-react";
 
 export default function MembershipAd() {
     return (
@@ -30,6 +30,12 @@ export default function MembershipAd() {
                             <ShieldCheck size={10} className="text-emerald-400" />
                         </div>
                         <p className="text-[11px] font-regular text-indigo-100 leading-tight">1-on-1 Private Calling (No mobile number needed)</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                        <div className="w-5 h-5 bg-white/10 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                            <HeartHandshake size={10} className="text-rose-400" />
+                        </div>
+                        <p className="text-[11px] font-regular text-indigo-100 leading-tight">Rent a Friend / Verified Companions for Hangouts</p>
                     </div>
                     <div className="flex items-start gap-3">
                         <div className="w-5 h-5 bg-white/10 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">

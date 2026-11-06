@@ -116,9 +116,6 @@ export default function CookieConsentManager() {
             {/* Cookie Settings */}
             <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                 <div className="flex items-start gap-4">
-                    <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 shrink-0">
-                        <Settings className="w-6 h-6" />
-                    </div>
                     <div className="w-full">
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Manage Your Cookie Preferences</h2>
                         <p className="text-gray-600 mb-6">
@@ -244,9 +241,6 @@ export default function CookieConsentManager() {
             {/* What Are Cookies */}
             <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                 <div className="flex items-start gap-4">
-                    <div className="p-3 bg-orange-50 rounded-2xl text-orange-600 shrink-0">
-                        <Cookie className="w-6 h-6" />
-                    </div>
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">What Are Cookies?</h2>
                         <p className="leading-relaxed text-gray-600 mb-4">
@@ -264,9 +258,6 @@ export default function CookieConsentManager() {
             {/* Types of Cookies We Use */}
             <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                 <div className="flex items-start gap-4">
-                    <div className="p-3 bg-purple-50 rounded-2xl text-purple-600 shrink-0">
-                        <BarChart className="w-6 h-6" />
-                    </div>
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-6">Types of Cookies We Use</h2>
 
@@ -332,9 +323,6 @@ export default function CookieConsentManager() {
             {/* Managing Cookies */}
             <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                 <div className="flex items-start gap-4">
-                    <div className="p-3 bg-teal-50 rounded-2xl text-teal-600 shrink-0">
-                        <Settings className="w-6 h-6" />
-                    </div>
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Managing Cookies</h2>
                         <p className="leading-relaxed text-gray-600 mb-4">
@@ -362,9 +350,6 @@ export default function CookieConsentManager() {
             <section className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 relative overflow-hidden">
                 <div className="relative z-10">
                     <div className="flex items-start gap-4 mb-4">
-                        <div className="p-3 bg-white rounded-2xl text-blue-600 shrink-0 shadow-sm">
-                            <Info className="w-6 h-6" />
-                        </div>
                         <div>
                             <h2 className="text-2xl font-bold text-gray-900 mb-4">Third-Party Cookies</h2>
                             <p className="leading-relaxed text-gray-700 mb-4">
@@ -384,9 +369,6 @@ export default function CookieConsentManager() {
             {/* Cookie Duration */}
             <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                 <div className="flex items-start gap-4">
-                    <div className="p-3 bg-amber-50 rounded-2xl text-amber-600 shrink-0">
-                        <AlertCircle className="w-6 h-6" />
-                    </div>
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Cookie Duration</h2>
                         <div className="space-y-4">
@@ -412,9 +394,6 @@ export default function CookieConsentManager() {
             {/* Changes to Cookie Policy */}
             <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                 <div className="flex items-start gap-4">
-                    <div className="p-3 bg-gray-50 rounded-2xl text-gray-600 shrink-0">
-                        <Info className="w-6 h-6" />
-                    </div>
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Changes to This Cookie Policy</h2>
                         <p className="leading-relaxed text-gray-600 mb-4">
