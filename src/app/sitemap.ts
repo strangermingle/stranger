@@ -33,6 +33,9 @@ async function getHosts(): Promise<string[]> {
   }
 }
 
+// Revalidate sitemap cache every hour so dynamic events and hosts stay updated
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
@@ -62,6 +65,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${BASE_URL}/members`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/members/friends-on-rent`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/rent-a-friend-registration`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,

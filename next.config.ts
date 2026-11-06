@@ -58,6 +58,11 @@ const nextConfig: NextConfig = {
         destination: '/bangalore',
         permanent: true,
       },
+      {
+        source: '/members/rent-a-friend/register',
+        destination: '/rent-a-friend-registration',
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

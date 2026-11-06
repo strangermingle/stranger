@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     'anonymous calling app'
   ],
   alternates: {
-    canonical: 'https://strangermingle.com/phone-a-friend',
+    canonical: 'https://www.strangermingle.com/phone-a-friend',
   },
   robots: {
     index: true,
@@ -37,13 +37,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Call a Expert Online | 1-on-1 Anonymous Audio Calling | Stranger Mingle',
     description: 'Real voices. Zero judgment. Connect 1-on-1 with verified experts over private, anonymous online audio calls across India. Safe for girls, no phone number required.',
-    url: 'https://strangermingle.com/phone-a-friend',
+    url: 'https://www.strangermingle.com/phone-a-friend',
     siteName: 'Stranger Mingle',
     type: 'website',
     locale: 'en_IN',
     images: [
       {
-        url: 'https://strangermingle.com/images/default-event.jpg',
+        url: 'https://www.strangermingle.com/images/default-event.jpg',
         width: 1200,
         height: 630,
         alt: 'Call a Expert - 1-on-1 Voice Calling on Stranger Mingle',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Call a Expert Online | 1-on-1 Audio Calls | Stranger Mingle',
     description: 'Private, anonymous 1-on-1 audio conversations with verified experts across India. Safe, no camera, no phone number required.',
-    images: ['https://strangermingle.com/images/default-event.jpg'],
+    images: ['https://www.strangermingle.com/images/default-event.jpg'],
   },
 }
 
@@ -175,8 +175,8 @@ export default async function PhoneAFriendPage() {
     provider: {
       '@type': 'Organization',
       name: 'Stranger Mingle',
-      url: 'https://strangermingle.com',
-      logo: 'https://strangermingle.com/logo.png',
+      url: 'https://www.strangermingle.com',
+      logo: 'https://www.strangermingle.com/logo.png',
     },
     areaServed: {
       '@type': 'Country',
@@ -204,13 +204,13 @@ export default async function PhoneAFriendPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://strangermingle.com',
+        item: 'https://www.strangermingle.com',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Call a Expert',
-        item: 'https://strangermingle.com/phone-a-friend',
+        item: 'https://www.strangermingle.com/phone-a-friend',
       },
     ],
   }
